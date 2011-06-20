@@ -1,11 +1,13 @@
 # Py6S #
 
-Py6S is a Python wrapper around the 6S radiative transfer model. This model is often used in remote
+Py6S is a Python wrapper around the [6S radiative transfer model](http://6s.ltdri.org/). This model is often used in remote
 sensing and atmospheric sciences, and provides highly accurate results. However, it can only process
 one band and one viewing geometry at a time. A number of applications require processing data for
 multiple wavebands or viewing geometries, and this wrapper makes this easy.
 
-For example:
+For example, the code below sets up some parameters for the 6S model (the rest are left at their
+default settings) and runs the model for all wavelengths from 0.4 to 0.8 micrometres and prints one
+of the outputs.
 
 ```python
 import numpy as np
@@ -15,7 +17,6 @@ model = SixS()
 
 for wavelength in np.arange(0.4, 0.8, 0.001):
     model.wavelength = wavelength
-    model.write_input_file()
     model.run()
     
     print "Wavelength = %f \t Direct Irradiance = %f" % (wavelength, model.outputs.irradiance_direct)
