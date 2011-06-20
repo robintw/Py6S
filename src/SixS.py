@@ -69,7 +69,7 @@ class SixS(object):
                 return ""
             return """%d
 %d
-%f %f %f %f""" % (self.atmos_profile, self.aero_profile, )
+%f %f %f %f""" % (self.atmos_profile, self.aero_profile, self.aero_dustlike, self.aero_water, self.aero_oceanic, self.aero_soot)
             
 
     def create_aot_vis_lines(self):

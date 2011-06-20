@@ -26,6 +26,8 @@ class Outputs(object):
         # Split into lines
         lines = self.fulltext.splitlines()
         
+        print self.fulltext
+        
         
         values = lines[97].split()
         self.irradiance_direct, self.irradiance_diffuse, self.irradiance_env = values

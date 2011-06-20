@@ -3,8 +3,7 @@ from SixSParams import *
 
 test = SixS()
 
-test.aero_profile = AeroModel.USER
-
+test.aero_profile = AeroModel.MARITIME
 test.write_input_file()
 test.run()
 
