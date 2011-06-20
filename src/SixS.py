@@ -7,26 +7,10 @@ class SixS(object):
     """Wrapper for the 6S Radiative Transfer Model"""
 
     # Variables which control what is put into the 6S input file
-    solar_z = 32
-    solar_a = 264
-    view_z = 23
-    view_a = 190
-    day = 14
-    month = 7
-    wavelength = 0.453
-    aot550 = 0.5
-    ground_reflectance = 1.0
-    
-    aero_dustlike = 0
-    aero_water = 0
-    aero_oceanic = 0
-    aero_soot = 0
+
     
     atmos_profile = AtmosModel.MIDLATITUDE_SUMMER
     aero_profile = AeroModel.MARITIME
-    
-    # Path to the SixS executable - filled in by the constructor
-    sixs_path = ""
     
     # Stores the outputs from 6S as an instance of the Outputs class
     outputs = None
@@ -34,6 +18,21 @@ class SixS(object):
     def __init__(self):
         """Initialises the class and finds the right sixs executable to use"""
         self.sixs_path = self.find_path("sixs")
+        self.ground_reflectance = 1.0
+        self.solar_z = 32
+        self.solar_a = 264
+        self.view_z = 23
+        self.view_a = 190
+        self.day = 14
+        self.month = 7
+        self.wavelength = 0.453
+        self.aot550 = 0.5
+        
+        
+        self.aero_dustlike = 0
+        self.aero_water = 0
+        self.aero_oceanic = 0
+        self.aero_soot = 0
     
     def find_path(self, program):
         """Finds the full path to a program, searching the $PATH environment
@@ -121,6 +120,8 @@ class SixS(object):
         """Runs the 6S model and stores the output in the output variable"""
         if self.sixs_path == None:
             print "6S executable not found. Stopping"        
+        
+        self.write_input_file()
         
         # Run the process and get the stdout from it
         process = subprocess.Popen("%s < tmp_in.txt" % self.sixs_path, shell=True, stdout=subprocess.PIPE)
