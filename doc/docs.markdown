@@ -39,8 +39,8 @@ Using 6S located at /usr/bin/sixs
 
 The general process for using Py6S is to:
 
-  1. Instantiate the SixS class - for example, by running `model = SixS()`
-  2. Set the parameters appropriately - for example, by running `model.solar_z = 50`
+  1. Instantiate the SixS class - for example, `model = SixS()`
+  2. Set the parameters appropriately - for example, `model.solar_z = 50`
   3. Call the `run()` method to run the model - for example, `model.run()`
   4. Read the outputs from the `outputs` member variable - for example, `print model.outputs.irradiance_diffuse`
 
