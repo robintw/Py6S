@@ -27,8 +27,10 @@ systems (Linux, Unix, OS X) this can be done in two ways:
 ### Testing ###
 In the directory where Py6S is installed, run `python SixS.py`. This should produce an output similar to that below:
 
-```6S wrapper script by Robin Wilson
-Using 6S located at /usr/bin/sixs```
+```
+6S wrapper script by Robin Wilson
+Using 6S located at /usr/bin/sixs
+```
 
 ## Usage ##
 
