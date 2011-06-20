@@ -6,6 +6,9 @@ creation of 6S input files, and reading of 6S output files. It is designed to hi
 of creating correctly formatted input and output files and present a simple interface for parameterising,
 running and processing output from 6S.
 
+**WARNING:** Py6S is still in early development. If it destroys anything, don't blame me. If you want to see
+what new features are planned then look at the [todo list](https://github.com/robintw/Py6S/blob/master/doc/todo.markdown).
+
 ## Installation ##
 
 ### Compiling 6S ###
@@ -34,10 +37,14 @@ Using 6S located at /usr/bin/sixs
 
 ## Usage ##
 
-The general process for using Py6S is to instantiate the SixS class, set the parameters appropriately,
-call the `run()` method and then read the outputs from the `outputs` member variable.
+The general process for using Py6S is to:
 
-An heavily-commented example is shown below:
+  1. Instantiate the SixS class - for example, by running `model = SixS()`
+  2. Set the parameters appropriately - for example, by running `model.solar_z = 50`
+  3. Call the `run()` method to run the model - for example, `model.run()`
+  4. Read the outputs from the `outputs` member variable - for example, `print model.outputs.irradiance_diffuse`
+
+A heavily-commented example is shown below:
 
 ```python
 import numpy as np # We're importing NumPy so that we can use the arange command below
