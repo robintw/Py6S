@@ -55,7 +55,7 @@ class SixS(object):
         f.write("""0 Homogeneous surface
 0 No directional effects
 0 constant value for ro
-0.0
+1.0
 -1 No atm. corrections selected
 """)
 
