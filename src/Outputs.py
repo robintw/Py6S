@@ -1,3 +1,5 @@
+import pprint
+
 class Outputs(object):
     fulltext = ""
     
@@ -25,7 +27,7 @@ class Outputs(object):
             raise AttributeError
         
     def extract_results(self):
-        """Extract the actual results (as appropriately typed variables
+        """Extract the actual results (as appropriately typed variables)
         from the text output of the model"""
         
         # Remove all of the *'s from the text as they just make it look pretty
@@ -35,12 +37,30 @@ class Outputs(object):
         # Split into lines
         lines = self.fulltext.splitlines()
         
-        
         CURRENT = 0
+        
+        # The dictionary below specifies how to extract each variable from the text output
+        # of 6S.
+        # The dictionary key is the text to search for. When this is found, the line corresponding
+        # to the first value in the tuple is found. If this is CURRENT (ie. 0) then it is the line on whic
+        # the text was found, if it is 1 then it is the next line, 2 the one after that etc.
+        # The next item in the tuple is the index of the split line to extract the value from, and the
+        # final item is the key to store it in in the values dictionary.
         
         extractors = { "solar zenith angle" : (CURRENT, 3, "solar_z"),
                        "ground pressure" : (CURRENT, 3, "ground_pressure"),                  
-                       "irr. at ground level" : (2, 0, "direct_solar_irradiance")
+                       "irr. at ground level" : (2, 0, "direct_solar_irradiance"),
+                       "irr. at ground level (w/" : (2, 1, "diffuse_solar_irradiance"),
+                       "irr. at ground level (w/m2/mic)" : (2, 2, "environmental_irradiance"),
+                       "% of irradiance" : (2, 0, "percent_direct_solar_irradiance"),
+                       "% of irradiance at" : (2, 1, "percent_diffuse_solar_irradiance"),
+                       "% of irradiance at ground level" : (2, 2, "percent_environmental_irradiance"),
+                       "sol. spect (in w/m2/mic)" : (1, 0, "solar_spectrum"),
+                       "scattering angle:" : (CURRENT, 2, "scattering_angle"),
+                       "azimuthal angle difference:" : (CURRENT, 7, "azimuthal_angle_difference"),
+                       "visibility :" : (CURRENT, 2, "visibility"),
+                       "opt. thick. 550 nm :" : (CURRENT, 9, "aot550"),
+                       "apparent reflectance" : (CURRENT, 2, "integrated_apparent_reflectance")
                       }
                 
         for index in range(len(lines)):
@@ -57,15 +77,7 @@ class Outputs(object):
                         
                     items = extracting_line.split()
                     self.values[details[2]] = items[details[1]]
-                
-        print self.solar_z
-        print self.ground_pressure
-        print self.direct_solar_irradiance
-        #values = lines[97].split()
-        #self.irradiance_direct, self.irradiance_diffuse, self.irradiance_env = values
-        
-        #values = lines[100].split()
-        #self.radiance_atm_intrinsic, self.radiance_background, self.radiance_pixel = values
-        
-        #values = lines[104].split()
-        #self.integrated_solar_spectrum = values[0]
+                    
+        pp = pprint.PrettyPrinter(indent=4)
+         
+        pp.pprint(self.values)
