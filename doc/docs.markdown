@@ -124,3 +124,16 @@ To load the parameters from a previously saved (or manually created) file, simpl
 	model = SixS.load_params("params_output.yml")
 	
 Again, note that this method is a class method as opposed to an instance method, so is called as such.
+
+### Dealing with errors ###
+A number of errors can occur when running 6S through Py6S. When these errors are encountered a Python exception is raised.
+Some errors are convered by the built-in exceptions provided by Python (such as FileErrors and AttributeErrors), but some are
+more specialised. Therefore, three new exceptions have been created for Py6S:
+
+* `ParameterError` - raised if there is an error in the 6S parameter specification (for example, an impossible combination of parameters)
+* `ExecutionError` - raised if there is an error executing the 6S model (for example the executable cannot be found)
+* `OutputParsingError` - raised if there is an error parsing the text output produced by 6S (for example, the output file was not produced properly)
+
+These are defined in the SixSExceptions module, and must be imported if they are to be used in a `try...except` block.
+All of these errors will only be raised during the `run()` method (and the methods that this calls), therefore any `try...except` block should
+be around the call to `run()`.
