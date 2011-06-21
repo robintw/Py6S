@@ -29,7 +29,7 @@ class SixS(object):
         self.month = 7
         self.wavelength = 0.453
         self.aot550 = 0.5
-        
+        self.visibility = None
         
         self.aero_dustlike = 0
         self.aero_water = 0
@@ -78,6 +78,8 @@ class SixS(object):
         if self.aot550 != None:
             return """0
 %f value\n""" % self.aot550
+        elif self.visibility != None:
+            return """%f\n""" % self.visibility
             
     def create_elevation_lines(self):
         return """0 (target level)
