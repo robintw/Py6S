@@ -99,34 +99,33 @@ class SixS(object):
     def create_atmos_corr_lines(self):
         return """-1 No atm. corrections selected\n"""
 
-    def write_input_file(self):
+    def write_input_file(self, filename):
         """Generates a 6S input file from the parameters stored in the object
-        and writes it12"""
+        and writes it to a temporary file"""
         
-        f = open("tmp_in.txt", "w")
-        
-        input_file = self.create_geom_lines()
-        
-        input_file += self.create_atmos_aero_lines()
-        
-        input_file += self.create_aot_vis_lines()
-        
-        input_file += self.create_elevation_lines()
-        
-        input_file += self.create_wavelength_lines()
-        
-        input_file += self.create_surface_lines()
-
-        input_file += self.create_atmos_corr_lines()
-
-        f.write(input_file)
+        with open(filename, "w") as f:
+            input_file = self.create_geom_lines()
+            
+            input_file += self.create_atmos_aero_lines()
+            
+            input_file += self.create_aot_vis_lines()
+            
+            input_file += self.create_elevation_lines()
+            
+            input_file += self.create_wavelength_lines()
+            
+            input_file += self.create_surface_lines()
+    
+            input_file += self.create_atmos_corr_lines()
+    
+            f.write(input_file)
 
     def run(self):
-        """Runs the 6S model and stores the output in the output variable"""
+        """Runs the 6S model and stores the outputs in the output variable"""
         if self.sixs_path == None:
             print "6S executable not found. Stopping"        
         
-        self.write_input_file()
+        self.write_input_file("tmp_in.txt")
         
         # Run the process and get the stdout from it
         process = subprocess.Popen("%s < tmp_in.txt" % self.sixs_path, shell=True, stdout=subprocess.PIPE)
