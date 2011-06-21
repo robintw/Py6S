@@ -4,7 +4,6 @@ from Outputs import Outputs
 from SixSParams import *
 from SixSExceptions import *
 import yaml
-from src.SixSExceptions import ParameterError
 
 class SixS(object):
     """Wrapper for the 6S Radiative Transfer Model"""
