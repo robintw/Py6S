@@ -33,6 +33,10 @@ class SixS(object):
         self.aero_water = 0
         self.aero_oceanic = 0
         self.aero_soot = 0
+        
+        self.atmos_corr = AtmosCorr.NO_ATMOS_CORR
+        self.atmos_corr_reflectance = None
+        self.atmos_corr_radiance = None
     
     def find_path(self, program):
         """Finds the full path to a program, searching the $PATH environment
@@ -92,7 +96,21 @@ class SixS(object):
 %f\n""" % self.ground_reflectance
 
     def create_atmos_corr_lines(self):
-        return """-1 No atm. corrections selected\n"""
+        if self.atmos_corr == AtmosCorr.NO_ATMOS_CORR:
+            return """-1 No atm. corrections selected\n"""
+        else:
+            if self.atmos_corr_radiance != None and self.atmos_corr_reflectance != None:
+                raise ParameterError("atmos_corr_reflectance", "Both radiance and reflectance are given for atmospheric correction. I can't decide which one to use!")
+            elif self.atmos_corr_radiance != None:
+                # Use radiance
+                value = self.atmos_corr_radiance
+            elif self.atmos_corr_reflectance != None:
+                # Use reflectance
+                value = -1 * self.atmos_corr_reflectance
+            else:
+                raise ParameterError("atmos_corr_reflectance", "Atmospheric correction is enabled, but no radiance or reflectance values are given.")
+            
+            return """%d\n%f\n""" % (self.atmos_corr, value)
 
     def write_input_file(self, filename):
         """Generates a 6S input file from the parameters stored in the object
