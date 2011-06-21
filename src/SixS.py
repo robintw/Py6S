@@ -20,6 +20,8 @@ class SixS(object):
     def __init__(self):
         """Initialises the class and finds the right sixs executable to use"""
         self.sixs_path = self.find_path("sixs")
+        
+        
         self.ground_reflectance = 1.0
         self.solar_z = 32
         self.solar_a = 264
@@ -54,7 +56,6 @@ class SixS(object):
         
 
     def create_geom_lines(self):
-        """Create the line for the input file specifying the geometeries and the day/month"""
         return '0 (User defined)\n%d %d %d %d %d %d\n' % (self.solar_z, self.solar_a, self.view_z, self.view_a, self.month, self.day)
 
     def create_atmos_aero_lines(self):
@@ -133,11 +134,13 @@ class SixS(object):
 
     @classmethod
     def save_params(cls, obj, filename):
+        """Save the current parameter settings to the specified file"""
         with open(filename, "w") as f:
             yaml.dump(obj, f, default_flow_style=False)
     
     @classmethod   
     def load_params(cls, filename):
+        """Load the parameter values from the specified file"""
         with open(filename, "r") as f:
             obj = yaml.load(f)
             print obj.aero_soot
