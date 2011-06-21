@@ -2,18 +2,12 @@ import subprocess
 import os
 from Outputs import Outputs
 from SixSParams import *
+from SixSExceptions import *
 import yaml
-import copy
 
 class SixS(object):
     """Wrapper for the 6S Radiative Transfer Model"""
 
-    # Variables which control what is put into the 6S input file
-
-    
-    atmos_profile = AtmosModel.MIDLATITUDE_SUMMER
-    aero_profile = AeroModel.MARITIME
-    
     # Stores the outputs from 6S as an instance of the Outputs class
     outputs = None
     
@@ -21,6 +15,8 @@ class SixS(object):
         """Initialises the class and finds the right sixs executable to use"""
         self.sixs_path = self.find_path("sixs")
         
+        self.atmos_profile = AtmosModel.MIDLATITUDE_SUMMER
+        self.aero_profile = AeroModel.MARITIME
         
         self.ground_reflectance = 1.0
         self.solar_z = 32
