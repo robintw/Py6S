@@ -62,6 +62,8 @@ class SixS(object):
         # As long as we've selected one of the pre-specified aerosol models
         # (ie. not the user one) then simply return the numbers
         if self.aero_profile != AeroModel.USER:
+            if self.aero_dustlike + self.aero_oceanic + self.aero_soot + self.aero_water > 0.0:
+                raise ParameterError("aero_profile", "Individual aerosol components are set but the aerosol model is not set to USER.")
             return """%d
 %d\n""" % (self.atmos_profile, self.aero_profile)
         # Otherwise, check we've been given all of the parameters and put them in
