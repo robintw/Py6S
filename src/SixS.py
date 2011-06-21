@@ -63,8 +63,7 @@ class SixS(object):
         # Otherwise, check we've been given all of the parameters and put them in
         else:
             if self.aero_dustlike + self.aero_oceanic + self.aero_soot + self.aero_water != 1.0:
-                print "Incorrect specification of User-defined Aerosol Components: Must add up to 1.0"
-                return ""
+                raise ParameterError("aero_*", "Incorrect specification of User-defined Aerosol Components - must sum to 1.0")
             return """%d
 %d
 %f %f %f %f""" % (self.atmos_profile, self.aero_profile, self.aero_dustlike, self.aero_water, self.aero_oceanic, self.aero_soot)
@@ -118,8 +117,9 @@ class SixS(object):
 
     def run(self):
         """Runs the 6S model and stores the outputs in the output variable"""
+        
         if self.sixs_path == None:
-            print "6S executable not found. Stopping"        
+            raise ExecutionError("6S executable not found.")     
         
         self.write_input_file("tmp_in.txt")
         
@@ -140,8 +140,8 @@ class SixS(object):
             obj = yaml.load(f)
             print obj.aero_soot
             return obj
-
-
+        
+#########################################################################################
 # If this file is run itself then print output showing which sixs executable will be used
 if __name__ == "__main__":
     test = SixS()
