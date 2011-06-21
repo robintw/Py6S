@@ -2,6 +2,8 @@ import subprocess
 import os
 from Outputs import Outputs
 from SixSParams import *
+import yaml
+import copy
 
 class SixS(object):
     """Wrapper for the 6S Radiative Transfer Model"""
@@ -127,7 +129,17 @@ class SixS(object):
         process = subprocess.Popen("%s < tmp_in.txt" % self.sixs_path, shell=True, stdout=subprocess.PIPE)
         self.outputs = Outputs(process.communicate()[0])
 
-
+    def save_params(self, filename):
+        f = open(filename, "w")
+        yaml.dump(self, f, default_flow_style=False)
+        f.close()
+    
+    def load_params(self, filename):
+        f = open(filename, "r")
+        obj = yaml.load(f)
+        print obj.aero_soot
+        self = copy.deepcopy(obj)
+        f.close()
 
 
 # If this file is run itself then print output showing which sixs executable will be used
