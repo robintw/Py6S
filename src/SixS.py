@@ -4,6 +4,7 @@ from Outputs import Outputs
 from SixSParams import *
 from SixSExceptions import *
 import yaml
+from src.SixSExceptions import ParameterError
 
 class SixS(object):
     """Wrapper for the 6S Radiative Transfer Model"""
@@ -56,6 +57,18 @@ class SixS(object):
         
 
     def create_geom_lines(self):
+        if self.solar_z == None:
+            raise ParameterError("solar_z", "You must set the solar zenith angle.")
+        if self.solar_a == None:
+            raise ParameterError("solar_a", "You must set the solar azimuth angle.")
+        if self.view_z == None:
+            raise ParameterError("view_z", "You must set the view zenith angle.")
+        if self.view_a == None:
+            raise ParameterError("view_a", "You must set the view azimuth angle.")
+        if self.month < 1 or self.month > 12:
+            raise ParameterError("month", "You must set a valid month.")
+        if self.day < 1 or self.day > 31:
+            raise ParameterError("day", "You must set a valid day.")
         return '0 (User defined)\n%d %d %d %d %d %d\n' % (self.solar_z, self.solar_a, self.view_z, self.view_a, self.month, self.day)
 
     def create_atmos_aero_lines(self):
