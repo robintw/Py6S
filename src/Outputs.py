@@ -5,15 +5,6 @@ class Outputs(object):
     
     values = {}
     
-#    irradiance_direct = float('nan')
-#    irradiance_diffuse = float('nan')
-#    irradiance_env = float('nan')
-#    radiance_atm_intrinsic = float('nan')
-#    radiance_background = float('nan')
-#    radiance_pixel = float('nan')
-#    integrated_solar_spectrum = float('nan')
-#    solar_z = float('nan')
-    
     def __init__(self, text):
         """Initialise the class with the text output from the model, and process
         it into the numerical outputs"""
@@ -21,14 +12,16 @@ class Outputs(object):
         self.extract_results()
         
     def __getattr__(self, name):
+        """Executed when an attribute is referenced and not found. This method is overridden
+        to allow the user to access the outputs as output.variable rather than using the dictionary
+        explicity"""
         if self.values.has_key(name):
             return self.values[name]
         else:
             raise AttributeError
         
     def extract_results(self):
-        """Extract the actual results (as appropriately typed variables)
-        from the text output of the model"""
+        """Extract the actual results from the text output of the model"""
         
         # Remove all of the *'s from the text as they just make it look pretty
         # and get in the way of analysing the output
@@ -47,6 +40,7 @@ class Outputs(object):
         # The next item in the tuple is the index of the split line to extract the value from, and the
         # final item is the key to store it in in the values dictionary.
         
+        #              Search Term             Line   Index DictKey   
         extractors = { "solar zenith angle" : (CURRENT, 3, "solar_z"),
                        "ground pressure" : (CURRENT, 3, "ground_pressure"),                  
                        "irr. at ground level" : (2, 0, "direct_solar_irradiance"),
