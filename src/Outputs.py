@@ -1,8 +1,11 @@
 import pprint
+from src.SixSExceptions import OutputParsingError
 
 class Outputs(object):
+    # Stores the full textual output from 6S
     fulltext = ""
     
+    # Stores the numerical values extracted from the textual output as a dictionary
     values = {}
     
     def __init__(self, text):
@@ -18,7 +21,7 @@ class Outputs(object):
         if self.values.has_key(name):
             return self.values[name]
         else:
-            raise AttributeError
+            raise OutputParsingError("The specifed output variable does not exist.")
         
     def extract_results(self):
         """Extract the actual results from the text output of the model"""
@@ -80,4 +83,6 @@ class Outputs(object):
         pp.pprint(self.values)
         
     def to_int(self, str):
+        """Converts to int by converting to float and then converting that to int, meaning that
+        converting "5.00" to an integer will actually work"""
         return int(float(str))

@@ -73,7 +73,9 @@ class SixS(object):
     def create_atmos_aero_lines(self):
         # As long as we've selected one of the pre-specified aerosol models
         # (ie. not the user one) then simply return the numbers
-        if self.aero_profile != AeroModel.USER:
+        if self.aero_profile == None:
+            raise ParameterError("aero_profile", "You must specify an aerosol profile.")
+        elif self.aero_profile != AeroModel.USER:
             if self.aero_dustlike + self.aero_oceanic + self.aero_soot + self.aero_water > 0.0:
                 raise ParameterError("aero_profile", "Individual aerosol components are set but the aerosol model is not set to USER.")
             return """%d
@@ -94,12 +96,16 @@ class SixS(object):
 %f value\n""" % self.aot550
         elif self.visibility != None:
             return """%f\n""" % self.visibility
+        else:
+            raise ParameterError("aot550", "You must set either the AOT at 550nm or the Visibility in km.")
             
     def create_elevation_lines(self):
         return """0 (target level)
 0 (sensor level)\n"""
 
     def create_wavelength_lines(self):
+        if self.wavelength < 0.1 or self.wavelength > 4 or self.wavelength == None:
+            raise ParameterError("wavelength", "Wavelength must be set to a valid wavelength in um.")
         return """-1 monochromatic
 %f\n""" % self.wavelength
 
