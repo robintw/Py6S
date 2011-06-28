@@ -1,10 +1,23 @@
 from Py6S.sixs_exceptions import *
 import collections
 
-MAX_ALLOWABLE_WAVELENGTH = 4
-MIN_ALLOWABLE_WAVELENGTH = 0.2
-
 class GroundReflectance:
+    """Produces strings for the input file for a number of different ground reflectance scenarios.
+    Options are:
+    
+    Homogeneous    - Lambertian
+                  - BRDF        - Walthall et al. model
+                                - Rahman et al. model
+                                - ...
+    Heterogeneous - Lambertian
+    
+    These are combined to give function names like:
+        HomogeneousLambertian
+    or
+        HomogenousWalthall
+    """
+    
+    
     # Max and Min allowable wavelengths in micrometres
 
     GreenVegetation = -1
@@ -31,6 +44,12 @@ class GroundReflectance:
 %s
 %s""" % (ro_target_type, ro_env_type, radius, ro_target_values, ro_env_values)
 
+    @classmethod
+    def HomogeneousWalthall(cls, param1, param2, param3, albedo):
+        return """0 Homogeneous surface
+1 (directional effects)
+4 (Walthall et al. model)
+%f %f %f %f""" % (param1, param2, param3, albedo)
 
     @classmethod
     def GetTargetTypeAndValues(cls, target):
