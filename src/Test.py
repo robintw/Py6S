@@ -1,7 +1,4 @@
-from SixS import SixS
-from SixSParams import *
-import yaml
-import pprint
+from Py6S import *
 
 test = SixS()
 #

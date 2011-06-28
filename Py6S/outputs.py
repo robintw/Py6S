@@ -1,5 +1,5 @@
 import pprint
-from src.SixSExceptions import OutputParsingError
+from exceptions import *
 
 class Outputs(object):
     # Stores the full textual output from 6S
@@ -59,7 +59,12 @@ class Outputs(object):
                        "azimuthal angle difference:" : (CURRENT, 7, "azimuthal_angle_difference", float),
                        "visibility :" : (CURRENT, 2, "visibility", float),
                        "opt. thick. 550 nm :" : (CURRENT, 9, "aot550", float),
-                       "apparent reflectance" : (CURRENT, 2, "integrated_apparent_reflectance", float)
+                       "apparent reflectance" : (CURRENT, 2, "integrated_apparent_reflectance", float),
+                       "appar. rad.(w/m2/sr/mic)" : (CURRENT, 5, "integrated_apparent_radiance", float),
+                       "total gaseous transmittance" : (CURRENT, 3, "total_gas_transmittance", float),
+                       "wv above aerosol" : (CURRENT, 4, "wv_above_aerosol", float),
+                       "wv mixed with aerosol" : (CURRENT, 10, "wv_mixed_with_aerosol", float),
+                       "wv under aerosol" : (CURRENT, 4, "wv_under_aerosol", float)
                       }
                 
         for index in range(len(lines)):

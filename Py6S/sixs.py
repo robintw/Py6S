@@ -1,8 +1,8 @@
 import subprocess
 import os
-from Outputs import Outputs
-from SixSParams import *
-from SixSExceptions import *
+from outputs import Outputs
+from Py6S.Params import *
+from exceptions import *
 import yaml
 
 class SixS(object):
