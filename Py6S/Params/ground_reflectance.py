@@ -1,4 +1,5 @@
 from Py6S.sixs_exceptions import *
+import collections
 
 MAX_ALLOWABLE_WAVELENGTH = 4
 MIN_ALLOWABLE_WAVELENGTH = 0.2
@@ -13,43 +14,38 @@ class GroundReflectance:
 
     
     @classmethod
-    def HomogeneousLambertianConstant(cls, ro):
-        if ro > MAX_ALLOWABLE_WAVELENGTH or ro < MIN_ALLOWABLE_WAVELENGTH:
-            raise ParameterError("ro", "Wavelength must be between %f and %f" (MIN_ALLOWABLE_WAVELENGTH, MAX_ALLOWABLE_WAVELENGTH))
+    def HomogeneousLambertian(cls, ro):
+        ro_type, ro_value = cls.GetTargetTypeAndValues(ro)        
         return """0 Homogeneous surface
 0 No directional effects
-0 constant value for ro
-%f\n""" % ro
+%s
+%s\n""" % (ro_type, ro_value)
 
     @classmethod
-    def HeterogeneousLambertianConstant(cls, radius, ro_target, ro_env):
-        if ro_target > MAX_ALLOWABLE_WAVELENGTH or ro_target < MIN_ALLOWABLE_WAVELENGTH:
-            raise ParameterError("ro_target", "Wavelength must be between %f and %f" (MIN_ALLOWABLE_WAVELENGTH, MAX_ALLOWABLE_WAVELENGTH))
-        if ro_env > MAX_ALLOWABLE_WAVELENGTH or ro_env < MIN_ALLOWABLE_WAVELENGTH:
-            raise ParameterError("ro_env", "Wavelength must be between %f and %f" (MIN_ALLOWABLE_WAVELENGTH, MAX_ALLOWABLE_WAVELENGTH))
+    def HeterogeneousLambertian(cls, radius, ro_target, ro_env):
+        ro_target_type, ro_target_values = cls.GetTargetTypeAndValues(ro_target)
+        ro_env_type, ro_env_values = cls.GetTargetTypeAndValues(ro_env)
+
         return """1 (Non homogeneous surface)
-0 0 %f (ro1 ro2 radius)
-%f
-%f""" % (radius, ro_target, ro_env)
+%s %s %f (ro1 ro2 radius)
+%s
+%s""" % (ro_target_type, ro_env_type, radius, ro_target_values, ro_env_values)
 
 
-    @classmethod  
-    def HomogenousLambertianSpectra(cls, spectra):
-        # We assume here that the array was given in 2.5nm steps
-        if max(spectra) > MAX_ALLOWABLE_WAVELENGTH or min(spectra) < MIN_ALLOWABLE_WAVELENGTH:
-            raise ParameterError("spectra", "Wavelength must be between %f and %f" % (MIN_ALLOWABLE_WAVELENGTH, MAX_ALLOWABLE_WAVELENGTH))
+    @classmethod
+    def GetTargetTypeAndValues(cls, target):
+        # If it's iterable then it's a list (or tuple), so a spectrum has been given
+        if isinstance(target, collections.Iterable):
+            target_type = "-1"
+            target_value = " ".join(map(str,target))
+        else:
+            # If it's less than zero then it must be one of the predefined types
+            if target < 0:
+                target_type = str(-1 * target)
+                target_value = ""
+            # Otherwise it must be a constant ro
+            else:
+                target_type = "0"
+                target_value = target
         
-        return """0 Homogeneous surface
-0 No directional effects
--1 (ro by step of 2.5nm)
-%f %f
-%s""" % (min(spectra), max(spectra), " ".join(map(str,spectra)))
-
-    @classmethod  
-    def HomogenousLambertianPredefinedSpectra(cls, spectra_type):
-        if spectra_type > 0:
-            raise ParameterError("spectra_type", "Undefined mean spectra selected")
-        value = -1 * spectra_type
-        return """0 Homogeneous surface
-0 No directional effects
-%d (mean spectral value)""" % value
+        return (target_type, target_value)

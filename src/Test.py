@@ -1,4 +1,5 @@
 from Py6S import *
+from Py6S.Params.ground_reflectance import GroundReflectance
 
 test = SixS()
 #
@@ -13,13 +14,13 @@ test = SixS()
 #test.run()
 #print test.outputs.direct_solar_irradiance
 
-test.ground_reflectance = GroundReflectance.HomogeneousLambertianConstant(3.2)
+print GroundReflectance.HomogeneousLambertian(GroundReflectance.LakeWater)
 
-print test.ground_reflectance
+#print test.ground_reflectance
 
-test.aero_profile = AeroModel.MARITIME
+#test.aero_profile = AeroModel.MARITIME
 
-test.run()
+#test.run()
 
 
 #print test.outputs.fulltext
