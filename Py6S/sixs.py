@@ -19,7 +19,7 @@ class SixS(object):
         self.atmos_profile = AtmosModel.MIDLATITUDE_SUMMER
         self.aero_profile = AeroModel.MARITIME
         
-        self.ground_reflectance = 1.0
+        self.ground_reflectance = None
         self.solar_z = 32
         self.solar_a = 264
         self.view_z = 23
@@ -111,10 +111,7 @@ class SixS(object):
 %f\n""" % self.wavelength
 
     def create_surface_lines(self):
-        return """0 Homogeneous surface
-0 No directional effects
-0 constant value for ro
-%f\n""" % self.ground_reflectance
+        return self.ground_reflectance
 
     def create_atmos_corr_lines(self):
         if self.atmos_corr == AtmosCorr.NO_ATMOS_CORR:

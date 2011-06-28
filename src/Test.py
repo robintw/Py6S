@@ -13,6 +13,10 @@ test = SixS()
 #test.run()
 #print test.outputs.direct_solar_irradiance
 
+test.ground_reflectance = GroundReflectance.HomogeneousLambertianConstant(3.2)
+
+print test.ground_reflectance
+
 test.aero_profile = AeroModel.MARITIME
 
 test.run()
