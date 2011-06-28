@@ -1,9 +1,10 @@
 import subprocess
 import os
-from outputs import Outputs
-from Py6S.Params import *
-from exceptions import *
 import yaml
+
+from Py6S.Params import *
+from sixs_exceptions import *
+from outputs import *
 
 class SixS(object):
     """Wrapper for the 6S Radiative Transfer Model"""
@@ -14,7 +15,7 @@ class SixS(object):
     def __init__(self):
         """Initialises the class and finds the right sixs executable to use"""
         self.sixs_path = self.find_path("sixs")
-        
+                
         self.atmos_profile = AtmosModel.MIDLATITUDE_SUMMER
         self.aero_profile = AeroModel.MARITIME
         

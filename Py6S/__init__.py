@@ -6,5 +6,5 @@ __all__ += Params.__all__
 
 from sixs import SixS
 from outputs import Outputs
-from exceptions import *
+from sixs_exceptions import *
 __all__ += ["SixS", "Outputs", "ParameterError", "OutputParsingError", "ExecutionError"]
