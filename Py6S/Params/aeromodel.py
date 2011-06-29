@@ -1,5 +1,5 @@
 class AeroModel:
-    """Stores an enumeration for the pre-specified aerosol model types"""
+    """Stores an enumeration for the pre-specified aerosol model types."""
     NO_AEROSOL=0
     CONTINENTAL=1
     MARITIME=2

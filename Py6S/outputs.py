@@ -1,7 +1,15 @@
 import pprint
-from exceptions import *
+from sixs_exceptions import *
 
 class Outputs(object):
+    """Stores the output from the 6S run.
+    
+    The full output provided by the 6S executable is stored in C{fulltext} and can be written
+    to a file with the L{write_output_file}.
+    
+    More commonly, the output values will be accessed as attributes such as C{diffuse_solar_irradiance} and C{integrated_apparent_reflectance}
+    
+    """
     # Stores the full textual output from 6S
     fulltext = ""
     
@@ -91,3 +99,8 @@ class Outputs(object):
         """Converts to int by converting to float and then converting that to int, meaning that
         converting "5.00" to an integer will actually work"""
         return int(float(str))
+    
+    def write_output_file(self, filename):
+        """Writes the full textual output of the 6S model run to the specified filename"""
+        with open(filename, 'w') as f:
+            f.write(self.fulltext)

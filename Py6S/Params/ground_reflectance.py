@@ -3,23 +3,44 @@ import collections
 
 class GroundReflectance:
     """Produces strings for the input file for a number of different ground reflectance scenarios.
+    
     Options are:
     
-    Homogeneous    - Lambertian
-                  - BRDF        - Walthall et al. model
-                                - Rahman et al. model
-                                - ...
-    Heterogeneous - Lambertian
+     - Homogeneous
+      - Lambertian
+      - BRDF
+       - Walthall et al. model
+       - Rahman et al. model
+       - ...
+     - Heterogeneous
+      - Lambertian
     
     These are combined to give function names like:
-        HomogeneousLambertian
+    
+    C{HomogeneousLambertian}
+    
     or
-        HomogenousWalthall
+    
+    C{HomogenousWalthall}
+        
+    The standard functions (HomogeneousLambertian and HeterogeneousLambertian) will decide what to do
+    based on the types of inputs they are given. For example, HomogeneousLambertian can be used as follows:
+    
+    >>> model.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.7)
+    
+    which will represent a spectrally-constant reflectance of 0.7
+    
+    >>> model.ground_reflectance = GroundReflectance.HomogeneousLambertian(GroundReflectance.GreenVegetation)
+    
+    which will represent a built-in averaged green vegetation spectrum.
+    
+    or
+    
+    >>> model.ground_reflectance = GroundReflectance.HomogeneousLambertian([0.6, 0.8, 0.34, 0.453])
+    
+    which will represent a user-defined spectrum. This should be given in micrometers, with steps of 2.5nm.
     """
     
-    
-    # Max and Min allowable wavelengths in micrometres
-
     GreenVegetation = -1
     ClearWater = -2
     Sand = -3
@@ -28,6 +49,15 @@ class GroundReflectance:
     
     @classmethod
     def HomogeneousLambertian(cls, ro):
+        """Provides parameterisation for homogeneous Lambertian (ie. uniform BRDF) surfaces.
+        
+        The single argument can be either:
+         - A single float value (for example, 0.634), in which case it is interpreted as a spectrally-constant
+         reflectance value.
+         - A constant provided by one of C{GroundReflectance.GreenVegetation}, C{GroundReflectance.ClearWater}, C{GroundReflectance.Sand} or C{GroundReflectance.LakeWater}.
+         In which case a built-in spectrum of the specified material is used.
+         - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 0.25nm.
+        """
         ro_type, ro_value = cls.GetTargetTypeAndValues(ro)        
         return """0 Homogeneous surface
 0 No directional effects
@@ -36,6 +66,21 @@ class GroundReflectance:
 
     @classmethod
     def HeterogeneousLambertian(cls, radius, ro_target, ro_env):
+        """Provides parameterisation for heterogeneous Lambertian (ie. uniform BRDF) surfaces.
+        
+        These surfaces are modelled in 6S as a circular target surrounded by a differently reflecting
+        environment. Thus three parameters are required:
+         - The radius of the target (in km)
+         - The reflectance of the target
+         - The reflectance of the environment
+        
+        Both of the reflectances can be set to any of the following:
+         - A single float value (for example, 0.634), in which case it is interpreted as a spectrally-constant
+         reflectance value.
+         - A constant provided by one of C{GroundReflectance.GreenVegetation}, C{GroundReflectance.ClearWater}, C{GroundReflectance.Sand} or C{GroundReflectance.LakeWater}.
+         In which case a built-in spectrum of the specified material is used.
+         - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 0.25nm.
+        """
         ro_target_type, ro_target_values = cls.GetTargetTypeAndValues(ro_target)
         ro_env_type, ro_env_values = cls.GetTargetTypeAndValues(ro_env)
 

@@ -1,3 +1,5 @@
+"""Contains a number of classes for easily setting parameters of the 6S model"""
+
 from aeromodel import AeroModel
 from atmoscorr import AtmosCorr
 from atmosmodel import AtmosModel
