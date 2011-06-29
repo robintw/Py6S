@@ -132,10 +132,7 @@ class SixS(object):
 
     def create_wavelength_lines(self):
         """Create the wavelength lines for the input file"""
-        if self.wavelength < 0.1 or self.wavelength > 4 or self.wavelength == None:
-            raise ParameterError("wavelength", "Wavelength must be set to a valid wavelength in um.")
-        return """-1 monochromatic
-%f\n""" % self.wavelength
+        return self.wavelength
 
     def create_surface_lines(self):
         """Create the surface reflectance lines for the input file"""
