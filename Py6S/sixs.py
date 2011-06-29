@@ -190,8 +190,9 @@ class SixS(object):
         self.write_input_file("tmp_in.txt")
         
         # Run the process and get the stdout from it
-        process = subprocess.Popen("%s < tmp_in.txt" % self.sixs_path, shell=True, stdout=subprocess.PIPE)
-        self.outputs = Outputs(process.communicate()[0])
+        process = subprocess.Popen("%s < tmp_in.txt" % self.sixs_path, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        outputs = process.communicate()
+        self.outputs = Outputs(outputs[0], outputs[1])
 
     @classmethod
     def save_params(cls, obj, filename):

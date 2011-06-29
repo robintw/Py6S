@@ -16,10 +16,14 @@ class Outputs(object):
     # Stores the numerical values extracted from the textual output as a dictionary
     values = {}
     
-    def __init__(self, text):
-        """Initialise the class with the text output from the model, and process
+    def __init__(self, stdout, stderr):
+        """Initialise the class with the stdout output from the model, and process
         it into the numerical outputs"""
-        self.fulltext = text
+        self.fulltext = stdout
+        if len(self.fulltext) == 0:
+            # No stdout response - so there must have been an error
+            print stderr
+            raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
         self.extract_results()
         
     def __getattr__(self, name):
