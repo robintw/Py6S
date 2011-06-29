@@ -19,11 +19,12 @@ class Outputs(object):
     def __init__(self, stdout, stderr):
         """Initialise the class with the stdout output from the model, and process
         it into the numerical outputs"""
-        self.fulltext = stdout
-        if len(self.fulltext) == 0:
-            # No stdout response - so there must have been an error
+        if len(stderr) > 0:
+            # Something on standard error - so there's been an error
             print stderr
             raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
+        
+        self.fulltext = stdout
         self.extract_results()
         
     def __getattr__(self, name):
