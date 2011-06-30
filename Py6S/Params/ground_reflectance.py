@@ -97,6 +97,41 @@ class GroundReflectance:
 %f %f %f %f""" % (param1, param2, param3, albedo)
 
     @classmethod
+    def HomogeneousHapke(cls, albedo, assymetry, amplitude, width):
+        return """0 Homogeneous surface
+1 (directional effects)
+1 (Hapke model)
+%f %f %f %f""" % (albedo, assymetry, amplitude, width)
+
+    @classmethod
+    def HomogeneousRoujean(cls, albedo, k1, k2):
+        return """0 Homogeneous surface
+1 (directional effects)
+3 (Roujean model)
+%f %f %f""" % (albedo, k1, k2)
+
+    @classmethod
+    def HomogeneousMinnaert(cls, par1, par2):
+        return """0 Homogeneous surface
+1 (directional effects)
+5 (Minnaert model)
+%f %f""" % (par1, par2)
+
+    @classmethod
+    def HomogeneousMODISBRDF(cls, par1, par2, par3):
+        return """0 Homogeneous surface
+1 (directional effects)
+10 (MODIS BRDF model)
+%f %f %f""" % (par1, par2, par3)
+
+    @classmethod
+    def HomogeneousmOcean(cls, wind_speed, wind_azimuth, salinity, pigment_concentration):
+        return """0 Homogeneous surface
+1 (directional effects)
+6 (MODIS BRDF model)
+%f %f %f %f""" % (wind_speed, wind_azimuth, salinity, pigment_concentration)
+
+    @classmethod
     def GetTargetTypeAndValues(cls, target):
         # If it's iterable then it's a list (or tuple), so a spectrum has been given
         if isinstance(target, collections.Iterable):
