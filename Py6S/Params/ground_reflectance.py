@@ -91,6 +91,12 @@ class GroundReflectance:
 
     @classmethod
     def HomogeneousWalthall(cls, param1, param2, param3, albedo):
+        """Walthall et al. model. The parameters are:
+         - term in square ts*tv
+         - term in square ts*ts+tv*tv
+         - term in ts*tv*cos(phi) (limacon de pascal)
+         - albedo
+        """
         return """0 Homogeneous surface
 1 (directional effects)
 4 (Walthall et al. model)
@@ -98,6 +104,12 @@ class GroundReflectance:
 
     @classmethod
     def HomogeneousHapke(cls, albedo, assymetry, amplitude, width):
+        """Hapke model. The parameters are:
+         - albedo
+         - assymetry parameter for the phase function
+         - amplitude of hot spot
+         - width of the hot spot
+         """
         return """0 Homogeneous surface
 1 (directional effects)
 1 (Hapke model)
@@ -105,6 +117,11 @@ class GroundReflectance:
 
     @classmethod
     def HomogeneousRoujean(cls, albedo, k1, k2):
+        """Roujean et al. model. The parameters are:
+         - albedo
+         - geometric parameter for hot spot effect
+         - geometric parameter for hot spot effect
+         """
         return """0 Homogeneous surface
 1 (directional effects)
 3 (Roujean model)
@@ -112,6 +129,7 @@ class GroundReflectance:
 
     @classmethod
     def HomogeneousMinnaert(cls, par1, par2):
+        """Minnaert BRDF model."""
         return """0 Homogeneous surface
 1 (directional effects)
 5 (Minnaert model)
@@ -119,17 +137,43 @@ class GroundReflectance:
 
     @classmethod
     def HomogeneousMODISBRDF(cls, par1, par2, par3):
+        """
+        MODIS Operational BRDF model. The parameters are:
+         - Weight for lambertian kernel
+         - Weight for Ross Thick kernel
+         - Weight for Li Spare kernel
+        """
         return """0 Homogeneous surface
 1 (directional effects)
 10 (MODIS BRDF model)
 %f %f %f""" % (par1, par2, par3)
 
     @classmethod
-    def HomogeneousmOcean(cls, wind_speed, wind_azimuth, salinity, pigment_concentration):
+    def HomogeneousOcean(cls, wind_speed, wind_azimuth, salinity, pigment_concentration):
+        """
+        Ocean BRDF model. The parameters are:
+         - wind speed (in m/s)                      
+         - azimuth of the wind (in degrees)       
+         - salinity (in ppt) (set to 34.3ppt if < 0)
+         - pigment concentration (in mg/m3)
+        """
         return """0 Homogeneous surface
 1 (directional effects)
-6 (MODIS BRDF model)
+6 (Ocean BRDF)
 %f %f %f %f""" % (wind_speed, wind_azimuth, salinity, pigment_concentration)
+
+    @classmethod
+    def HomogeneousRahman(cls, intensity, asymmetry_factor, structural_parameter):
+        """
+        Rahman BRDF model. The parameters are:
+         - Intensity of the reflectance of the surface (N/D value >= 0)
+         - Asymmetry factor, N/D value between -1.0 and 1.0
+         - Structural parameter of the medium 
+        """
+        return """0 Homogeneous surface
+1 (directional effects)
+8 (Rahman model)
+%f %f %f""" % (intensity, asymmetry_factor, structural_parameter)
 
     @classmethod
     def GetTargetTypeAndValues(cls, target):
