@@ -42,7 +42,7 @@ In the directory where Py6S is installed, run `python SixS.py`. This should prod
 The general process for using Py6S is to:
 
   1. Instantiate the SixS class - for example, `model = SixS()`
-  2. Set the parameters appropriately - for example, `model.solar_z = 50`
+  2. Set the parameters appropriately - for example, `model.solar_z = 50` or `model.wavelength = WavelengthTypes.Wavelength(0.550, 0.600)`
   3. Call the `run()` method to run the model - for example, `model.run()`
   4. Read the outputs from the `outputs` member variable - for example, `print model.outputs.irradiance_diffuse`
 
