@@ -48,7 +48,7 @@ class SixS(object):
         self.view_a = 190
         self.day = 14
         self.month = 7
-        self.wavelength = 0.453
+        self.wavelength = WavelengthType.Wavelength(0.500)
         self.aot550 = 0.5
         self.visibility = None
         
@@ -223,13 +223,11 @@ class SixS(object):
             print obj.aero_soot
             return obj
         
-#########################################################################################
-# If this file is run itself then print output showing which sixs executable will be used
-if __name__ == "__main__":
-    test = SixS()
-    print "6S wrapper script by Robin Wilson"
-    sixs_path = test.find_path("sixs")
-    if sixs_path == None:
-        print "Error: cannot find sixs executable in $PATH or current directory."
-    else:
-        print "Using 6S located at %s" % sixs_path
+    def test(self):
+        test = SixS()
+        print "6S wrapper script by Robin Wilson"
+        sixs_path = test.find_path("sixs")
+        if sixs_path == None:
+            print "Error: cannot find sixs executable in $PATH or current directory."
+        else:
+            print "Using 6S located at %s" % sixs_path
