@@ -41,10 +41,10 @@ class Outputs(object):
         
         # Remove all of the *'s from the text as they just make it look pretty
         # and get in the way of analysing the output
-        self.fulltext = self.fulltext.replace("*", "")
+        fulltext = self.fulltext.replace("*", "")
         
         # Split into lines
-        lines = self.fulltext.splitlines()
+        lines = fulltext.splitlines()
         
         CURRENT = 0
         
