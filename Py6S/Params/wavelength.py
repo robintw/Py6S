@@ -1,7 +1,7 @@
 from Py6S.sixs_exceptions import *
 import collections
 
-class WavelengthType:
+class Wavelength:
     MAX_ALLOWABLE_WAVELENGTH = 4
     MIN_ALLOWABLE_WAVELENGTH = 0.2
     

@@ -1,9 +1,9 @@
 """Contains a number of classes for easily setting parameters of the 6S model"""
 
-from aeromodel import AeroModel
+from aeroprofile import AeroProfile
 from atmoscorr import AtmosCorr
-from atmosmodel import AtmosModel
+from atmosprofile import AtmosProfile
 from ground_reflectance import GroundReflectance
-from wavelength import WavelengthType
+from wavelength import Wavelength
 
-__all__ = ["aeromodel", "atmosmodel", "atmoscorr", "AtmosModel", "AeroModel", "AtmosCorr", "GroundReflectance", "WavelengthType"]
+__all__ = ["aeroprofile", "atmosprofile", "atmoscorr", "AtmosProfile", "AeroProfile", "AtmosCorr", "GroundReflectance", "Wavelength"]
