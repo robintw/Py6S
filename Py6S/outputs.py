@@ -106,6 +106,6 @@ class Outputs(object):
         return int(float(str))
     
     def write_output_file(self, filename):
-        """Writes the full textual output of the 6S model run to the specified filename"""
+        """Writes the full textual output of the 6S model run to the specified filename."""
         with open(filename, 'w') as f:
             f.write(self.fulltext)
