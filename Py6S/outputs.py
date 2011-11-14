@@ -96,9 +96,9 @@ class Outputs(object):
                     items = extracting_line.split()
                     self.values[details[2]] = funct(items[details[1]])
                     
-        pp = pprint.PrettyPrinter(indent=4)
+        #pp = pprint.PrettyPrinter(indent=4)
          
-        pp.pprint(self.values)
+        #pp.pprint(self.values)
         
     def to_int(self, str):
         """Converts to int by converting to float and then converting that to int, meaning that

@@ -41,7 +41,7 @@ class SixS(object):
         self.atmos_profile = AtmosProfile.MIDLATITUDE_SUMMER
         self.aero_profile = AeroProfile.MARITIME
         
-        self.ground_reflectance = GroundReflectance.HomogeneousLambertian(1.0)
+        self.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.0)
         self.solar_z = 32
         self.solar_a = 264
         self.view_z = 23
