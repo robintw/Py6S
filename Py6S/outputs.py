@@ -25,6 +25,11 @@ class Outputs(object):
             raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
         
         self.fulltext = stdout
+        
+        f = open("Output.txt", "w")
+        f.write(self.fulltext)
+        f.close()
+        
         self.extract_results()
         
     def __getattr__(self, name):
@@ -51,7 +56,7 @@ class Outputs(object):
         # The dictionary below specifies how to extract each variable from the text output
         # of 6S.
         # The dictionary key is the text to search for. When this is found, the line corresponding
-        # to the first value in the tuple is found. If this is CURRENT (ie. 0) then it is the line on whic
+        # to the first value in the tuple is found. If this is CURRENT (ie. 0) then it is the line on which
         # the text was found, if it is 1 then it is the next line, 2 the one after that etc.
         # The next item in the tuple is the index of the split line to extract the value from, and the
         # third item is the key to store it in in the values dictionary. The final item is the type to convert
@@ -59,26 +64,49 @@ class Outputs(object):
         # be used here if desired.
         
         #              Search Term             Line   Index DictKey   Type
-        extractors = { "solar zenith angle" : (CURRENT, 3, "solar_z", self.to_int),
-                       "ground pressure" : (CURRENT, 3, "ground_pressure", float),                  
-                       "irr. at ground level" : (2, 0, "direct_solar_irradiance", float),
-                       "irr. at ground level (w/" : (2, 1, "diffuse_solar_irradiance", float),
-                       "irr. at ground level (w/m2/mic)" : (2, 2, "environmental_irradiance", float),
+        extractors = { "month" : (CURRENT, 1, "month", self.to_int),
+        			   "day" : (CURRENT, 4, "day", self.to_int),
+        			   "solar zenith angle" : (CURRENT, 3, "solar_z", self.to_int),
+        			   "solar azimuthal angle" : (CURRENT, 8, "solar_a", self.to_int),
+        			   "view zenith angle" : (CURRENT, 3, "view_z", self.to_int),
+        			   "view azimuthal angle" : (CURRENT, 8, "view_a", self.to_int),
+        			   "scattering angle" : (CURRENT, 2, "scattering_angle", float),
+        			   "azimuthal angle difference" : (CURRENT, 7, "azimuthal_angle_difference", float),
+        			   "optical condition identity" : (1, 2, "visibility", float),
+        			   "optical condition" : (1, 9, "aot550", float), 
+                       "ground pressure" : (CURRENT, 3, "ground_pressure", float),
+                       "ground altitude" : (CURRENT, 3, "ground_altitude", float),
+                       
+                       "appar. rad.(w/m2/sr/mic)" : (CURRENT, 2, "apparent_reflectance", float),
+                       "appar rad." : (CURRENT, 5, "apparent_radiance", float),
+                       "total gaseous transmittance" : (CURRENT, 3, "total_gaseous_transmittance", float),
+                       
+                       "wv above aerosol" : (CURRENT, 4, "wv_above_aerosol", float),
+                       "wv mixed with aerosol" : (CURRENT, 10, "wv_mixed_with_aerosol", float),
+                       "wv under aerosol" : (CURRENT, 4, "wv_under_aerosol", float),
+                       
                        "% of irradiance" : (2, 0, "percent_direct_solar_irradiance", float),
                        "% of irradiance at" : (2, 1, "percent_diffuse_solar_irradiance", float),
                        "% of irradiance at ground level" : (2, 2, "percent_environmental_irradiance", float),
+                       "reflectance at satellite level" : (2, 0, "atmospheric_intrinsic_reflectance", float),
+                       "reflectance at satellite lev" : (2, 1, "background_reflectance", float),
+                       "reflectance at satellite l" : (2, 2, "pixel_reflectance", float),
+                       "irr. at ground level" : (2, 0, "direct_solar_irradiance", float),
+                       "irr. at ground level (w/" : (2, 1, "diffuse_solar_irradiance", float),
+                       "irr. at ground level (w/m2/mic)" : (2, 2, "environmental_irradiance", float),
+                       "rad at satel. level" : (2, 0, "atmospheric_intrinsic_radiance", float),
+                       "rad at satel. level (w/m2/" : (2, 1, "background_radiance", float),
+                       "rad at satel. level (w/m2/sr/mic)" : (2, 2, "pixel_radiance", float),
                        "sol. spect (in w/m2/mic)" : (1, 0, "solar_spectrum", float),
-                       "scattering angle:" : (CURRENT, 2, "scattering_angle", float),
-                       "azimuthal angle difference:" : (CURRENT, 7, "azimuthal_angle_difference", float),
-                       "visibility :" : (CURRENT, 2, "visibility", float),
-                       "opt. thick. 550 nm :" : (CURRENT, 9, "aot550", float),
-                       "apparent reflectance" : (CURRENT, 2, "integrated_apparent_reflectance", float),
-                       "appar. rad.(w/m2/sr/mic)" : (CURRENT, 5, "integrated_apparent_radiance", float),
-                       "total gaseous transmittance" : (CURRENT, 3, "total_gas_transmittance", float),
-                       "wv above aerosol" : (CURRENT, 4, "wv_above_aerosol", float),
-                       "wv mixed with aerosol" : (CURRENT, 10, "wv_mixed_with_aerosol", float),
-                       "wv under aerosol" : (CURRENT, 4, "wv_under_aerosol", float)
-                      }
+                       
+                       
+                       "measured radiance [w/m2/sr/mic]" : (CURRENT, 4, "measured_radiance", float),
+                       "atmospherically corrected reflectance" : (1, 3, "atmos_corrected_reflectance_lambertian", float),
+					   "atmospherically corrected reflect" : (2, 3, "atmos_corrected_reflectance_brdf", float),
+					   "coefficients xa" : (CURRENT, 5, "coef_xa", float),
+					   "coefficients xa xb" : (CURRENT, 6, "coef_xb", float),
+					   "coefficients xa xb xc" : (CURRENT, 7, "coef_xc", float)
+}
                 
         for index in range(len(lines)):
             current_line = lines[index]

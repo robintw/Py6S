@@ -2,7 +2,7 @@ import subprocess
 import os
 import yaml
 
-from Py6S.Params import *
+from Params import *
 from sixs_exceptions import *
 from outputs import *
 
@@ -57,9 +57,7 @@ class SixS(object):
         self.aero_oceanic = 0
         self.aero_soot = 0
         
-        self.atmos_corr = AtmosCorr.NO_ATMOS_CORR
-        self.atmos_corr_reflectance = None
-        self.atmos_corr_radiance = None
+        self.atmos_corr = AtmosCorr.NoAtmosCorr()
     
     def find_path(self, program):
         """Finds the full path to a given program name, searching the $PATH environment
@@ -140,21 +138,7 @@ class SixS(object):
 
     def create_atmos_corr_lines(self):
         """Create the atmospheric correction lines for the input file"""
-        if self.atmos_corr == AtmosCorr.NO_ATMOS_CORR:
-            return """-1 No atm. corrections selected\n"""
-        else:
-            if self.atmos_corr_radiance != None and self.atmos_corr_reflectance != None:
-                raise ParameterError("atmos_corr_reflectance", "Both radiance and reflectance are given for atmospheric correction. I can't decide which one to use!")
-            elif self.atmos_corr_radiance != None:
-                # Use radiance
-                value = self.atmos_corr_radiance
-            elif self.atmos_corr_reflectance != None:
-                # Use reflectance
-                value = -1 * self.atmos_corr_reflectance
-            else:
-                raise ParameterError("atmos_corr_reflectance", "Atmospheric correction is enabled, but no radiance or reflectance values are given.")
-            
-            return """%d\n%f\n""" % (self.atmos_corr, value)
+        return self.atmos_corr
 
     def write_input_file(self, filename):
         """Generates a 6S input file from the parameters stored in the object
@@ -231,3 +215,10 @@ class SixS(object):
             print "Error: cannot find sixs executable in $PATH or current directory."
         else:
             print "Using 6S located at %s" % sixs_path
+            print "Running 6S using a set of test parameters"
+            test.run()
+            print "The results are:"
+            print "Expected result: %f" % 619.158
+            print "Actual result: %f" % test.outputs.diffuse_solar_irradiance
+            if (test.outputs.diffuse_solar_irradiance - 619.158 < 0.01):
+            	print "#### Results agree, Py6S is working correctly"
