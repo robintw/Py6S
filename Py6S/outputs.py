@@ -15,6 +15,7 @@ class Outputs(object):
     
     # Stores the numerical values extracted from the textual output as a dictionary
     values = {}
+    trans = {}
     
     def __init__(self, stdout, stderr):
         """Initialise the class with the stdout output from the model, and process
@@ -36,10 +37,17 @@ class Outputs(object):
         """Executed when an attribute is referenced and not found. This method is overridden
         to allow the user to access the outputs as output.variable rather than using the dictionary
         explicity"""
+        
+        # If there is a key with this name in the standard variables field then use it
         if self.values.has_key(name):
             return self.values[name]
         else:
-            raise OutputParsingError("The specifed output variable does not exist.")
+            # If not, then split it by .'s 
+            items = name.split("_")
+            if items[0] == "transmittance":
+              return self.trans[items[1]]
+            else:
+              raise OutputParsingError("The specifed output variable does not exist.")
         
     def extract_results(self):
         """Extract the actual results from the text output of the model"""
@@ -107,7 +115,7 @@ class Outputs(object):
 					   "coefficients xa xb" : (CURRENT, 6, "coef_xb", float),
 					   "coefficients xa xb xc" : (CURRENT, 7, "coef_xc", float)
 }
-                
+        # Process most variables in the output
         for index in range(len(lines)):
             current_line = lines[index]
             for label, details in extractors.iteritems():
@@ -123,10 +131,37 @@ class Outputs(object):
                     funct = details[3]
                     items = extracting_line.split()
                     self.values[details[2]] = funct(items[details[1]])
-                    
-        #pp = pprint.PrettyPrinter(indent=4)
-         
-        #pp.pprint(self.values)
+        
+        # Process big grid in the middle of the output for transmittances
+        grid_extractors = { 'global gas. trans. :' : "global_gas",
+                            'water   "     "    :' : "water",
+                            'ozone   "     "    :' : "ozone",
+                            'co2     "     "    :' : "co2",
+                            'oxyg    "     "    :' : "oxygen",
+                            'no2     "     "    :' : "no2",
+                            'ch4     "     "    :' : "ch4",
+                            'co      "     "    :' : "co" ,
+                            'rayl.  sca. trans. :' : "rayleigh_scattering",
+                            'aeros. sca.   "    :' : "aerosol_scattering",
+                            'total  sca.   "    :' : "total_scattering"}
+        
+        
+        
+        for index in range(len(lines)):
+            current_line = lines[index]
+            for search, name in grid_extractors.iteritems():
+                # If the label we're searching for is in the current line
+                if search in current_line:
+                  items = current_line.split()
+                  values = Transmittance()
+                  values.downward = float(items[4])
+                  values.upward = float(items[5])
+                  values.total = float(items[6])
+                  
+                  self.trans[name] = values
+        
+        
+
         
     def to_int(self, str):
         """Converts to int by converting to float and then converting that to int, meaning that
@@ -137,3 +172,20 @@ class Outputs(object):
         """Writes the full textual output of the 6S model run to the specified filename."""
         with open(filename, 'w') as f:
             f.write(self.fulltext)
+            
+            
+class Transmittance(object):
+  downward = float('nan')
+  upward = float('nan')
+  total = float('nan')
+  
+  def __str__(self):
+    return "Downward: %f, Upward: %f, Total: %f" % (self.downward, self.upward, self.total)
+    
+class RayleighAerosolTotal(object):
+  rayleigh = float('nan')
+  aerosol = float('nan')
+  total = float('nan')
+  
+  def __str__(self):
+    return "Rayleigh: %f, Aerosol: %f, Total: %f" % (self.rayleigh, self.aerosol, self.total)

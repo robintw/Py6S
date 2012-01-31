@@ -21,11 +21,13 @@ with a variety of input parameters, and to produce outputs in an easily processa
     url = "http://packages.python.org/Py6S",
     long_description=read('README'),
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Science/Research"
         "Topic :: Scientific/Engineering :: Atmospheric Science",
         "Topic :: Scientific/Engineering :: Physics",
         "Topic :: Software Development :: Libraries :: Python Modules",
-        "License :: OSI Approved :: Python Software Foundation License"
+        "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
+        "Programming Language :: Python"
+        
     ],
 )

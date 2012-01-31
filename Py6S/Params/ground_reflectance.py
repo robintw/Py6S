@@ -87,7 +87,7 @@ class GroundReflectance:
         return """1 (Non homogeneous surface)
 %s %s %f (ro1 ro2 radius)
 %s
-%s""" % (ro_target_type, ro_env_type, radius, ro_target_values, ro_env_values)
+%s\n""" % (ro_target_type, ro_env_type, radius, ro_target_values, ro_env_values)
 
     @classmethod
     def HomogeneousWalthall(cls, param1, param2, param3, albedo):
@@ -100,7 +100,7 @@ class GroundReflectance:
         return """0 Homogeneous surface
 1 (directional effects)
 4 (Walthall et al. model)
-%f %f %f %f""" % (param1, param2, param3, albedo)
+%f %f %f %f\n""" % (param1, param2, param3, albedo)
 
     @classmethod
     def HomogeneousHapke(cls, albedo, assymetry, amplitude, width):
@@ -113,7 +113,7 @@ class GroundReflectance:
         return """0 Homogeneous surface
 1 (directional effects)
 1 (Hapke model)
-%f %f %f %f""" % (albedo, assymetry, amplitude, width)
+%f %f %f %f\n""" % (albedo, assymetry, amplitude, width)
 
     @classmethod
     def HomogeneousRoujean(cls, albedo, k1, k2):
@@ -125,7 +125,7 @@ class GroundReflectance:
         return """0 Homogeneous surface
 1 (directional effects)
 3 (Roujean model)
-%f %f %f""" % (albedo, k1, k2)
+%f %f %f\n""" % (albedo, k1, k2)
 
     @classmethod
     def HomogeneousMinnaert(cls, par1, par2):
@@ -133,7 +133,7 @@ class GroundReflectance:
         return """0 Homogeneous surface
 1 (directional effects)
 5 (Minnaert model)
-%f %f""" % (par1, par2)
+%f %f\n""" % (par1, par2)
 
     @classmethod
     def HomogeneousMODISBRDF(cls, par1, par2, par3):
@@ -146,7 +146,7 @@ class GroundReflectance:
         return """0 Homogeneous surface
 1 (directional effects)
 10 (MODIS BRDF model)
-%f %f %f""" % (par1, par2, par3)
+%f %f %f\n""" % (par1, par2, par3)
 
     @classmethod
     def HomogeneousOcean(cls, wind_speed, wind_azimuth, salinity, pigment_concentration):
@@ -160,7 +160,7 @@ class GroundReflectance:
         return """0 Homogeneous surface
 1 (directional effects)
 6 (Ocean BRDF)
-%f %f %f %f""" % (wind_speed, wind_azimuth, salinity, pigment_concentration)
+%f %f %f %f\n""" % (wind_speed, wind_azimuth, salinity, pigment_concentration)
 
     @classmethod
     def HomogeneousRahman(cls, intensity, asymmetry_factor, structural_parameter):
@@ -173,7 +173,7 @@ class GroundReflectance:
         return """0 Homogeneous surface
 1 (directional effects)
 8 (Rahman model)
-%f %f %f""" % (intensity, asymmetry_factor, structural_parameter)
+%f %f %f\n""" % (intensity, asymmetry_factor, structural_parameter)
 
     @classmethod
     def GetTargetTypeAndValues(cls, target):
