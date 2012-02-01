@@ -54,6 +54,7 @@ class SixS(object):
         
         
         self.wavelength = Wavelength.Wavelength(0.500)
+        
         self.aot550 = 0.5
         self.visibility = None
         
@@ -175,35 +176,6 @@ class SixS(object):
         outputs = process.communicate()
         self.outputs = Outputs(outputs[0], outputs[1])
 
-    @classmethod
-    def save_params(cls, obj, filename):
-        """Save the current parameter settings to the specified file. Note that this is a class method,
-        therefore it must be called from the class name. For example:
-        
-        >>> from Py6S import *
-        >>> model = SixS()
-        >>> model.solar_z = 23
-        >>> SixS.save_params(model, "SavedParams.yml")        
-        
-        """
-        with open(filename, "w") as f:
-            yaml.dump(obj, f, default_flow_style=False)
-    
-    @classmethod   
-    def load_params(cls, filename):
-        """Load the parameter values from the specified file. Note that this is a class method,
-        therefore it must be called from the class name. For example:
-        
-        >>> from Py6S import *
-        >>> SixS.load_params(model, "SavedParams.yml")        
-        
-        """
-        
-        with open(filename, "r") as f:
-            obj = yaml.load(f)
-            print obj.aero_soot
-            return obj
-        
     def test(self):
         test = SixS()
         print "6S wrapper script by Robin Wilson"
