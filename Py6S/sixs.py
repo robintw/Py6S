@@ -42,12 +42,16 @@ class SixS(object):
         self.aero_profile = AeroProfile.MARITIME
         
         self.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.0)
-        self.solar_z = 32
-        self.solar_a = 264
-        self.view_z = 23
-        self.view_a = 190
-        self.day = 14
-        self.month = 7
+        
+        self.geometry = GeometryUser()
+        self.geometry.solar_z = 32
+        self.geometry.solar_z = 32
+        self.geometry.solar_a = 264
+        self.geometry.view_z = 23
+        self.geometry.view_a = 190
+        self.geometry.day = 14
+        self.geometry.month = 7
+        
         self.wavelength = Wavelength.Wavelength(0.500)
         self.aot550 = 0.5
         self.visibility = None
@@ -83,19 +87,7 @@ class SixS(object):
         
 
     def create_geom_lines(self):
-        if self.solar_z == None:
-            raise ParameterError("solar_z", "You must set the solar zenith angle.")
-        if self.solar_a == None:
-            raise ParameterError("solar_a", "You must set the solar azimuth angle.")
-        if self.view_z == None:
-            raise ParameterError("view_z", "You must set the view zenith angle.")
-        if self.view_a == None:
-            raise ParameterError("view_a", "You must set the view azimuth angle.")
-        if self.month < 1 or self.month > 12:
-            raise ParameterError("month", "You must set a valid month.")
-        if self.day < 1 or self.day > 31:
-            raise ParameterError("day", "You must set a valid day.")
-        return '0 (User defined)\n%d %d %d %d %d %d\n' % (self.solar_z, self.solar_a, self.view_z, self.view_a, self.month, self.day)
+      return str(self.geometry)
 
     def create_atmos_aero_lines(self):
         """Creates the atmosphere and aerosol lines for the input file"""
