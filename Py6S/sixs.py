@@ -52,6 +52,7 @@ class SixS(object):
         self.geometry.day = 14
         self.geometry.month = 7
         
+        
         self.wavelength = Wavelength.Wavelength(0.500)
         self.aot550 = 0.5
         self.visibility = None

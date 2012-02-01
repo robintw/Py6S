@@ -1,9 +1,9 @@
 class AtmosProfile:
     """Stores a enumeration for the pre-specified atmospheric model types"""
-    NO_GASEOUS_ABSORPTION=0 
-    TROPICAL=1
-    MIDLATITUDE_SUMMER=2
-    MIDLATITUDE_WINTER=3
-    SUBARCTIC_SUMMER=4
-    SUBARCTIC_WINTER=5
-    US_STANDARD_1962=6
+    NoGaseousAbsorption=0 
+    Tropical=1
+    MidlatitudeSummer=2
+    MidlatitudeWinter=3
+    SubarcticSummer=4
+    SubarcticWinter=5
+    USStandard1962=6
