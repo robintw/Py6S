@@ -1,4 +1,4 @@
-from Py6S.sixs_exceptions import *
+from sixs_exceptions import *
 import collections
 
 class Wavelength:

@@ -6,4 +6,4 @@ from atmosprofile import AtmosProfile
 from ground_reflectance import GroundReflectance
 from wavelength import Wavelength
 
-__all__ = ["aeroprofile", "atmosprofile", "atmoscorr", "AtmosProfile", "AeroProfile", "AtmosCorr", "GroundReflectance", "Wavelength"]
+__all__ = ["AtmosProfile", "AeroProfile", "AtmosCorr", "GroundReflectance", "Wavelength"]
