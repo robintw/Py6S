@@ -34,10 +34,10 @@ class SixS(object):
     # Stores the outputs from 6S as an instance of the Outputs class
     outputs = None
     
-    def __init__(self):
+    def __init__(self, path=None):
         """Initialises the class and finds the right sixs executable to use"""
-        self.sixs_path = self.find_path("sixs")
-                
+        self.sixs_path = self.find_path(path)
+
         self.atmos_profile = AtmosProfile.MIDLATITUDE_SUMMER
         self.aero_profile = AeroProfile.MARITIME
         
@@ -59,22 +59,26 @@ class SixS(object):
         
         self.atmos_corr = AtmosCorr.NoAtmosCorr()
     
-    def find_path(self, program):
-        """Finds the full path to a given program name, searching the $PATH environment
-        variable and the current directory.
+    def find_path(self, path):
+		if path != None:
+			return path
+		else:
+			return self.which('sixs.exe') or self.which('sixs') or self.which('sixsV1.1') or self.which('sixsV1.1.exe')
         
-        Used in this context to find the 6S executable."""
-        
-        # Get the paths from the $PATH environment variable
-        paths_to_search = os.environ.get('PATH', '').split(':')
-        # Add the current directory to that path
-        paths_to_search.append(os.getcwd())
-        
-        # For each path, check it exists and isn't a directory, if so then return it
-        for path in paths_to_search:
-            if os.path.exists(os.path.join(path, program)) and \
-               not os.path.isdir(os.path.join(path, program)):
-                return os.path.join(path, program)
+    def which(self, program):
+        def is_exe(fpath):
+            return os.path.exists(fpath) and os.access(fpath, os.X_OK)
+
+        fpath, fname = os.path.split(program)
+        if fpath:
+            if is_exe(program):
+                return program
+        else:
+            for path in os.environ["PATH"].split(os.pathsep):
+                exe_file = os.path.join(path, program)
+                if is_exe(exe_file):
+                    return exe_file
+
         return None
         
 
@@ -221,4 +225,4 @@ class SixS(object):
             print "Expected result: %f" % 619.158
             print "Actual result: %f" % test.outputs.diffuse_solar_irradiance
             if (test.outputs.diffuse_solar_irradiance - 619.158 < 0.01):
-            	print "#### Results agree, Py6S is working correctly"
+                print "#### Results agree, Py6S is working correctly"
