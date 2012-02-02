@@ -38,8 +38,8 @@ class SixS(object):
         """Initialises the class and finds the right sixs executable to use"""
         self.sixs_path = self.find_path(path)
 
-        self.atmos_profile = AtmosProfile.MIDLATITUDE_SUMMER
-        self.aero_profile = AeroProfile.MARITIME
+        self.atmos_profile = AtmosProfile.MidlatitudeSummer
+        self.aero_profile = AeroProfile.Maritime
         
         self.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.0)
         
@@ -97,7 +97,7 @@ class SixS(object):
         # (ie. not the user one) then simply return the numbers
         if self.aero_profile == None:
             raise ParameterError("aero_profile", "You must specify an aerosol profile.")
-        elif self.aero_profile != AeroProfile.USER:
+        elif self.aero_profile != AeroProfile.User:
             if self.aero_dustlike + self.aero_oceanic + self.aero_soot + self.aero_water > 0.0:
                 raise ParameterError("aero_profile", "Individual aerosol components are set but the aerosol model is not set to USER.")
             return """%d
