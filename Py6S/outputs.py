@@ -50,7 +50,8 @@ class Outputs(object):
               raise OutputParsingError("The specifed output variable does not exist.")
         
     def extract_results(self):
-        """Extract the actual results from the text output of the model"""
+        """Extract the results from the text output of the model and place them
+        in the values dictionary"""
         
         # Remove all of the *'s from the text as they just make it look pretty
         # and get in the way of analysing the output
@@ -175,6 +176,8 @@ class Outputs(object):
             
             
 class Transmittance(object):
+  """Stores transmittance values from the 6S output - basically a simple class storing 3 values:
+  transmittance downwards, upwards and total"""
   downward = float('nan')
   upward = float('nan')
   total = float('nan')
@@ -183,6 +186,7 @@ class Transmittance(object):
     return "Downward: %f, Upward: %f, Total: %f" % (self.downward, self.upward, self.total)
     
 class RayleighAerosolTotal(object):
+  
   rayleigh = float('nan')
   aerosol = float('nan')
   total = float('nan')

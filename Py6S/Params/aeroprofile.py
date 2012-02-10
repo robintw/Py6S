@@ -3,7 +3,7 @@ from sixs_exceptions import *
 
 
 class AeroProfile:
-    """Stores an enumeration for the pre-specified aerosol model types."""
+    """Class representing options for Aerosol Profiles"""
 
     @classmethod
     def NoAerosol(cls):

@@ -2,11 +2,24 @@ from sixs_exceptions import *
 import collections
 
 class Wavelength:
+    """Class for selecting wavelengths for the 6S model - includes a function for choosing the wavelength, and
+    many constants for the wavelengths of various common sensors."""
     MAX_ALLOWABLE_WAVELENGTH = 4
     MIN_ALLOWABLE_WAVELENGTH = 0.2
     
     @classmethod
     def Wavelength(cls, start_wavelength, end_wavelength=None, filter=None):
+        """Select a wavelength/wavelengths for the simulation. There are a number of ways to do this:
+        1. Pass a single value of a wavelength in micrometres (for example, Wavelength.Wavelength(0.43)). The simulation
+        will be performed for just this wavelength.
+        
+        2. Pass a start and end wavelength in micrometres (for example, Wavelength.Wavelength(0.43, 0.50)). The simulation
+        will be performed across this wavelength range with a constant filter function (spectral response function) of 1.0.
+        
+        3. Pass a start and end wavelength, and a filter given at 2.5nm intervals (for example, Wavelength.Wavelength(0.400, 0.410, [0.7, 0.9, 1.0, 0.3])).
+        The simulation will be performed across this wavelength range using the given filter function.
+        
+        4. Pass a constant (as defined in this class) for a pre-defined wavelength range (for example, Wavelength.Wavelength(Wavelength.LANDSAT_TM_B1))"""
         if end_wavelength == None:
             # No end wavelength given, so it's either monochromatic or a pre-defined wavelength
             if start_wavelength < 0:

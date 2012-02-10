@@ -8,8 +8,6 @@ class GeometryUser:
   
   def __str__(self):
     return '0 (User defined)\n%d %d %d %d %d %d\n' % (self.solar_z, self.solar_a, self.view_z, self.view_a, self.month, self.day)
-    
-  
   
 class GeometryMeteosat:
   month = 1
