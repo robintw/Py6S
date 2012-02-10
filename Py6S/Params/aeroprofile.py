@@ -4,26 +4,18 @@ from sixs_exceptions import *
 
 class AeroProfile:
     """Class representing options for Aerosol Profiles"""
-
+    
+    NoAerosols = 0
+    Continental = 1
+    Maritime = 2
+    Urban = 3
+    Desert = 5
+    BiomassBurning = 6
+    Stratospheric = 7
+    
     @classmethod
-    def NoAerosol(cls):
-      """No aerosols"""
-      return "0 (No Aerosol)"
-
-    @classmethod
-    def Continental(cls):
-      """Continental aerosol profile"""
-      return "1 (Continental)"
-
-    @classmethod
-    def Maritime(cls):
-      """Maritime aerosol profile"""
-      return "2 (Maritime)"
-      
-    @classmethod      
-    def Urban(cls):
-      """Urban aerosol profile"""
-      return "3 (Urban)"
+    def PredefinedType(cls, type):
+      return "%d" % type
     
     @classmethod
     def User(cls, **kwargs):
@@ -41,17 +33,25 @@ class AeroProfile:
         
         return "4 (User's Components)\n%f, %f, %f, %f" % (dust, water, oceanic, soot)
 
-    @classmethod
-    def Desert(cls):
-      """Desert aerosol profile"""
-      return "5 (Desert)"
-
-    @classmethod
-    def BiomassBurning(cls):
-      """Biomass Burning aerosol profile"""
-      return "6 (Biomass Burning)"
-
-    @classmethod
-    def Stratospheric(cls):
-      """Stratospheric aerosol profile"""
-      return "7 (Stratospheric)"
+    class UserProfile:
+      """User-defined aerosol profile, with types, heights and AOTs"""
+      values = []
+      aerotype = 0
+      
+      def __init__(self, atype):
+        """Initialises the user-defined aerosol profile to a specific aerosol type"""
+        self.aerotype = atype
+      
+      def add_layer(self, height, optical_thickness):
+        """Adds a layer to the user-defined profile. Arguments must be:
+        Height of the layer
+        Optical thickness of the layer"""
+        self.values.append((height, optical_thickness))
+      
+      def __str__(self):
+        res = ""
+        for val in self.values:
+          res = res + "%f %f %d\n" % (val[0], val[1], self.aerotype)
+        
+        return res
+      
