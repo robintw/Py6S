@@ -7,3 +7,13 @@ class AtmosProfile:
     SubarcticSummer=4
     SubarcticWinter=5
     USStandard1962=6
+    
+    @classmethod
+    def PredefinedType(cls, type):
+      """Use a predefined atmosphere type, one of the constants defined in this class"""
+      return "%d" % type
+      
+    def UserWaterAndOzone(cls, water, ozone):
+      """Use an atmosphere defined by an amount of water vapour (in g/cm^2) and ozone (in cm-atm)"""
+      return "8 (Water Vapour and Ozone)\n%f %f" % (water, ozone)
+      

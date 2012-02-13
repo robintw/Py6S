@@ -15,6 +15,7 @@ class AeroProfile:
     
     @classmethod
     def PredefinedType(cls, type):
+      """Use a predefined aerosol type, one of the constants defined in this class"""
       return "%d" % type
     
     @classmethod
