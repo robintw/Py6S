@@ -2,12 +2,18 @@ import pprint
 from sixs_exceptions import *
 
 class Outputs(object):
-    """Stores the output from the 6S run.
+    """Stores the output from a 6S run.
     
-    The full output provided by the 6S executable is stored in C{fulltext} and can be written
-    to a file with the L{write_output_file}.
+    !!! Mention attribute accessing
     
-    More commonly, the output values will be accessed as attributes such as C{diffuse_solar_irradiance} and C{integrated_apparent_reflectance}
+    Attributes:
+    fulltext -- The full output of the 6S executable. This can be written to a file with the write_output_file method.
+    
+    Methods:
+    __init__ -- Constructor which takes the stdout and stderr from the model and processes it into the numerical outputs.
+    extract_results -- Function called by the constructor to parse the output into individual variables
+    to_int -- Convert a string to an int, so that it works even if passed a float.
+    write_output_file -- Write the full textual output of the 6S model to a file.
     
     """
     # Stores the full textual output from 6S
@@ -19,7 +25,15 @@ class Outputs(object):
     
     def __init__(self, stdout, stderr):
         """Initialise the class with the stdout output from the model, and process
-        it into the numerical outputs"""
+        it into the numerical outputs.
+        
+        Arguments:
+        stdout -- Standard output from the model run
+        stderr -- Standard error from the model run
+        
+        Will raise an OutputParsingError if the output cannot be parsed for any reason.
+        
+        """
         if len(stderr) > 0:
             # Something on standard error - so there's been an error
             print stderr
@@ -50,8 +64,7 @@ class Outputs(object):
               raise OutputParsingError("The specifed output variable does not exist.")
         
     def extract_results(self):
-        """Extract the results from the text output of the model and place them
-        in the values dictionary"""
+        """Extract the results from the text output of the model and place them in the values dictionary"""
         
         # Remove all of the *'s from the text as they just make it look pretty
         # and get in the way of analysing the output
@@ -165,19 +178,37 @@ class Outputs(object):
 
         
     def to_int(self, str):
-        """Converts to int by converting to float and then converting that to int, meaning that
-        converting "5.00" to an integer will actually work"""
+        """Converts a string to an integer.
+        
+        Does this by converting to float and then converting that to int, meaning that
+        converting "5.00" to an integer will actually work.
+        
+        Arguments:
+        str -- The string containing the number to convert to an integer
+        
+        """
         return int(float(str))
     
     def write_output_file(self, filename):
-        """Writes the full textual output of the 6S model run to the specified filename."""
+        """Writes the full textual output of the 6S model run to the specified filename.
+        
+        Arguments:
+        filename -- The filename to write the output to
+        
+        """
         with open(filename, 'w') as f:
             f.write(self.fulltext)
             
             
 class Transmittance(object):
-  """Stores transmittance values from the 6S output - basically a simple class storing 3 values:
-  transmittance downwards, upwards and total"""
+  """Stores transmittance values from the 6S output.
+  
+  Basically a simple class storing three attributes:
+  downward -- Transmittance downwards
+  upward -- Transmittance upwards
+  total -- Total transmittance
+  
+  """
   downward = float('nan')
   upward = float('nan')
   total = float('nan')

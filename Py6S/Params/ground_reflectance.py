@@ -17,26 +17,20 @@ class GroundReflectance:
     
     These are combined to give function names like:
     
-    C{HomogeneousLambertian}
-    
-    or
-    
-    C{HomogenousWalthall}
+    HomogeneousLambertian or HomogenousWalthall
         
     The standard functions (HomogeneousLambertian and HeterogeneousLambertian) will decide what to do
     based on the types of inputs they are given. For example, HomogeneousLambertian can be used as follows:
     
-    >>> model.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.7)
+    model.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.7)
     
     which will represent a spectrally-constant reflectance of 0.7
     
-    >>> model.ground_reflectance = GroundReflectance.HomogeneousLambertian(GroundReflectance.GreenVegetation)
+    model.ground_reflectance = GroundReflectance.HomogeneousLambertian(GroundReflectance.GreenVegetation)
     
-    which will represent a built-in averaged green vegetation spectrum.
+    which will represent a built-in averaged green vegetation spectrum. Or
     
-    or
-    
-    >>> model.ground_reflectance = GroundReflectance.HomogeneousLambertian([0.6, 0.8, 0.34, 0.453])
+    model.ground_reflectance = GroundReflectance.HomogeneousLambertian([0.6, 0.8, 0.34, 0.453])
     
     which will represent a user-defined spectrum. This should be given in micrometers, with steps of 2.5nm.
     """
@@ -54,9 +48,10 @@ class GroundReflectance:
         The single argument can be either:
          - A single float value (for example, 0.634), in which case it is interpreted as a spectrally-constant
          reflectance value.
-         - A constant provided by one of C{GroundReflectance.GreenVegetation}, C{GroundReflectance.ClearWater}, C{GroundReflectance.Sand} or C{GroundReflectance.LakeWater}.
-         In which case a built-in spectrum of the specified material is used.
+         - A constant defined by this class (one of GroundReflectance.GreenVegetation, GroundReflectance.ClearWater, GroundReflectance.Sand or GroundReflectance.LakeWater)
+         in which case a built-in spectrum of the specified material is used.
          - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 0.25nm.
+        
         """
         ro_type, ro_value = cls.GetTargetTypeAndValues(ro)        
         return """0 Homogeneous surface
@@ -68,17 +63,18 @@ class GroundReflectance:
     def HeterogeneousLambertian(cls, radius, ro_target, ro_env):
         """Provides parameterisation for heterogeneous Lambertian (ie. uniform BRDF) surfaces.
         
-        These surfaces are modelled in 6S as a circular target surrounded by a differently reflecting
-        environment. Thus three parameters are required:
-         - The radius of the target (in km)
-         - The reflectance of the target
-         - The reflectance of the environment
+        These surfaces are modelled in 6S as a circular target surrounded by an environment of a different reflectance.
+        
+        Arguments:
+        radius -- The radius of the target (in km)
+        ro_target -- The reflectance of the target
+        ro_env -- The reflectance of the environment
         
         Both of the reflectances can be set to any of the following:
          - A single float value (for example, 0.634), in which case it is interpreted as a spectrally-constant
          reflectance value.
-         - A constant provided by one of C{GroundReflectance.GreenVegetation}, C{GroundReflectance.ClearWater}, C{GroundReflectance.Sand} or C{GroundReflectance.LakeWater}.
-         In which case a built-in spectrum of the specified material is used.
+         - A constant defined by this class (one of GroundReflectance.GreenVegetation, GroundReflectance.ClearWater, GroundReflectance.Sand or GroundReflectance.LakeWater)
+         in which case a built-in spectrum of the specified material is used.
          - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 0.25nm.
         """
         ro_target_type, ro_target_values = cls.GetTargetTypeAndValues(ro_target)
@@ -91,11 +87,14 @@ class GroundReflectance:
 
     @classmethod
     def HomogeneousWalthall(cls, param1, param2, param3, albedo):
-        """Walthall et al. model. The parameters are:
+        """Parameterisation for a surface BRDF based on the Walthall et al. model.
+        
+        The parameters are:
          - term in square ts*tv
          - term in square ts*ts+tv*tv
          - term in ts*tv*cos(phi) (limacon de pascal)
          - albedo
+        
         """
         return """0 Homogeneous surface
 1 (directional effects)
@@ -104,11 +103,14 @@ class GroundReflectance:
 
     @classmethod
     def HomogeneousHapke(cls, albedo, assymetry, amplitude, width):
-        """Hapke model. The parameters are:
+        """Parameterisation for a surface BRDF based on the Hapke model.
+        
+        The parameters are:
          - albedo
          - assymetry parameter for the phase function
          - amplitude of hot spot
          - width of the hot spot
+        
          """
         return """0 Homogeneous surface
 1 (directional effects)
@@ -117,10 +119,13 @@ class GroundReflectance:
 
     @classmethod
     def HomogeneousRoujean(cls, albedo, k1, k2):
-        """Roujean et al. model. The parameters are:
+        """Parameterisation for a surface BRDF based on the Roujean et al. model.
+        
+        The parameters are:
          - albedo
          - geometric parameter for hot spot effect
          - geometric parameter for hot spot effect
+        
          """
         return """0 Homogeneous surface
 1 (directional effects)
@@ -129,7 +134,10 @@ class GroundReflectance:
 
     @classmethod
     def HomogeneousMinnaert(cls, par1, par2):
-        """Minnaert BRDF model."""
+        """Parameterisation for a surface BRDF based on the Minnaert BRDF model.
+        
+        
+        """
         return """0 Homogeneous surface
 1 (directional effects)
 5 (Minnaert model)
@@ -137,11 +145,13 @@ class GroundReflectance:
 
     @classmethod
     def HomogeneousMODISBRDF(cls, par1, par2, par3):
-        """
-        MODIS Operational BRDF model. The parameters are:
+        """Parameterisation for a surface BRDF based on the MODIS Operational BRDF model.
+        
+        The parameters are:
          - Weight for lambertian kernel
          - Weight for Ross Thick kernel
          - Weight for Li Spare kernel
+        
         """
         return """0 Homogeneous surface
 1 (directional effects)
@@ -150,12 +160,14 @@ class GroundReflectance:
 
     @classmethod
     def HomogeneousOcean(cls, wind_speed, wind_azimuth, salinity, pigment_concentration):
-        """
-        Ocean BRDF model. The parameters are:
+        """Parameterisation for a surface BRDF based on the Ocean BRDF model.
+        
+        The parameters are:
          - wind speed (in m/s)                      
          - azimuth of the wind (in degrees)       
          - salinity (in ppt) (set to 34.3ppt if < 0)
          - pigment concentration (in mg/m3)
+        
         """
         return """0 Homogeneous surface
 1 (directional effects)
@@ -164,11 +176,13 @@ class GroundReflectance:
 
     @classmethod
     def HomogeneousRahman(cls, intensity, asymmetry_factor, structural_parameter):
-        """
-        Rahman BRDF model. The parameters are:
+        """Parameterisation for a surface BRDF based on the Rahman BRDF model.
+        
+        The parameters are:
          - Intensity of the reflectance of the surface (N/D value >= 0)
          - Asymmetry factor, N/D value between -1.0 and 1.0
          - Structural parameter of the medium 
+        
         """
         return """0 Homogeneous surface
 1 (directional effects)

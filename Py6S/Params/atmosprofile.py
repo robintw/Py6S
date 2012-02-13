@@ -12,25 +12,47 @@ class AtmosProfile:
     
     @classmethod
     def PredefinedType(cls, type):
-      """Use a predefined atmosphere type, one of the constants defined in this class"""
+      """Set 6S to use a predefined atmosphere type.
+      
+      Arguments:
+      type -- the predefined atmosphere type, one of the constants defined in this class
+      
+      Example usage:
+      s.atmosprofile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer)
+      
+      """
       return "%d" % type
     
     @classmethod
     def UserWaterAndOzone(cls, water, ozone):
-      """Use an atmosphere defined by an amount of water vapour (in g/cm^2) and ozone (in cm-atm)"""
+      """Set 6S to use an atmosphere defined by an amount of water vapour and ozone.
+      
+      Arguments:
+      water -- The total amount of water in a vertical path through the atmosphere (in g/cm^2)
+      ozone -- The total amount of ozone in a vertical path through the atmosphere (in cm-atm)
+      
+      Example usage:
+      s.atmosprofile = AtmosProfile.UserWaterAndOzone(3.6, 0.9)
+      
+      """
       return "8 (Water Vapour and Ozone)\n%f %f" % (water, ozone)
     
     @classmethod
     def RadiosondeProfile(cls, data):
-      """Use an atmosphere defined by a profile from a radiosonde measurement. The data argument must be a dictionary with the
-      following keys, each of which must be an iterable containing the data:
-      altitude
-      pressure
-      temperature
-      water
-      ozone
+      """Set 6S to use an atmosphere defined by a profile from a radiosonde measurements.
       
-      There must be 34 items in each iterable"""
+      Arguments:
+      data -- A dictionary containing five iterables (eg. lists) with the radiosonde measurements in them. The dictionary
+      must have the following keys:
+      altitude -- in km
+      pressure -- in mb
+      temperature -- in k
+      water -- in g/m^3
+      ozone -- in g/m^3
+
+      There must be 34 items in each iterable, or a ParameterExeception will be thrown.
+      
+      """
       
       # Check to make sure all iterables have 34 items
       all_lists = [data['altitude'], data['pressure'], data['temperature'], data['water'], data['ozone']]
