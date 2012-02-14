@@ -73,8 +73,8 @@ class SixS(object):
         """
         self.sixs_path = self.find_path(path)
 
-        self.atmos_profile = AtmosProfile.MidlatitudeSummer
-        self.aero_profile = AeroProfile.Maritime
+        self.atmos_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer)
+        self.aero_profile = AeroProfile.PredefinedType(AeroProfile.Maritime)
         
         self.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.3)
         
