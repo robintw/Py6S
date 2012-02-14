@@ -58,6 +58,83 @@ class AeroProfile:
         
         return "4 (User's Components)\n%f, %f, %f, %f" % (dust, water, oceanic, soot)
 
+    @classmethod
+    def MultimodalLogNormalDistribution(cls, rmin, rmax):
+      return AerosolDistribution(rmin, rmax, 8)
+      
+    @classmethod
+    def ModifiedGammaDistribution(cls, rmin, rmax):
+      return AerosolDistribution(rmin, rmax, 9)
+      
+    @classmethod
+    def JungePowerLawDistribution(cls, rmin, rmax):
+      return AerosolDistribution(rmin, rmax, 10)
+    
+    class AerosolDistribution:
+      """Stores data regarding a specific Aerosol Distribution.
+      
+      Used by the following methods:
+      MultimodalLogNormalDistribution
+      ModifiedGammaDistribution
+      JungePowerLawDistribution
+      
+      """
+      numtype = 0
+      rmin = 0
+      rmax = 0
+      values = []
+      
+      def __init__(self, rmin, rmax, numtype):
+        """Initialise an Aerosol Distribution with various parameters.
+        
+        Should not be called directly - use one of the methods like AeroProfile.MultimodalLogNormalDistribution() instead.
+        
+        Arguments:
+        rmin -- The minimum aerosol radius
+        rmax -- The maximum aerosol radius
+        numtype -- The type of aerosol distribution (eg. 8 for Multimodal Log Normal)
+        
+        """
+        self.rmin = rmin
+        self.rmax = rmax
+        self.numtype = numtype
+        
+      def add_component(self, rmean, sigma, percentage_density, refr_real, refr_imag):
+        """Adds a component to the aerosol distribution.
+        
+        For the arguments that are wavelength-dependent, 20 values should be given at the following wavelengths:
+        !!!! PUT WAVELENGTHS HERE
+        
+        Arguments:
+        rmean -- The mean radius of the aerosols
+        sigma -- Sigma, as defined by the distribution (Log Normal etc)
+        percentage_density -- The percentage density of the aerosol
+        refr_real -- A 20-element iterable giving the real part of the refractive indices at the specified wavelengths (see above)
+        refr_imag -- A 20-element iterable giving the imaginary part of the refractive indices at the specified wavelengths (see above)
+        
+        """
+        if len(self.values) >= 4:
+          raise ParameterError("Aerosol Distribution components", "You can only add a maximum of 4 components")
+        
+        if len(refr_real) != 20:
+          raise ParameterError("Aerosol Distribution Real Refractive Index", "You must specify the real part of the Refractive Index at 20 wavelengths.")
+        
+        if len(refr_imag) != 20:
+          raise ParameterError("Aerosol Distribution Imaginary Refractive Index", "You must specify the imaginary part of the Refractive Index at 20 wavelengths.")
+        
+        comp = "%f %f %f\n" % (rmean, sigma, percentage_density)
+        real = map(str, refr_real)
+        imag = map(str, refr_imag)
+        comp += ' '.join(real) + '\n'
+        comp += ' '.join(imag) + '\n'
+        
+        self.values.append(comp)
+        
+      def __str__(self):
+        result = "%d\n%f %f %d\n" % (self.numtype, self.rmin, self.rmax, len(self.values))
+        components = ''.join(self.values)
+        return result + components
+    
     class UserProfile:
       """Set 6S to use a user-defined aerosol profile, with differing AOTs over the height of the profile.
       
@@ -98,7 +175,7 @@ class AeroProfile:
         """
         self.values.append((height, optical_thickness))
       
-      def __str__(self):
+      def __str__(self):        
         res = ""
         for val in self.values:
           res = res + "%f %f %d\n" % (val[0], val[1], self.aerotype)
