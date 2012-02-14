@@ -109,9 +109,9 @@ class SixS(object):
       Finds the 6S executable on the system, either using the given path or by searching the system PATH variable and the current directory
       
       """
-		  if path != None:
+      if path != None:
 			  return path
-		  else:
+      else:
 			  return self.which('sixs.exe') or self.which('sixs') or self.which('sixsV1.1') or self.which('sixsV1.1.exe')
         
     def which(self, program):
@@ -129,40 +129,24 @@ class SixS(object):
                     return exe_file
 
         return None
-        
 
     def create_geom_lines(self):
       return str(self.geometry)
 
     def create_atmos_aero_lines(self):
         """Creates the atmosphere and aerosol lines for the input file"""
-        # As long as we've selected one of the pre-specified aerosol models
-        # (ie. not the user one) then simply return the numbers
-        if self.aero_profile == None:
-            raise ParameterError("aero_profile", "You must specify an aerosol profile.")
-        elif self.aero_profile != AeroProfile.User:
-            if self.aero_dustlike + self.aero_oceanic + self.aero_soot + self.aero_water > 0.0:
-                raise ParameterError("aero_profile", "Individual aerosol components are set but the aerosol model is not set to USER.")
-            return """%d
-%d\n""" % (self.atmos_profile, self.aero_profile)
-        # Otherwise, check we've been given all of the parameters and put them in
-        else:
-            if self.aero_dustlike + self.aero_oceanic + self.aero_soot + self.aero_water != 1.0:
-                raise ParameterError("aero_*", "Incorrect specification of User-defined Aerosol Components - must sum to 1.0")
-            return """%d
-%d
-%f %f %f %f""" % (self.atmos_profile, self.aero_profile, self.aero_dustlike, self.aero_water, self.aero_oceanic, self.aero_soot)
+        return str(self.atmos_profile) + '\n' + str(self.aero_profile) + '\n'
 
     def create_aot_vis_lines(self):
         """Create the AOT or Visibility lines for the input file"""
-        # If aot is set then use it
-        if self.aot550 != None:
-            return """0
-%f value\n""" % self.aot550
-        elif self.visibility != None:
-            return """%f\n""" % self.visibility
-        else:
-            raise ParameterError("aot550", "You must set either the AOT at 550nm or the Visibility in km.")
+        if not isinstance(self.aero_profile, AeroProfile.UserProfile):
+          # We don't need to set AOT or visibility for a UserProfile, but we do for all others
+          if self.aot550 != None:
+            return "0\n%f value\n" % self.aot550
+          elif self.visibility != None:
+            return "%f\n" % self.visibility
+          else:
+            raise ParameterError("aot550", "You must set either the AOT at 550nm or the Visibility in km.")        
             
     def create_elevation_lines(self):
         """Create the elevation lines for the input file"""
