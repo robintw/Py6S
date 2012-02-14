@@ -60,16 +60,101 @@ class AeroProfile:
 
     @classmethod
     def MultimodalLogNormalDistribution(cls, rmin, rmax):
+      """Set 6S to use a Multimodal Log-Normal distribution.
+      
+      Arguments:
+      rmin -- The minimum aerosol radius
+      rmax -- The maximum aerosol radius
+      
+      This returns an AerosolDistribution object. Components can then be added to this distribution using the add_component
+      method of the returned class.
+      
+      Example usage:
+      s.aeroprofile = AeroProfile.MultimodalLogNormalDistribution(0.3, 0.1)
+      s.aeroprofile.add_component(...)
+      
+      """
       return AerosolDistribution(rmin, rmax, 8)
       
     @classmethod
     def ModifiedGammaDistribution(cls, rmin, rmax):
+      """Set 6S to use a Modified Gamma distribution.
+      
+      Arguments:
+      rmin -- The minimum aerosol radius
+      rmax -- The maximum aerosol radius
+      
+      This returns an AerosolDistribution object. Components can then be added to this distribution using the add_component
+      method of the returned class.
+      
+      Example usage:
+      s.aeroprofile = AeroProfile.ModifiedGammaDistribution(0.3, 0.1)
+      s.aeroprofile.add_component(...)
+      
+      """
       return AerosolDistribution(rmin, rmax, 9)
       
     @classmethod
     def JungePowerLawDistribution(cls, rmin, rmax):
+      """Set 6S to use a Junge Power Law distribution.
+      
+      Arguments:
+      rmin -- The minimum aerosol radius
+      rmax -- The maximum aerosol radius
+      
+      This returns an AerosolDistribution object. Components can then be added to this distribution using the add_component
+      method of the returned class.
+      
+      Example usage:
+      s.aeroprofile = AeroProfile.JungePowerLawDistribution(0.3, 0.1)
+      s.aeroprofile.add_component(...)
+      
+      """
       return AerosolDistribution(rmin, rmax, 10)
     
+    @classmethod
+    def SunPhotometerDistribution(cls, r, dvdlogr, refr_real, refr_imag):
+      """Set 6S to use an aerosol parameterisation from Sun Photometer measurements.
+      
+      Wavelength dependent values must be input at the following wavelengths (given in micrometers):
+      0.350, 0.400, 0.412, 0.443, 0.470, 0.488, 0.515, 0.550, 0.590, 0.633, 0.670, 0.694, 0.760,
+      0.860, 1.240, 1.536, 1.650, 1.950, 2.250, 3.750
+      
+      Arguments:
+      r -- A list of radius measurements from a sun photometer (microns)
+      dvdlogr -- A list of dV/d(logr) measurements from a sun photometer, for the radiuses as above (cm^3/cm^2/micron)
+      refr_real -- The real part of the refractive indices for each of the 20 wavelengths (above)
+      refr_imag -- The imaginary part of the refractive indices for each of the 20 wavelengths (above)
+      
+      """
+      header = "11 (Sun Photometric Distribution)\n"
+      
+      # Check lengths of r and dvdlorg are the same
+      if len(r) != len(dvdlogr):
+        raise ParameterError("R and dV/d(log r)", "These must be the same length")
+        
+      num = "%d\n" % len(r)
+      
+      ds = ""
+      comp = ""
+      
+      for i in range(len(r)):
+        ds += "%f %f\n" % (r[i], dvdlogr[i])
+        
+      if len(refr_real) != 20:
+          raise ParameterError("Aerosol Distribution Real Refractive Index", "You must specify the real part of the Refractive Index at 20 wavelengths.")
+        
+      if len(refr_imag) != 20:
+          raise ParameterError("Aerosol Distribution Imaginary Refractive Index", "You must specify the imaginary part of the Refractive Index at 20 wavelengths.")
+      
+      real = map(str, refr_real)
+      imag = map(str, refr_imag)
+      comp += ' '.join(real) + '\n'
+      comp += ' '.join(imag) + '\n'
+      
+      return header + num + ds + comp
+
+
     class AerosolDistribution:
       """Stores data regarding a specific Aerosol Distribution.
       
@@ -102,8 +187,10 @@ class AeroProfile:
       def add_component(self, rmean, sigma, percentage_density, refr_real, refr_imag):
         """Adds a component to the aerosol distribution.
         
-        For the arguments that are wavelength-dependent, 20 values should be given at the following wavelengths:
-        !!!! PUT WAVELENGTHS HERE
+        Wavelength dependent values must be input at the following wavelengths (given in micrometers):
+        0.350, 0.400, 0.412, 0.443, 0.470, 0.488, 0.515, 0.550, 0.590, 0.633, 0.670, 0.694, 0.760,
+        0.860, 1.240, 1.536, 1.650, 1.950, 2.250, 3.750
+      
         
         Arguments:
         rmean -- The mean radius of the aerosols
