@@ -100,7 +100,7 @@ class SixS(object):
         
         self.atmos_corr = AtmosCorr.NoAtmosCorr()
     
-    def find_path(self, path):
+    def find_path(self, path=None):
       """Finds the path of the 6S executable.
       
       Arguments:
@@ -210,7 +210,7 @@ class SixS(object):
         """Runs a simple test to ensure that 6S and Py6S are installed correctly."""
         test = SixS()
         print "6S wrapper script by Robin Wilson"
-        sixs_path = test.find_path("sixs")
+        sixs_path = test.find_path()
         if sixs_path == None:
             print "Error: cannot find sixs executable in $PATH or current directory."
         else:
