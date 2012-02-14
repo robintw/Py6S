@@ -263,9 +263,9 @@ class AeroProfile:
         self.values.append((height, optical_thickness))
       
       def __str__(self):        
-        res = ""
+        res = "-1 Aerosol model (type) and profile\n%d\n" % len(self.values)
         for val in self.values:
-          res = res + "%f %f %d\n" % (val[0], val[1], self.aerotype)
+          res += "%f %f %d\n" % (val[0], val[1], self.aerotype)
         
         return res
       
