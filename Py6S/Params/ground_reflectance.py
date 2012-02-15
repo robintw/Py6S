@@ -190,6 +190,118 @@ class GroundReflectance:
 %f %f %f\n""" % (intensity, asymmetry_factor, structural_parameter)
 
     @classmethod
+    def HomogeneousIaquintaPinty(cls, leaf_dist, hot_spot, lai, hot_spot_param, leaf_reflec, leaf_trans, soil_albedo):
+      """Parameterisation for a surface BRDF based on the Iaquinta and Pinty model.
+      
+      The parameters are:
+       - Leaf distribution (one of the GroundReflectance.LeafDistXXX constants)
+       - Hot spot setting (GroundReflectance.HotSpot or GroundReflectance.NoHotSpot)
+       - Leaf Area Index (1-15)
+       - Hot spot parameter 2*r*lambda (0-2)
+       - Leaf reflectance (0-0.99)
+       - Leaf transmittance (0-0.99)
+       - Soil albedo (0-0.99)
+      
+      Leaf reflectance + Leaf transmittance must be less than 0.99. If this is not the case, a ParameterException is raised.
+      
+      """
+      if leaf_reflec + leaf_trans > 0.99:
+        raise ParameterException("leaf_reflec", "Leaf reflectance + Leaf transmittance must be < 0.99")
+      
+      return """0 Homogeneous surface
+1 (directional effects)
+7 (Iaquinta and Pinty model)
+%d %d
+%d %d
+%d %d %d\n""" % (leaf_dist, hot_spot, lai, hot_spot_param, leaf_reflec, leaf_trans, soil_albedo)
+
+    LeafDistPlanophile = 1
+    LeafDistErectophile = 2
+    LeafDistPlagiophile = 3
+    LeafDistExtremophile = 4
+    LeafDistUniform = 5
+    
+    NoHotSpot = 1
+    HotSpot = 2
+
+    @classmethod
+    def HomogeneousVerstaeteEtAl(cls, kappa_param, phase_funct, scattering_type, leaf_area_density, sun_flecks_radius, ssa, legendre_first, legendre_second, k1, k2, asym_factor, chil):
+      """Parameterisation for a surface BRDF based on the Verstraete, Pinty and Dickinson model.
+      
+      The parameters are:
+       - The type of Kappa parameterisation (one of the GroundReflectance.KappaXXX constants)
+       - The phase function to use (one of the GroundReflectance.PhaseXXX constants)
+       - The scattering type to use (either GroundReflectance.SingleScatteringOnly or GroundReflectance.DickinsonMultipleScattering)
+       - Leaf area density (m^2/m^-3)
+       - Radius of the sun flecks on the scatterer (m)
+       - Single Scattering Albedo (0-1)
+       - First coefficient of Legendre polynomial (Only used if phase function is not GroundReflectance.PhaseIsotropic, set to None otherwise)
+       - Second coefficient of Legendre polynomial (Only used if phase function is not GroundReflectance.PhaseIsotropic, set to None otherwise)
+       - Kappa value k1 (Only used if Kappa parameterisation was GroundReflectance.KappaGivenValues, set to None otherwise)
+       - Kappa value k2 (Only used if Kappa parameterisation was GroundReflectance.KappaGivenValues, set to None otherwise)
+       - Asymmetry factor for Heyney-Greenstein parameterisation (Only used if Phase function is set to GroundReflectance.PhaseHeyneyGreenstein, set to None otherwise)
+       - Goudriaan's chil parameter (Only used if Kappa parameterisation was NOT GroundReflectance.KappaGivenValues, set to None otherwise)
+      """
+      header = """0 Homogeneous surface
+1 (directional effects)
+2 (Verstraete Pinty Dickinson model\n"""
+
+      params_line = "%d %d %d\n" % (kappa_param, phase_funct, scattering_type)
+      
+      if kappa_param == KappaGivenValues:
+        middle_line = "%f %f %f %f\n" % (leaf_area_density, sun_flecks_radius, k1, k2)
+      else:
+        middle_line = "%f %f %f\n" % (leaf_area_density, sun_flecks_radius, chil)
+      
+      if phase_funct == PhaseIsotropic:
+        last_line = ""
+      elif phase_funct == PhaseHeyneyGreenstein:
+        last_line = "%f" % (asym_factor)
+      else:
+        last_line == "%f %f\n" % (legendre_first, legendre_second)
+      
+      return header + params_line + middle_line + last_line
+
+      
+    
+    KappaGivenValues = 0
+    KappaGoudriaan = 1
+    KappaDickinson = 2
+    
+    PhaseIsotropic = 0
+    PhaseHeyneyGreenstein = 1
+    PhaseLegendre = 2
+    
+    SingleScatteringOnly = 0
+    DickinsonMultipleScattering = 1
+    
+    @classmethod
+    def HomogeneousKuuskMultispectralCR(cls, lai, lad_eps, lad_thm, relative_leaf_size, chlorophyll_content, leaf_water_equiv_thickness, effective_num_layers, ratio_refractive_indices, weight_first_price_function):
+      """Parameterisation for a surface BRDF based on Kuusk's multispectral CR model.
+      
+      The Parameters are:
+       - Leaf Area Index (0.1-10)
+       - LAD eps (0.0-0.9)
+       - LAD thm (0.0-90.0)
+       - Relative leaf size (0.01-1.0)
+       - Chlorophyll content (ug/cm^2, 0-30)
+       - Leaf water equivalent thickness (0.01-0.03)
+       - Effective number of elementary layers inside a leaf (1-225)
+       - Ratio of refractive indices of the leaf surface wax and internal material (0-1.0)
+       - Weight of the 1st Price function for the soil reflectance (0.1-0.8)
+      
+      """
+      header = """0 Homogeneous surface
+1 (directional effects)
+9 (Kuusk's multispectral CR model)\n"""
+
+      middle = "%f %f %f %f\n" % (lai, lad_eps, lad_thm, relative_leaf_size)
+      
+      bottom = "%f %f %f %f %f\n" % (chlorophyll_content, leaf_water_equiv_thickness, effective_num_layers, ratio_refractive_indices, weight_first_price_function)
+      
+      return header + middle + bottom
+    
+    @classmethod
     def GetTargetTypeAndValues(cls, target):
         # If it's iterable then it's a list (or tuple), so a spectrum has been given
         if isinstance(target, collections.Iterable):
