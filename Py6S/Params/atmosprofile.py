@@ -1,4 +1,4 @@
-from sixs_exceptions import *
+#from sixs_exceptions import *
 
 class AtmosProfile:
     """Stores a enumeration for the pre-specified atmospheric model types"""

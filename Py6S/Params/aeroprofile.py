@@ -1,5 +1,5 @@
 from collections import defaultdict
-from sixs_exceptions import *
+#from sixs_exceptions import *
 
 
 class AeroProfile:

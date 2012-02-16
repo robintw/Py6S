@@ -1,4 +1,4 @@
-from sixs_exceptions import *
+#from sixs_exceptions import *
 import collections
 
 class GroundReflectance:

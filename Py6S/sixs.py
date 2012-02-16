@@ -93,11 +93,6 @@ class SixS(object):
         self.aot550 = 0.5
         self.visibility = None
         
-        self.aero_dustlike = 0
-        self.aero_water = 0
-        self.aero_oceanic = 0
-        self.aero_soot = 0
-        
         self.atmos_corr = AtmosCorr.NoAtmosCorr()
     
     def find_path(self, path=None):
