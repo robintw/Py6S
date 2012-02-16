@@ -55,7 +55,7 @@ class Outputs(object):
             # If not, then split it by .'s 
             items = name.split("_")
             if items[0] == "transmittance":
-              return self.trans[items[1]]
+              return self.trans["_".join(items[1:])]
             else:
               raise OutputParsingError("The specifed output variable does not exist.")
         
