@@ -41,10 +41,6 @@ class Outputs(object):
         
         self.fulltext = stdout
         
-        f = open("Output.txt", "w")
-        f.write(self.fulltext)
-        f.close()
-        
         self.extract_results()
         
     def __getattr__(self, name):
