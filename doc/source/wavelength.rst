@@ -1,3 +1,9 @@
+AeroProfile
+================================
+
+.. autoclass:: Py6S.AeroProfile
+  :members:
+
 Wavelength
 ================================
 

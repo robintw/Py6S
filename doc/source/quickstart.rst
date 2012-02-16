@@ -79,12 +79,29 @@ That's it for the quick guide to setting parameters - more details, particularly
 
 Accessing outputs
 -----------------
-In general, the outputs from the 6S model are available under the ``s.outputs`` attribute. The outputs are actually stored as dictionaries, and the whole set of outputs can be printed (and saved) from the ``s.outputs.values`` and ``s.outputs.trans`` attributes. For example::
+The outputs from the 6S model are available under the ``s.outputs`` attribute. The outputs are actually stored as dictionaries, and the main set of outputs can be printed (and saved) from the ``s.outputs.values`` attribute. For example::
 
   from Py6S import *
   s = SixS()
   s.run()
   print s.outputs.values
-  print s.outputs.trans
   
-However, it's normally more useful to access individual outputs, and this is done by appending the output name to ``s.outputs.``. For example, ``s.outputs.pixel_radiance`` or ``s.outputs.percent_environmental_irradiance``.
+However, it's normally more useful to access individual outputs. This can be done using the standard Python dictionary access methods - for example, ``print s.outputs.values['pixel_radiance']``, but it is generally easy to do this by appending the output name to ``s.outputs.``. For example::
+
+  from Py6S import *
+  s = SixS()
+  s.run()
+  print s.outputs.pixel_radiance
+  print s.outputs.environmental_irradiance
+  print s.outputs.total_gaseous_transmittance
+
+The outputs stored under ``s.outputs.values`` are the main outputs of 6S provided on the first two 'screenfulls' of raw 6S output. The tables showing the integrated values of various transmittances (rayleigh, water, ozone etc) are stored under the ``s.outputs.trans`` dictionary as instances of the :class:`Transmittance` class. This allows the easy storage of the three different transmittances: downward, upward and total. Again, rather than dealing with the dictionary directly, courtesy methods are provided, for example::
+
+  from Py6S import *
+  s = SixS()
+  s.run()
+  print s.outputs.transmittance_rayleigh_scattering
+  print s.outputs.transmittance_rayleigh_scattering.downward
+  print s.outputs.transmittance_rayleigh_scattering.upward
+  print s.outputs.transmittance_rayleigh_scattering.total
+  print s.outputs.transmittance_water
