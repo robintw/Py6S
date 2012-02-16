@@ -58,7 +58,13 @@ class Outputs(object):
               return self.trans["_".join(items[1:])]
             else:
               raise OutputParsingError("The specifed output variable does not exist.")
-        
+    
+    def __dir__(self):
+      trans_keys = ["transmittance_" + key for key in self.trans.keys()]
+      
+      all_keys = self.values.keys() + trans_keys
+      return sorted(all_keys)
+              
     def extract_results(self):
         """Extract the results from the text output of the model and place them in the values dictionary"""
         
