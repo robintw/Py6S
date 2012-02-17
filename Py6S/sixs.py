@@ -78,8 +78,7 @@ class SixS(object):
         
         self.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.3)
         
-        self.geometry = GeometryUser()
-        self.geometry.solar_z = 32
+        self.geometry = Geometry.User()
         self.geometry.solar_z = 32
         self.geometry.solar_a = 264
         self.geometry.view_z = 23
