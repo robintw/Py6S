@@ -1,7 +1,13 @@
 Quick Start
 ================================
 
-Now you've installed Py6S, this section will give you a brief guide on how to use it.
+Now that you've installed Py6S, this section will give you a brief guide on how to use it.
+
+A note on IPython
+-----------------
+IPython is an interactive Python shell that has many more features than the standard Python shell. The most useful of these is tab-completion, which will provide significant help in learning how to use Py6S. I would suggest that you run all of the examples below in IPython. If you type part of an identifier - for example, s.a and press TAB you will see all of the possible completions. This works for all parts of Py6S, including the output values.
+
+It is also very easy to get help on individual parts of Py6S from within IPython. Simply type the name of the class/method/function and append a ? to it - for example ``AeroProfile.MultimodalLogNormal?``. The documentation which is shown will describe the parameters required and give an example of usage.
 
 A first run
 -----------

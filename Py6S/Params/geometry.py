@@ -2,12 +2,13 @@ class GeometryUser:
   """Stores parameters for a user-defined geometry for 6S.
   
   Attributes:
-  solar_z -- Solar zenith angle
-  solar_a -- Solar azimuth angle
-  view_z -- View zenith angle
-  view_a -- View azimuth angle
-  day -- The day the image was acquired in (1-31)
-  month -- The month the image was acquired in (0-12)
+  
+   * ``solar_z`` -- Solar zenith angle
+   * ``solar_a`` -- Solar azimuth angle
+   * ``view_z`` -- View zenith angle
+   * ``view_a`` -- View azimuth angle
+   * ``day`` -- The day the image was acquired in (1-31)
+   * ``month`` -- The month the image was acquired in (0-12)
   
   """
   
@@ -25,11 +26,12 @@ class GeometryMeteosat:
   """Stores parameters for a Meteosat geometry for 6S.
   
   Attributes:
-  month -- The month the image was acquired in (0-12)
-  day -- The day the image was acquired in (1-31)
-  gmt_decimal_hour -- The time in GMT, as a decimal, in hours (eg. 7.5 for 7:30am)
-  column -- The Meteosat column of the image
-  line -- The Meteosat line of the image
+  
+    * ``month`` -- The month the image was acquired in (0-12)
+    * ``day`` -- The day the image was acquired in (1-31)
+    * ``gmt_decimal_hour`` -- The time in GMT, as a decimal, in hours (eg. 7.5 for 7:30am)
+    * ``column`` -- The Meteosat column of the image
+    * ``line`` -- The Meteosat line of the image
   
   """
   
@@ -47,11 +49,12 @@ class GeometryGoesEast:
   """Stores parameters for a GOES East geometry for 6S.
   
   Attributes:
-  month -- The month the image was acquired in (0-12)
-  day -- The day the image was acquired in (1-31)
-  gmt_decimal_hour -- The time in GMT, as a decimal, in hours (eg. 7.5 for 7:30am)
-  column -- The GOES East column of the image
-  line -- The GOES East line of the image
+  
+   * ``month`` -- The month the image was acquired in (0-12)
+   * ``day`` -- The day the image was acquired in (1-31)
+   * ``gmt_decimal_hour`` -- The time in GMT, as a decimal, in hours (eg. 7.5 for 7:30am)
+   * ``column`` -- The GOES East column of the image
+   * ``line`` -- The GOES East line of the image
   
   """
   month = 1
@@ -68,11 +71,12 @@ class GeometryGoesWest:
   """Stores parameters for a GOES West geometry for 6S.
   
   Attributes:
-  month -- The month the image was acquired in (0-12)
-  day -- The day the image was acquired in (1-31)
-  gmt_decimal_hour -- The time in GMT, as a decimal, in hours (eg. 7.5 for 7:30am)
-  column -- The GOES West column of the image
-  line -- The GOES West line of the image
+  
+   * ``month`` -- The month the image was acquired in (0-12)
+   * ``day`` -- The day the image was acquired in (1-31)
+   * ``gmt_decimal_hour`` -- The time in GMT, as a decimal, in hours (eg. 7.5 for 7:30am)
+   * ``column`` -- The GOES West column of the image
+   * ``line`` -- The GOES West line of the image
   
   """
   month = 1
@@ -88,11 +92,12 @@ class GeometryAVHRR_PM:
   """Stores parameters for a AVHRR afternoon pass geometry for 6S.
   
   Attributes:
-  month -- The month the image was acquired in (0-12)
-  day -- The day the image was acquired in (1-31)
-  column -- The AVHRR column of the image
-  ascendant_node_longitude -- The longitude of the ascendant node of the image
-  ascendant_node_hour -- The hour of the ascendant node of the image
+  
+   * ``month`` -- The month the image was acquired in (0-12)
+   * ``day`` -- The day the image was acquired in (1-31)
+   * ``column`` -- The AVHRR column of the image
+   * ``ascendant_node_longitude`` -- The longitude of the ascendant node of the image
+   * ``ascendant_node_hour`` -- The hour of the ascendant node of the image
   
   """
   month = 1
@@ -109,11 +114,12 @@ class GeometryAVHRR_AM:
   """Stores parameters for a AVHRR morning pass geometry for 6S.
   
   Attributes:
-  month -- The month the image was acquired in (0-12)
-  day -- The day the image was acquired in (1-31)
-  column -- The AVHRR column of the image
-  ascendant_node_longitude -- The longitude of the ascendant node of the image
-  ascendant_node_hour -- The hour of the ascendant node of the image
+  
+   * ``month`` -- The month the image was acquired in (0-12)
+   * ``day`` -- The day the image was acquired in (1-31)
+   * ``column`` -- The AVHRR column of the image
+   * ``ascendant_node_longitude`` -- The longitude of the ascendant node of the image
+   * ``ascendant_node_hour`` -- The hour of the ascendant node of the image
   
   """
   month = 1
@@ -130,11 +136,12 @@ class GeometrySPOT_HRV:
   """Stores parameters for a SPOT HRV geometry for 6S.
   
   Attributes:
-  month -- The month the image was acquired in (0-12)
-  day -- The day the image was acquired in (1-31)
-  gmt_decimal_hour -- The time in GMT, as a decimal, in hours (eg. 7.5 for 7:30am)
-  latitude -- The latitude of the centre of the image
-  longitude -- The longitude of the centre of the image
+  
+   * ``month`` -- The month the image was acquired in (0-12)
+   * ``day`` -- The day the image was acquired in (1-31)
+   * ``gmt_decimal_hour`` -- The time in GMT, as a decimal, in hours (eg. 7.5 for 7:30am)
+   * ``latitude`` -- The latitude of the centre of the image
+   * ``longitude`` -- The longitude of the centre of the image
   
   """
   month = 1
@@ -150,11 +157,12 @@ class GeometryLandsat_TM:
   """Stores parameters for a Landsat TM geometry for 6S.
   
   Attributes:
-  month -- The month the image was acquired in (0-12)
-  day -- The day the image was acquired in (1-31)
-  gmt_decimal_hour -- The time in GMT, as a decimal, in hours (eg. 7.5 for 7:30am)
-  latitude -- The latitude of the centre of the image
-  longitude -- The longitude of the centre of the image
+  
+   * ``month`` -- The month the image was acquired in (0-12)
+   * ``day`` -- The day the image was acquired in (1-31)
+   * ``gmt_decimal_hour`` -- The time in GMT, as a decimal, in hours (eg. 7.5 for 7:30am)
+   * ``latitude`` -- The latitude of the centre of the image
+   * ``longitude`` -- The longitude of the centre of the image
   
   """
   month = 1

@@ -14,7 +14,10 @@ Contents:
    introduction
    installation
    quickstart
-   wavelength
+   sixs
+   outputs
+   params
+   
   
 Indices and tables
 ==================

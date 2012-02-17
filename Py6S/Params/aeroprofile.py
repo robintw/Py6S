@@ -18,10 +18,12 @@ class AeroProfile:
       """Set 6S to use a predefined aerosol type, one of the constants defined in this class.
       
       Arguments:
-      type -- the predefined aerosol type, one of the constants defined in this class
       
-      Example usage:
-      s.aeroprofile = AeroProfile.PredefinedType(AeroProfile.Urban)
+      * ``type`` -- the predefined aerosol type, one of the constants defined in this class
+      
+      Example usage::
+      
+        s.aeroprofile = AeroProfile.PredefinedType(AeroProfile.Urban)
       
       """
       return "%d" % type
@@ -35,15 +37,16 @@ class AeroProfile:
         ParameterError will be raised.
         
         Optional keywords:
-        dust -- The proportion of dust-like aerosols
-        water -- The proportion of water-like aerosols
-        oceanic -- The proportion of oceanic aerosols
-        soot -- The proportion of soot-like aerosols
         
-        Example usage:
-        s.aeroprofile = AeroProfile.User(dust=0.3, oceanic=0.7)
+        * ``dust`` -- The proportion of dust-like aerosols
+        * ``water`` -- The proportion of water-like aerosols
+        * ``oceanic`` -- The proportion of oceanic aerosols
+        * ``soot`` -- The proportion of soot-like aerosols
         
-        s.aeroprofile = AeroProfile.User(soot = 0.1, water = 0.3, oceanic = 0.05, dust = 0.55)
+        Example usage::
+        
+          s.aeroprofile = AeroProfile.User(dust=0.3, oceanic=0.7)
+          s.aeroprofile = AeroProfile.User(soot = 0.1, water = 0.3, oceanic = 0.05, dust = 0.55)
         
         """
         d = defaultdict(lambda: 0, kwargs)
@@ -63,15 +66,17 @@ class AeroProfile:
       """Set 6S to use a Multimodal Log-Normal distribution.
       
       Arguments:
-      rmin -- The minimum aerosol radius
-      rmax -- The maximum aerosol radius
       
-      This returns an AerosolDistribution object. Components can then be added to this distribution using the add_component
+      * ``rmin`` -- The minimum aerosol radius
+      * ``rmax`` -- The maximum aerosol radius
+      
+      This returns an :class:`.AerosolDistribution` object. Components can then be added to this distribution using the :meth:`.add_component`
       method of the returned class.
       
-      Example usage:
-      s.aeroprofile = AeroProfile.MultimodalLogNormalDistribution(0.3, 0.1)
-      s.aeroprofile.add_component(...)
+      Example usage::
+      
+        s.aeroprofile = AeroProfile.MultimodalLogNormalDistribution(0.3, 0.1)
+        s.aeroprofile.add_component(...)
       
       """
       return AerosolDistribution(rmin, rmax, 8)
@@ -81,15 +86,17 @@ class AeroProfile:
       """Set 6S to use a Modified Gamma distribution.
       
       Arguments:
-      rmin -- The minimum aerosol radius
-      rmax -- The maximum aerosol radius
       
-      This returns an AerosolDistribution object. Components can then be added to this distribution using the add_component
+      * ``rmin`` -- The minimum aerosol radius
+      * ``rmax`` -- The maximum aerosol radius
+      
+      This returns an :class:`.AerosolDistribution` object. Components can then be added to this distribution using the :meth:`.add_component`
       method of the returned class.
       
-      Example usage:
-      s.aeroprofile = AeroProfile.ModifiedGammaDistribution(0.3, 0.1)
-      s.aeroprofile.add_component(...)
+      Example usage::
+      
+        s.aeroprofile = AeroProfile.ModifiedGammaDistribution(0.3, 0.1)
+        s.aeroprofile.add_component(...)
       
       """
       return AerosolDistribution(rmin, rmax, 9)
@@ -99,10 +106,11 @@ class AeroProfile:
       """Set 6S to use a Junge Power Law distribution.
       
       Arguments:
-      rmin -- The minimum aerosol radius
-      rmax -- The maximum aerosol radius
       
-      This returns an AerosolDistribution object. Components can then be added to this distribution using the add_component
+      * ``rmin`` -- The minimum aerosol radius
+      * ``rmax`` -- The maximum aerosol radius
+      
+      This returns an :class:`.AerosolDistribution` object. Components can then be added to this distribution using the :meth:`.add_component`
       method of the returned class.
       
       Example usage:
@@ -121,10 +129,11 @@ class AeroProfile:
       0.860, 1.240, 1.536, 1.650, 1.950, 2.250, 3.750
       
       Arguments:
-      r -- A list of radius measurements from a sun photometer (microns)
-      dvdlogr -- A list of dV/d(logr) measurements from a sun photometer, for the radiuses as above (cm^3/cm^2/micron)
-      refr_real -- The real part of the refractive indices for each of the 20 wavelengths (above)
-      refr_imag -- The imaginary part of the refractive indices for each of the 20 wavelengths (above)
+      
+      * ``r`` -- A list of radius measurements from a sun photometer (microns)
+      * ``dvdlogr`` -- A list of dV/d(logr) measurements from a sun photometer, for the radiuses as above (cm^3/cm^2/micron)
+      * ``refr_real`` -- The real part of the refractive indices for each of the 20 wavelengths (above)
+      * ``refr_imag`` -- The imaginary part of the refractive indices for each of the 20 wavelengths (above)
       
       """
       header = "11 (Sun Photometric Distribution)\n"
@@ -159,9 +168,10 @@ class AeroProfile:
       """Stores data regarding a specific Aerosol Distribution.
       
       Used by the following methods:
-      MultimodalLogNormalDistribution
-      ModifiedGammaDistribution
-      JungePowerLawDistribution
+      
+      * :meth:`.MultimodalLogNormalDistribution`
+      * :meth:`.ModifiedGammaDistribution`
+      * :meth:`.JungePowerLawDistribution`
       
       """
       numtype = 0
@@ -175,9 +185,10 @@ class AeroProfile:
         Should not be called directly - use one of the methods like AeroProfile.MultimodalLogNormalDistribution() instead.
         
         Arguments:
-        rmin -- The minimum aerosol radius
-        rmax -- The maximum aerosol radius
-        numtype -- The type of aerosol distribution (eg. 8 for Multimodal Log Normal)
+        
+        * ``rmin`` -- The minimum aerosol radius
+        * ``rmax`` -- The maximum aerosol radius
+        * ``numtype`` -- The type of aerosol distribution (eg. 8 for Multimodal Log Normal)
         
         """
         self.rmin = rmin
@@ -193,11 +204,12 @@ class AeroProfile:
       
         
         Arguments:
-        rmean -- The mean radius of the aerosols
-        sigma -- Sigma, as defined by the distribution (Log Normal etc)
-        percentage_density -- The percentage density of the aerosol
-        refr_real -- A 20-element iterable giving the real part of the refractive indices at the specified wavelengths (see above)
-        refr_imag -- A 20-element iterable giving the imaginary part of the refractive indices at the specified wavelengths (see above)
+        
+        * ``rmean`` -- The mean radius of the aerosols
+        * ``sigma`` -- Sigma, as defined by the distribution (Log Normal etc)
+        * ``percentage_density`` -- The percentage density of the aerosol
+        * ``refr_real`` -- A 20-element iterable giving the real part of the refractive indices at the specified wavelengths (see above)
+        * ``refr_imag`` -- A 20-element iterable giving the imaginary part of the refractive indices at the specified wavelengths (see above)
         
         """
         if len(self.values) >= 4:
@@ -226,16 +238,19 @@ class AeroProfile:
       """Set 6S to use a user-defined aerosol profile, with differing AOTs over the height of the profile.
       
       Arguments:
-      atype --  Aerosol type to be used for all layers. Must be one of the pre-defined types defined in this class.
+      
+      * ``atype`` --  Aerosol type to be used for all layers. Must be one of the pre-defined types defined in this class.
       
       Methods:
-      add_layer -- Adds a layer to the user-defined aerosol profile, with the specified height and aerosol optical thickness.
       
-      Example usage:
-      s.aeroprofile = AeroProfile.UserProfile(AeroProfile.Maritime)
-      s.aeroprofile.add_layer(5, 0.34) # Add a 5km-thick layer with an AOT of 0.34
-      s.aeroprofile.add_layer(10, 0.7) # Add a 10km-thick layer with an AOT of 0.7
-      s.aeroprofile.add_layer(100, 0.01) # Add a 100km-thick layer with an AOT of 0.01
+      * :meth:`.add_layer` -- Adds a layer to the user-defined aerosol profile, with the specified height and aerosol optical thickness.
+      
+      Example usage::
+      
+        s.aeroprofile = AeroProfile.UserProfile(AeroProfile.Maritime)
+        s.aeroprofile.add_layer(5, 0.34) # Add a 5km-thick layer with an AOT of 0.34
+        s.aeroprofile.add_layer(10, 0.7) # Add a 10km-thick layer with an AOT of 0.7
+        s.aeroprofile.add_layer(100, 0.01) # Add a 100km-thick layer with an AOT of 0.01
       
       """
       values = []
@@ -245,7 +260,8 @@ class AeroProfile:
         """Initialises the user-defined aerosol profile to a specific aerosol type.
         
         Arguments:
-        atype --  Aerosol type to be used for all layers. Must be one of the pre-defined types defined in this class.
+        
+        * ``atype`` --  Aerosol type to be used for all layers. Must be one of the pre-defined types defined in this class.
         
         """
         self.aerotype = atype
@@ -254,11 +270,13 @@ class AeroProfile:
         """Adds a layer to the user-defined profile.
         
         Arguments:
-        height - Height of the layer (in km)
-        optical_thickness - Optical thickness of the layer
         
-        Example usage:
-        s.aeroprofile.add_layer(5, 0.34) # Add a 5km-thick layer with an AOT of 0.34
+        * ``height`` - Height of the layer (in km)
+        *~ ``optical_thickness`` - Optical thickness of the layer
+        
+        Example usage::
+        
+          s.aeroprofile.add_layer(5, 0.34) # Add a 5km-thick layer with an AOT of 0.34
         """
         self.values.append((height, optical_thickness))
       

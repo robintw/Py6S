@@ -7,13 +7,16 @@ class Outputs(object):
     !!! Mention attribute accessing
     
     Attributes:
-    fulltext -- The full output of the 6S executable. This can be written to a file with the write_output_file method.
+    
+     * ``fulltext`` -- The full output of the 6S executable. This can be written to a file with the write_output_file method.
+     * ``values`` -- The main outputs from the 6S run, stored in a dictionary. Accessible either via standard dictionary notation (``s.outputs.values['pixel_radiance']``) or as attributes (``s.outputs.pixel_radiance``)
     
     Methods:
-    __init__ -- Constructor which takes the stdout and stderr from the model and processes it into the numerical outputs.
-    extract_results -- Function called by the constructor to parse the output into individual variables
-    to_int -- Convert a string to an int, so that it works even if passed a float.
-    write_output_file -- Write the full textual output of the 6S model to a file.
+    
+     * ``__init__`` -- Constructor which takes the stdout and stderr from the model and processes it into the numerical outputs.
+     * ``extract_results`` -- Function called by the constructor to parse the output into individual variables
+     * ``to_int`` -- Convert a string to an int, so that it works even if passed a float.
+     * ``write_output_file`` -- Write the full textual output of the 6S model to a file.
     
     """
     # Stores the full textual output from 6S
@@ -27,10 +30,10 @@ class Outputs(object):
         it into the numerical outputs.
         
         Arguments:
-        stdout -- Standard output from the model run
-        stderr -- Standard error from the model run
+         * ``stdout`` -- Standard output from the model run
+         * ``stderr`` -- Standard error from the model run
         
-        Will raise an OutputParsingError if the output cannot be parsed for any reason.
+        Will raise an :class:`.OutputParsingError` if the output cannot be parsed for any reason.
         
         """
         
@@ -49,7 +52,7 @@ class Outputs(object):
         
     def __getattr__(self, name):
         """Executed when an attribute is referenced and not found. This method is overridden
-        to allow the user to access the outputs as output.variable rather than using the dictionary
+        to allow the user to access the outputs as ``outputs.variable`` rather than using the dictionary
         explicity"""
         
         # If there is a key with this name in the standard variables field then use it
@@ -64,13 +67,14 @@ class Outputs(object):
               raise OutputParsingError("The specifed output variable does not exist.")
     
     def __dir__(self):
+      # Returns list of the attributes that I want to tab-complete on that aren't actually attributes, for IPython
       trans_keys = ["transmittance_" + key for key in self.trans.keys()]
       
       all_keys = self.values.keys() + trans_keys
       return sorted(all_keys)
               
     def extract_results(self):
-        """Extract the results from the text output of the model and place them in the values dictionary"""
+        """Extract the results from the text output of the model and place them in the ``values`` dictionary."""
         
         # Remove all of the *'s from the text as they just make it look pretty
         # and get in the way of analysing the output
@@ -165,8 +169,6 @@ class Outputs(object):
                             'aeros. sca.   "    :' : "aerosol_scattering",
                             'total  sca.   "    :' : "total_scattering"}
         
-        
-        
         for index in range(len(lines)):
             current_line = lines[index]
             for search, name in grid_extractors.iteritems():
@@ -179,6 +181,8 @@ class Outputs(object):
                   values.total = float(items[6])
                   
                   self.trans[name] = values
+                  
+          
         # Process big grid in the middle of the output for transmittances
         bottom_grid_extractors = { 'spherical albedo   :' : "spherical_albedo",
                                    'optical depth total:' : "optical_depth_total"}
@@ -206,7 +210,7 @@ class Outputs(object):
         converting "5.00" to an integer will actually work.
         
         Arguments:
-        str -- The string containing the number to convert to an integer
+         * ``str`` -- The string containing the number to convert to an integer
         
         """
         return int(float(str))
@@ -215,7 +219,7 @@ class Outputs(object):
         """Writes the full textual output of the 6S model run to the specified filename.
         
         Arguments:
-        filename -- The filename to write the output to
+         * ``filename`` -- The filename to write the output to
         
         """
         with open(filename, 'w') as f:
@@ -226,9 +230,9 @@ class Transmittance(object):
   """Stores transmittance values from the 6S output.
   
   Basically a simple class storing three attributes:
-  downward -- Transmittance downwards
-  upward -- Transmittance upwards
-  total -- Total transmittance
+  * ``downward`` -- Transmittance downwards
+  * ``upward`` -- Transmittance upwards
+  * ``total`` -- Total transmittance
   
   """
   downward = float('nan')

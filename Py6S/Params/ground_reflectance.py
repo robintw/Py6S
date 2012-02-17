@@ -17,22 +17,13 @@ class GroundReflectance:
     
     These are combined to give function names like:
     
-    HomogeneousLambertian or HomogenousWalthall
+    :meth:`.HomogeneousLambertian` or :meth:`.HomogeneousWalthall`
         
-    The standard functions (HomogeneousLambertian and HeterogeneousLambertian) will decide what to do
-    based on the types of inputs they are given. For example, HomogeneousLambertian can be used as follows:
+    The standard functions (:meth:`.HomogeneousLambertian` and :meth:`.HeterogeneousLambertian`) will decide what to do based on the types of inputs they are given::
     
-    model.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.7)
-    
-    which will represent a spectrally-constant reflectance of 0.7
-    
-    model.ground_reflectance = GroundReflectance.HomogeneousLambertian(GroundReflectance.GreenVegetation)
-    
-    which will represent a built-in averaged green vegetation spectrum. Or
-    
-    model.ground_reflectance = GroundReflectance.HomogeneousLambertian([0.6, 0.8, 0.34, 0.453])
-    
-    which will represent a user-defined spectrum. This should be given in micrometers, with steps of 2.5nm.
+      model.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.7) # A spectrally-constant reflectance of 0.7    
+      model.ground_reflectance = GroundReflectance.HomogeneousLambertian(GroundReflectance.GreenVegetation) # A built-in green vegetation spectrum
+      model.ground_reflectance = GroundReflectance.HomogeneousLambertian([0.6, 0.8, 0.34, 0.453]) # A user-defined spectrum given in micrometers with steps of 2.5nm
     """
     
     GreenVegetation = -1
@@ -46,10 +37,9 @@ class GroundReflectance:
         """Provides parameterisation for homogeneous Lambertian (ie. uniform BRDF) surfaces.
         
         The single argument can be either:
-         - A single float value (for example, 0.634), in which case it is interpreted as a spectrally-constant
-         reflectance value.
-         - A constant defined by this class (one of GroundReflectance.GreenVegetation, GroundReflectance.ClearWater, GroundReflectance.Sand or GroundReflectance.LakeWater)
-         in which case a built-in spectrum of the specified material is used.
+        
+         - A single float value (for example, 0.634), in which case it is interpreted as a spectrally-constant reflectance value.
+         - A constant defined by this class (one of ``GroundReflectance.GreenVegetation``, ``GroundReflectance.ClearWater``, ``GroundReflectance.Sand`` or ``GroundReflectance.LakeWater``) in which case a built-in spectrum of the specified material is used.
          - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 0.25nm.
         
         """
@@ -66,15 +56,15 @@ class GroundReflectance:
         These surfaces are modelled in 6S as a circular target surrounded by an environment of a different reflectance.
         
         Arguments:
-        radius -- The radius of the target (in km)
-        ro_target -- The reflectance of the target
-        ro_env -- The reflectance of the environment
+        
+        * ``radius`` -- The radius of the target (in km)
+        * ``ro_target`` -- The reflectance of the target
+        * ``ro_env`` -- The reflectance of the environment
         
         Both of the reflectances can be set to any of the following:
-         - A single float value (for example, 0.634), in which case it is interpreted as a spectrally-constant
-         reflectance value.
-         - A constant defined by this class (one of GroundReflectance.GreenVegetation, GroundReflectance.ClearWater, GroundReflectance.Sand or GroundReflectance.LakeWater)
-         in which case a built-in spectrum of the specified material is used.
+        
+         - A single float value (for example, 0.634), in which case it is interpreted as a spectrally-constant reflectance value.
+         - A constant defined by this class (one of ``GroundReflectance.GreenVegetation``, ``GroundReflectance.ClearWater``, ``GroundReflectance.Sand`` or ``GroundReflectance.LakeWater``) in which case a built-in spectrum of the specified material is used.
          - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 0.25nm.
         """
         ro_target_type, ro_target_values = cls.GetTargetTypeAndValues(ro_target)
@@ -90,6 +80,7 @@ class GroundReflectance:
         """Parameterisation for a surface BRDF based on the Walthall et al. model.
         
         The parameters are:
+        
          - term in square ts*tv
          - term in square ts*ts+tv*tv
          - term in ts*tv*cos(phi) (limacon de pascal)
@@ -106,6 +97,7 @@ class GroundReflectance:
         """Parameterisation for a surface BRDF based on the Hapke model.
         
         The parameters are:
+        
          - albedo
          - assymetry parameter for the phase function
          - amplitude of hot spot
@@ -122,6 +114,7 @@ class GroundReflectance:
         """Parameterisation for a surface BRDF based on the Roujean et al. model.
         
         The parameters are:
+        
          - albedo
          - geometric parameter for hot spot effect
          - geometric parameter for hot spot effect
@@ -148,6 +141,7 @@ class GroundReflectance:
         """Parameterisation for a surface BRDF based on the MODIS Operational BRDF model.
         
         The parameters are:
+        
          - Weight for lambertian kernel
          - Weight for Ross Thick kernel
          - Weight for Li Spare kernel
@@ -163,6 +157,7 @@ class GroundReflectance:
         """Parameterisation for a surface BRDF based on the Ocean BRDF model.
         
         The parameters are:
+        
          - wind speed (in m/s)                      
          - azimuth of the wind (in degrees)       
          - salinity (in ppt) (set to 34.3ppt if < 0)
@@ -179,6 +174,7 @@ class GroundReflectance:
         """Parameterisation for a surface BRDF based on the Rahman BRDF model.
         
         The parameters are:
+        
          - Intensity of the reflectance of the surface (N/D value >= 0)
          - Asymmetry factor, N/D value between -1.0 and 1.0
          - Structural parameter of the medium 
@@ -194,15 +190,16 @@ class GroundReflectance:
       """Parameterisation for a surface BRDF based on the Iaquinta and Pinty model.
       
       The parameters are:
-       - Leaf distribution (one of the GroundReflectance.LeafDistXXX constants)
-       - Hot spot setting (GroundReflectance.HotSpot or GroundReflectance.NoHotSpot)
+      
+       - Leaf distribution (one of the ``GroundReflectance.LeafDistXXX`` constants)
+       - Hot spot setting (``GroundReflectance.HotSpot`` or ``GroundReflectance.NoHotSpot``)
        - Leaf Area Index (1-15)
        - Hot spot parameter 2*r*lambda (0-2)
        - Leaf reflectance (0-0.99)
        - Leaf transmittance (0-0.99)
        - Soil albedo (0-0.99)
       
-      Leaf reflectance + Leaf transmittance must be less than 0.99. If this is not the case, a ParameterException is raised.
+      Leaf reflectance + Leaf transmittance must be less than 0.99. If this is not the case, a :class:`.ParameterException` is raised.
       
       """
       if leaf_reflec + leaf_trans > 0.99:
@@ -229,18 +226,19 @@ class GroundReflectance:
       """Parameterisation for a surface BRDF based on the Verstraete, Pinty and Dickinson model.
       
       The parameters are:
-       - The type of Kappa parameterisation (one of the GroundReflectance.KappaXXX constants)
-       - The phase function to use (one of the GroundReflectance.PhaseXXX constants)
-       - The scattering type to use (either GroundReflectance.SingleScatteringOnly or GroundReflectance.DickinsonMultipleScattering)
+      
+       - The type of Kappa parameterisation (one of the ``GroundReflectance.KappaXXX`` constants)
+       - The phase function to use (one of the ``GroundReflectance.PhaseXXX`` constants)
+       - The scattering type to use (either ``GroundReflectance.SingleScatteringOnly`` or ``GroundReflectance.DickinsonMultipleScattering``)
        - Leaf area density (m^2/m^-3)
        - Radius of the sun flecks on the scatterer (m)
        - Single Scattering Albedo (0-1)
-       - First coefficient of Legendre polynomial (Only used if phase function is not GroundReflectance.PhaseIsotropic, set to None otherwise)
-       - Second coefficient of Legendre polynomial (Only used if phase function is not GroundReflectance.PhaseIsotropic, set to None otherwise)
-       - Kappa value k1 (Only used if Kappa parameterisation was GroundReflectance.KappaGivenValues, set to None otherwise)
-       - Kappa value k2 (Only used if Kappa parameterisation was GroundReflectance.KappaGivenValues, set to None otherwise)
-       - Asymmetry factor for Heyney-Greenstein parameterisation (Only used if Phase function is set to GroundReflectance.PhaseHeyneyGreenstein, set to None otherwise)
-       - Goudriaan's chil parameter (Only used if Kappa parameterisation was NOT GroundReflectance.KappaGivenValues, set to None otherwise)
+       - First coefficient of Legendre polynomial (Only used if phase function is not ``GroundReflectance.PhaseIsotropic``, set to ``None`` otherwise)
+       - Second coefficient of Legendre polynomial (Only used if phase function is not ``GroundReflectance.PhaseIsotropic``, set to ``None`` otherwise)
+       - Kappa value k1 (Only used if Kappa parameterisation was ``GroundReflectance.KappaGivenValues``, set to ``None`` otherwise)
+       - Kappa value k2 (Only used if Kappa parameterisation was ``GroundReflectance.KappaGivenValues``, set to ``None`` otherwise)
+       - Asymmetry factor for Heyney-Greenstein parameterisation (Only used if Phase function is set to ``GroundReflectance.PhaseHeyneyGreenstein``, set to ``None`` otherwise)
+       - Goudriaan's chil parameter (Only used if Kappa parameterisation was NOT ``GroundReflectance.KappaGivenValues``, set to ``None`` otherwise)
       """
       header = """0 Homogeneous surface
 1 (directional effects)
@@ -280,6 +278,7 @@ class GroundReflectance:
       """Parameterisation for a surface BRDF based on Kuusk's multispectral CR model.
       
       The Parameters are:
+      
        - Leaf Area Index (0.1-10)
        - LAD eps (0.0-0.9)
        - LAD thm (0.0-90.0)
