@@ -64,13 +64,17 @@ class Outputs(object):
             if items[0] == "transmittance":
               return self.trans["_".join(items[1:])]
             else:
-              raise OutputParsingError("The specifed output variable does not exist.")
+              if self.rat.has_key(name):
+                return self.rat[name]
+              else:
+                raise OutputParsingError("The specifed output variable does not exist.")
     
     def __dir__(self):
       # Returns list of the attributes that I want to tab-complete on that aren't actually attributes, for IPython
       trans_keys = ["transmittance_" + key for key in self.trans.keys()]
+      rat_keys = self.rat.keys()
       
-      all_keys = self.values.keys() + trans_keys
+      all_keys = self.values.keys() + trans_keys + rat_keys
       return sorted(all_keys)
               
     def extract_results(self):
@@ -185,7 +189,20 @@ class Outputs(object):
           
         # Process big grid in the middle of the output for transmittances
         bottom_grid_extractors = { 'spherical albedo   :' : "spherical_albedo",
-                                   'optical depth total:' : "optical_depth_total"}
+                                   'optical depth total:' : "optical_depth_total",
+                                   'optical depth plane:' : "optical_depth_plane",
+                                   'reflectance I      :' : "reflectance_I",
+                                   'reflectance Q      :' : "reflectance_Q",
+                                   'reflectance U      :' : "reflectance_U",
+                                   'polarized reflect. :' : "polarized_reflectance",
+                                   #'degree of polar.   :' : "degree_of_polarization",
+                                   'dir. plane polar.  :' : "direction_of_plane_polarization",
+                                   'phase function I   :' : "phase_function_I",
+                                   'phase function Q   :' : "phase_function_Q",
+                                   'phase function U   :' : "phase_function_U",
+                                   'primary deg. of pol:' : "primary_degree_of_polarization",
+                                   'sing. scat. albedo :' : "single_scattering_albedo"
+                                  }
         
         for index in range(len(lines)):
             current_line = lines[index]
