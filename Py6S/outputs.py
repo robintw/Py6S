@@ -20,8 +20,7 @@ class Outputs(object):
     fulltext = ""
     
     # Stores the numerical values extracted from the textual output as a dictionary
-    values = {}
-    trans = {}
+
     
     def __init__(self, stdout, stderr):
         """Initialise the class with the stdout output from the model, and process
@@ -34,6 +33,11 @@ class Outputs(object):
         Will raise an OutputParsingError if the output cannot be parsed for any reason.
         
         """
+        
+        self.values = {}
+        self.trans = {}
+        self.rat = {}
+        
         if len(stderr) > 0:
             # Something on standard error - so there's been an error
             print stderr
