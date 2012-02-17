@@ -179,7 +179,23 @@ class Outputs(object):
                   values.total = float(items[6])
                   
                   self.trans[name] = values
+        # Process big grid in the middle of the output for transmittances
+        bottom_grid_extractors = { 'spherical albedo   :' : "spherical_albedo",
+                                   'optical depth total:' : "optical_depth_total"}
         
+        for index in range(len(lines)):
+            current_line = lines[index]
+            for search, name in bottom_grid_extractors.iteritems():
+                # If the label we're searching for is in the current line
+                if search in current_line:
+                  items = current_line.rsplit(None, 3)
+                  
+                  values = RayleighAerosolTotal()
+                  values.total = float(items[3])
+                  values.aerosol = float(items[2])
+                  values.rayleigh = float(items[1])
+                  
+                  self.rat[name] = values
         
 
         
