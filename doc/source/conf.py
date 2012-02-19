@@ -17,7 +17,7 @@ import sys, os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, "C:\_Work\Py6S\py6s")
-
+sys.path.insert(0, "/Users/robin/Documents/University/Py6S/py6s")
 # -- General configuration -----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.

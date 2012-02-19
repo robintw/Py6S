@@ -22,15 +22,8 @@ GroundReflectance
 
 Geometry
 --------
-.. autoclass:: Py6S.GeometryUser
+.. autoclass:: Py6S.Geometry
   :members:
-
-.. autoclass:: Py6S.GeometryMeteosat
-  :members:
-  
-.. autoclass:: Py6S.GeometryUser
-  :members:
-
   
 Wavelength
 ----------
