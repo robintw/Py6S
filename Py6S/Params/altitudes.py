@@ -13,11 +13,11 @@ class Altitudes:
     """Set the altitude of the target.
     
     Arguments:
-     * `alt` -- The altitude of the target, in km
+     * `altitude` -- The altitude of the target, in km
     
     """
     
-    self.target_alt_pres = -1 * alt
+    self.target_alt_pres = -1 * altitude
     
   def set_target_pressure(self, pressure):
     """Set the pressure of the target (a proxy for the height of the target).
