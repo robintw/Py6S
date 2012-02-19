@@ -16,10 +16,10 @@ class SixS(object):
     The parameters of the model are set as the attributes of this class, and the outputs are available as attributes under
     the output attribute.
     
-    !!! PUT EXAMPLE HERE
-    
     For a simple test to ensure that Py6S has found the correct executable for 6S simply
-    run the test method of this class: SixS.Test()
+    run the test method of this class::
+    
+      SixS.Test()
     
     Attributes:
     atmos_profile         The atmospheric profile to use. Should be set to the output of an AtmosProfile method.
@@ -50,12 +50,6 @@ class SixS(object):
                           Example:
                           s.atmos_corr = AtmosCorr.AtmosCorrLambertianFromReflectance(0.23)
                           
-                          
-    Methods:
-    run -- Runs the 6S model using the parameter values set as attributes (see above), and stores the outputs in the Outputs object.
-    test -- Runs a simple test of the Py6S system. This is a class method, so call as SixS.Test().
-    find_path -- Finds the 6S executable. This will look in sensible locations automatically, but can also be passed a specific path to the executable.
-    
     """
 
     # Stores the outputs from 6S as an instance of the Outputs class
@@ -86,6 +80,9 @@ class SixS(object):
         self.geometry.day = 14
         self.geometry.month = 7
         
+        self.altitudes = Altitudes()
+        self.altitudes.set_target_altitude(0.0)
+        self.altitudes.set_sensor_sea_level()
         
         self.wavelength = Wavelength.Wavelength(0.500)
         
@@ -144,8 +141,7 @@ class SixS(object):
             
     def create_elevation_lines(self):
         """Create the elevation lines for the input file"""
-        return """0 (target level)
-0 (sensor level)\n"""
+        return str(self.altitudes)
 
     def create_wavelength_lines(self):
         """Create the wavelength lines for the input file"""
