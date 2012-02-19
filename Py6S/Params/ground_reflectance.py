@@ -1,5 +1,6 @@
 #from sixs_exceptions import *
 import collections
+import StringIO
 
 class GroundReflectance:
     """Produces strings for the input file for a number of different ground reflectance scenarios.
@@ -300,6 +301,37 @@ class GroundReflectance:
       
       return header + middle + bottom
     
+    def HomogeneousUserDefined(observed_reflectance, albedo, ro_sun_at_thetas, ro_sun_at_thetav):
+      """Parameterisation for a user-defined surface BRDF.
+      
+      The parameters are:
+      
+       - `observed_reflectance` -- Observed reflectance in the geometry specified in the Geometry parameterisation
+       - `albedo` -- Surface spherical albedo
+       - `ro_sun_at_thetas` -- A reflectance table (described below) for the scenario when the sun is at theta_s
+      (the solar zenith angle specified in the Geometry parameterisation)
+       - `ro_sun_at_thetav` -- A reflectance table (described below) for the scenario when the sun is at theta_v
+      (the view zenith angle specified in the Geometry parameterisation)
+      
+      """
+      header = "0 Input user's defined model\n"
+      
+      top_table = _ArrayToString(ro_sun_at_thetas)
+      bottom_table = _ArrayToString(ro_sun_at_thetav)
+      
+      bottom = "%f %f\n" % (albedo, observed_reflectance)
+      
+      return header + top_table + bottom_table + bottom
+      
+    @classmethod  
+    def _ArrayToString(cls, array):
+      text = StringIO.StringIO()
+      np.savetxt(text, array, fmt="%.5f", delimiter=' ')
+      s = text.getvalue()
+      text.close()
+      return s
+      
+      
     @classmethod
     def _GetTargetTypeAndValues(cls, target):
         # If it's iterable then it's a list (or tuple), so a spectrum has been given
