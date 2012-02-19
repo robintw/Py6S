@@ -43,7 +43,7 @@ class GroundReflectance:
          - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 0.25nm.
         
         """
-        ro_type, ro_value = cls.GetTargetTypeAndValues(ro)        
+        ro_type, ro_value = cls._GetTargetTypeAndValues(ro)        
         return """0 Homogeneous surface
 0 No directional effects
 %s
@@ -67,8 +67,8 @@ class GroundReflectance:
          - A constant defined by this class (one of ``GroundReflectance.GreenVegetation``, ``GroundReflectance.ClearWater``, ``GroundReflectance.Sand`` or ``GroundReflectance.LakeWater``) in which case a built-in spectrum of the specified material is used.
          - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 0.25nm.
         """
-        ro_target_type, ro_target_values = cls.GetTargetTypeAndValues(ro_target)
-        ro_env_type, ro_env_values = cls.GetTargetTypeAndValues(ro_env)
+        ro_target_type, ro_target_values = cls._GetTargetTypeAndValues(ro_target)
+        ro_env_type, ro_env_values = cls._GetTargetTypeAndValues(ro_env)
 
         return """1 (Non homogeneous surface)
 %s %s %f (ro1 ro2 radius)
@@ -301,7 +301,7 @@ class GroundReflectance:
       return header + middle + bottom
     
     @classmethod
-    def GetTargetTypeAndValues(cls, target):
+    def _GetTargetTypeAndValues(cls, target):
         # If it's iterable then it's a list (or tuple), so a spectrum has been given
         if isinstance(target, collections.Iterable):
             target_type = "-1"
