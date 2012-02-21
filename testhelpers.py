@@ -2,8 +2,8 @@ from Py6S import *
 
 s = SixS()
 s.ground_reflectance = GroundReflectance.HomogeneousWalthall(0.48, 0.50, 2.95, 0.6)
-s.solar_z = 30
-s.solar_a = 0
+s.geometry.solar_z = 30
+s.geometry.solar_a = 0
 
 res = IOHelpers.all_angles(s)
 o = IOHelpers.extract_output(res, 'pixel_reflectance')
