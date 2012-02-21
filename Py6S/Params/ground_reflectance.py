@@ -314,7 +314,7 @@ class GroundReflectance:
       (the view zenith angle specified in the Geometry parameterisation)
       
       """
-      header = "0 Input user's defined model\n"
+      header = "0 Homogeneous surface\n1 (directional effects)\n0 Input user's defined model\n"
       
       top_table = _ArrayToString(ro_sun_at_thetas)
       bottom_table = _ArrayToString(ro_sun_at_thetav)
