@@ -102,6 +102,7 @@ def plot_polar_contour(values, azimuths, zeniths):
   values = values.reshape(len(azimuths), len(zeniths))
 
   r, theta = np.meshgrid(zeniths, np.radians(azimuths))
-  fig, ax = subplots(subplot_kw=dict(projection='northpolar'))
+  fig, ax = subplots(subplot_kw=dict(projection='polar'))
   ax.contourf(theta, r, values)
+  autumn()
   show()
