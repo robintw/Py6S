@@ -10,8 +10,8 @@ __all__ += Params.__all__
 from sixs import SixS
 from outputs import Outputs
 
-import IOHelpers
-__all__ += ["IOHelpers"]
+import SixSHelpers
+__all__ += ["SixSHelpers"]
 
-from IOHelpers import *
-__all__ += IOHelpers.__all__
+from SixSHelpers import *
+__all__ += SixSHelpers.__all__
