@@ -28,6 +28,16 @@ class Angles:
     return (results, azimuths, zeniths, s.geometry.solar_a, s.geometry.solar_z)  
   
   def extract_output(results, output_name):
+    """Extracts data for one particular SixS output from a list of SixS.Outputs instances.
+    
+    Basically just a wrapper around a list comprehension.
+    
+    Arguments:
+    
+     * `results` -- A list of :class:`SixS.Outputs` instances
+     * `output_name` -- The name of the output to extract. This should be a string containing whatever is put after the `s.outputs` when printing the output, for example `'pixel_reflectance'`.
+    
+    """
     results_output = [getattr(r, output_name) for r in results]
     
     return results_output
@@ -47,6 +57,29 @@ class Angles:
     return fig, ax
     
   def plot_polar_contour(values, azimuths, zeniths):
+    """Plot a polar contour plot, with 0 degrees at the North.
+    
+    Arguments:
+     
+     * `values` -- A list (or other iterable - eg. a NumPy array) of the values to plot on the contour plot (the `z` values)
+     * `azimuths` -- A list of azimuths (in degrees)
+     * `zeniths` -- A list of zeniths (that is, radii)
+    
+    The shapes of these lists are important, and are designed for a particular use case (but should be more generally useful).
+    The values list should be `len(azimuths) * len(zeniths)` long with data for the first azimuth for all the zeniths, then
+    the second azimuth for all the zeniths etc.
+    
+    This is designed to work nicely with data that is produced using a loop as follows:
+    
+    values = []
+    for azimuth in azimuths:
+      for zenith in zeniths:
+        # Do something and get a result
+        values.append(result)
+        
+    After that code the azimuths, zeniths and values lists will be ready to be passed into this function.
+    
+    """
     theta = np.radians(azimuths)
     zeniths = np.array(zeniths)
   
@@ -64,6 +97,26 @@ class Angles:
     return fig, ax, cax
     
   def run_and_plot_all_angles(s, solar_or_view, output_name, show_sun=True, na=36, nz=10):
+    """Runs Py6S for lots of angles to produce a polar contour plot.
+    
+    Arguments:
+    
+     * `s` -- A SixS instance configured with all of the parameters you want to run the simulation with
+     * `solar_or_view` -- Set to `'solar'` if you want to iterate over the solar zenith/azimuth angles or `'view'` if you want to iterate over the view zenith/azimuth angles
+     * `output_name` -- The name of the output from SixS to plot. This should be a string containing exactly what you would put after `s.outputs` to print the output. For example `pixel_reflectance`.
+     * `show_sun` -- (Optional) Whether to place a marker showing the location of the sun on the contour plot (defaults to True, has no effect when `solar_or_view` set to `'solar'`.)
+     * `na` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)
+     * `nz` -- (Optional) The number of zenith angles to iterate over to generate the data for the plot (defaults to 10, giving data every 10 degrees)
+    
+    For example::
+    
+    s = SixS()
+    s.ground_reflectance = GroundReflectance.HomogeneousWalthall(0.48, 0.50, 2.95, 0.6)
+    s.geometry.solar_z = 30
+    s.geometry.solar_a = 0
+    SixSHelpers.Angles.run_and_plot_all_angles(s, 'view', 'pixel_reflectance')
+    
+    """
     if solar_or_view == 'solar':
       show_sun = False
     
@@ -73,25 +126,31 @@ class Angles:
     return plot_res
     
   def run_principal_plane(s):
+    # Get the solar azimuth and zenith angles from the SixS instance
     sa = s.geometry.solar_a
     sz = s.geometry.solar_z
     
-    vz_for_sz = 90 - sz
+    ## Compute the angles in the principal plane
     
+    # Get the equivalent view zenith for the solar zenith angle
+    vz_for_sz = 90 - sz
+    # Get the solar azimuth on the opposite side for the other half of the principal plane
     opp_sa = (sa + 180) % 360
     
+    # Calculate the first side (the solar zenith angle side)
     first_side_z = np.arange(vz_for_sz, -5, -5)
     first_side_a = np.repeat(sa, len(first_side_z))
     
+    # Calculate the other side
     temp = first_side_z[:-1]
     second_side_z = temp[::-1] # Reverse array
     second_side_a = np.repeat(opp_sa, len(second_side_z))
     
+    # Join the two sides together
     all_zeniths = np.hstack((first_side_z, second_side_z))
     all_azimuths = np.hstack((first_side_a, second_side_a))
     
-    print all_zeniths
-    print all_azimuths
+    ## Iterate over these angles and get the results
     
     results = []
     
