@@ -5,6 +5,5 @@ s.ground_reflectance = GroundReflectance.HomogeneousWalthall(0.48, 0.50, 2.95, 0
 s.geometry.solar_z = 30
 s.geometry.solar_a = 0
 
-res = IOHelpers.all_angles(s)
-o = IOHelpers.extract_output(res, 'pixel_reflectance')
-IOHelpers.plot_all_angles(o)
+res = IOHelpers.run_all_angles(s)
+IOHelpers.plot_all_angles(res, "pixel_reflectance")
