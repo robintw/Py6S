@@ -2,7 +2,9 @@ import numpy as np
 from matplotlib.pyplot import *
 
 class Angles:
-  def run_all_angles(s, solar_or_view, na=36, nz=10):
+  
+  @classmethod
+  def run_all_angles(cls, s, solar_or_view, na=36, nz=10):
     #if not isinstance(s, GeometryUser):
     #  raise ParameterError("geometry", "To use the all_angles helper you must be using a user-specified geometry (ie. a GeometryUser instance)")
     
@@ -27,7 +29,8 @@ class Angles:
         
     return (results, azimuths, zeniths, s.geometry.solar_a, s.geometry.solar_z)  
   
-  def extract_output(results, output_name):
+  @classmethod
+  def extract_output(cls, results, output_name):
     """Extracts data for one particular SixS output from a list of SixS.Outputs instances.
     
     Basically just a wrapper around a list comprehension.
@@ -41,13 +44,14 @@ class Angles:
     results_output = [getattr(r, output_name) for r in results]
     
     return results_output
-    
-  def plot_all_angles(data, output_name, show_sun=True):
+  
+  @classmethod
+  def plot_all_angles(cls, data, output_name, show_sun=True):
     results, azimuths, zeniths, sa, sz = data
     
-    values = extract_output(results, output_name)  
+    values = cls.extract_output(results, output_name)  
     
-    fig, ax = plot_polar_contour(values, azimuths, zeniths)
+    fig, ax, cax = cls.plot_polar_contour(values, azimuths, zeniths)
     
     if show_sun:
       ax.autoscale(False)
@@ -55,8 +59,9 @@ class Angles:
       show()
     
     return fig, ax
-    
-  def plot_polar_contour(values, azimuths, zeniths):
+  
+  @classmethod
+  def plot_polar_contour(cls, values, azimuths, zeniths):
     """Plot a polar contour plot, with 0 degrees at the North.
     
     Arguments:
@@ -90,13 +95,16 @@ class Angles:
     fig, ax = subplots(subplot_kw=dict(projection='polar'))
     ax.set_theta_zero_location("N")
     ax.set_theta_direction(-1)
+    autumn()
     cax = ax.contourf(theta, r, values, 30)
+    autumn()
     cb = fig.colorbar(cax)
     cb.set_label("Pixel reflectance")
     
     return fig, ax, cax
-    
-  def run_and_plot_all_angles(s, solar_or_view, output_name, show_sun=True, na=36, nz=10):
+  
+  @classmethod
+  def run_and_plot_all_angles(cls, s, solar_or_view, output_name, show_sun=True, na=36, nz=10):
     """Runs Py6S for lots of angles to produce a polar contour plot.
     
     Arguments:
@@ -120,12 +128,13 @@ class Angles:
     if solar_or_view == 'solar':
       show_sun = False
     
-    res = run_all_angles(s, solar_or_view, na, nz)  
-    plot_res = plot_all_angles(res, output_name, show_sun)
+    res = cls.run_all_angles(s, solar_or_view, na, nz)  
+    plot_res = cls.plot_all_angles(res, output_name, show_sun)
     
     return plot_res
-    
-  def run_principal_plane(s):
+  
+  @classmethod
+  def run_principal_plane(cls, s):
     # Get the solar azimuth and zenith angles from the SixS instance
     sa = s.geometry.solar_a
     sz = s.geometry.solar_z
