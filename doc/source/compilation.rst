@@ -38,3 +38,42 @@ These instructions were written based on testing with Windows 7, but should work
       *       coefficients xa xb xc                 :  0.00685  0.03870  0.06820    *
       *       y=xa*(measured radiance)-xb;  acr=y/(1.+xc*y)                         *
       *******************************************************************************
+      
+OS X
+-------------
+These instructions were written based on testing with Mac OS X 10.7 (Lion), but should work previous (and later) versions fine.
+
+ 1. Download the 6S source code from http://6s.ltdri.org/. Choose *Download 6S* then *6SV1.1* and download the `.tar` file.
+
+ 2. Install the latest version of XCode - the OS X development environment. The easiest way to do this is through the Mac App Store - search for XCode and click install. Once it has been installed from the Mac App Store you will need to run the program called Install XCode from your Applications folder. **Beware, this will take a long time!**
+
+ 3. Download the f77 compiler from http://hpc.sourceforge.net/. You should choose one of the binary download links under the g77 3.4 heading. If you're not sure which binary you require then choose the Intel version, as that is what most modern Macs use.
+
+ 4. Open the Terminal (Applications->Utilities->Terminal) and type the following commands (this assumes the files you downloaded above are located in your Downloads folder, and you will need to enter your password when prompted)::
+
+      cd ~/Downloads
+      sudo tar -xvf g77-bin.tar -C /
+
+ 5. Now move Run the following commands, one after each other::
+
+      tar -xvf 6SV-1.1.tar
+    	cd 6SV1.1
+    	make
+  
+ #. If no errors have been produced, then test the 6S executable by typing::
+
+      sixsV1.1 < ..\Examples\Example_In_1.txt
+  
+ #. If this is working correctly you should see a number of screen's worth of output, finishing with something that looks like::
+
+      *******************************************************************************
+      *                        atmospheric correction result                        *
+      *                        -----------------------------                        *
+      *       input apparent reflectance            :    0.100                      *
+      *       measured radiance [w/m2/sr/mic]       :   38.529                      *
+      *       atmospherically corrected reflectance                                 *
+      *       Lambertian case :      0.22187                                        *
+      *       BRDF       case :      0.22187                                        *
+      *       coefficients xa xb xc                 :  0.00685  0.03870  0.06820    *
+      *       y=xa*(measured radiance)-xb;  acr=y/(1.+xc*y)                         *
+      *******************************************************************************
