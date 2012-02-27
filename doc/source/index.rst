@@ -18,6 +18,7 @@ Contents:
    sixs
    outputs
    params
+   helpers
    
   
 Indices and tables
