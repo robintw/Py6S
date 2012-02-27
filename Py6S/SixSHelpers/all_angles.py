@@ -37,8 +37,8 @@ class Angles:
     
     Arguments:
     
-     * `results` -- A list of :class:`SixS.Outputs` instances
-     * `output_name` -- The name of the output to extract. This should be a string containing whatever is put after the `s.outputs` when printing the output, for example `'pixel_reflectance'`.
+    * ``results`` -- A list of :class:`SixS.Outputs` instances
+    * ``output_name`` -- The name of the output to extract. This should be a string containing whatever is put after the `s.outputs` when printing the output, for example `'pixel_reflectance'`.
     
     """
     results_output = [getattr(r, output_name) for r in results]
@@ -66,21 +66,21 @@ class Angles:
     
     Arguments:
      
-     * `values` -- A list (or other iterable - eg. a NumPy array) of the values to plot on the contour plot (the `z` values)
-     * `azimuths` -- A list of azimuths (in degrees)
-     * `zeniths` -- A list of zeniths (that is, radii)
+    * ``values`` -- A list (or other iterable - eg. a NumPy array) of the values to plot on the contour plot (the `z` values)
+    * ``azimuths`` -- A list of azimuths (in degrees)
+    * ``zeniths`` -- A list of zeniths (that is, radii)
     
     The shapes of these lists are important, and are designed for a particular use case (but should be more generally useful).
     The values list should be `len(azimuths) * len(zeniths)` long with data for the first azimuth for all the zeniths, then
     the second azimuth for all the zeniths etc.
     
-    This is designed to work nicely with data that is produced using a loop as follows:
+    This is designed to work nicely with data that is produced using a loop as follows::
     
-    values = []
-    for azimuth in azimuths:
-      for zenith in zeniths:
-        # Do something and get a result
-        values.append(result)
+      values = []
+      for azimuth in azimuths:
+        for zenith in zeniths:
+          # Do something and get a result
+          values.append(result)
         
     After that code the azimuths, zeniths and values lists will be ready to be passed into this function.
     
@@ -109,20 +109,20 @@ class Angles:
     
     Arguments:
     
-     * `s` -- A SixS instance configured with all of the parameters you want to run the simulation with
-     * `solar_or_view` -- Set to `'solar'` if you want to iterate over the solar zenith/azimuth angles or `'view'` if you want to iterate over the view zenith/azimuth angles
-     * `output_name` -- The name of the output from SixS to plot. This should be a string containing exactly what you would put after `s.outputs` to print the output. For example `pixel_reflectance`.
-     * `show_sun` -- (Optional) Whether to place a marker showing the location of the sun on the contour plot (defaults to True, has no effect when `solar_or_view` set to `'solar'`.)
-     * `na` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)
-     * `nz` -- (Optional) The number of zenith angles to iterate over to generate the data for the plot (defaults to 10, giving data every 10 degrees)
+    * ``s`` -- A SixS instance configured with all of the parameters you want to run the simulation with
+    * ``solar_or_view`` -- Set to ``'solar'`` if you want to iterate over the solar zenith/azimuth angles or ``'view'`` if you want to iterate over the view zenith/azimuth angles
+    * ``output_name`` -- The name of the output from SixS to plot. This should be a string containing exactly what you would put after ``s.outputs`` to print the output. For example `pixel_reflectance`.
+    * ``show_sun`` -- (Optional) Whether to place a marker showing the location of the sun on the contour plot (defaults to True, has no effect when ``solar_or_view`` set to ``'solar'``.)
+    * ``na`` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)
+    * ``nz`` -- (Optional) The number of zenith angles to iterate over to generate the data for the plot (defaults to 10, giving data every 10 degrees)
     
     For example::
     
-    s = SixS()
-    s.ground_reflectance = GroundReflectance.HomogeneousWalthall(0.48, 0.50, 2.95, 0.6)
-    s.geometry.solar_z = 30
-    s.geometry.solar_a = 0
-    SixSHelpers.Angles.run_and_plot_all_angles(s, 'view', 'pixel_reflectance')
+      s = SixS()
+      s.ground_reflectance = GroundReflectance.HomogeneousWalthall(0.48, 0.50, 2.95, 0.6)
+      s.geometry.solar_z = 30
+      s.geometry.solar_a = 0
+      SixSHelpers.Angles.run_and_plot_all_angles(s, 'view', 'pixel_reflectance')
     
     """
     if solar_or_view == 'solar':

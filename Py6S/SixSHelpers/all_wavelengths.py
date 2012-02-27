@@ -11,9 +11,9 @@ class Wavelengths:
     
     Arguments:
     
-     * ``s`` -- A SixS instance with the parameters set as required
-     * ``wavelengths`` -- An iterable containing the wavelengths to iterate over
-     * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
+    * ``s`` -- A SixS instance with the parameters set as required
+    * ``wavelengths`` -- An iterable containing the wavelengths to iterate over
+    * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
     
     Return value:
     
@@ -50,9 +50,9 @@ class Wavelengths:
     
     Arguments:
     
-     * ``s`` -- A SixS instance with the parameters set as required
-     * ``spacing`` -- (Optional) The spacing to use between each wavelength, in um. Eg. a spacing of 0.001 is a spacing of 1nm.
-     * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
+    * ``s`` -- A SixS instance with the parameters set as required
+    * ``spacing`` -- (Optional) The spacing to use between each wavelength, in um. Eg. a spacing of 0.001 is a spacing of 1nm.
+    * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
     
     Return value:
     
@@ -79,9 +79,9 @@ class Wavelengths:
     
     Arguments:
     
-     * ``s`` -- A SixS instance with the parameters set as required
-     * ``spacing`` -- (Optional) The spacing to use between each wavelength, in um. Eg. a spacing of 0.001 is a spacing of 1nm.
-     * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
+    * ``s`` -- A SixS instance with the parameters set as required
+    * ``spacing`` -- (Optional) The spacing to use between each wavelength, in um. Eg. a spacing of 0.001 is a spacing of 1nm.
+    * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
     
     Return value:
     
@@ -105,9 +105,9 @@ class Wavelengths:
     
     Arguments:
     
-     * ``wavelengths`` -- A list of wavelengths (in um)
-     * ``values`` -- A corresponding list of values at the wavelengths above
-     * ``y_axis_label`` -- A string containing tha axis label to use for the Y axis
+    * ``wavelengths`` -- A list of wavelengths (in um)
+    * ``values`` -- A corresponding list of values at the wavelengths above
+    * ``y_axis_label`` -- A string containing tha axis label to use for the Y axis
     
     Example usage::
     
