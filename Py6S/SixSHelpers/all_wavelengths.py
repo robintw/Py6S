@@ -98,4 +98,24 @@ class Wavelengths:
     """
     wv = np.arange(0.2, 4.0, spacing)
     return cls.run_for_wavelengths(s, wv, output_name=output_name)
+  
+  @classmethod
+  def plot_wavelengths(cls, wavelengths, values, y_axis_label):
+    """Plot the given wavelengths and values, such as those produced by the other functions in this class.
     
+    Arguments:
+    
+     * ``wavelengths`` -- A list of wavelengths (in um)
+     * ``values`` -- A corresponding list of values at the wavelengths above
+     * ``y_axis_label`` -- A string containing tha axis label to use for the Y axis
+    
+    Example usage::
+    
+      SixSHelpers.Wavelengths.plot_wavelengths(wavelengths, values, 'Pixel Radiance (W/m^2)')
+    
+    """
+    
+    plot(wavelengths, values, 'k')
+    xlabel("Micrometres")
+    ylabel(y_axis_label)
+    show()
