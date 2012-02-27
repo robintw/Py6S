@@ -313,6 +313,21 @@ class GroundReflectance:
        - `ro_sun_at_thetav` -- A reflectance table (described below) for the scenario when the sun is at theta_v
       (the view zenith angle specified in the Geometry parameterisation)
       
+      The reflectance tables mentioned above must be NumPy arrays (that is, instances of :class:`ndarray`) with a shape of (10, 14) where the table headers are as below,
+      and each cell contains the reflectance of the surface in the specified geometry::
+      
+            zenith
+            0   10    20    30    40    50    60    70    80    85
+      a 0
+      z 30
+      i 60
+      m 90
+      u 120
+      t 150
+      h .
+        .
+        .
+      
       """
       header = "0 Homogeneous surface\n1 (directional effects)\n0 Input user's defined model\n"
       
