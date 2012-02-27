@@ -191,10 +191,24 @@ class Radiosonde:
 
   @classmethod
   def celsius_to_kelvin(cls, temp):
+    """Converts the argument (which may be a scalar or a ndarray) from a temperature in degrees Celsius to a temperature in Kelvin."""
     return temp + 273.15
 
   @classmethod
   def mixing_ratio_to_density(cls, pres, temp, mixrat):
+    """Converts mixing ratio (measured in g/kg) to density (measured in g/m3).
+    
+    This is designed for use with mixing ratios derived from radiosonde measurements, where the mixing ratio defines the grams of water per kg of dry air.
+    
+    Arguments:
+     * ``pres`` -- Pressure in mb
+     * ``temp`` -- Temperature in K
+     * ``mixrat`` -- Mixing ratio in g/kg
+    
+    All arguments can be scalars or ndarrays - if the latter then they must all be the same length.
+    
+    """
+    
     mass = 0.3484 * (pres / temp) * (1 - (0.000379 * mixrat))
     
     density = mixrat * mass
@@ -203,7 +217,31 @@ class Radiosonde:
 
   @classmethod
   def import_uow_radiosonde_data(cls, url, base_profile):
+    """Imports radiosonde data from the University of Wyoming website (http://weather.uwyo.edu/upperair/sounding.html) for use in Py6S.
     
+    Arguments:
+     
+     * ``url`` -- The URL of the sounding results page on the UoW website
+     * ``base_profile`` -- One of the predefined Atmospheric Profiles to use as a base for the imported profile
+    
+    Return value:
+    
+    A value suitable for assigning to ``s.atmos_profile``, where ``s`` is a :class:`SixS` instance.
+    
+    How to use:
+    
+     1. Go to http://weather.uwyo.edu/upperair/sounding.html and use the interface to select the sounding that you want. Ensure that the From and To date/times are the same, so that only
+    one sounding is retrieved.
+    
+     #. Copy the URL of the page displaying the sounding. It will look something like http://weather.uwyo.edu/cgi-bin/sounding?region=europe&TYPE=TEXT%3ALIST&YEAR=2012&MONTH=02&FROM=2712&TO=2712&STNM=03808
+    
+     #. Call this function with the URL as the first argument, and one of the predefined atmospheric profiles (eg. AtmosProfile.MidlatitudeSummer or AtmosProfile.Tropical) as the second argument, and store the result in the atmos_profile attribute of a SixS instance. For example::
+    
+        s.atmos_profile = SixSHelpers.Radiosonde.import_uow_radiosonde_data("http://weather.uwyo.edu/cgi-bin/sounding?region=europe&TYPE=TEXT%3ALIST&YEAR=2012&MONTH=02&FROM=2712&TO=2712&STNM=03808", AtmosProfile.MidlatitudeWinter)
+    
+    The water density, pressure and temperature values from the radiosonde sounding will be interpolated to the 6S atmospheric grid and used for the 6S parameterisation. As radiosonde data tends to end at an altitude of around 30-40km, the data from the selected base profile is used above that height. Ozone data is not imported from the radiosonde data, as most radiosondes do not collect ozone density measurements, so the entire profile is taken from the base profile selected.
+    
+    """
     # Get data from given URL
     u = urllib.urlopen(url)
     
