@@ -4,7 +4,7 @@ from matplotlib.pyplot import *
 class Angles:
   
   @classmethod
-  def run_all_angles(cls, s, solar_or_view, na=36, nz=10):
+  def run360(cls, s, solar_or_view, na=36, nz=10, output_name=None):
     #if not isinstance(s, GeometryUser):
     #  raise ParameterError("geometry", "To use the all_angles helper you must be using a user-specified geometry (ie. a GeometryUser instance)")
     
@@ -24,10 +24,64 @@ class Angles:
         else:
           raise ParameterException("all_angles", "You must choose to vary either the solar or view angle.")
         s.run()
-        print "%d %d" % (azimuth, zenith)
-        results.append(s.outputs)
+        print "Calculating for azimuth = %d, zenith = %d" % (azimuth, zenith)
+        if output_name == None:
+          results.append(s.outputs)
+        else:
+          results.append(getattr(s.outputs, output_name))
         
     return (results, azimuths, zeniths, s.geometry.solar_a, s.geometry.solar_z)  
+      
+  @classmethod
+  def plot360(cls, data, output_name=None, show_sun=True):
+    results, azimuths, zeniths, sa, sz = data
+    
+    if not isinstance(results[0], float):
+      # The results are not floats, so a float must be extracted from the output
+      if output_name == None:
+        raise ParameterException("output_name", "You must specify an output name when plotting data which is given as Outputs instances")
+      
+      results = cls.extract_output(results, output_name)
+    
+    fig, ax, cax = cls.plot_polar_contour(results, azimuths, zeniths)
+    
+    if show_sun:
+      ax.autoscale(False)
+      ax.plot(np.radians(sa), sz, '*', markersize=20, markerfacecolor='yellow', markeredgecolor='red')
+      show()
+    
+    return fig, ax
+    
+  @classmethod
+  def run_and_plot_360(cls, s, solar_or_view, output_name, show_sun=True, na=36, nz=10):
+    """Runs Py6S for lots of angles to produce a polar contour plot.
+    
+    Arguments:
+    
+    * ``s`` -- A SixS instance configured with all of the parameters you want to run the simulation with
+    * ``solar_or_view`` -- Set to ``'solar'`` if you want to iterate over the solar zenith/azimuth angles or ``'view'`` if you want to iterate over the view zenith/azimuth angles
+    * ``output_name`` -- The name of the output from SixS to plot. This should be a string containing exactly what you would put after ``s.outputs`` to print the output. For example `pixel_reflectance`.
+    * ``show_sun`` -- (Optional) Whether to place a marker showing the location of the sun on the contour plot (defaults to True, has no effect when ``solar_or_view`` set to ``'solar'``.)
+    * ``na`` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)
+    * ``nz`` -- (Optional) The number of zenith angles to iterate over to generate the data for the plot (defaults to 10, giving data every 10 degrees)
+    
+    For example::
+    
+      s = SixS()
+      s.ground_reflectance = GroundReflectance.HomogeneousWalthall(0.48, 0.50, 2.95, 0.6)
+      s.geometry.solar_z = 30
+      s.geometry.solar_a = 0
+      SixSHelpers.Angles.run_and_plot_all_angles(s, 'view', 'pixel_reflectance')
+    
+    """
+    if solar_or_view == 'solar':
+      show_sun = False
+    
+    res = cls.run360(s, solar_or_view, na, nz)  
+    plot_res = cls.plot360(res, output_name, show_sun)
+    
+    return plot_res  
+    
   
   @classmethod
   def extract_output(cls, results, output_name):
@@ -46,22 +100,7 @@ class Angles:
     return results_output
   
   @classmethod
-  def plot_all_angles(cls, data, output_name, show_sun=True):
-    results, azimuths, zeniths, sa, sz = data
-    
-    values = cls.extract_output(results, output_name)  
-    
-    fig, ax, cax = cls.plot_polar_contour(values, azimuths, zeniths)
-    
-    if show_sun:
-      ax.autoscale(False)
-      ax.plot(np.radians(sa), sz, '*', markersize=20, markerfacecolor='yellow', markeredgecolor='red')
-      show()
-    
-    return fig, ax
-  
-  @classmethod
-  def plot_polar_contour(cls, values, azimuths, zeniths):
+  def plot_polar_contour(cls, values, azimuths, zeniths, filled=True, colorbarlabel=""):
     """Plot a polar contour plot, with 0 degrees at the North.
     
     Arguments:
@@ -69,6 +108,8 @@ class Angles:
     * ``values`` -- A list (or other iterable - eg. a NumPy array) of the values to plot on the contour plot (the `z` values)
     * ``azimuths`` -- A list of azimuths (in degrees)
     * ``zeniths`` -- A list of zeniths (that is, radii)
+    * ``filled`` -- (Optional) Whether to plot a filled contour plot, or just the contours (defaults to filled)
+    * ``yaxislabel`` -- (Optional) The label to use for the colorbar
     
     The shapes of these lists are important, and are designed for a particular use case (but should be more generally useful).
     The values list should be `len(azimuths) * len(zeniths)` long with data for the first azimuth for all the zeniths, then
@@ -96,42 +137,15 @@ class Angles:
     ax.set_theta_zero_location("N")
     ax.set_theta_direction(-1)
     autumn()
-    cax = ax.contourf(theta, r, values, 30)
+    if filled:
+      cax = ax.contourf(theta, r, values, 30)
+    else:
+      cax = ax.contour(theta, r, values, 30)
     autumn()
     cb = fig.colorbar(cax)
-    cb.set_label("Pixel reflectance")
+    cb.set_label(colorbarlabel)
     
     return fig, ax, cax
-  
-  @classmethod
-  def run_and_plot_all_angles(cls, s, solar_or_view, output_name, show_sun=True, na=36, nz=10):
-    """Runs Py6S for lots of angles to produce a polar contour plot.
-    
-    Arguments:
-    
-    * ``s`` -- A SixS instance configured with all of the parameters you want to run the simulation with
-    * ``solar_or_view`` -- Set to ``'solar'`` if you want to iterate over the solar zenith/azimuth angles or ``'view'`` if you want to iterate over the view zenith/azimuth angles
-    * ``output_name`` -- The name of the output from SixS to plot. This should be a string containing exactly what you would put after ``s.outputs`` to print the output. For example `pixel_reflectance`.
-    * ``show_sun`` -- (Optional) Whether to place a marker showing the location of the sun on the contour plot (defaults to True, has no effect when ``solar_or_view`` set to ``'solar'``.)
-    * ``na`` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)
-    * ``nz`` -- (Optional) The number of zenith angles to iterate over to generate the data for the plot (defaults to 10, giving data every 10 degrees)
-    
-    For example::
-    
-      s = SixS()
-      s.ground_reflectance = GroundReflectance.HomogeneousWalthall(0.48, 0.50, 2.95, 0.6)
-      s.geometry.solar_z = 30
-      s.geometry.solar_a = 0
-      SixSHelpers.Angles.run_and_plot_all_angles(s, 'view', 'pixel_reflectance')
-    
-    """
-    if solar_or_view == 'solar':
-      show_sun = False
-    
-    res = cls.run_all_angles(s, solar_or_view, na, nz)  
-    plot_res = cls.plot_all_angles(res, output_name, show_sun)
-    
-    return plot_res
   
   @classmethod
   def run_principal_plane(cls, s):
