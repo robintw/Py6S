@@ -98,7 +98,8 @@ class Wavelengths:
     centre_wvs = [0.55, 0.65, 0.75, 0.95]
     
     return (centre_wvs, res)
-    
+  
+  @classmethod
   def run_meris(cls, s, output_name=None):
     wv = [Wavelengths.MERIS_B1, Wavelengths.MERIS_B2, Wavelengths.MERIS_B3, Wavelengths.MERIS_B4, Wavelengths.MERIS_B5, Wavelengths.MERIS_B6, Wavelengths.MERIS_B7, Wavelengths.MERIS_B8, Wavelengths.MERIS_B9, Wavelengths.MERIS_B10, Wavelengths.MERIS_B11, Wavelengths.MERIS_B12, Wavelengths.MERIS_B14, Wavelengths.MERIS_B15]
     wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
@@ -106,6 +107,105 @@ class Wavelengths:
     centre_wvs = [0.4125, 0.4425, 0.490, 0.510, 0.560, 0.620, 0.665, 0.8125, 0.70875, 0.75375, 0.760625, 0.77875, 0.865, 0.885, 0.900]
     
     return (centre_wvs, res)
+  
+  @classmethod
+  def run_modis(cls, s, output_name=None):
+    wv = [Wavelengths.MODIS_B1, Wavelengths.MODIS_B2, Wavelengths.MODIS_B3, Wavelengths.MODIS_B4, Wavelengths.MODIS_B5, Wavelengths.MODIS_B6, Wavelengths.MODIS_B7, Wavelengths.MERIS_B8]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.645, 0.8585, 0.469, 0.555, 1.24, 1.64, 2.13]
+    
+    return (centre_wvs, res)
+    
+  @classmethod
+  def run_spot_hrv(cls, s, output_name=None):
+    wv = [Wavelengths.SPOT_HRV1_B1, Wavelengths.SPOT_HRV1_B2, Wavelengths.SPOT_HRV1_B3]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.545, 0.645, 0.84]
+    
+    return (centre_wvs, res)
+  
+  @classmethod
+  def run_spot_vgt(cls, s, output_name=None):
+    wv = [Wavelengths.SPOT_VGT_B1, Wavelengths.SPOT_VGT_B2, Wavelengths.SPOT_VGT_B3, Wavelengths.SPOT_VGT_B4]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.45, 0.645, 0.835, 1.665]
+    
+    return (centre_wvs, res)
+  
+  @classmethod
+  def run_polder(cls, s, output_name=None):
+    wv = [Wavelengths.POLDER_B1, Wavelengths.POLDER_B2, Wavelengths.POLDER_B3, Wavelengths.POLDER_B4, Wavelengths.POLDER_B5, Wavelengths.POLDER_B6, Wavelengths.POLDER_B7, Wavelengths.POLDER_B8]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.4445, 0.4449, 0.4922, 0.5645, 0.6702, 0.7633, 0.7631, 0.9077]
+    
+    return (centre_wvs, res)
+  
+  @classmethod
+  def run_seawifs(cls, s, output_name=None):
+    wv = [Wavelengths.SEAWIFS_B1, Wavelengths.SEAWIFS_B2, Wavelengths.SEAWIFS_B3, Wavelengths.SEAWIFS_B4, Wavelengths.SEAWIFS_B5, Wavelengths.SEAWIFS_B6, Wavelengths.SEAWIFS_B7, Wavelengths.SEAWIFS_B8]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.412, 0.443, 0.49, 0.51, 0.555, 0.67, 0.765, 0.865]
+    
+    return (centre_wvs, res)
+    
+  @classmethod
+  def run_aatsr(cls, s, output_name=None):
+    wv = [Wavelengths.AATSR_B1, Wavelengths.AATSR_B2, Wavelengths.AATSR_B3, Wavelengths.AATSR_B4]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.560, 0.660, 0.862, 1.594]
+    
+    return (centre_wvs, res)
+    
+  @classmethod
+  def run_aster(cls, s, output_name=None):
+    wv = [Wavelengths.ASTER_B1, Wavelengths.ASTER_B2, Wavelengths.ASTER_B3N, Wavelengths.ASTER_B3B, Wavelengths.ASTER_B4, Wavelengths.ASTER_B5, Wavelengths.ASTER_B6, Wavelengths.ASTER_B7, Wavelengths.ASTER_B8, Wavelengths.ASTER_B9]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.56, 0.66, 0.81, 0.81, 1.65, 2.185, 2.205, 2.26, 2.33, 2.395]
+    
+    return (centre_wvs, res)
+  
+  @classmethod
+  def run_viirs(cls, s, output_name=None):
+    wv = [Wavelengths.VIIRS_BM1, Wavelengths.VIIRS_BM2, Wavelengths.VIIRS_BM3, Wavelengths.VIIRS_BM4, Wavelengths.VIIRS_BM5, Wavelengths.VIIRS_BM6, Wavelengths.VIIRS_BM7, Wavelengths.VIIRS_BM8, Wavelengths.VIIRS_BM9, Wavelengths.VIIRS_BM10, Wavelengths.VIIRS_BM11, Wavelengths.VIIRS_BM12, Wavelengths.VIIRS_BI1, Wavelengths.VIIRS_BI2, Wavelengths.VIIRS_B3, Wavelengths.VIIRS_B4]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.412, 0.445, 0.488, 0.555, 0.672, 0.746, 0.865, 1.24, 1.378, 1.61, 2.25, 3.70, 0.640, 0.865, 1.61, 3.74]
+    
+    return (centre_wvs, res)
+    
+  @classmethod
+  def run_er2_mas(cls, s, output_name=None):
+    wv = [Wavelengths.ER2_MAS_B1, Wavelengths.ER2_MAS_B2, Wavelengths.ER2_MAS_B3, Wavelengths.ER2_MAS_B4, Wavelengths.ER2_MAS_B5, Wavelengths.ER2_MAS_B6, Wavelengths.ER2_MAS_B7]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.4649, 0.5494, 0.6550, 0.7024, 0.7431, 0.8248, 0.8667]
+    
+    return (centre_wvs, res)
+    
+  @classmethod
+  def run_ali(cls, s, output_name=None):
+    wv = [Wavelengths.ALI_B1P, Wavelengths.ALI_B1, Wavelengths.ALI_B2, Wavelengths.ALI_B3, Wavelengths.ALI_B4, Wavelengths.ALI_B4P, Wavelengths.ALI_B5P, Wavelengths.ALI_B5, Wavelengths.ALI_B7]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.443, 0.4825, 0.565, 0.66, 0.79, 0.8675, 1.25, 1.65, 2.215]
+    
+    return (centre_wvs, res)
+    
+  @classmethod
+  def run_gli(cls, s, output_name=None):
+    wv = [Wavelengths.GLI_B1, Wavelengths.GLI_B2, Wavelengths.GLI_B3, Wavelengths.GLI_B4, Wavelengths.GLI_B5, Wavelengths.GLI_B6, Wavelengths.GLI_B7, Wavelengths.GLI_B8, Wavelengths.GLI_B9, Wavelengths.GLI_B10, Wavelengths.GLI_B11, Wavelengths.GLI_B12, Wavelengths.GLI_B13, Wavelengths.GLI_B14, Wavelengths.GLI_B15, Wavelengths.GLI_B16, Wavelengths.GLI_B17, Wavelengths.GLI_B18, Wavelengths.GLI_B19, Wavelengths.GLI_B20, Wavelengths.GLI_B21, Wavelengths.GLI_B22, Wavelengths.GLI_B23, Wavelengths.GLI_B24, Wavelengths.GLI_B25, Wavelengths.GLI_B26, Wavelengths.GLI_B27, Wavelengths.GLI_B28, Wavelengths.GLI_B29, Wavelengths.GLI_B30]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.380, 0.400, 0.412, 0.443, 0.460, 0.490, 0.520, 0.545, 0.565, 0.625, 0.666, 0.680, 0.678, 0.710, 0.710, 0.749, 0.763, 0.865, 0.865, 0.460, 0.545, 0.660, 0.825, 1.050, 1.135, 1.240, 1.380, 1.640, 2.210, 3.715]
+    
+    return (centre_wvs, res)  
   
   @classmethod
   def run_whole_range(cls, s, spacing=0.010, output_name=None):
