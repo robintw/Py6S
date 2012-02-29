@@ -70,6 +70,42 @@ class Wavelengths:
     
     wv = np.arange(0.400, 1.400, spacing)
     return cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+  
+  @classmethod
+  def run_landsat_tm(cls, s, output_name=None):
+    wv = [Wavelengths.LANDSAT_TM_B1, Wavelengths.LANDSAT_TM_B2, Wavelengths.LANDSAT_TM_B3, Wavelengths.LANDSAT_TM_B4, Wavelengths.LANDSAT_TM_B5, Wavelengths.LANDSAT_TM_B7]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.485, 0.56, 0.66, 0.83, 1.65, 2.215]
+    
+    return (centre_wvs, res)
+    
+  @classmethod
+  def run_landsat_etm(cls, s, output_name=None):
+    wv = [Wavelengths.ETM_B1, Wavelengths.ETM_B2, Wavelengths.ETM_B3, Wavelengths.ETM_B4, Wavelengths.ETM_B5, Wavelengths.ETM_B7]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.4825, 0.565, 0.66, 0.825, 1.65, 2.215]
+    
+    return (centre_wvs, res)
+  
+  @classmethod
+  def run_landsat_mss(cls, s, output_name=None):
+    wv = [Wavelengths.LANDSAT_MSS_B1, Wavelengths.LANDSAT_MSS_B2, Wavelengths.LANDSAT_MSS_B3, Wavelengths.LANDSAT_MSS_B4]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.55, 0.65, 0.75, 0.95]
+    
+    return (centre_wvs, res)
+    
+  def run_meris(cls, s, output_name=None):
+    wv = [Wavelengths.MERIS_B1, Wavelengths.MERIS_B2, Wavelengths.MERIS_B3, Wavelengths.MERIS_B4, Wavelengths.MERIS_B5, Wavelengths.MERIS_B6, Wavelengths.MERIS_B7, Wavelengths.MERIS_B8, Wavelengths.MERIS_B9, Wavelengths.MERIS_B10, Wavelengths.MERIS_B11, Wavelengths.MERIS_B12, Wavelengths.MERIS_B14, Wavelengths.MERIS_B15]
+    wv, res = cls.run_for_wavelengths(s, wv, output_name=output_name)
+    
+    centre_wvs = [0.4125, 0.4425, 0.490, 0.510, 0.560, 0.620, 0.665, 0.8125, 0.70875, 0.75375, 0.760625, 0.77875, 0.865, 0.885, 0.900]
+    
+    return (centre_wvs, res)
   
   @classmethod
   def run_whole_range(cls, s, spacing=0.010, output_name=None):
