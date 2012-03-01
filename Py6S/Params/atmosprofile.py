@@ -65,4 +65,4 @@ class AtmosProfile:
       for i in range(34):
         result = result + "%f %f %f %f %f\n" % (data['altitude'][i], data['pressure'][i], data['temperature'][i], data['water'][i], data['ozone'][i])
       
-      return result
+      return "7 User's data base profile\n" + result
