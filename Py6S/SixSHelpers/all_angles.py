@@ -9,7 +9,7 @@ class Angles:
     
     Arguments:
     
-    * ``s`` -- A SixS instance configured with all of the parameters you want to run the simulation with
+    * ``s`` -- A :class:`.SixS` instance configured with all of the parameters you want to run the simulation with
     * ``solar_or_view`` -- Set to ``'solar'`` if you want to iterate over the solar zenith/azimuth angles or ``'view'`` if you want to iterate over the view zenith/azimuth angles
     * ``output_name`` -- (Optional) The name of the output from SixS to plot. This should be a string containing exactly what you would put after ``s.outputs`` to print the output. For example `pixel_reflectance`.
     * ``na`` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)
@@ -84,7 +84,7 @@ class Angles:
     
     Arguments:
     
-    * ``s`` -- A SixS instance configured with all of the parameters you want to run the simulation with
+    * ``s`` -- A :class:`.SixS` instance configured with all of the parameters you want to run the simulation with
     * ``solar_or_view`` -- Set to ``'solar'`` if you want to iterate over the solar zenith/azimuth angles or ``'view'`` if you want to iterate over the view zenith/azimuth angles
     * ``output_name`` -- The name of the output from SixS to plot. This should be a string containing exactly what you would put after ``s.outputs`` to print the output. For example `pixel_reflectance`.
     * ``show_sun`` -- (Optional) Whether to place a marker showing the location of the sun on the contour plot (defaults to True, has no effect when ``solar_or_view`` set to ``'solar'``.)
@@ -117,7 +117,7 @@ class Angles:
     
     Arguments:
     
-    * ``results`` -- A list of :class:`SixS.Outputs` instances
+    * ``results`` -- A list of :class:`.SixS.Outputs` instances
     * ``output_name`` -- The name of the output to extract. This should be a string containing whatever is put after the `s.outputs` when printing the output, for example `'pixel_reflectance'`.
     
     """

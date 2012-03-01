@@ -197,11 +197,11 @@ class Radiosonde:
     Arguments:
      
     * ``url`` -- The URL of the sounding results page on the UoW website
-    * ``base_profile`` -- One of the predefined Atmospheric Profiles to use as a base for the imported profile
+    * ``base_profile`` -- One of the predefined Atmospheric Profiles to use for any parts of the profile which the radiosonde data does not cover (>40km normally)
     
     Return value:
     
-    A value suitable for assigning to ``s.atmos_profile``, where ``s`` is a :class:`SixS` instance.
+    A value suitable for assigning to ``s.atmos_profile``, where ``s`` is a :class:`.SixS` instance.
     
     How to use:
     

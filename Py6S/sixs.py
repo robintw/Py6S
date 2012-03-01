@@ -81,7 +81,7 @@ class SixS(object):
         self.geometry.month = 7
         
         self.altitudes = Altitudes()
-        self.altitudes.set_target_altitude(0.0)
+        self.altitudes.set_target_sea_level()
         self.altitudes.set_sensor_sea_level()
         
         self.wavelength = Wavelength.Wavelength(0.500)
