@@ -174,7 +174,42 @@ class Angles:
     return fig, ax, cax
   
   @classmethod
-  def run_principal_plane(cls, s):
+  def run_principal_plane(cls, s, output_name=None):
+    """Runs the given 6S simulation to get the outputs for the solar principal plane.
+    
+    This function runs the simulation for all zenith angles in the azimuthal line of the sun. For example,
+    if the solar azimuth is 90 degrees, this function will run simulations for::
+      
+      Azimuth   Zenith
+      90        85
+      90        80
+      90        75
+      90        70
+      90        65
+      90        60
+      90        55
+      ...       ..
+      90        0
+      270       5
+      270       10
+      270       15
+      ...       ..
+      270       80
+      270       85
+    
+    Arguments:
+    
+    * ``s`` -- A :class:`.SixS` instance configured with all of the parameters you want to run the simulation with
+    * ``output_name`` -- (Optional) The output name to extract (eg. "pixel_reflectance") if the given data is provided as instances of the Outputs class
+
+    Return values:
+    
+    A tuple containing zenith angles and the corresponding values or Outputs instances (depending on the arguments given).
+    The zenith angles returned have been modified so that the zenith angles on the 'sun-side' are positive, and those
+    on the other side (ie. past the vertical) are negative, for ease of plotting.
+    
+    """
+    
     # Get the solar azimuth and zenith angles from the SixS instance
     sa = s.geometry.solar_a
     sz = s.geometry.solar_z
@@ -187,7 +222,7 @@ class Angles:
     opp_sa = (sa + 180) % 360
     
     # Calculate the first side (the solar zenith angle side)
-    first_side_z = np.arange(vz_for_sz, -5, -5)
+    first_side_z = np.arange(85, -5, -5)
     first_side_a = np.repeat(sa, len(first_side_z))
     
     # Calculate the other side
@@ -197,6 +232,7 @@ class Angles:
     
     # Join the two sides together
     all_zeniths = np.hstack((first_side_z, second_side_z))
+    all_zeniths_for_return = np.hstack((first_side_z, -1 * second_side_z))
     all_azimuths = np.hstack((first_side_a, second_side_a))
     
     ## Iterate over these angles and get the results
@@ -204,14 +240,31 @@ class Angles:
     results = []
     
     for i in range(len(all_zeniths)):
-      print all_zeniths[i]
-      print all_azimuths[i]
+      print "%s %s" % (all_zeniths[i], all_azimuths[i])
       
       s.geometry.view_z = all_zeniths[i]
       s.geometry.view_a = all_azimuths[i]
       s.run()
-      results.append(s.outputs.pixel_reflectance)
+      if output_name == None:
+        results.append(s.outputs)
+      else:
+        results.append(getattr(s.outputs, output_name))
     
-      
-    # Must deal with zeniths and make half of them negative before returning, so plotting works
-    return all_zeniths, results
+    return all_zeniths_for_return, results
+
+    
+  def plot_principal_plane(zeniths, values, y_axis_label):
+    """Plot the results from a principal plane simulation (eg. a run of :meth:`.run_principal_plane`).
+    
+    Arguments:
+    
+    * ``zeniths`` -- A list of view zenith angles in degrees
+    * ``values`` -- A list of simulated values for each of these angles
+    * ``y_axis_label`` -- A string to use as the label for the y axis
+    
+    """
+    
+    plot(zeniths, values)
+    xlabel("View zenith angle (degrees)")
+    ylabel(y_axis_label)
+    show()
