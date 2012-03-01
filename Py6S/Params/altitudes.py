@@ -9,7 +9,10 @@ class Altitudes:
     self.water = None
     self.ozone = None
   
-  def set_target_altitude(self, altitude):
+  def set_target_sea_level(self):
+    self.target_alt_pres = 0
+  
+  def set_target_custom_altitude(self, altitude):
     """Set the altitude of the target.
     
     Arguments:
@@ -29,7 +32,16 @@ class Altitudes:
     
     self.target_alt_pres = pressure
   
-  def set_sensor_altitude(self, altitude, aot, water=-1, ozone=-1):
+  def set_sensor_sea_level(self):
+    """Set the sensor altitude to be sea level."""
+    
+    self.sensor_alt_pres = 0
+    
+  def set_sensor_satellite_level(self):
+    """Set the sensor altitude to be satellite level."""
+    self.sensor_alt_pres = -1000
+    
+  def set_sensor_custom_altitude(self, altitude, aot, water=-1, ozone=-1):
     """Set the altitude of the sensor, along with other variables required for the parameterisation of the sensor.
     
     Arguments:
@@ -49,15 +61,6 @@ class Altitudes:
     self.aot = aot
     self.water = water
     self.ozone = ozone
-    
-  def set_sensor_sea_level(self):
-    """Set the sensor altitude to be sea level."""
-    
-    self.sensor_alt_pres = 0
-    
-  def set_sensor_satellite_level(self):
-    """Set the sensor altitude to be satellite level."""
-    self.sensor_alt_pres = -1000
     
   
   def __str__(self):

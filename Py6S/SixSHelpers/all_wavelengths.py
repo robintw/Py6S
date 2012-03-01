@@ -6,7 +6,7 @@ class Wavelengths:
   """Helper functions for running the 6S model for a range of wavelengths, and plotting the result"""
   
   @classmethod
-  def run_for_wavelengths(cls, s, wavelengths, output_name=None):
+  def run_wavelengths(cls, s, wavelengths, output_name=None):
     """Runs the given SixS parameterisation for each of the wavelengths given, optionally extracting a specific output.
     
     Arguments:

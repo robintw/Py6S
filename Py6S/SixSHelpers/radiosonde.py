@@ -189,32 +189,6 @@ class Radiosonde:
 4.000e-06,8.600e-08,4.300e-11,0.000e+00]
 ])
 
-  @classmethod
-  def celsius_to_kelvin(cls, temp):
-    """Converts the argument (which may be a scalar or a ndarray) from a temperature in degrees Celsius to a temperature in Kelvin."""
-    return temp + 273.15
-
-  @classmethod
-  def mixing_ratio_to_density(cls, pres, temp, mixrat):
-    """Converts mixing ratio (measured in g/kg) to density (measured in g/m3).
-    
-    This is designed for use with mixing ratios derived from radiosonde measurements, where the mixing ratio defines the grams of water per kg of dry air.
-    
-    Arguments:
-    
-    * ``pres`` -- Pressure in mb
-    * ``temp`` -- Temperature in K
-    * ``mixrat`` -- Mixing ratio in g/kg
-    
-    All arguments can be scalars or ndarrays - if the latter then they must all be the same length.
-    
-    """
-    
-    mass = 0.3484 * (pres / temp) * (1 - (0.000379 * mixrat))
-    
-    density = mixrat * mass
-    
-    return density
 
   @classmethod
   def import_uow_radiosonde_data(cls, url, base_profile):
@@ -316,4 +290,31 @@ class Radiosonde:
     return AtmosProfile.RadiosondeProfile(params)
     
     
+
+
+  @classmethod
+  def celsius_to_kelvin(cls, temp):
+    """Converts the argument (which may be a scalar or a ndarray) from a temperature in degrees Celsius to a temperature in Kelvin."""
+    return temp + 273.15
+
+  @classmethod
+  def mixing_ratio_to_density(cls, pres, temp, mixrat):
+    """Converts mixing ratio (measured in g/kg) to density (measured in g/m3).
     
+    This is designed for use with mixing ratios derived from radiosonde measurements, where the mixing ratio defines the grams of water per kg of dry air.
+    
+    Arguments:
+    
+    * ``pres`` -- Pressure in mb
+    * ``temp`` -- Temperature in K
+    * ``mixrat`` -- Mixing ratio in g/kg
+    
+    All arguments can be scalars or ndarrays - if the latter then they must all be the same length.
+    
+    """
+    
+    mass = 0.3484 * (pres / temp) * (1 - (0.000379 * mixrat))
+    
+    density = mixrat * mass
+    
+    return density    
