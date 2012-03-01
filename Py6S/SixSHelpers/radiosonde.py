@@ -292,6 +292,7 @@ class Radiosonde:
     int_temp = cls.celsius_to_kelvin(int_temp)
     int_water = cls.mixing_ratio_to_density(int_pres, int_temp, int_mixrat)
     
+    # Get the rest of the profile from the base profiles
     rest_of_pres = cls.pressure_profiles[base_profile_index]
     rest_of_pres = rest_of_pres[cls.sixs_altitudes >= max_alt]
     

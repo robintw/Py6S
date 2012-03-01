@@ -29,11 +29,11 @@ class Wavelength:
           Wavelength.Wavelength(0.43, 0.50)
         
         3. Pass a start and end wavelength, and a filter given at 2.5nm intervals.
-        The simulation will be performed across this wavelength range using the given filter function:
+        The simulation will be performed across this wavelength range using the given filter function::
         
           Wavelength.Wavelength(0.400, 0.410, [0.7, 0.9, 1.0, 0.3])
         
-        4. Pass a constant (as defined in this class) for a pre-defined wavelength range:
+        4. Pass a constant (as defined in this class) for a pre-defined wavelength range::
         
           Wavelength.Wavelength(Wavelength.LANDSAT_TM_B1)
         

@@ -5,8 +5,24 @@ class Angles:
   
   @classmethod
   def run360(cls, s, solar_or_view, na=36, nz=10, output_name=None):
-    #if not isinstance(s, GeometryUser):
-    #  raise ParameterError("geometry", "To use the all_angles helper you must be using a user-specified geometry (ie. a GeometryUser instance)")
+    """Runs Py6S for lots of angles to produce a polar contour plot.
+    
+    Arguments:
+    
+    * ``s`` -- A SixS instance configured with all of the parameters you want to run the simulation with
+    * ``solar_or_view`` -- Set to ``'solar'`` if you want to iterate over the solar zenith/azimuth angles or ``'view'`` if you want to iterate over the view zenith/azimuth angles
+    * ``output_name`` -- (Optional) The name of the output from SixS to plot. This should be a string containing exactly what you would put after ``s.outputs`` to print the output. For example `pixel_reflectance`.
+    * ``na`` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)
+    * ``nz`` -- (Optional) The number of zenith angles to iterate over to generate the data for the plot (defaults to 10, giving data every 10 degrees)
+    
+    For example::
+    
+      s = SixS()
+      s.ground_reflectance = GroundReflectance.HomogeneousWalthall(0.48, 0.50, 2.95, 0.6)
+      s.geometry.solar_z = 30
+      s.geometry.solar_a = 0
+      data = SixSHelpers.Angles.run360(s, 'view', output_name='pixel_reflectance')
+    """
     
     results = []
     
@@ -34,6 +50,16 @@ class Angles:
       
   @classmethod
   def plot360(cls, data, output_name=None, show_sun=True):
+    """Plot the data returned from :method:`run360` as a polar contour plot, selecting an output if required.
+    
+    Arguments:
+    
+    * ``data`` -- The return value from :method:`run360`
+    * ``output_name`` -- (Optional) The output name to extract (eg. "pixel_reflectance") if the given data is provided as instances of the Outputs class
+    * ``show_sun`` -- (Optional) Whether to show the location of the sun on the resulting polar plot.
+    
+    """
+    
     results, azimuths, zeniths, sa, sz = data
     
     if not isinstance(results[0], float):
@@ -71,7 +97,7 @@ class Angles:
       s.ground_reflectance = GroundReflectance.HomogeneousWalthall(0.48, 0.50, 2.95, 0.6)
       s.geometry.solar_z = 30
       s.geometry.solar_a = 0
-      SixSHelpers.Angles.run_and_plot_all_angles(s, 'view', 'pixel_reflectance')
+      SixSHelpers.Angles.run_and_plot_360(s, 'view', 'pixel_reflectance')
     
     """
     if solar_or_view == 'solar':

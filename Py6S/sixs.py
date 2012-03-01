@@ -103,9 +103,9 @@ class SixS(object):
       if path != None:
 			  return path
       else:
-			  return self.which('sixs.exe') or self.which('sixs') or self.which('sixsV1.1') or self.which('sixsV1.1.exe')
+			  return self._which('sixs.exe') or self._which('sixs') or self._which('sixsV1.1') or self._which('sixsV1.1.exe')
         
-    def which(self, program):
+    def _which(self, program):
         def is_exe(fpath):
             return os.path.exists(fpath) and os.access(fpath, os.X_OK)
 
