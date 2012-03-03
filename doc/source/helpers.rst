@@ -39,7 +39,16 @@ Importing atmospheric profiles from radiosonde data
 ---------------------------------------------------
 6S is provided with a number of pre-defined atmospheric profiles, such as Midlatitude Summer, Tropical and Subarctic Winter. However, it also possible to parameterise 6S using data acquired from radiosonde (weather balloon) measurements.
 
-The main function in this class :meth:`.import_uow_radiosonde_data` imports radiosonde data from the University of Wyoming's radiosonde data website to 6S, allowing accurate parameterisation based on real-world measurements.
+The main function in this class (:meth:`.import_uow_radiosonde_data`) imports radiosonde data from the University of Wyoming's radiosonde data website to 6S, allowing accurate parameterisation based on real-world measurements.
 
 .. autoclass:: Py6S.SixSHelpers.Radiosonde
+  :members:
+  
+Importing aerosol data from AERONET data
+----------------------------------------
+6S also has a number of pre-defined aerosol profiles, such as Maritime and Urban, as well as a number of methods for setting aerosol particle distributions based on theoretical distributions. However, the AERONET network (http://aeronet.gsfc.nasa.gov/) stores and processes sun photometer data from many stations around the world which allow the more accurate parameterisation of aerosols in 6S.
+
+The main function in this class (:meth:`.import_aeronet_data`) imports data from an AERONET CSV file and sets the ``aero_profile`` and ``aot550`` parameters of the 6S model accordingly.
+
+.. autoclass:: Py6S.SixSHelpers.Aeronet
   :members:

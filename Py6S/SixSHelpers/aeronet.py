@@ -23,8 +23,7 @@ class Aeronet:
     
     3. Tick the box near the bottom labelled as "Combined file (all products without phase functions)"
     
-    4. Choose either Level 1.5 or Level 2.0 data. Level 1.5 data is unscreened, so contains far more data meaning
-    it is more likely for you to find data near your specified time.
+    4. Choose either Level 1.5 or Level 2.0 data. Level 1.5 data is unscreened, so contains far more data meaning it is more likely for you to find data near your specified time.
     
     5. Choose All Points under Data Format
     
@@ -40,13 +39,14 @@ class Aeronet:
     * ``s`` -- A :class:`.SixS` instance whose parameters you would like to set with AERONET data
     * ``filename`` -- The filename of the AERONET file described above
     * ``time`` -- The date and time of the simulation you want to run, used to choose the AERONET data which is closest
-    in time. Provide this as a string in almost any format, and Python will interpret it. For example, ``"12/03/2010 15:39"``.
-    When dates are ambiguous, the parsing routine will favour DD/MM/YY rather than MM/DD/YY.
+      in time. Provide this as a string in almost any format, and Python will interpret it. For example, ``"12/03/2010 15:39"``. When dates are ambiguous, the parsing routine will favour DD/MM/YY rather than MM/DD/YY.
     
     Return value:
+    
     The function will return ``s`` with the ``aero_profile`` and ``aot550`` fields filled in from the AERONET data.
     
     Notes:
+    
     Beware, this function makes a number of assumptions and performs a number of possibly-inaccurate steps.
     
     1. The refractive indices for aerosols are only provided in AERONET data at a few wavelengths, but 6S requires

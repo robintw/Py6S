@@ -4,51 +4,57 @@ import os
 from Params import *
 from sixs_exceptions import *
 from outputs import *
+import tempfile
 
 class SixS(object):
     """Wrapper for the 6S Radiative Transfer Model.
     
     This is the main class which can be used to instantiate an object which has the key methods for running 6S.
     
-    The most import method in this class is the run method which writes the 6S input file,
+    The most import method in this class is the :meth:`.run` method which writes the 6S input file,
     runs the model and processes the output.
     
     The parameters of the model are set as the attributes of this class, and the outputs are available as attributes under
     the output attribute.
     
     For a simple test to ensure that Py6S has found the correct executable for 6S simply
-    run the test method of this class::
+    run the :meth:`.test` method of this class::
     
       SixS.Test()
     
     Attributes:
-    atmos_profile         The atmospheric profile to use. Should be set to the output of an AtmosProfile method.
-                          Example:
-                          s.atmos_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer)
-                      
-    aero_profile          The aerosol profile to use. Should be set to the output of an AeroProfile method.
-                          Example:
-                          s.aero_profile = AeroProfile.PredefinedType(AeroProfile.Urban)
-                      
-    ground_reflectance    The ground reflectance to use. Should be set to the output of a GroundReflectance method.
-                          Example:
-                          s.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.3)
     
-    geometry              The geometrical settings, including solar and viewing angles. Should be set to an instance of a Geometry class,
-                          which can then have various attributes set.
-                          Example:
-                          s.geometry = GeometryUser()
-                          s.geometry.solar_z = 35
-                          s.geometry.solar_a = 190
+    * ``atmos_profile`` -- The atmospheric profile to use. Should be set to the output of an AtmosProfile method. For example::
+    
+                            s.atmos_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer)
+                      
+    * ``aero_profile`` -- The aerosol profile to use. Should be set to the output of an AeroProfile method. For example::
                           
-    wavelength            The wavelength settings. Should be set to the output of the Wavelength.Wavelength() method.
-                          Example:
-                          s.wavelength = Wavelength.Wavelength(0.550)
+                            s.aero_profile = AeroProfile.PredefinedType(AeroProfile.Urban)
+                      
+    * ``ground_reflectance`` -- The ground reflectance to use. Should be set to the output of a GroundReflectance method. For example::
+    
+                            s.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.3)
+    
+    * ``geometry`` -- The geometrical settings, including solar and viewing angles. Should be set to an instance of a Geometry class, which can then have various attributes set. For example::
                           
-    atmos_corr            The settings for whether to perform atmospheric correction or not, and the parameters for this correction.
-                          Should be set to the output of a AtmosCorr method.
-                          Example:
-                          s.atmos_corr = AtmosCorr.AtmosCorrLambertianFromReflectance(0.23)
+                            s.geometry = GeometryUser()
+                            s.geometry.solar_z = 35
+                            s.geometry.solar_a = 190
+                          
+    * ``altitudes`` -- The settings for the sensor and target altitudes. This should be set to an instance of the :meth:`.Altitudes` class, which can then have various attributes set. For example::
+                      
+                            s.altitudes = Altitudes()
+                            s.altitudes.set_target_custom_altitude(2.3)
+                            s.altitudes.set_sensor_sea_level()
+                      
+    * ``wavelength`` -- The wavelength settings. Should be set to the output of the :meth:`.Wavelength.Wavelength()` method. For example::
+                        
+                            s.wavelength = Wavelength.Wavelength(0.550)
+                          
+    * ``atmos_corr`` -- The settings for whether to perform atmospheric correction or not, and the parameters for this correction. Should be set to the output of a AtmosCorr method. For example::
+                          
+                            s.atmos_corr = AtmosCorr.AtmosCorrLambertianFromReflectance(0.23)
                           
     """
 
@@ -62,7 +68,8 @@ class SixS(object):
         and finds the 6S executable by searching the path.
         
         Arguments:
-        path -- (Optional) The path to the 6S executable - if not specified then the system PATH and current directory are searched for the executable.
+        
+        * ``path`` -- (Optional) The path to the 6S executable - if not specified then the system PATH and current directory are searched for the executable.
         
         """
         self.sixs_path = self.find_path(path)
@@ -95,7 +102,8 @@ class SixS(object):
       """Finds the path of the 6S executable.
       
       Arguments:
-      path -- (Optional) The path to the 6S executable
+      
+      * ``path`` -- (Optional) The path to the 6S executable
       
       Finds the 6S executable on the system, either using the given path or by searching the system PATH variable and the current directory
       
@@ -122,6 +130,7 @@ class SixS(object):
         return None
 
     def create_geom_lines(self):
+      """Creates the geometry lines for the input file"""
       return str(self.geometry)
 
     def create_atmos_aero_lines(self):
@@ -183,15 +192,16 @@ class SixS(object):
     def run(self):
         """Runs the 6S model and stores the outputs in the output variable.
         
-        May raise an ExecutionError if the 6S executable cannot be found."""
+        May raise an :class:`.ExecutionError` if the 6S executable cannot be found."""
         
         if self.sixs_path == None:
             raise ExecutionError("6S executable not found.")     
         
-        self.write_input_file("tmp_in.txt")
+        tmp_file, tmp_file_name = tempfile.mkstemp(prefix="tmp_Py6S_input_", text=True)
+        self.write_input_file(tmp_file_name)
         
         # Run the process and get the stdout from it
-        process = subprocess.Popen("%s < tmp_in.txt" % self.sixs_path, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen("%s < %s" % (self.sixs_path, tmp_file_name), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         outputs = process.communicate()
         self.outputs = Outputs(outputs[0], outputs[1])
 
@@ -202,7 +212,7 @@ class SixS(object):
         print "6S wrapper script by Robin Wilson"
         sixs_path = test.find_path()
         if sixs_path == None:
-            print "Error: cannot find sixs executable in $PATH or current directory."
+            print "Error: cannot find the sixs executable in $PATH or current directory."
         else:
             print "Using 6S located at %s" % sixs_path
             print "Running 6S using a set of test parameters"

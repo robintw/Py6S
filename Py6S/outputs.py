@@ -3,9 +3,7 @@ from sixs_exceptions import *
 
 class Outputs(object):
     """Stores the output from a 6S run.
-    
-    !!! Mention attribute accessing
-    
+        
     Attributes:
     
      * ``fulltext`` -- The full output of the 6S executable. This can be written to a file with the write_output_file method.
@@ -13,10 +11,10 @@ class Outputs(object):
     
     Methods:
     
-     * ``__init__`` -- Constructor which takes the stdout and stderr from the model and processes it into the numerical outputs.
-     * ``extract_results`` -- Function called by the constructor to parse the output into individual variables
-     * ``to_int`` -- Convert a string to an int, so that it works even if passed a float.
-     * ``write_output_file`` -- Write the full textual output of the 6S model to a file.
+     * :meth:`.__init__` -- Constructor which takes the stdout and stderr from the model and processes it into the numerical outputs.
+     * :meth:`.extract_results` -- Function called by the constructor to parse the output into individual variables
+     * :meth:`.to_int` -- Convert a string to an int, so that it works even if passed a float.
+     * :meth:`.write_output_file` -- Write the full textual output of the 6S model to a file.
     
     """
     # Stores the full textual output from 6S
