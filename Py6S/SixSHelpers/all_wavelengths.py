@@ -40,7 +40,7 @@ class Wavelengths:
       else:
         results.append(getattr(s.outputs, output_name))
       
-    return wavelengths, results
+    return np.array(wavelengths), np.array(results)
 
   @classmethod
   def run_vnir(cls, s, spacing=0.005, output_name=None):
