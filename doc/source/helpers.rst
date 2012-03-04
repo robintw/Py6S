@@ -29,6 +29,20 @@ Similar functions exist to run across the whole 6S wavelength range (:meth:`.run
 .. image:: landsat_etm_plot.png
     :scale: 50
 
+The supported sensors are:
+* Landsat MSS, TM and ETM
+* SPOT HRV1, HRV2 and Vegetation
+* MERIS
+* MODIS
+* POLDER
+* SeaWiFS
+* AATSR
+* ASTER
+* VIIRS
+* ER2 MODIS Airborne Simulator (MAS)
+* ALI
+* GLI
+
 .. autoclass:: Py6S.SixSHelpers.Wavelengths
   :members:
 
@@ -45,7 +59,7 @@ For example, the following code runs 6S simulations for many view zenith and azi
     SixSHelpers.Angles.run_and_plot_360(s, 'view', 'pixel_reflectance')
 
 .. image:: roujean_plot.png
-    :scale: 50  
+    :scale: 50
     
 .. autoclass:: Py6S.SixSHelpers.Angles
   :members:
