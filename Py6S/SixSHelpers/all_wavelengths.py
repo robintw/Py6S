@@ -178,10 +178,10 @@ class Wavelengths:
     A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
     or a list of values of the selected output if ``output_name`` is set.
     """
-    wv = [Wavelength.MERIS_B1, Wavelength.MERIS_B2, Wavelength.MERIS_B3, Wavelength.MERIS_B4, Wavelength.MERIS_B5, Wavelength.MERIS_B6, Wavelength.MERIS_B7, Wavelength.MERIS_B8, Wavelength.MERIS_B9, Wavelength.MERIS_B10, Wavelength.MERIS_B11, Wavelength.MERIS_B12, Wavelength.MERIS_B13,Wavelength.MERIS_B14, Wavelength.MERIS_B15]
+    wv = [Wavelength.MERIS_B1, Wavelength.MERIS_B2, Wavelength.MERIS_B3, Wavelength.MERIS_B4, Wavelength.MERIS_B5, Wavelength.MERIS_B6, Wavelength.MERIS_B7, Wavelength.MERIS_B9, Wavelength.MERIS_B10, Wavelength.MERIS_B11, Wavelength.MERIS_B12, Wavelength.MERIS_B8, Wavelength.MERIS_B13,Wavelength.MERIS_B14, Wavelength.MERIS_B15]
     wv, res = cls.run_wavelengths(s, wv, output_name=output_name)
     
-    centre_wvs = [0.4125, 0.4425, 0.490, 0.510, 0.560, 0.620, 0.665, 0.8125, 0.70875, 0.75375, 0.760625, 0.77875, 0.865, 0.885, 0.900]
+    centre_wvs = [0.4125, 0.4425, 0.490, 0.510, 0.560, 0.620, 0.665, 0.70875, 0.75375, 0.760625, 0.77875, 0.8125, 0.865, 0.885, 0.900]
     
     return (centre_wvs, res)
   
@@ -199,10 +199,10 @@ class Wavelengths:
     A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
     or a list of values of the selected output if ``output_name`` is set.
     """
-    wv = [Wavelength.MODIS_B8, Wavelength.MODIS_B1, Wavelength.MODIS_B2, Wavelength.MODIS_B3, Wavelength.MODIS_B4, Wavelength.MODIS_B5, Wavelength.MODIS_B6, Wavelength.MODIS_B7]
+    wv = [Wavelength.MODIS_B8, Wavelength.MODIS_B3, Wavelength.MODIS_B4, Wavelength.MODIS_B1, Wavelength.MODIS_B2, Wavelength.MODIS_B5, Wavelength.MODIS_B6, Wavelength.MODIS_B7]
     wv, res = cls.run_wavelengths(s, wv, output_name=output_name)
     
-    centre_wvs = [0.4125, 0.645, 0.8585, 0.469, 0.555, 1.24, 1.64, 2.13]
+    centre_wvs = [0.4125, 0.469, 0.555, 0.645, 0.8585, 1.24, 1.64, 2.13]
     
     return (centre_wvs, res)
     
@@ -346,10 +346,10 @@ class Wavelengths:
     A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
     or a list of values of the selected output if ``output_name`` is set.
     """
-    wv = [Wavelength.VIIRS_BM1, Wavelength.VIIRS_BM2, Wavelength.VIIRS_BM3, Wavelength.VIIRS_BM4, Wavelength.VIIRS_BM5, Wavelength.VIIRS_BM6, Wavelength.VIIRS_BM7, Wavelength.VIIRS_BM8, Wavelength.VIIRS_BM9, Wavelength.VIIRS_BM10, Wavelength.VIIRS_BM11, Wavelength.VIIRS_BM12, Wavelength.VIIRS_BI1, Wavelength.VIIRS_BI2, Wavelength.VIIRS_BI3, Wavelength.VIIRS_BI4]
+    wv = [Wavelength.VIIRS_BM1, Wavelength.VIIRS_BM2, Wavelength.VIIRS_BM3, Wavelength.VIIRS_BM4, Wavelength.VIIRS_BI1, Wavelength.VIIRS_BM5, Wavelength.VIIRS_BM6, Wavelength.VIIRS_BM7, Wavelength.VIIRS_BM8, Wavelength.VIIRS_BM9, Wavelength.VIIRS_BM10, Wavelength.VIIRS_BM11, Wavelength.VIIRS_BM12, Wavelength.VIIRS_BI4]
     wv, res = cls.run_wavelengths(s, wv, output_name=output_name)
     
-    centre_wvs = [0.412, 0.445, 0.488, 0.555, 0.672, 0.746, 0.865, 1.24, 1.378, 1.61, 2.25, 3.70, 0.640, 0.865, 1.61, 3.74]
+    centre_wvs = [0.412, 0.445, 0.488, 0.555, 0.640,  0.672, 0.746, 0.865, 1.24, 1.378, 1.61, 2.25, 3.70, 3.74]
     
     return (centre_wvs, res)
     
@@ -409,10 +409,10 @@ class Wavelengths:
     A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
     or a list of values of the selected output if ``output_name`` is set.
     """
-    wv = [Wavelength.GLI_B1, Wavelength.GLI_B2, Wavelength.GLI_B3, Wavelength.GLI_B4, Wavelength.GLI_B5, Wavelength.GLI_B6, Wavelength.GLI_B7, Wavelength.GLI_B8, Wavelength.GLI_B9, Wavelength.GLI_B10, Wavelength.GLI_B11, Wavelength.GLI_B12, Wavelength.GLI_B13, Wavelength.GLI_B14, Wavelength.GLI_B15, Wavelength.GLI_B16, Wavelength.GLI_B17, Wavelength.GLI_B18, Wavelength.GLI_B19, Wavelength.GLI_B20, Wavelength.GLI_B21, Wavelength.GLI_B22, Wavelength.GLI_B23, Wavelength.GLI_B24, Wavelength.GLI_B25, Wavelength.GLI_B26, Wavelength.GLI_B27, Wavelength.GLI_B28, Wavelength.GLI_B29, Wavelength.GLI_B30]
+    wv = [Wavelength.GLI_B1, Wavelength.GLI_B2, Wavelength.GLI_B3, Wavelength.GLI_B4, Wavelength.GLI_B5, Wavelength.GLI_B6, Wavelength.GLI_B7, Wavelength.GLI_B8, Wavelength.GLI_B9, Wavelength.GLI_B10, Wavelength.GLI_B22, Wavelength.GLI_B11, Wavelength.GLI_B12, Wavelength.GLI_B13, Wavelength.GLI_B14, Wavelength.GLI_B15, Wavelength.GLI_B16, Wavelength.GLI_B17, Wavelength.GLI_B18, Wavelength.GLI_B23, Wavelength.GLI_B19,  Wavelength.GLI_B24, Wavelength.GLI_B25, Wavelength.GLI_B26, Wavelength.GLI_B27, Wavelength.GLI_B28, Wavelength.GLI_B29, Wavelength.GLI_B30]
     wv, res = cls.run_wavelengths(s, wv, output_name=output_name)
     
-    centre_wvs = [0.380, 0.400, 0.412, 0.443, 0.460, 0.490, 0.520, 0.545, 0.565, 0.625, 0.666, 0.680, 0.678, 0.710, 0.710, 0.749, 0.763, 0.865, 0.865, 0.460, 0.545, 0.660, 0.825, 1.050, 1.135, 1.240, 1.380, 1.640, 2.210, 3.715]
+    centre_wvs = [0.380, 0.400, 0.412, 0.443, 0.460, 0.490, 0.520, 0.545, 0.565, 0.625, 0.660, 0.666, 0.680, 0.678, 0.710, 0.710, 0.749, 0.763, 0.825, 0.865, 0.865, 1.050, 1.135, 1.240, 1.380, 1.640, 2.210, 3.715]
     
     return (centre_wvs, res)  
   
