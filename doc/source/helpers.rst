@@ -7,7 +7,7 @@ Running for many wavelengths
 ----------------------------
 The Wavelengths class contains functions to run 6S over a number of wavelength ranges.
 
-For example, the following code runs 6S simulations across the Visible-Near Infrared wavelength range and plots the results::
+For example, the following code runs 6S simulations across the Visible-Near Infrared wavelength range and plots the results, producing the output shown below::
 
   from Py6S import *
   s = SixS()
@@ -15,8 +15,20 @@ For example, the following code runs 6S simulations across the Visible-Near Infr
   wavelengths, values = SixSHelpers.Wavelengths.run_vnir(s, output_name='pixel_radiance')
   SixSHelpers.Wavelengths.plot_wavelengths(wavelengths, values, 'Pixel Radiance (W/m^2)')
 
-Similar functions exist to run across the whole 6S wavelength range (:meth:`.run_whole_range`), and to run for all bands for the various sensors supported in 6S (for example, :meth:`.run_landsat_tm`, :meth:`.run_modis` and :meth:`.run_aatsr`). It should be noted that bands which are outside of the 6S wavelength range (0.2-4.0um) will not be simulated.
-  
+.. image:: wv_plot.png
+    :scale: 50
+
+Similar functions exist to run across the whole 6S wavelength range (:meth:`.run_whole_range`), and to run for all bands for the various sensors supported in 6S (for example, :meth:`.run_landsat_tm`, :meth:`.run_modis` and :meth:`.run_aatsr`). It should be noted that for these functions, bands which are outside of the 6S wavelength range (0.2-4.0um), such as the Landsat thermal band, will not be simulated. The example below shows the creation of a plot for the Landsat ETM bands::
+
+  from Py6S import *
+  s = SixS()
+  s.aero_profile = AeroProfile.PredefinedType(AeroProfile.Maritime)
+  wavelengths, values = SixSHelpers.Wavelengths.run_landsat_etm(s, output_name='pixel_reflectance')
+  SixSHelpers.Wavelengths.plot_wavelengths(wavelengths, values, 'Pixel Reflectance')
+
+.. image:: landsat_etm_plot.png
+    :scale: 50
+
 .. autoclass:: Py6S.SixSHelpers.Wavelengths
   :members:
 
@@ -24,14 +36,17 @@ Running for many angles
 -----------------------
 The Angles class contains functions to run 6S over a number of different angles, which are particularly useful when dealing with surfaces with a modelled-BRDF.
 
-For example, the following code runs 6S simulations for many view zenith and azimuth angles and plots a polar contour plot of the resulting reflectance distribution::
+For example, the following code runs 6S simulations for many view zenith and azimuth angles and plots a polar contour plot of the resulting reflectance distribution. The output is shown below::
   
     s = SixS()
-    s.ground_reflectance = GroundReflectance.HomogeneousWalthall(0.48, 0.50, 2.95, 0.6)
+    s.ground_reflectance = GroundReflectance.HomogeneousRoujean(0.037, 0.0, 0.133)
     s.geometry.solar_z = 30
     s.geometry.solar_a = 0
     SixSHelpers.Angles.run_and_plot_360(s, 'view', 'pixel_reflectance')
-      
+
+.. image:: roujean_plot.png
+    :scale: 50  
+    
 .. autoclass:: Py6S.SixSHelpers.Angles
   :members:
 

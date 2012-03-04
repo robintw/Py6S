@@ -162,12 +162,10 @@ class Angles:
     fig, ax = subplots(subplot_kw=dict(projection='polar'))
     ax.set_theta_zero_location("N")
     ax.set_theta_direction(-1)
-    autumn()
     if filled:
       cax = ax.contourf(theta, r, values, 30)
     else:
       cax = ax.contour(theta, r, values, 30)
-    autumn()
     cb = fig.colorbar(cax)
     cb.set_label(colorbarlabel)
     
