@@ -8,6 +8,8 @@ Before starting the installation process, ensure that you have a working Python 
 * ``numpy``
 * ``scipy``
 * ``matplotlib``
+* ``python-dateutil``
+* ``pysolar``
 
 It will also be helpful to have the `IPython <http://ipython.org/>`_ installed for interactive testing of Py6S.
 
@@ -89,7 +91,7 @@ These instructions were written based on testing with Mac OS X 10.7 (Lion), but 
 
 #. If no errors have been produced, then test the 6S executable by typing::
 
-    sixsV1.1 < ..\Examples\Example_In_1.txt
+    sixsV1.1 < ../Examples/Example_In_1.txt
 
 #. If this is working correctly you should see a number of screen's worth of output, finishing with something that looks like::
 
@@ -111,7 +113,9 @@ Part of the problem with installation instructions for Linux is that there are s
 do things slightly differently. Therefore, the instructions below will be a bit more general than those above, but you should be able to
 work out what to do.
 
-1. You need to install ``gfortran`` - the GNU Fortran compiler. This may already be installed in your system - you can check by typing ``gfortran -v`` in a terminal, if you don't get an error, then it is installed. If not, install it using the standard installation method for your distribution. You can often do this via a GUI tool, such as Synaptic Package Manager, or via the command-line, for example::
+1. Download the 6S source code from http://6s.ltdri.org/. Choose *Download 6S* then *6SV1.1* and download the `.tar` file.
+
+#. You need to install ``gfortran`` - the GNU Fortran compiler. This may already be installed in your system - you can check by typing ``gfortran -v`` in a terminal, if you don't get an error, then it is installed. If not, install it using the standard installation method for your distribution. You can often do this via a GUI tool, such as Synaptic Package Manager, or via the command-line, for example::
 
     # For Debian/Ubuntu-based distributions
     sudo apt-get install gfortran
@@ -120,9 +124,46 @@ work out what to do.
     # For Arch
     sudo pacman -S gfortran
 
-2. The ``Makefile`` that comes with 6S expects to use the ``g77`` compiler, so we need to instruct it to use ``gfortran`` instead.
+#. Extract the source code from the .tar file you downloaded::
 
-**TODO: COMPLETE HERE**
+    cd ~/Downloads (or wherever you put the file)
+    tar -xvf 6SV-1.1.tar
+    cd 6SV1.1
+
+#. The ``Makefile`` that comes with 6S expects to use the ``g77`` compiler, so we need to instruct it to use ``gfortran`` instead. Open the file called ``Makefile`` in an editor of your choice, for example::
+
+    nano Makefile
+  
+#. Change the line which contains::
+
+    FC      = g77 $(FFLAGS)
+  
+#. to::
+  
+    FC      = gfortran -ffixed-line-length-132 -freal-loops $(FFLAGS)
+  
+#. Exit the editor and return to the command line.
+
+#. Run ``make``
+
+#. If no errors have been produced, then test the 6S executable by typing::
+
+    sixsV1.1 < ../Examples/Example_In_1.txt
+
+#. If this is working correctly you should see a number of screen's worth of output, finishing with something that looks like::
+
+    *******************************************************************************
+    *                        atmospheric correction result                        *
+    *                        -----------------------------                        *
+    *       input apparent reflectance            :    0.100                      *
+    *       measured radiance [w/m2/sr/mic]       :   38.529                      *
+    *       atmospherically corrected reflectance                                 *
+    *       Lambertian case :      0.22187                                        *
+    *       BRDF       case :      0.22187                                        *
+    *       coefficients xa xb xc                 :  0.00685  0.03870  0.06820    *
+    *       y=xa*(measured radiance)-xb;  acr=y/(1.+xc*y)                         *
+    *******************************************************************************
+
 
 Installing 6S
 -------------
@@ -165,7 +206,7 @@ Then simply run::
 
   > easy_install <eggfile>
   
-Where ``<eggfile>`` is the correct egg file for your Python version.
+Where ``<eggfile>`` is the correct egg file for your Python version. You will need to do this twice: once for ``Py6S-xxx.egg`` and once for ``Pysolar-xxx.egg``.
 
 Testing Py6S
 ------------
