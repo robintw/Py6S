@@ -58,7 +58,6 @@ class Aeronet:
     
     """
     tmp_file, tmp_file_name = tempfile.mkstemp(prefix="tmp_aeronet_", text=True)
-    print tmp_file_name
     
     # Get the given time from the user
     given_time = dateutil.parser.parse(time, dayfirst=True)
@@ -116,6 +115,7 @@ class Aeronet:
     diff = abs(diff)
     index = np.argmax(diff == min(diff))
     row = a[index]
+    
     
     dvdlogr = list(row)[1:]
     
