@@ -1,3 +1,6 @@
+import solar
+import dateutil.parser
+
 class Geometry:
   class User:
     """Stores parameters for a user-defined geometry for 6S.
@@ -22,6 +25,32 @@ class Geometry:
     
     def __str__(self):
       return '0 (User defined)\n%d %d %d %d %d %d\n' % (self.solar_z, self.solar_a, self.view_z, self.view_a, self.month, self.day)
+      
+    def from_time_and_location(self, lat, long, datetimestring, view_z, view_a):
+      """Sets the user-defined geometry to a given view zenith and azimuth, and a solar zenith and azimuth calculated from the lat, long and date given.
+      
+      Uses the PySolar module for the calculations
+      
+      """
+      dt = dateutil.parser.parse(datetimestring, dayfirst=True)
+      self.solar_z = solar.GetAltitude(lat, long, dt)
+      
+      az = solar.GetAzimuth(lat, long, dt)
+      
+      if az < 0:
+        self.solar_a = abs(az) + 180
+      else:
+        self.solar_a = abs(az - 180)
+        
+      self.solar_a = solar_a % 360
+      
+      self.day = dt.day
+      self.month = dt.month
+      
+      self.view_z = view_z
+      self.view_a = view_a
+      
+      
     
   class Meteosat:
     """Stores parameters for a Meteosat geometry for 6S.
