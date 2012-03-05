@@ -31,8 +31,10 @@ class Wavelengths:
     
     """
     results = []
-    
+    print "Running for many wavelengths - this may take a long time\nCurrent wavelength:"
     for wavelength in wavelengths:
+      if (wavelength % 0.05) < 0.0001:
+        print wavelength
       s.wavelength = Wavelength.Wavelength(wavelength)
       s.run()
       if output_name == None:
