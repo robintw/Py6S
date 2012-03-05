@@ -79,7 +79,7 @@ class AeroProfile:
         s.aeroprofile.add_component(...)
       
       """
-      return AerosolDistribution(rmin, rmax, 8)
+      return cls.AerosolDistribution(rmin, rmax, 8)
       
     @classmethod
     def ModifiedGammaDistribution(cls, rmin, rmax):
@@ -99,7 +99,7 @@ class AeroProfile:
         s.aeroprofile.add_component(...)
       
       """
-      return AerosolDistribution(rmin, rmax, 9)
+      return cls.AerosolDistribution(rmin, rmax, 9)
       
     @classmethod
     def JungePowerLawDistribution(cls, rmin, rmax):
@@ -118,7 +118,7 @@ class AeroProfile:
       s.aeroprofile.add_component(...)
       
       """
-      return AerosolDistribution(rmin, rmax, 10)
+      return cls.AerosolDistribution(rmin, rmax, 10)
     
     @classmethod
     def SunPhotometerDistribution(cls, r, dvdlogr, refr_real, refr_imag):
@@ -232,7 +232,7 @@ class AeroProfile:
       def __str__(self):
         result = "%d\n%f %f %d\n" % (self.numtype, self.rmin, self.rmax, len(self.values))
         components = ''.join(self.values)
-        return result + components
+        return result + components + "0 no results saved"
     
     class UserProfile:
       """Set 6S to use a user-defined aerosol profile, with differing AOTs over the height of the profile.
