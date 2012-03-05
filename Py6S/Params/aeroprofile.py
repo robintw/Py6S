@@ -271,8 +271,8 @@ class AeroProfile:
         
         Arguments:
         
-        * ``height`` - Height of the layer (in km)
-        *~ ``optical_thickness`` - Optical thickness of the layer
+        * ``height`` -- Height of the layer (in km)
+        * ``optical_thickness`` -- Optical thickness of the layer
         
         Example usage::
         

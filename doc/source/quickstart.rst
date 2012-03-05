@@ -193,4 +193,11 @@ This will produce a plot like the following:
 
 Using real-world measurements to parameterise Py6S
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Another common task is to parameterise 6S with some values collected from real-world measurements, so that the results of 6S simulations can be directly related to measurements in the field.
 
+Py6S provides two ways to parameterise 6S from real-world measurements:
+
+* By importing radiosonde data to set the atmospheric profile, using the :meth:`.import_uow_radiosonde_data` function
+* By importing AERONET data to set the aerosol profile, using the :meth:`.import_aeronet_data` function
+
+Detailed descriptions of these functions are given on their respective pages.

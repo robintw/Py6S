@@ -3,24 +3,24 @@ Parameter Setting
 
 Parameters for 6S can be set using the classes and methods described below.
 
-AtmosProfile
-------------
+Atmospheric Profiles
+--------------------
 .. autoclass:: Py6S.AtmosProfile
   :members:
 
 
-AeroProfile
------------
+Aerosol Profiles
+----------------
 .. autoclass:: Py6S.AeroProfile
   :members:
 
-GroundReflectance
------------------
+Ground Reflectances
+-------------------
 .. autoclass:: Py6S.GroundReflectance
   :members:
 
-Geometry
---------
+Geometries
+----------
 .. autoclass:: Py6S.Geometry
   :members:
   
@@ -29,8 +29,8 @@ Altitudes
 .. autoclass:: Py6S.Altitudes
   :members:
   
-Wavelength
-----------
+Wavelengths
+-----------
 .. autoclass:: Py6S.Wavelength
   :members:  
   
@@ -200,7 +200,7 @@ Wavelength
    * VIIRS_BI4
 
   
-AtmosCorr
----------
+Atmospheric Corrections
+-----------------------
 .. autoclass:: Py6S.AtmosCorr
   :members:
