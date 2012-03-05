@@ -161,7 +161,7 @@ class AeroProfile:
       comp += ' '.join(real) + '\n'
       comp += ' '.join(imag) + '\n'
       
-      return header + num + ds + comp
+      return header + num + ds + comp + "0 no results saved"
 
 
     class AerosolDistribution:

@@ -44,11 +44,19 @@ class GroundReflectance:
          - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 0.25nm.
         
         """
-        ro_type, ro_value = cls._GetTargetTypeAndValues(ro)        
-        return """0 Homogeneous surface
+        ro_type, ro_value = cls._GetTargetTypeAndValues(ro)
+        
+        if ro_value == "":
+          res = """0 Homogeneous surface
+0 No directional effects
+%s\n""" % (ro_type)
+        else:
+          res = """0 Homogeneous surface
 0 No directional effects
 %s
 %s\n""" % (ro_type, ro_value)
+
+        return res
 
     @classmethod
     def HeterogeneousLambertian(cls, radius, ro_target, ro_env):
