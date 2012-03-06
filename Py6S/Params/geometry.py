@@ -73,7 +73,7 @@ class Geometry:
     line = 0
     
     def __str__(self):
-      return '1 (Meteosat)\n%d %d %d %d %d (Geometrical Conditions)' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.line)
+      return '1 (Meteosat)\n%d %d %d %d %d (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.line)
       
   class GoesEast:
     """Stores parameters for a GOES East geometry for 6S.
@@ -94,7 +94,7 @@ class Geometry:
     line = 0
     
     def __str__(self):
-      return '2 (Goes East)\n%d %d %d %d %d (Geometrical Conditions)' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.line)
+      return '2 (Goes East)\n%d %d %d %d %d (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.line)
       
       
   class GoesWest:
@@ -116,7 +116,7 @@ class Geometry:
     line = 0
     
     def __str__(self):
-      return '3 (Goes West)\n%d %d %d %d %d (Geometrical Conditions)' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.line)
+      return '3 (Goes West)\n%d %d %d %d %d (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.line)
       
   class AVHRR_PM:
     """Stores parameters for a AVHRR afternoon pass geometry for 6S.
@@ -138,7 +138,7 @@ class Geometry:
     ascendant_node_hour = 0
     
     def __str__(self):
-      return '4 (AVHRR PM NOAA)\n%d %d %d %d %d (Geometrical Conditions)' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.ascendant_node_longitude, self.ascendant_node_hour)
+      return '4 (AVHRR PM NOAA)\n%d %d %d %d %d (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.ascendant_node_longitude, self.ascendant_node_hour)
       
   class AVHRR_AM:
     """Stores parameters for a AVHRR morning pass geometry for 6S.
@@ -160,7 +160,7 @@ class Geometry:
     ascendant_node_hour = 0
     
     def __str__(self):
-      return '5 (AVHRR AM NOAA)\n%d %d %d %d %d (Geometrical Conditions)' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.ascendant_node_longitude, self.ascendant_node_hour)
+      return '5 (AVHRR AM NOAA)\n%d %d %d %d %d (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.ascendant_node_longitude, self.ascendant_node_hour)
       
   class SPOT_HRV:
     """Stores parameters for a SPOT HRV geometry for 6S.
@@ -181,7 +181,7 @@ class Geometry:
     latitude = 0
     
     def __str__(self):
-      return '6 (SPOT)\n%d %d %d %d %d (Geometrical Conditions)' % (self.month, self.day, self.gmt_decimal_hour, self.longitude, self.latitude)
+      return '6 (SPOT)\n%d %d %d %d %d (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.longitude, self.latitude)
       
   class Landsat_TM:
     """Stores parameters for a Landsat TM geometry for 6S.
@@ -202,4 +202,4 @@ class Geometry:
     latitude = 0
     
     def __str__(self):
-      return '7 (TM)\n%d %d %d %d %d (Geometrical Conditions)' % (self.month, self.day, self.gmt_decimal_hour, self.longitude, self.latitude)
+      return '7 (TM)\n%d %d %d %d %d (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.longitude, self.latitude)
