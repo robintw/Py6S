@@ -417,6 +417,22 @@ class Wavelengths:
     centre_wvs = [0.380, 0.400, 0.412, 0.443, 0.460, 0.490, 0.520, 0.545, 0.565, 0.625, 0.660, 0.666, 0.680, 0.678, 0.710, 0.710, 0.749, 0.763, 0.825, 0.865, 0.865, 1.050, 1.135, 1.240, 1.380, 1.640, 2.210, 3.715]
     
     return (centre_wvs, res)  
+    
+  @classmethod
+  def extract_output(cls, results, output_name):
+    """Extracts data for one particular SixS output from a list of SixS.Outputs instances.
+    
+    Basically just a wrapper around a list comprehension.
+    
+    Arguments:
+    
+    * ``results`` -- A list of :class:`.SixS.Outputs` instances
+    * ``output_name`` -- The name of the output to extract. This should be a string containing whatever is put after the `s.outputs` when printing the output, for example `'pixel_reflectance'`.
+    
+    """
+    results_output = [getattr(r, output_name) for r in results]
+    
+    return results_output
   
   @classmethod
   def plot_wavelengths(cls, wavelengths, values, y_axis_label):

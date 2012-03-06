@@ -173,7 +173,27 @@ You can plot the results really easily too, just by passing the resulting wavele
   # Plot the results, setting the y-axis label appropriately
   SixSHelpers.Wavelengths.plot_wavelengths(wv, res, 'Pixel radiance ($W/m^2$)')
 
-You'll note that **TODO: Output_name stuff**
+You'll note that all of the ``run_xxx`` methods require a :class:`.SixS` instance as the first argument, and then an optional ``output_name`` argument. This specifies the output that you want to return from the function, and should whatever you would put after ``s.outputs.`` to print the output. For example, the output name could be any of the following::
+
+  pixel_reflectance
+  background_reflectance
+  transmittance_co2.downward
+  
+If you don't set the ``output_name`` argument then the function will return lots of :class:`.Outputs` instances rather than actual values. This can be handy if you want to work with lots of the outputs from a simulation, as it saves you having to run the whole simulation many times. For example::
+
+  s = SixS()
+  # Run for the whole range (takes a long time!)
+  wv, res = SixSHelpers.Wavelengths.run_landsat_tm(s)
+  # Look at what is in the results list - it should be an outputs instance
+  print res[0]
+  # We can't do anything with the outputs instances directly, but lets
+  # extract some outputs - we can do all of this without having to run
+  # the whole simulation again, as the res variable is storing all of the
+  # outputs
+  refl = SixSHelpers.Wavelengths.extract_output(res, "pixel_reflectance")
+  rad = SixSHelpers.Wavelengths.extract_output(res, "pixel_radiance")
+  SixSHelpers.Wavelengths.plot_wavelengths(wv, refl, "Pixel reflectance")
+  SixSHelpers.Wavelengths.plot_wavelengths(wv, rad, "Pixel radiance")
 
 Another common use is to simulate a number of different view or solar angles, to examine the changes in the reflectance of a target due to its Bi-Directional Reflectance Distribution Factor. Doing this manually can be very tricky, as many simulations must be run, and then the results must be put into the right format to be plotted. Py6S makes this nice and easy by reducing it to one function call::
 
@@ -184,7 +204,7 @@ Another common use is to simulate a number of different view or solar angles, to
   s.ground_reflectance = GroundReflectance.HomogeneousRoujean(0.037, 0.0, 0.133)
   # Run the model and plot the results, varying the view angle (the other
   #  option is to vary the solar angle) and plotting the pixel reflectance.
-  SixSHelpers.run_and_plot_360(s, 'view', 'pixel_reflectance')
+  SixSHelpers.Angles.run_and_plot_360(s, 'view', 'pixel_reflectance')
   
 This will produce a plot like the following:
 
