@@ -42,7 +42,7 @@ class Geometry:
       else:
         self.solar_a = abs(az - 180)
         
-      self.solar_a = solar_a % 360
+      self.solar_a = self.solar_a % 360
       
       self.day = dt.day
       self.month = dt.month
