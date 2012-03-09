@@ -21,4 +21,13 @@ print "run 2"
 wv, late_res = SixSHelpers.Wavelengths.run_vnir(late, spacing=0.01, output_name='pixel_radiance')
 
 plot(wv, early_res, 'b-', wv, late_res, 'r-')
-show()
+xlabel("Wavelength ($\mu m$)")
+ylabel("Radiance ($W/m^2$)")
+savefig("ncaveo_radiances.png")
+clf()
+
+perc_diff = ()(early_res - late_res) / early_res) * 100
+plot(wv, perc_diff)
+xlabel("Wavelength ($\mu m$)")
+ylabel("Percentage difference from 08:10 measurement (%)")
+savefig("ncaveo_perc_diff.png")
