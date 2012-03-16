@@ -8,7 +8,6 @@ Atmospheric Profiles
 .. autoclass:: Py6S.AtmosProfile
   :members:
 
-
 Aerosol Profiles
 ----------------
 .. autoclass:: Py6S.AeroProfile

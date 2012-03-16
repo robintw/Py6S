@@ -10,6 +10,8 @@ class Altitudes:
     self.ozone = None
   
   def set_target_sea_level(self):
+    """Set the altitude of the target to be at sea level (0km)"""
+    
     self.target_alt_pres = 0
   
   def set_target_custom_altitude(self, altitude):

@@ -202,11 +202,12 @@ Py6S is also distributed as a Python Egg file, with a name like ``Py6S-0.51-py2.
   > python -V
   Python 2.7.2 -- EPD 7.1-2 (64-bit)
   
-Then simply run::
+Then simply run the following code, which will install PySolar (required for some Py6S functions), and then Py6S itself:
 
+  > pip install PySolar
   > easy_install <eggfile>
   
-Where ``<eggfile>`` is the correct egg file for your Python version. You will need to do this twice: once for ``Py6S-xxx.egg`` and once for ``Pysolar-xxx.egg``.
+Where ``<eggfile>`` is the correct egg file for your Python version.
 
 Testing Py6S
 ------------

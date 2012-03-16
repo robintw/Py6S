@@ -12,7 +12,7 @@ class Aeronet:
   def import_aeronet_data(cls, s, filename, time):
     """Imports data from an AERONET data file to a given SixS object.
     
-    This requires a valid AERONET data file. The type of file required is a Combined file for All Points (Level
+    This requires a valid AERONET data file. The type of file required is a *Combined file* for All Points (Level
     1.5 or 2.0)
     
     To download a file like this:

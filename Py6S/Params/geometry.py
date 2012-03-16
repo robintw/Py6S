@@ -28,7 +28,14 @@ class Geometry:
     def from_time_and_location(self, lat, long, datetimestring, view_z, view_a):
       """Sets the user-defined geometry to a given view zenith and azimuth, and a solar zenith and azimuth calculated from the lat, long and date given.
       
-      Uses the PySolar module for the calculations
+      Uses the PySolar module for the calculations.
+      
+      Arguments:
+      * ``lat`` -- The latitude of the location (0-90 degrees)
+      * ``long`` -- The longitude of the location
+      * ``datetimestring`` -- Any string that can be parsed to produce a date/time object. All that is really needed is a time - eg. "14:53"
+      * ``view_z`` -- The view zenith angle
+      * ``view_a`` -- The view azimuth angle
       
       """
       # Try and import the PySolar module, if it fails give an error message

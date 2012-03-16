@@ -1,7 +1,7 @@
 The SixS class
 ================================
 
-The SixS class is the heart of Py6S. It has attributes and methods that allow you to set parameters, run 6S and access the outputs. These are described in detail below, but the basic usage pattern is::
+The :class:`.SixS` class is the heart of Py6S. It has attributes and methods that allow you to set parameters, run 6S and access the outputs. These are described in detail below, but the basic usage pattern is::
 
   from Py6S import *
   s = SixS() # Instantiate the class
