@@ -1,4 +1,3 @@
-import solar
 import dateutil.parser
 
 class Geometry:
@@ -32,6 +31,14 @@ class Geometry:
       Uses the PySolar module for the calculations
       
       """
+      # Try and import the PySolar module, if it fails give an error message
+      try:
+        import solar
+      except:
+        raise ExecutionError("To set the geometry from a time and location you must have the PySolar module installed.\nTo install this, run 'pip install pysolar' at the command line.")
+
+      
+      
       dt = dateutil.parser.parse(datetimestring, dayfirst=True)
       self.solar_z = solar.GetAltitude(lat, long, dt)
       
