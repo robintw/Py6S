@@ -201,6 +201,7 @@ class SixS(object):
         if self.sixs_path == None:
             raise ExecutionError("6S executable not found.")     
         
+        # Create the input file as a temporary file
         tmp_file_name = self.write_input_file()
         
         # Run the process and get the stdout from it
@@ -208,6 +209,8 @@ class SixS(object):
         outputs = process.communicate()
         self.outputs = Outputs(outputs[0], outputs[1])
         
+        # Remove the temporary file
+        os.remove(tmp_file_name)
 
     @classmethod
     def test(self):
