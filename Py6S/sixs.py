@@ -48,9 +48,9 @@ class SixS(object):
                             s.altitudes.set_target_custom_altitude(2.3)
                             s.altitudes.set_sensor_sea_level()
                       
-    * ``wavelength`` -- The wavelength settings. Should be set to the output of the :meth:`.Wavelength.Wavelength()` method. For example::
+    * ``wavelength`` -- The wavelength settings. Should be set to the output of the :meth:`.Wavelength()` method. For example::
                         
-                            s.wavelength = Wavelength.Wavelength(0.550)
+                            s.wavelength = Wavelength(0.550)
                           
     * ``atmos_corr`` -- The settings for whether to perform atmospheric correction or not, and the parameters for this correction. Should be set to the output of a AtmosCorr method. For example::
                           
@@ -91,7 +91,7 @@ class SixS(object):
         self.altitudes.set_target_sea_level()
         self.altitudes.set_sensor_sea_level()
         
-        self.wavelength = Wavelength.Wavelength(0.500)
+        self.wavelength = Wavelength(0.500)
         
         self.aot550 = 0.5
         self.visibility = None
