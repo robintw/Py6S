@@ -17,7 +17,7 @@ this documentation, but a quick code example should give you an idea of what Py6
   # Create a SixS object
   s = SixS()
   # Set the wavelength to 0.675um
-  s.wavelength = Wavelength.Wavelength(0.675)
+  s.wavelength = Wavelength(0.675)
   # Set the aerosol profile to Maritime
   s.aero_profile = AeroProfile.PredefinedType(AeroProfile.Maritime)
   # Run the model

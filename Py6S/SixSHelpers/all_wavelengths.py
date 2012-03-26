@@ -27,7 +27,7 @@ class Wavelengths:
       # Run for all wavelengths from 0.4 to 0.5 micrometers, with a spacing of 1nm, returns a list of pixel radiance values
       wavelengths, results = SixSHelpers.Wavelength.run_wavelengths(s, np.arange(0.400, 0.500, 0.001), output_name='pixel_radiance')
       # Run for the first three Landsat TM bands
-      wavelengths, results = SixSHelpers.Wavelength.run_wavelengths(s, [Wavelength.LANDSAT_TM_B1, Wavelength.LANDSAT_TM_B2, Wavelength.LANDSAT_TM_B3)
+      wavelengths, results = SixSHelpers.Wavelength.run_wavelengths(s, [PredefinedWavelengths.LANDSAT_TM_B1, PredefinedWavelengths.LANDSAT_TM_B2, PredefinedWavelengths.LANDSAT_TM_B3)
     
     """
     results = []
@@ -35,7 +35,7 @@ class Wavelengths:
     for wavelength in wavelengths:
       if (wavelength % 0.05) < 0.0001:
         print wavelength
-      s.wavelength = Wavelength.Wavelength(wavelength)
+      s.wavelength = Wavelength(wavelength)
       s.run()
       if output_name == None:
         results.append(s.outputs)

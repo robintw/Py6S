@@ -1,73 +1,64 @@
 #from sixs_exceptions import *
 import collections
 
-class Wavelength:
-    """Class for selecting wavelengths for the 6S model.    
+def Wavelength(start_wavelength, end_wavelength=None, filter=None):
+    """Select one or more wavelengths for the 6S simulation.
     
-    This class includes a method for choosing the wavelength (the Wavelength method), and
-    many constants for the wavelengths of various common sensors, listed below.
-      
+    There are a number of ways to do this:
+    
+    1. Pass a single value of a wavelength in micrometres. The simulation will be performed for just this wavelength::
+    
+        Wavelength(0.43)
+    
+    2. Pass a start and end wavelength in micrometres. The simulation will be performed across this wavelength range with a constant filter function (spectral response function) of 1.0::
+    
+        Wavelength(0.43, 0.50)
+    
+    3. Pass a start and end wavelength, and a filter given at 2.5nm intervals. The simulation will be performed across this wavelength range using the given filter function::
+    
+        Wavelength(0.400, 0.410, [0.7, 0.9, 1.0, 0.3])
+    
+    4. Pass a constant (as defined in this class) for a pre-defined wavelength range::
+    
+        Wavelength(PredefinedWavelength.LANDSAT_TM_B1)
+    
     """
-    
-    MAX_ALLOWABLE_WAVELENGTH = 4
-    MIN_ALLOWABLE_WAVELENGTH = 0.2
-    
-    @classmethod
-    def Wavelength(cls, start_wavelength, end_wavelength=None, filter=None):
-        """Select one or more wavelengths for the 6S simulation.
-        
-        There are a number of ways to do this:
-        
-        1. Pass a single value of a wavelength in micrometres. The simulation will be performed for just this wavelength::
-        
-            Wavelength.Wavelength(0.43)
-        
-        2. Pass a start and end wavelength in micrometres. The simulation will be performed across this wavelength range with a constant filter function (spectral response function) of 1.0::
-        
-            Wavelength.Wavelength(0.43, 0.50)
-        
-        3. Pass a start and end wavelength, and a filter given at 2.5nm intervals. The simulation will be performed across this wavelength range using the given filter function::
-        
-            Wavelength.Wavelength(0.400, 0.410, [0.7, 0.9, 1.0, 0.3])
-        
-        4. Pass a constant (as defined in this class) for a pre-defined wavelength range::
-        
-            Wavelength.Wavelength(Wavelength.LANDSAT_TM_B1)
-        
-        """
-        if end_wavelength == None:
-            # No end wavelength given, so it's either monochromatic or a pre-defined wavelength
-            if start_wavelength < 0:
-                # It's a pre-defined wavelength
-                type = "%d (Chosen Band)\n" % (-1 *start_wavelength)
-                data = None
-            else:
-                # It's simply a wavelength value
-                if start_wavelength > cls.MAX_ALLOWABLE_WAVELENGTH or start_wavelength < cls.MIN_ALLOWABLE_WAVELENGTH:
-                    raise ParameterError("wavelength", "Wavelength must be between %f and %f" % (cls.MIN_ALLOWABLE_WAVELENGTH, cls.MAX_ALLOWABLE_WAVELENGTH))
-                type = "-1"
-                data = "%f" % start_wavelength
+    if end_wavelength == None:
+        # No end wavelength given, so it's either monochromatic or a pre-defined wavelength
+        if start_wavelength < 0:
+            # It's a pre-defined wavelength
+            type = "%d (Chosen Band)\n" % (-1 *start_wavelength)
+            data = None
         else:
-            if start_wavelength > cls.MAX_ALLOWABLE_WAVELENGTH or start_wavelength < cls.MIN_ALLOWABLE_WAVELENGTH or end_wavelength > cls.MAX_ALLOWABLE_WAVELENGTH or end_wavelength < cls.MIN_ALLOWABLE_WAVELENGTH:
-                raise ParameterError("wavelength", "Wavelength must be between %f and %f" % (cls.MIN_ALLOWABLE_WAVELENGTH, cls.MAX_ALLOWABLE_WAVELENGTH))
-            if filter == None:
-                # They haven't given a filter, so assume filter is constant at 1
-                type = "0 constant filter function"
-                data = "%f %f" % (start_wavelength, end_wavelength)
-            else:
-                # Filter has been given, so we must use it.
-                # We assume filter has been given at 2.5nm intervals
-                type = "1 User's defined filtered function"
-                data = """%f %f
+            # It's simply a wavelength value
+            if start_wavelength > PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH or start_wavelength < PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH:
+                raise ParameterError("wavelength", "Wavelength must be between %f and %f" % (PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH, PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH))
+            type = "-1"
+            data = "%f" % start_wavelength
+    else:
+        if start_wavelength > PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH or start_wavelength < PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH or end_wavelength > PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH or end_wavelength < PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH:
+            raise ParameterError("wavelength", "Wavelength must be between %f and %f" % (PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH, PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH))
+        if filter == None:
+            # They haven't given a filter, so assume filter is constant at 1
+            type = "0 constant filter function"
+            data = "%f %f" % (start_wavelength, end_wavelength)
+        else:
+            # Filter has been given, so we must use it.
+            # We assume filter has been given at 2.5nm intervals
+            type = "1 User's defined filtered function"
+            data = """%f %f
 %s""" % (start_wavelength, end_wavelength, " ".join(map(str,filter)))
-        
-        if data == None:
-            return type
-        else:
-            return """%s
+    
+    if data == None:
+        return type
+    else:
+        return """%s
 %s\n""" % (type, data)
 
-
+class PredefinedWavelengths:
+    MAX_ALLOWABLE_WAVELENGTH = 4
+    MIN_ALLOWABLE_WAVELENGTH = 0.2
+  
     # All of the predefined wavelengths
     METEOSAT_VISIBLE = -2
     GOES_EAST_VISIBLE = -3

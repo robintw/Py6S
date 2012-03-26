@@ -55,7 +55,7 @@ We'll start with an example, and then explain the details::
   from Py6S import *
   s = SixS()
   s.atmos_profile = AtmosProfile.PredefinedType(AtmosProfile.Tropical)
-  s.wavelength = Wavelength.Wavelength(0.357)
+  s.wavelength = Wavelength(0.357)
   s.run()
   print s.outputs.pixel_radiance
 
@@ -81,7 +81,7 @@ As you can see, the parameter and class names are designed to be fairly self-exp
   from Py6S import *
   s = SixS()
   s.atmos_profile = AtmosProfile.UserWaterAndOzone(3.6, 0.9) # Set the atmosphere profile to be based on 3.6cm of water and 0.9cm-atm of ozone
-  s.wavelength = Wavelength.Wavelength(Wavelength.LANDSAT_TM_B3) # Set the wavelength to be that of the Landsat TM Band 3 - includes response function 
+  s.wavelength = Wavelength(Wavelength.LANDSAT_TM_B3) # Set the wavelength to be that of the Landsat TM Band 3 - includes response function 
   s.ground_reflectance = GroundReflectance.HomogeneousWalthall(1.08, 0.48, 4.96, 0.5) # Set the surface to have a BRDF approximated by the Walthall model
   s.geometry = Geometry.Landsat_TM()
   s.geometry.month = 7
