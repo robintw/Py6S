@@ -164,7 +164,7 @@ class SixS(object):
         """Create the atmospheric correction lines for the input file"""
         return self.atmos_corr
 
-    def write_input_file(self, filename):
+    def write_input_file(self):
         """Generates a 6S input file from the parameters stored in the object
         and writes it to the given filename.
         
@@ -172,23 +172,27 @@ class SixS(object):
         
         """
         
-        with open(filename, "w") as f:
-            input_file = self.create_geom_lines()
-            
-            input_file += self.create_atmos_aero_lines()
-            
-            input_file += self.create_aot_vis_lines()
-            
-            input_file += self.create_elevation_lines()
-            
-            input_file += self.create_wavelength_lines()
-            
-            input_file += self.create_surface_lines()
-    
-            input_file += self.create_atmos_corr_lines()
-    
-            f.write(input_file)
+        input_file = self.create_geom_lines()
+        
+        input_file += self.create_atmos_aero_lines()
+        
+        input_file += self.create_aot_vis_lines()
+        
+        input_file += self.create_elevation_lines()
+        
+        input_file += self.create_wavelength_lines()
+        
+        input_file += self.create_surface_lines()
 
+        input_file += self.create_atmos_corr_lines()
+        
+        tmp_file = tempfile.NamedTemporaryFile(prefix="tmp_Py6S_input_", delete=False)
+            
+        tmp_file.file.write(input_file)
+        name = tmp_file.name
+        tmp_file.close()
+        return name
+            
     def run(self):
         """Runs the 6S model and stores the outputs in the output variable.
         
@@ -197,13 +201,13 @@ class SixS(object):
         if self.sixs_path == None:
             raise ExecutionError("6S executable not found.")     
         
-        tmp_file, tmp_file_name = tempfile.mkstemp(prefix="tmp_Py6S_input_", text=True)
-        self.write_input_file(tmp_file_name)
+        tmp_file_name = self.write_input_file()
         
         # Run the process and get the stdout from it
         process = subprocess.Popen("%s < %s" % (self.sixs_path, tmp_file_name), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         outputs = process.communicate()
         self.outputs = Outputs(outputs[0], outputs[1])
+        
 
     @classmethod
     def test(self):

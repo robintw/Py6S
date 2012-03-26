@@ -50,11 +50,11 @@ class Angles:
       
   @classmethod
   def plot360(cls, data, output_name=None, show_sun=True):
-    """Plot the data returned from :method:`run360` as a polar contour plot, selecting an output if required.
+    """Plot the data returned from :meth:`run360` as a polar contour plot, selecting an output if required.
     
     Arguments:
     
-    * ``data`` -- The return value from :method:`run360`
+    * ``data`` -- The return value from :meth:`run360`
     * ``output_name`` -- (Optional) The output name to extract (eg. "pixel_reflectance") if the given data is provided as instances of the Outputs class
     * ``show_sun`` -- (Optional) Whether to show the location of the sun on the resulting polar plot.
     
