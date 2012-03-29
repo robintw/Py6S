@@ -49,7 +49,7 @@ class Angles:
     return (results, azimuths, zeniths, s.geometry.solar_a, s.geometry.solar_z)  
       
   @classmethod
-  def plot360(cls, data, output_name=None, show_sun=True):
+  def plot360(cls, data, output_name=None, show_sun=True, colorbarlabel=None):
     """Plot the data returned from :meth:`run360` as a polar contour plot, selecting an output if required.
     
     Arguments:
@@ -57,7 +57,7 @@ class Angles:
     * ``data`` -- The return value from :meth:`run360`
     * ``output_name`` -- (Optional) The output name to extract (eg. "pixel_reflectance") if the given data is provided as instances of the Outputs class
     * ``show_sun`` -- (Optional) Whether to show the location of the sun on the resulting polar plot.
-    
+    * ``colorbarlabel`` -- (Optional) The label to use on the color bar shown with the plot
     """
     
     results, azimuths, zeniths, sa, sz = data
@@ -69,7 +69,7 @@ class Angles:
       
       results = cls.extract_output(results, output_name)
     
-    fig, ax, cax = cls.plot_polar_contour(results, azimuths, zeniths)
+    fig, ax, cax = cls.plot_polar_contour(results, azimuths, zeniths, colorbarlabel=colorbarlabel)
     
     if show_sun:
       ax.autoscale(False)
@@ -79,7 +79,7 @@ class Angles:
     return fig, ax
     
   @classmethod
-  def run_and_plot_360(cls, s, solar_or_view, output_name, show_sun=True, na=36, nz=10):
+  def run_and_plot_360(cls, s, solar_or_view, output_name, show_sun=True, na=36, nz=10, colorbarlabel=None):
     """Runs Py6S for lots of angles to produce a polar contour plot.
     
     Arguments:
@@ -90,6 +90,7 @@ class Angles:
     * ``show_sun`` -- (Optional) Whether to place a marker showing the location of the sun on the contour plot (defaults to True, has no effect when ``solar_or_view`` set to ``'solar'``.)
     * ``na`` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)
     * ``nz`` -- (Optional) The number of zenith angles to iterate over to generate the data for the plot (defaults to 10, giving data every 10 degrees)
+    * ``colorbar`` -- (Optional) The label to use on the color bar shown with the plot
     
     For example::
     
@@ -104,7 +105,7 @@ class Angles:
       show_sun = False
     
     res = cls.run360(s, solar_or_view, na, nz)  
-    plot_res = cls.plot360(res, output_name, show_sun)
+    plot_res = cls.plot360(res, output_name, show_sun, colorbarlabel=colorbarlabel)
     
     return plot_res  
     
@@ -136,6 +137,7 @@ class Angles:
     * ``zeniths`` -- A list of zeniths (that is, radii)
     * ``filled`` -- (Optional) Whether to plot a filled contour plot, or just the contours (defaults to filled)
     * ``yaxislabel`` -- (Optional) The label to use for the colorbar
+    * ``colorbarlabel`` -- (Optional) The label to use on the color bar shown with the plot
     
     The shapes of these lists are important, and are designed for a particular use case (but should be more generally useful).
     The values list should be `len(azimuths) * len(zeniths)` long with data for the first azimuth for all the zeniths, then

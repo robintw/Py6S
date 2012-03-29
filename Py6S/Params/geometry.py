@@ -1,4 +1,5 @@
 import dateutil.parser
+from sixs_exceptions import *
 
 class Geometry:
   class User:
@@ -31,6 +32,7 @@ class Geometry:
       Uses the PySolar module for the calculations.
       
       Arguments:
+      
       * ``lat`` -- The latitude of the location (0-90 degrees)
       * ``long`` -- The longitude of the location
       * ``datetimestring`` -- Any string that can be parsed to produce a date/time object. All that is really needed is a time - eg. "14:53"
