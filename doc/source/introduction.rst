@@ -35,10 +35,10 @@ This will produce the results shown below::
 .. image:: intro_wv_plot.png
     :scale: 50
 
-Py6S was described in a journal article which should be referenced if Py6S is used for producing
-outputs for a scientific report/publication. **TODO: PUT REF HERE**
+Py6S was described in a journal article (currently under review) which should be referenced if Py6S is used for producing
+outputs for a scientific report/publication.
 
 This project was written as part of my PhD at the University of Southampton. The code is open-source,
-released under the *XXX* license, and is available at github **TODO: Not there yet!**.
+released under the Lesser GNU Public License, and is available at GitHub (well, will be after publication).
 
 I'm very interested in receiving feedback, bug reports and feature suggestions, so please email me at robin@rtwilson.com.
