@@ -112,7 +112,7 @@ class Outputs(object):
                        "ground altitude" : (CURRENT, 3, "ground_altitude", float),
                        
                        "appar. rad.(w/m2/sr/mic)" : (CURRENT, 2, "apparent_reflectance", float),
-                       "appar rad." : (CURRENT, 5, "apparent_radiance", float),
+                       "appar. rad." : (CURRENT, 5, "apparent_radiance", float),
                        "total gaseous transmittance" : (CURRENT, 3, "total_gaseous_transmittance", float),
                        
                        "wv above aerosol" : (CURRENT, 4, "wv_above_aerosol", float),
