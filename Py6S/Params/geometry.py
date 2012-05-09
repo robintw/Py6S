@@ -1,5 +1,5 @@
 import dateutil.parser
-from sixs_exceptions import *
+#from sixs_exceptions import *
 
 class Geometry:
   class User:
