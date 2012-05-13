@@ -1,0 +1,70 @@
+import unittest
+from Py6S import *
+import numpy as np
+
+class SimpleTests(unittest.TestCase):
+
+  def test_inbuilt_test(self):
+    result = SixS.test()
+    self.assertEqual(result, 0)
+    
+class VisAOTTests(unittest.TestCase):
+
+  def test_vis_aot_normal(self):
+    s = SixS()
+    s.run()
+    
+    self.assertEqual(s.outputs.visibility, 8.49)
+    self.assertEqual(s.outputs.aot550, 0.5)
+    
+  def test_vis_aot_small(self):
+    s = SixS()
+    s.aot550 = 0.001
+    s.run()
+    
+    self.assertEqual(s.outputs.visibility, float("Inf"))
+    self.assertEqual(s.outputs.aot550, 0.001)   
+
+class WavelengthTests(unittest.TestCase):
+
+  def test_specific_wavelength(self):
+    s = SixS()
+    s.wavelength = Wavelength(0.567)
+    s.run()
+    
+    self.assertEqual(s.outputs.apparent_radiance, 129.792)
+  
+  def test_wavelength_range(self):
+    s = SixS()
+    s.wavelength = Wavelength(0.5, 0.7)
+    s.run()
+    
+    self.assertEqual(s.outputs.apparent_radiance, 122.166)
+   
+  def test_wavelength_filter(self):
+    s = SixS()
+    s.wavelength = Wavelength(0.400, 0.410, [0.7, 0.9, 1.0, 0.3, 1.0])
+    s.run()
+    
+    self.assertEqual(s.outputs.apparent_radiance, 109.435)
+    
+  def test_wavelength_predefined(self):
+    s = SixS()
+    s.wavelength = Wavelength(PredefinedWavelengths.LANDSAT_TM_B1)
+    s.run()
+    
+    self.assertEqual(s.outputs.apparent_radiance, 138.126)
+    
+    s.wavelength = Wavelength(PredefinedWavelengths.MODIS_B6)
+    s.run()
+    
+    self.assertEqual(s.outputs.apparent_radiance, 17.917)
+    
+  def test_run_for_all_wvs(self):
+    s = SixS()
+    results = SixSHelpers.Wavelengths.run_landsat_etm(s, "apparent_radiance")
+    
+    a = np.array([ 138.392,  129.426,  111.635,   75.822,   16.684,    5.532])
+    
+    self.assertEqual(results[0], [0.4825, 0.565, 0.66, 0.825, 1.65, 2.215])
+    self.assertEqual(all(a == results[1]), True)
