@@ -12,3 +12,6 @@ OutputsJ.txt
 src/GetSpectra.py
 src/Test.py
 Py6S/build
+CHL
+*.mie
+*.png
