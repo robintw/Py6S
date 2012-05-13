@@ -86,6 +86,7 @@ class Outputs(object):
         lines = fulltext.splitlines()
         
         CURRENT = 0
+        WHOLE_LINE = (0,30)
         
         # The dictionary below specifies how to extract each variable from the text output
         # of 6S.
@@ -99,15 +100,15 @@ class Outputs(object):
         
         #              Search Term             Line   Index DictKey   Type
         extractors = { "month" : (CURRENT, 1, "month", self.to_int),
-        			   "day" : (CURRENT, 4, "day", self.to_int),
-        			   "solar zenith angle" : (CURRENT, 3, "solar_z", self.to_int),
-        			   "solar azimuthal angle" : (CURRENT, 8, "solar_a", self.to_int),
-        			   "view zenith angle" : (CURRENT, 3, "view_z", self.to_int),
-        			   "view azimuthal angle" : (CURRENT, 8, "view_a", self.to_int),
-        			   "scattering angle" : (CURRENT, 2, "scattering_angle", float),
-        			   "azimuthal angle difference" : (CURRENT, 7, "azimuthal_angle_difference", float),
-        			   "optical condition identity" : (1, 2, "visibility", float),
-        			   "optical condition" : (1, 9, "aot550", float), 
+              			   "day" : (CURRENT, 4, "day", self.to_int),
+              			   "solar zenith angle" : (CURRENT, 3, "solar_z", self.to_int),
+              			   "solar azimuthal angle" : (CURRENT, 8, "solar_a", self.to_int),
+              			   "view zenith angle" : (CURRENT, 3, "view_z", self.to_int),
+              			   "view azimuthal angle" : (CURRENT, 8, "view_a", self.to_int),
+              			   "scattering angle" : (CURRENT, 2, "scattering_angle", float),
+              			   "azimuthal angle difference" : (CURRENT, 7, "azimuthal_angle_difference", float),
+              			   "optical condition identity" : (1, WHOLE_LINE, "visibility", self.extract_vis),
+              			   "optical condition" : (1, WHOLE_LINE, "aot550", self.extract_aot), 
                        "ground pressure" : (CURRENT, 3, "ground_pressure", float),
                        "ground altitude" : (CURRENT, 3, "ground_altitude", float),
                        
@@ -136,10 +137,10 @@ class Outputs(object):
                        
                        "measured radiance [w/m2/sr/mic]" : (CURRENT, 4, "measured_radiance", float),
                        "atmospherically corrected reflectance" : (1, 3, "atmos_corrected_reflectance_lambertian", float),
-					   "atmospherically corrected reflect" : (2, 3, "atmos_corrected_reflectance_brdf", float),
-					   "coefficients xa" : (CURRENT, 5, "coef_xa", float),
-					   "coefficients xa xb" : (CURRENT, 6, "coef_xb", float),
-					   "coefficients xa xb xc" : (CURRENT, 7, "coef_xc", float)
+          					   "atmospherically corrected reflect" : (2, 3, "atmos_corrected_reflectance_brdf", float),
+          					   "coefficients xa" : (CURRENT, 5, "coef_xa", float),
+          					   "coefficients xa xb" : (CURRENT, 6, "coef_xb", float),
+          					   "coefficients xa xb xc" : (CURRENT, 7, "coef_xc", float)
 }
         # Process most variables in the output
         for index in range(len(lines)):
@@ -156,7 +157,19 @@ class Outputs(object):
                     
                     funct = details[3]
                     items = extracting_line.split()
-                    self.values[details[2]] = funct(items[details[1]])
+                    
+                    try:
+                      a = details[1][0]
+                      b = details[1][1]
+                    except:
+                      a = details[1]
+                      b = details[1] + 1
+                    
+                    data_for_func = items[a:b]
+                    if len(data_for_func) == 1:
+                      data_for_func = data_for_func[0]
+                                        
+                    self.values[details[2]] = funct(data_for_func)
         
         # Process big grid in the middle of the output for transmittances
         grid_extractors = { 'global gas. trans. :' : "global_gas",
@@ -229,7 +242,27 @@ class Outputs(object):
         
         """
         return int(float(str))
+        
+    def extract_vis(self, data):
+      """Extracts the visibility from the visibility and AOT line in the output"""
+      s = " ".join(data)
+      spl = s.split(":")
+      spl2 = spl[1].split()
+      
+      try:
+        value = float(spl2[0])
+      except:
+        value = float("Inf")
+        
+      return value
     
+    def extract_aot(self, data):
+      """Extracts the AOT from the visibility and AOT line in the output."""
+      s = " ".join(data)
+      spl = s.split(":")
+      
+      return float(spl[2])
+      
     def write_output_file(self, filename):
         """Writes the full textual output of the 6S model run to the specified filename.
         
