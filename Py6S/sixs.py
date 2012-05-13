@@ -229,3 +229,6 @@ class SixS(object):
             print "Actual result: %f" % test.outputs.diffuse_solar_irradiance
             if (test.outputs.diffuse_solar_irradiance - 619.158 < 0.01):
                 print "#### Results agree, Py6S is working correctly"
+                return 0
+            else:
+                return 1
