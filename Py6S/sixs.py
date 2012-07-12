@@ -78,7 +78,7 @@ class SixS(object):
         self.aero_profile = AeroProfile.PredefinedType(AeroProfile.Maritime)
         
         self.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.3)
-        
+
         self.geometry = Geometry.User()
         self.geometry.solar_z = 32
         self.geometry.solar_a = 264
@@ -92,7 +92,7 @@ class SixS(object):
         self.altitudes.set_sensor_sea_level()
         
         self.wavelength = Wavelength(0.500)
-        
+
         self.aot550 = 0.5
         self.visibility = None
         
@@ -126,7 +126,7 @@ class SixS(object):
                 exe_file = os.path.join(path, program)
                 if is_exe(exe_file):
                     return exe_file
-
+        
         return None
 
     def create_geom_lines(self):

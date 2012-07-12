@@ -1,0 +1,497 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "lut_trial.py",
+			"settings":
+			{
+				"buffer_size": 1766,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/robin/Documents/University/Py6S/py6s/setup.py",
+			"settings":
+			{
+				"buffer_size": 1582,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Params/aeroprofile.py",
+			"settings":
+			{
+				"buffer_size": 10801,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "import subprocess\nimport os\n\nfrom Params import *\nfrom sixs_exceptions import *\nfrom outputs import *\nimport tempfile\n\nclass SixS(object):\n    \"\"\"Wrapper for the 6S Radiative Transfer Model.\n    \n    This is the main class which can be used to instantiate an object which has the key methods for running 6S.\n    \n    The most import method in this class is the :meth:`.run` method which writes the 6S input file,\n    runs the model and processes the output.\n    \n    The parameters of the model are set as the attributes of this class, and the outputs are available as attributes under\n    the output attribute.\n    \n    For a simple test to ensure that Py6S has found the correct executable for 6S simply\n    run the :meth:`.test` method of this class::\n    \n      SixS.Test()\n    \n    Attributes:\n    \n    * ``atmos_profile`` -- The atmospheric profile to use. Should be set to the output of an AtmosProfile method. For example::\n    \n                            s.atmos_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer)\n                      \n    * ``aero_profile`` -- The aerosol profile to use. Should be set to the output of an AeroProfile method. For example::\n                          \n                            s.aero_profile = AeroProfile.PredefinedType(AeroProfile.Urban)\n                      \n    * ``ground_reflectance`` -- The ground reflectance to use. Should be set to the output of a GroundReflectance method. For example::\n    \n                            s.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.3)\n    \n    * ``geometry`` -- The geometrical settings, including solar and viewing angles. Should be set to an instance of a Geometry class, which can then have various attributes set. For example::\n                          \n                            s.geometry = GeometryUser()\n                            s.geometry.solar_z = 35\n                            s.geometry.solar_a = 190\n                          \n    * ``altitudes`` -- The settings for the sensor and target altitudes. This should be set to an instance of the :meth:`.Altitudes` class, which can then have various attributes set. For example::\n                      \n                            s.altitudes = Altitudes()\n                            s.altitudes.set_target_custom_altitude(2.3)\n                            s.altitudes.set_sensor_sea_level()\n                      \n    * ``wavelength`` -- The wavelength settings. Should be set to the output of the :meth:`.Wavelength()` method. For example::\n                        \n                            s.wavelength = Wavelength(0.550)\n                          \n    * ``atmos_corr`` -- The settings for whether to perform atmospheric correction or not, and the parameters for this correction. Should be set to the output of a AtmosCorr method. For example::\n                          \n                            s.atmos_corr = AtmosCorr.AtmosCorrLambertianFromReflectance(0.23)\n                          \n    \"\"\"\n\n    # Stores the outputs from 6S as an instance of the Outputs class\n    outputs = None\n    \n    def __init__(self, path=None):\n        \"\"\"Initialises the class and finds the right 6S executable to use.\n        \n        Sets default parameter values (a set of fairly sensible values that will allow a simple test run to be performed),\n        and finds the 6S executable by searching the path.\n        \n        Arguments:\n        \n        * ``path`` -- (Optional) The path to the 6S executable - if not specified then the system PATH and current directory are searched for the executable.\n        \n        \"\"\"\n        self.sixs_path = self.find_path(path)\n\n        self.atmos_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer)\n        self.aero_profile = AeroProfile.PredefinedType(AeroProfile.Maritime)\n        \n        self.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.3)\n\n        self.geometry = Geometry.User()\n        self.geometry.solar_z = 32\n        self.geometry.solar_a = 264\n        self.geometry.view_z = 23\n        self.geometry.view_a = 190\n        self.geometry.day = 14\n        self.geometry.month = 7\n        \n        self.altitudes = Altitudes()\n        self.altitudes.set_target_sea_level()\n        self.altitudes.set_sensor_sea_level()\n        \n        self.wavelength = Wavelength(0.500)\n\n        self.aot550 = 0.5\n        self.visibility = None\n        \n        self.atmos_corr = AtmosCorr.NoAtmosCorr()\n    \n    def find_path(self, path=None):\n      \"\"\"Finds the path of the 6S executable.\n      \n      Arguments:\n      \n      * ``path`` -- (Optional) The path to the 6S executable\n      \n      Finds the 6S executable on the system, either using the given path or by searching the system PATH variable and the current directory\n      \n      \"\"\"\n      if path != None:\n			  return path\n      else:\n			  return self._which('sixs.exe') or self._which('sixs') or self._which('sixsV1.1') or self._which('sixsV1.1.exe')\n        \n    def _which(self, program):\n        def is_exe(fpath):\n            return os.path.exists(fpath) and os.access(fpath, os.X_OK)\n\n        fpath, fname = os.path.split(program)\n        if fpath:\n            if is_exe(program):\n                return program\n        else:\n            for path in os.environ[\"PATH\"].split(os.pathsep):\n                exe_file = os.path.join(path, program)\n                if is_exe(exe_file):\n                    return exe_file\n\n        return None\n\n    def create_geom_lines(self):\n      \"\"\"Creates the geometry lines for the input file\"\"\"\n      return str(self.geometry)\n\n    def create_atmos_aero_lines(self):\n        \"\"\"Creates the atmosphere and aerosol lines for the input file\"\"\"\n        return str(self.atmos_profile) + '\\n' + str(self.aero_profile) + '\\n'\n\n    def create_aot_vis_lines(self):\n        \"\"\"Create the AOT or Visibility lines for the input file\"\"\"\n        if not isinstance(self.aero_profile, AeroProfile.UserProfile):\n          # We don't need to set AOT or visibility for a UserProfile, but we do for all others\n          if self.aot550 != None:\n            return \"0\\n%f value\\n\" % self.aot550\n          elif self.visibility != None:\n            return \"%f\\n\" % self.visibility\n          else:\n            raise ParameterError(\"aot550\", \"You must set either the AOT at 550nm or the Visibility in km.\")        \n            \n    def create_elevation_lines(self):\n        \"\"\"Create the elevation lines for the input file\"\"\"\n        return str(self.altitudes)\n\n    def create_wavelength_lines(self):\n        \"\"\"Create the wavelength lines for the input file\"\"\"\n        return self.wavelength\n\n    def create_surface_lines(self):\n        \"\"\"Create the surface reflectance lines for the input file\"\"\"\n        return self.ground_reflectance\n\n    def create_atmos_corr_lines(self):\n        \"\"\"Create the atmospheric correction lines for the input file\"\"\"\n        return self.atmos_corr\n\n    def write_input_file(self):\n        \"\"\"Generates a 6S input file from the parameters stored in the object\n        and writes it to the given filename.\n        \n        The input file is guaranteed to be a valid 6S input file which can be run manually if required\n        \n        \"\"\"\n        \n        input_file = self.create_geom_lines()\n        \n        input_file += self.create_atmos_aero_lines()\n        \n        input_file += self.create_aot_vis_lines()\n        \n        input_file += self.create_elevation_lines()\n        \n        input_file += self.create_wavelength_lines()\n        \n        input_file += self.create_surface_lines()\n\n        input_file += self.create_atmos_corr_lines()\n        \n        tmp_file = tempfile.NamedTemporaryFile(prefix=\"tmp_Py6S_input_\", delete=False)\n            \n        tmp_file.file.write(input_file)\n        name = tmp_file.name\n        tmp_file.close()\n        return name\n            \n    def run(self):\n        \"\"\"Runs the 6S model and stores the outputs in the output variable.\n        \n        May raise an :class:`.ExecutionError` if the 6S executable cannot be found.\"\"\"\n        \n        if self.sixs_path == None:\n            raise ExecutionError(\"6S executable not found.\")     \n        \n        # Create the input file as a temporary file\n        tmp_file_name = self.write_input_file()\n        \n        # Run the process and get the stdout from it\n        process = subprocess.Popen(\"%s < %s\" % (self.sixs_path, tmp_file_name), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        outputs = process.communicate()\n        self.outputs = Outputs(outputs[0], outputs[1])\n        \n        # Remove the temporary file\n        os.remove(tmp_file_name)\n\n    @classmethod\n    def test(self):\n        \"\"\"Runs a simple test to ensure that 6S and Py6S are installed correctly.\"\"\"\n        test = SixS()\n        print \"6S wrapper script by Robin Wilson\"\n        sixs_path = test.find_path()\n        if sixs_path == None:\n            print \"Error: cannot find the sixs executable in $PATH or current directory.\"\n        else:\n            print \"Using 6S located at %s\" % sixs_path\n            print \"Running 6S using a set of test parameters\"\n            test.run()\n            print \"The results are:\"\n            print \"Expected result: %f\" % 619.158\n            print \"Actual result: %f\" % test.outputs.diffuse_solar_irradiance\n            if (test.outputs.diffuse_solar_irradiance - 619.158 < 0.01):\n                print \"#### Results agree, Py6S is working correctly\"\n                return 0\n            else:\n                return 1",
+			"file": "sixs.py",
+			"file_size": 9536,
+			"file_write_time": 1340869511000000,
+			"settings":
+			{
+				"buffer_size": 9528,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/robin/Documents/University/Py6S/py6s/.ropeproject/config.py",
+			"settings":
+			{
+				"buffer_size": 3529,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "import numpy as np\nfrom matplotlib.pyplot import *\n\nclass Angles:\n  \n  @classmethod\n  def run360(cls, s, solar_or_view, na=36, nz=10, output_name=None):\n    \"\"\"Runs Py6S for lots of angles to produce a polar contour plot.\n    \n    Arguments:\n    \n    * ``s`` -- A :class:`.SixS` instance configured with all of the parameters you want to run the simulation with\n    * ``solar_or_view`` -- Set to ``'solar'`` if you want to iterate over the solar zenith/azimuth angles or ``'view'`` if you want to iterate over the view zenith/azimuth angles\n    * ``output_name`` -- (Optional) The name of the output from the 6S simulation to plot. This should be a string containing exactly what you would put after ``s.outputs`` to print the output. For example `pixel_reflectance`.\n    * ``na`` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)\n    * ``nz`` -- (Optional) The number of zenith angles to iterate over to generate the data for the plot (defaults to 10, giving data every 10 degrees)\n    \n    For example::\n    \n      s = SixS()\n      s.ground_reflectance = GroundReflectance.HomogeneousWalthall(0.48, 0.50, 2.95, 0.6)\n      s.geometry.solar_z = 30\n      s.geometry.solar_a = 0\n      data = SixSHelpers.Angles.run360(s, 'view', output_name='pixel_reflectance')\n    \"\"\"\n    \n    results = []\n    \n    azimuths = np.linspace(0, 360, na)\n    zeniths = np.linspace(0, 89, nz)\n      \n    for azimuth in azimuths:\n      for zenith in zeniths:\n        if solar_or_view == 'view':\n          s.geometry.view_a = azimuth\n          s.geometry.view_z = zenith\n        elif solar_or_view == 'solar':\n          s.geometry.solar_a = azimuth\n          s.geometry.solar_z = zenith\n        else:\n          raise ParameterException(\"all_angles\", \"You must choose to vary either the solar or view angle.\")\n        s.run()\n        print \"Calculating for azimuth = %d, zenith = %d\" % (azimuth, zenith)\n        if output_name == None:\n          results.append(s.outputs)\n        else:\n          results.append(getattr(s.outputs, output_name))\n        \n    return (results, azimuths, zeniths, s.geometry.solar_a, s.geometry.solar_z)  \n      \n  @classmethod\n  def plot360(cls, data, output_name=None, show_sun=True, colorbarlabel=None):\n    \"\"\"Plot the data returned from :meth:`run360` as a polar contour plot, selecting an output if required.\n    \n    Arguments:\n    \n    * ``data`` -- The return value from :meth:`run360`\n    * ``output_name`` -- (Optional) The output name to extract (eg. \"pixel_reflectance\") if the given data is provided as instances of the Outputs class\n    * ``show_sun`` -- (Optional) Whether to show the location of the sun on the resulting polar plot.\n    * ``colorbarlabel`` -- (Optional) The label to use on the color bar shown with the plot\n    \"\"\"\n    \n    results, azimuths, zeniths, sa, sz = data\n    \n    if not isinstance(results[0], float):\n      # The results are not floats, so a float must be extracted from the output\n      if output_name == None:\n        raise ParameterException(\"output_name\", \"You must specify an output name when plotting data which is given as Outputs instances\")\n      \n      results = cls.extract_output(results, output_name)\n    \n    fig, ax, cax = cls.plot_polar_contour(results, azimuths, zeniths, colorbarlabel=colorbarlabel)\n    \n    if show_sun:\n      ax.autoscale(False)\n      ax.plot(np.radians(sa), sz, '*', markersize=20, markerfacecolor='yellow', markeredgecolor='red')\n      show()\n    \n    return fig, ax\n    \n  @classmethod\n  def run_and_plot_360(cls, s, solar_or_view, output_name, show_sun=True, na=36, nz=10, colorbarlabel=None):\n    \"\"\"Runs Py6S for lots of angles to produce a polar contour plot.\n    \n    Arguments:\n    \n    * ``s`` -- A :class:`.SixS` instance configured with all of the parameters you want to run the simulation with\n    * ``solar_or_view`` -- Set to ``'solar'`` if you want to iterate over the solar zenith/azimuth angles or ``'view'`` if you want to iterate over the view zenith/azimuth angles\n    * ``output_name`` -- The name of the output from SixS to plot. This should be a string containing exactly what you would put after ``s.outputs`` to print the output. For example `pixel_reflectance`.\n    * ``show_sun`` -- (Optional) Whether to place a marker showing the location of the sun on the contour plot (defaults to True, has no effect when ``solar_or_view`` set to ``'solar'``.)\n    * ``na`` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)\n    * ``nz`` -- (Optional) The number of zenith angles to iterate over to generate the data for the plot (defaults to 10, giving data every 10 degrees)\n    * ``colorbar`` -- (Optional) The label to use on the color bar shown with the plot\n    \n    For example::\n    \n      s = SixS()\n      s.ground_reflectance = GroundReflectance.HomogeneousWalthall(0.48, 0.50, 2.95, 0.6)\n      s.geometry.solar_z = 30\n      s.geometry.solar_a = 0\n      SixSHelpers.Angles.run_and_plot_360(s, 'view', 'pixel_reflectance')\n    \n    \"\"\"\n    if solar_or_view == 'solar':\n      show_sun = False\n    \n    res = cls.run360(s, solar_or_view, na, nz)  \n    plot_res = cls.plot360(res, output_name, show_sun, colorbarlabel=colorbarlabel)\n    \n    return plot_res  \n    \n  \n  @classmethod\n  def extract_output(cls, results, output_name):\n    \"\"\"Extracts data for one particular SixS output from a list of SixS.Outputs instances.\n    \n    Basically just a wrapper around a list comprehension.\n    \n    Arguments:\n    \n    * ``results`` -- A list of :class:`.SixS.Outputs` instances\n    * ``output_name`` -- The name of the output to extract. This should be a string containing whatever is put after the `s.outputs` when printing the output, for example `'pixel_reflectance'`.\n    \n    \"\"\"\n    results_output = [getattr(r, output_name) for r in results]\n    \n    return results_output\n  \n  @classmethod\n  def plot_polar_contour(cls, values, azimuths, zeniths, filled=True, colorbarlabel=\"\"):\n    \"\"\"Plot a polar contour plot, with 0 degrees at the North.\n    \n    Arguments:\n     \n    * ``values`` -- A list (or other iterable - eg. a NumPy array) of the values to plot on the contour plot (the `z` values)\n    * ``azimuths`` -- A list of azimuths (in degrees)\n    * ``zeniths`` -- A list of zeniths (that is, radii)\n    * ``filled`` -- (Optional) Whether to plot a filled contour plot, or just the contours (defaults to filled)\n    * ``yaxislabel`` -- (Optional) The label to use for the colorbar\n    * ``colorbarlabel`` -- (Optional) The label to use on the color bar shown with the plot\n    \n    The shapes of these lists are important, and are designed for a particular use case (but should be more generally useful).\n    The values list should be `len(azimuths) * len(zeniths)` long with data for the first azimuth for all the zeniths, then\n    the second azimuth for all the zeniths etc.\n    \n    This is designed to work nicely with data that is produced using a loop as follows::\n    \n      values = []\n      for azimuth in azimuths:\n        for zenith in zeniths:\n          # Do something and get a result\n          values.append(result)\n        \n    After that code the azimuths, zeniths and values lists will be ready to be passed into this function.\n    \n    \"\"\"\n    theta = np.radians(azimuths)\n    zeniths = np.array(zeniths)\n  \n    values = np.array(values)\n    values = values.reshape(len(azimuths), len(zeniths))\n  \n    r, theta = np.meshgrid(zeniths, np.radians(azimuths))\n    fig, ax = subplots(subplot_kw=dict(projection='polar'))\n    ax.set_theta_zero_location(\"N\")\n    ax.set_theta_direction(-1)\n    if filled:\n      cax = ax.contourf(theta, r, values, 30)\n    else:\n      cax = ax.contour(theta, r, values, 30)\n    cb = fig.colorbar(cax)\n    cb.set_label(colorbarlabel)\n    \n    return fig, ax, cax\n  \n  @classmethod\n  def run_principal_plane(cls, s, output_name=None):\n    \"\"\"Runs the given 6S simulation to get the outputs for the solar principal plane.\n    \n    This function runs the simulation for all zenith angles in the azimuthal line of the sun. For example,\n    if the solar azimuth is 90 degrees, this function will run simulations for::\n      \n      Azimuth   Zenith\n      90        85\n      90        80\n      90        75\n      90        70\n      90        65\n      90        60\n      90        55\n      ...       ..\n      90        0\n      270       5\n      270       10\n      270       15\n      ...       ..\n      270       80\n      270       85\n    \n    Arguments:\n    \n    * ``s`` -- A :class:`.SixS` instance configured with all of the parameters you want to run the simulation with\n    * ``output_name`` -- (Optional) The output name to extract (eg. \"pixel_reflectance\") if the given data is provided as instances of the Outputs class\n\n    Return values:\n    \n    A tuple containing zenith angles and the corresponding values or Outputs instances (depending on the arguments given).\n    The zenith angles returned have been modified so that the zenith angles on the 'sun-side' are positive, and those\n    on the other side (ie. past the vertical) are negative, for ease of plotting.\n    \n    \"\"\"\n    \n    # Get the solar azimuth and zenith angles from the SixS instance\n    sa = s.geometry.solar_a\n    sz = s.geometry.solar_z\n    \n    ## Compute the angles in the principal plane\n    \n    # Get the equivalent view zenith for the solar zenith angle\n    vz_for_sz = 90 - sz\n    # Get the solar azimuth on the opposite side for the other half of the principal plane\n    opp_sa = (sa + 180) % 360\n    \n    # Calculate the first side (the solar zenith angle side)\n    first_side_z = np.arange(85, -5, -5)\n    first_side_a = np.repeat(sa, len(first_side_z))\n    \n    # Calculate the other side\n    temp = first_side_z[:-1]\n    second_side_z = temp[::-1] # Reverse array\n    second_side_a = np.repeat(opp_sa, len(second_side_z))\n    \n    # Join the two sides together\n    all_zeniths = np.hstack((first_side_z, second_side_z))\n    all_zeniths_for_return = np.hstack((first_side_z, -1 * second_side_z))\n    all_azimuths = np.hstack((first_side_a, second_side_a))\n    \n    ## Iterate over these angles and get the results\n    \n    results = []\n    \n    for i in range(len(all_zeniths)):\n      print \"%s %s\" % (all_zeniths[i], all_azimuths[i])\n      \n      s.geometry.view_z = all_zeniths[i]\n      s.geometry.view_a = all_azimuths[i]\n      s.run()\n      if output_name == None:\n        results.append(s.outputs)\n      else:\n        results.append(getattr(s.outputs, output_name))\n    \n    return all_zeniths_for_return, results\n\n    \n  def plot_principal_plane(zeniths, values, y_axis_label):\n    \"\"\"Plot the results from a principal plane simulation (eg. a run of :meth:`.run_principal_plane`).\n    \n    Arguments:\n    \n    * ``zeniths`` -- A list of view zenith angles in degrees\n    * ``values`` -- A list of simulated values for each of these angles\n    * ``y_axis_label`` -- A string to use as the label for the y axis\n    \n    \"\"\"\n    \n    plot(zeniths, values)\n    xlabel(\"View zenith angle (degrees)\")\n    ylabel(y_axis_label)\n    show()",
+			"file": "SixSHelpers/all_angles.py",
+			"file_size": 11160,
+			"file_write_time": 1332966923000000,
+			"settings":
+			{
+				"buffer_size": 11160,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/Python/Python.sublime-build",
+	"command_palette":
+	{
+		"height": 226.0,
+		"selected_items":
+		[
+			[
+				"doc",
+				"Rope: Show Documentation"
+			],
+			[
+				"show",
+				"Rope: Show Documentation"
+			],
+			[
+				"rope",
+				"Rope: Show Documentation"
+			],
+			[
+				"package",
+				"Preferences: Browse Packages"
+			],
+			[
+				"Snippet: ",
+				"Snippet: __magic__"
+			],
+			[
+				"pyt",
+				"Set Syntax: Python"
+			],
+			[
+				"markdo",
+				"Set Syntax: Markdown"
+			],
+			[
+				"markd",
+				"Set Syntax: Markdown"
+			],
+			[
+				"git",
+				"Git: Diff Tool"
+			],
+			[
+				"gi",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"align",
+				"Preferences: Alignment Key Bindings – Default"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"packag",
+				"Preferences: Browse Packages"
+			]
+		],
+		"width": 588.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/robin/Documents/University/Py6S/py6s/.ropeproject/history",
+		"/Users/robin/Documents/University/Py6S/py6s/.ropeproject/globalnames",
+		"/Users/robin/Documents/University/Py6S/py6s/Py6S/outputs.py",
+		"/Users/robin/Documents/University/Py6S/py6s/Py6S/sixs.py",
+		"/Users/robin/Documents/University/Py6S/py6s/Py6S/Params/geometry.py",
+		"/Users/robin/Documents/University/Py6S/py6s/Py6S/Params/altitudes.py",
+		"/Users/robin/Documents/University/Py6S/py6s/tmp_in.txt",
+		"/Users/robin/Documents/University/Py6S/py6s/.redcar/lucene_last_updated",
+		"/Users/robin/Documents/University/Py6S/py6s/.redcar/storage/project_loader.yaml",
+		"/Users/robin/Documents/University/Py6S/py6s/setup.py",
+		"/Users/robin/Library/Application Support/Sublime Text 2/Packages/Alignment/Default (OSX).sublime-keymap",
+		"/Users/robin/Library/Application Support/Sublime Text 2/Packages/Alignment/Base File.sublime-settings",
+		"/Users/robin/Library/Application Support/Sublime Text 2/Packages/Terminal/Base File.sublime-settings",
+		"/Users/robin/Library/Application Support/Sublime Text 2/Packages/User/Python.sublime-settings",
+		"/Users/robin/Library/Application Support/Sublime Text 2/Packages/User/Base File.sublime-settings",
+		"/Users/robin/Library/Application Support/Sublime Text 2/Packages/User/sftp_servers/rtwilson"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"sixs",
+			"AeroProfile",
+			"()\n",
+			"AeroProfile",
+			"AtmosProfile",
+			"self"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "lut_trial.py",
+					"settings":
+					{
+						"buffer_size": 1766,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								310,
+								310
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/robin/Documents/University/Py6S/py6s/setup.py",
+					"settings":
+					{
+						"buffer_size": 1582,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								790,
+								790
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Params/aeroprofile.py",
+					"settings":
+					{
+						"buffer_size": 10801,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "sixs.py",
+					"settings":
+					{
+						"buffer_size": 9528,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3916,
+								3916
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 256.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/Users/robin/Documents/University/Py6S/py6s/.ropeproject/config.py",
+					"settings":
+					{
+						"buffer_size": 3529,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1773,
+								1773
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 3.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "SixSHelpers/all_angles.py",
+					"settings":
+					{
+						"buffer_size": 11160,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2233,
+								2233
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 553.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 32.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"output.rope_python_documentation":
+	{
+		"height": 110.0
+	},
+	"output.sftp":
+	{
+		"height": 0.0
+	},
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"aero",
+				"Py6S/Params/aeroprofile.py"
+			],
+			[
+				"setu",
+				"setup.py"
+			],
+			[
+				"al",
+				"Py6S/Params/altitudes.py"
+			],
+			[
+				"altitu",
+				"Py6S/Params/altitudes.py"
+			],
+			[
+				"ou",
+				"Py6S/outputs.py"
+			],
+			[
+				"outpu",
+				"Py6S/outputs.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"at",
+				"/Users/robin/Dropbox/NewSpatialAtmosphere/Writing_Up_LONG/NSAtmos_WritingUpLONG.sublime-project"
+			],
+			[
+				"",
+				"/Users/robin/Documents/University/Py6S/6SV1.1/6S.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 215.0,
+	"status_bar_visible": true
+}
