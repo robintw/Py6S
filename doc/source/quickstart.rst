@@ -139,7 +139,7 @@ The tables showing the integrated values of various transmittances (rayleigh, wa
   print s.outputs.transmittance_rayleigh_scattering.total
   print s.outputs.transmittance_water
   
-Outputs from the other large grid shown in the raw 6S output, which includes outputs like spherical albedo, total optical depth and polarized reflectance, are also available:
+Outputs from the other large grid shown in the raw 6S output, which includes outputs like spherical albedo, total optical depth and polarized reflectance, are also available::
 
   from Py6S import *
   s = SixS()
