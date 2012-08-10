@@ -66,5 +66,5 @@ class WavelengthTests(unittest.TestCase):
     
     a = np.array([ 138.392,  129.426,  111.635,   75.822,   16.684,    5.532])
     
-    self.assertEqual(results[0], [0.4825, 0.565, 0.66, 0.825, 1.65, 2.215])
+    self.assertEqual(results[0], [0.47750000000000004, 0.56125000000000003, 0.65874999999999995, 0.82624999999999993, 1.6487500000000002, 2.19625])
     self.assertEqual(all(a == results[1]), True)

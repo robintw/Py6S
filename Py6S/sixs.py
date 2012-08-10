@@ -180,9 +180,17 @@ class SixS(object):
         
         input_file += self.create_elevation_lines()
         
-        input_file += self.create_wavelength_lines()
+        input_file += self.create_wavelength_lines()[0]
+
+        min_wv = self.create_wavelength_lines()[1]
+        max_wv = self.create_wavelength_lines()[2]
         
-        input_file += self.create_surface_lines()
+        surface_lines = self.create_surface_lines()
+
+        if "REPLACETHIS" in surface_lines and min_wv != None and max_wv != None:
+           surface_lines = surface_lines.replace("REPLACETHIS", "%f %f" % (min_wv, max_wv))
+
+        input_file += surface_lines
 
         input_file += self.create_atmos_corr_lines()
         

@@ -55,7 +55,15 @@ class GroundReflectance:
 0 No directional effects
 %s\n""" % (ro_type)
         else:
-          res = """0 Homogeneous surface
+          try:
+            if " " in ro_value:
+              res = """0 Homogeneous surface
+0 No directional effects
+%s
+REPLACETHIS
+%s\n""" % (ro_type, ro_value)
+          except:
+            res = """0 Homogeneous surface
 0 No directional effects
 %s
 %s\n""" % (ro_type, ro_value)
