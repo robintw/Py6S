@@ -5,6 +5,7 @@ from Params import *
 from sixs_exceptions import *
 from outputs import *
 import tempfile
+import math
 
 class SixS(object):
     """Wrapper for the 6S Radiative Transfer Model.
@@ -149,7 +150,7 @@ class SixS(object):
             raise ParameterError("aot550", "You must set either the AOT at 550nm or the Visibility in km.")        
         else:
             return ""
-            
+
     def create_elevation_lines(self):
         """Create the elevation lines for the input file"""
         return str(self.altitudes)
@@ -186,6 +187,9 @@ class SixS(object):
 
         min_wv = self.create_wavelength_lines()[1]
         max_wv = self.create_wavelength_lines()[2]
+
+        # Not used yet
+        #n_nvalues_required = math.ceil(((max_wv - min_wv) / 0.0025) + 1)
         
         surface_lines = self.create_surface_lines()
 

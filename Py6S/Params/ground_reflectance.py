@@ -45,7 +45,7 @@ class GroundReflectance:
         
         - A single float value (for example, 0.634), in which case it is interpreted as a spectrally-constant reflectance value.
         - A constant defined by this class (one of ``GroundReflectance.GreenVegetation``, ``GroundReflectance.ClearWater``, ``GroundReflectance.Sand`` or ``GroundReflectance.LakeWater``) in which case a built-in spectrum of the specified material is used.
-        - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 2.5nm.
+        - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 2.5nm. In this case, if the start wavelength is s and the end wavelength is e, the values must be given for the wavelengths: ``s, s+2.5, s+5.0, s+7.5, ..., e-2.5, e``
         
         """
         ro_type, ro_value = cls._GetTargetTypeAndValues(ro)
@@ -86,7 +86,9 @@ REPLACETHIS
         
         - A single float value (for example, 0.634), in which case it is interpreted as a spectrally-constant reflectance value.
         - A constant defined by this class (one of ``GroundReflectance.GreenVegetation``, ``GroundReflectance.ClearWater``, ``GroundReflectance.Sand`` or ``GroundReflectance.LakeWater``) in which case a built-in spectrum of the specified material is used.
-        - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 2.5nm.        """
+        - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 2.5nm. In this case, if the start wavelength is s and the end wavelength is e, the values must be given for the wavelengths: ``s, s+2.5, s+5.0, s+7.5, ..., e-2.5, e``
+
+        """
         ro_target_type, ro_target_values = cls._GetTargetTypeAndValues(ro_target)
         ro_env_type, ro_env_values = cls._GetTargetTypeAndValues(ro_env)
 
