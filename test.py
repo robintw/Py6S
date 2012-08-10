@@ -68,3 +68,17 @@ class WavelengthTests(unittest.TestCase):
     
     self.assertEqual(results[0], [0.47750000000000004, 0.56125000000000003, 0.65874999999999995, 0.82624999999999993, 1.6487500000000002, 2.19625])
     self.assertEqual(all(a == results[1]), True)
+
+class AeroProfileTests(unittest.TestCase):
+
+    def test_aero_profile(self):
+        aps = [AeroProfile.Continental, AeroProfile.NoAerosols]
+        results = [122.854, 140.289]
+
+        for i in range(len(aps)):
+            s = SixS()
+            s.aero_profile = aps[i]
+            s.run()
+
+            self.assertEqual(s.outputs.apparent_radiance, results[i])
+
