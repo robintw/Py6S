@@ -153,7 +153,7 @@ class Wavelengths:
     A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
     or a list of values of the selected output if ``output_name`` is set.
     """
-    wv = [PredefinedWavelengths.ETM_B1, PredefinedWavelengths.ETM_B2, PredefinedWavelengths.ETM_B3, PredefinedWavelengths.ETM_B4, PredefinedWavelengths.ETM_B5, PredefinedWavelengths.ETM_B7]
+    wv = [PredefinedWavelengths.LANDSAT_ETM_B1, PredefinedWavelengths.LANDSAT_ETM_B2, PredefinedWavelengths.LANDSAT_ETM_B3, PredefinedWavelengths.LANDSAT_ETM_B4, PredefinedWavelengths.LANDSAT_ETM_B5, PredefinedWavelengths.LANDSAT_ETM_B7]
     wv, res = cls.run_wavelengths(s, wv, output_name=output_name)
     
     #centre_wvs = [0.4825, 0.565, 0.66, 0.825, 1.65, 2.215]
