@@ -72,13 +72,22 @@ class WavelengthTests(unittest.TestCase):
 class AeroProfileTests(unittest.TestCase):
 
     def test_aero_profile(self):
-        aps = [AeroProfile.Continental, AeroProfile.NoAerosols]
-        results = [122.854, 140.289]
+        user_ap = AeroProfile.UserProfile(AeroProfile.Maritime)
+        user_ap.add_layer(5, 0.34)
+
+        aps = [AeroProfile.Continental,
+               AeroProfile.NoAerosols,
+               AeroProfile.User(dust=0.3, oceanic=0.7),
+               user_ap]
+        results = [122.854,
+                   140.289,
+                   130.866,
+                   136.649]
 
         for i in range(len(aps)):
             s = SixS()
             s.aero_profile = aps[i]
             s.run()
 
-            self.assertEqual(s.outputs.apparent_radiance, results[i])
+            self.assertEqual(s.outputs.apparent_radiance, results[i], "Error in aerosol profile with ID %s. Got %f, expected %f." % (str(aps[i]), s.outputs.apparent_radiance, results[i]))
 

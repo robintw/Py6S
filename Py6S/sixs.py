@@ -147,6 +147,8 @@ class SixS(object):
             return "%f\n" % self.visibility
           else:
             raise ParameterError("aot550", "You must set either the AOT at 550nm or the Visibility in km.")        
+        else:
+            return ""
             
     def create_elevation_lines(self):
         """Create the elevation lines for the input file"""
