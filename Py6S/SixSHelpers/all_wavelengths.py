@@ -33,11 +33,16 @@ class Wavelengths:
     results = []
     print "Running for many wavelengths - this may take a long time\nCurrent wavelength:"
     for wavelength in wavelengths:
-      if (wavelength[0] % 0.05) < 0.0001:
-        if (wavelength[1] == None):
-          print wavelength[0]
-        else:
-          print "%f -> %f" % (wavelength[1], wavelength[2])
+      try:
+        if (wavelength[0] % 0.05) < 0.0001:
+          if (wavelength[1] == None):
+            print wavelength[0]
+          else:
+            print "%f -> %f" % (wavelength[1], wavelength[2])
+      except:
+        if (wavelength % 0.05) < 0.0001:
+          print wavelength
+      
       s.wavelength = Wavelength(wavelength)
       s.run()
       if output_name == None:
