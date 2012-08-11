@@ -19,6 +19,7 @@ Welcome to the Py6S documentation. Please work your way through the pages below,
    outputs
    params
    helpers
+   casestudy
    
   
 Indices and tables
