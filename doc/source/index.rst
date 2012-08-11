@@ -6,7 +6,8 @@
 Py6S - A Python interface to 6S
 ================================
 
-Contents:
+Welcome to the Py6S documentation. Please work your way through the pages below, which will introduce Py6S, show how to install it and show how to use the various features. If you are interested in any new features and bugfixes which have been added in recent versions of Py6S then please check the :doc:`releasenotes`. 
+
 
 .. toctree::
    :maxdepth: 2
