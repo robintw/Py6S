@@ -69,6 +69,25 @@ class WavelengthTests(unittest.TestCase):
     self.assertEqual(results[0], [0.47750000000000004, 0.56125000000000003, 0.65874999999999995, 0.82624999999999993, 1.6487500000000002, 2.19625])
     self.assertEqual(all(a == results[1]), True)
 
+class AtmosProfileTests(unittest.TestCase):
+
+    def test_atmos_profile(self):
+
+        aps = [AtmosProfile.Tropical,
+               AtmosProfile.NoGaseousAbsorption,
+               AtmosProfile.UserWaterAndOzone(0.9, 3)]
+        results = [0.2723143,
+                   0.2747224,
+                   0.2476101]
+
+        for i in range(len(aps)):
+            s = SixS()
+            s.atmos_profile = aps[i]
+            s.run()
+
+            self.assertEqual(s.outputs.apparent_reflectance, results[i], "Error in atmos profile with ID %s. Got %f, expected %f." % (str(aps[i]), s.outputs.apparent_reflectance, results[i]))
+
+
 class AeroProfileTests(unittest.TestCase):
 
     def test_aero_profile(self):
