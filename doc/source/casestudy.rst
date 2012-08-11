@@ -11,7 +11,7 @@ The AERONET site at Chilbolton provides automatic regular sun photometry measure
 
 Py6S code has been written to import this AERONET data, set suitable other parameters, and run simulations for both times with the ground reflectance set to a standard green vegetation spectral reflectance profile. The resulting at sensor radiances and the percentage difference between them are shown below the code.
 
-The code is included below and in the `casestudy` folder in the `Github repository <https://github.com/robintw/Py6S>`_. The code requires the `CHL` file to exist, this is also available in this folder::
+The code is included below and in the ``casestudy`` folder in the `Github repository <https://github.com/robintw/Py6S>`_. The code requires the ``CHL`` file to exist, this is also available in this folder::
 
 	# Import Py6S1#
 	from Py6S import *
@@ -84,5 +84,16 @@ The code is included below and in the `casestudy` folder in the `Github reposito
 	print "Late NDVI:\t%f" % late_ndvi
 	print "Percentage Difference:\t%f" % (((early_ndvi - late_ndvi) / early_ndvi) * 100)
 
+Text output::
+
+	Early NDVI:	0.660894
+	Late NDVI:	0.678239
+	Percentage Difference:	-2.624595
+
+.. image:: ncaveo_radiances.png
+    :scale: 50
+
+.. image:: ncaveo_perc_diff.png
+    :scale: 50
 
 It seems that the change in radiance is high, with an average change of 50%, which suggests that there are likely to be issues with using raw radiance data collected over the course of the morning. However, when assessing the significance of this change it is often helpful to look at standard remote sensing outputs like NDVI, rather than radiance. NDVI calculations show a reduction of 2.62% between 08:00 and 11:30, suggesting that although the deteriorating atmospheric conditions did have a spectrally-varying effect, and thus changed the NDVI values, this change is unlikely to be significant.
