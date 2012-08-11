@@ -9,6 +9,9 @@ The NCAVEO Field Campaign took place in June 2006 and involved the collection of
 
 The AERONET site at Chilbolton provides automatic regular sun photometry measurements, with AOT data available approximately every 15 minutes. However, only cloud-screened (level 1.5) data is processed through an inversion algorithm to retrieve more detailed data on the aerosol properties. During the morning of the 17th June, full inverted data is only available at 08:02 and 11:08. However, as these two times are likely to be close to the two extremes of atmospheric conditions, analysis at only these times will still provide a useful test of the significance of the changes.
 
+Code
+====
+
 Py6S code has been written to import this AERONET data, set suitable other parameters, and run simulations for both times with the ground reflectance set to a standard green vegetation spectral reflectance profile. The resulting at sensor radiances and the percentage difference between them are shown below the code.
 
 The code is included below and in the ``casestudy`` folder in the `Github repository <https://github.com/robintw/Py6S>`_. The code requires the ``CHL`` file to exist, this is also available in this folder::
