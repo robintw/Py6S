@@ -15,7 +15,8 @@ class AtmosCorr:
     
     """
     return """0 Atm. correction Lambertian
-%f radiance""" % radiance
+%f radiance
+""" % radiance
 		
   @classmethod
   def AtmosCorrLambertianFromReflectance(cls, reflectance):
@@ -26,7 +27,8 @@ class AtmosCorr:
     
     """
     return """0 Atm. correction Lambertian
-%f reflectance""" % (reflectance * -1)
+%f reflectance
+""" % (reflectance * -1)
 
   @classmethod
   def AtmosCorrBRDFFromRadiance(cls, radiance):
@@ -37,7 +39,8 @@ class AtmosCorr:
     
     """
     return """1 BRDF
-%f radiance""" % radiance
+%f radiance
+""" % radiance
 
   @classmethod
   def AtmosCorrBRDFFromReflectance(cls, reflectance):
@@ -48,4 +51,5 @@ class AtmosCorr:
     
     """
     return """1 BRDF
-%f reflectance""" % (reflectance * -1)
+%f reflectance
+""" % (reflectance * -1)
