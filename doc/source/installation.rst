@@ -31,7 +31,7 @@ These instructions were written based on testing with Windows 7, but should work
 4. To compile the 6S code we will need a Fortran 77 compiler. These are a little difficult to find, as most compilers are now based on the (more modern) Fortran 95 standard. However, for some reason 6S does not compile using these compilers, so we need to find a Fortran 77 compiler. The best place I've found to get one for Windows is http://www.cse.yorku.ca/~roumani/fortran/ftn.htm. Download the ``FORT99.zip`` file, and extract it somewhere. Copy the ``G77`` folder to the root of the C drive (so that the folder is ``C:\G77``).
 5. We now need to edit the Windows path so that we can easily call the compiler and other tools. To do this, right-click on the My Computer icon on your desktop, or the Computer item on your Start Menu and select ``Properties``. Choose the ``Advanced System Settings`` option on the left-hand side of the resulting window and then click the ``Environment Variables`` button in the next dialog. Now scroll down in the bottom list box until you find a variable called ``PATH``. Click `Edit` and add the following string to the end of its contents::
 
-    C:\Program Files\GNUWin32\bin;C:\G77\bin`
+    C:\Program Files\GNUWin32\bin;C:\G77\bin
 
 6. Open the command window by opening the start menu and typing ``cmd``.
 7. Use the ``cd`` command to move to the folder where the .tar file you downloaded in step 1 is located, for example::
