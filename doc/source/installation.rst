@@ -140,7 +140,7 @@ work out what to do.
   
 #. to::
   
-    FC      = gfortran -ffixed-line-length-132 -freal-loops $(FFLAGS)
+    FC      = gfortran -std=legacy -ffixed-line-length-none $(FFLAGS)
   
 #. Exit the editor and return to the command line.
 
