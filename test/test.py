@@ -110,3 +110,11 @@ class AeroProfileTests(unittest.TestCase):
 
             self.assertEqual(s.outputs.apparent_radiance, results[i], "Error in aerosol profile with ID %s. Got %f, expected %f." % (str(aps[i]), s.outputs.apparent_radiance, results[i]))
 
+class AtmosCorrTests(unittest.TestCase):
+
+  def test_atmos_corr_radiance(self):
+    s = SixS()
+    s.atmos_corr = AtmosCorr.AtmosCorrLambertianFromRadiance(130.1)
+    s.run()
+
+    self.assertEqual(s.outputs.atmos_corrected_reflectance_lambertian, 0.29048)
