@@ -1,5 +1,6 @@
 import urllib2
 from StringIO import StringIO
+import numpy as np
 
 def import_from_usgs(loc):
 	"""Imports a spectral library from the USGS Spectral Library.
@@ -19,9 +20,9 @@ def import_from_usgs(loc):
 	else:
 		f = open(loc, "r")
 	
-	npdata = loadtxt(f, skiprows=16)
+	npdata = np.loadtxt(f, skiprows=16)
 	f.close()
-	npdata[npdata==-1.23e+34] = nan
+	npdata[npdata==-1.23e+34] = np.nan
 	npdata = npdata[:, 0:2]
 
 	return npdata
@@ -44,7 +45,7 @@ def import_from_aster(loc):
 	else:
 		f = open(loc, "r")
 	
-	npdata = loadtxt(f, skiprows=26)
+	npdata = np.loadtxt(f, skiprows=26)
 	f.close()
 	npdata[:,1] = npdata[:,1] / 100
 	return npdata
