@@ -25,7 +25,7 @@ def Wavelength(start_wavelength, end_wavelength=None, filter=None):
     """
     try:
         wv_id = start_wavelength[0]
-        type = "%d (Chosen Band)\n" % (-1 *wv_id)
+        wv_type = "%d (Chosen Band)\n" % (-1 *wv_id)
         data = None
         min_wv = start_wavelength[1]
         max_wv = start_wavelength[2]
@@ -34,10 +34,10 @@ def Wavelength(start_wavelength, end_wavelength=None, filter=None):
                 # It's simply a wavelength value
                 if start_wavelength > PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH or start_wavelength < PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH:
                     raise ParameterError("wavelength", "Wavelength must be between %f and %f" % (PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH, PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH))
-                type = "-1"
+                wv_type = "-1"
                 data = "%f" % start_wavelength
-                min_wv = None
-                max_wv = None
+                min_wv = start_wavelength
+                max_wv = start_wavelength
         else:
             if start_wavelength > PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH or start_wavelength < PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH or end_wavelength > PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH or end_wavelength < PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH:
                 raise ParameterError("wavelength", "Wavelength must be between %f and %f" % (PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH, PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH))
@@ -45,21 +45,21 @@ def Wavelength(start_wavelength, end_wavelength=None, filter=None):
             max_wv = end_wavelength
             if filter == None:
                 # They haven't given a filter, so assume filter is constant at 1
-                type = "0 constant filter function"
+                wv_type = "0 constant filter function"
                 data = "%f %f" % (start_wavelength, end_wavelength)
             else:
                 # Filter has been given, so we must use it.
                 # We assume filter has been given at 2.5nm intervals
-                type = "1 User's defined filtered function"
+                wv_type = "1 User's defined filtered function"
                 data = """%f %f
     %s""" % (start_wavelength, end_wavelength, " ".join(map(str,filter)))
     
 
     if data == None:
-        return_string =  type
+        return_string =  wv_type
     else:
         return_string =  """%s
-%s\n""" % (type, data)
+%s\n""" % (wv_type, data)
 
     return (return_string, min_wv, max_wv)
 

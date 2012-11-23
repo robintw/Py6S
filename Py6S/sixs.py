@@ -1,6 +1,7 @@
 import subprocess
 import os
-
+import numpy as np
+from scipy.interpolate import interp1d
 from Params import *
 from sixs_exceptions import *
 from outputs import *
@@ -159,8 +160,8 @@ class SixS(object):
         """Create the wavelength lines for the input file"""
         return self.wavelength
 
-    def create_surface_lines(self):
-        """Create the surface reflectance lines for the input file"""
+    def create_ground_reflectance_lines(self):
+        """Create the ground reflectance lines for the input file"""
         return self.ground_reflectance
 
     def create_atmos_corr_lines(self):
@@ -183,22 +184,53 @@ class SixS(object):
         
         input_file += self.create_elevation_lines()
         
-        input_file += self.create_wavelength_lines()[0]
 
+        # Unlike all of the other functions here, create_wavelength_lines
+        # returns 3 values:
+        # * The string to go into the input file
+        # * The minimum wavelength
+        # * The maximum wavelength
+        #
+        # If only a single wavelength is given then that wavelength is
+        # given in both min_wv and max_wv - that is, they are equal.
+        input_file += self.create_wavelength_lines()[0]
         min_wv = self.create_wavelength_lines()[1]
         max_wv = self.create_wavelength_lines()[2]
-
-        # Not used yet
-        #n_nvalues_required = math.ceil(((max_wv - min_wv) / 0.0025) + 1)
         
-        surface_lines = self.create_surface_lines()
+        # Do replacements of the values within the surface specification
+        # 
+        # Some surface specifications require the wavelength to be specified there
+        # as well as in the wavelength part of the file (a clear violation of DRY, but
+        # oh well). We deal with this by putting in the text WV_REPLACE, and then
+        # replacing it with the min and max wavelengths.
+        #
+        ground_reflectance_lines = self.create_ground_reflectance_lines()
+        print ground_reflectance_lines
+        str_ground_refl = str(ground_reflectance_lines[0].replace("WV_REPLACE", "%f %f" % (min_wv, max_wv)))
 
-        if "REPLACETHIS" in surface_lines and min_wv != None and max_wv != None:
-           surface_lines = surface_lines.replace("REPLACETHIS", "%f %f" % (min_wv, max_wv))
+        # Furthermore, to deal with spectra from spectral libraries
+        # where the spectra are given as a 2D array of wavelength, reflectance
+        # we need to interpolate to the right spacing
+        # and replace the REFL_REPLACE bit of the string
 
-        input_file += surface_lines
+        if "REFL_REPLACE" in str_ground_refl:
+            wavelengths = ground_reflectance_lines[1][:,0]
+            reflectances = ground_reflectance_lines[1][:,1]
+
+            # Create an array of the wavelengths that we want to get the reflectances at
+            new_wavelengths = np.arange(min_wv, max_wv+0.0025, 0.0025)
+
+            # We then interpolate to get the right places
+            calc_refl = interp1d(wavelengths, reflectances)
+            new_reflectances = calc_refl(new_wavelengths)
+            
+            str_ground_refl = str_ground_refl.replace("REFL_REPLACE", " ".join(map(str, new_reflectances)))
+
+        input_file += str_ground_refl
 
         input_file += self.create_atmos_corr_lines()
+
+        print input_file
         
         tmp_file = tempfile.NamedTemporaryFile(prefix="tmp_Py6S_input_", delete=False)
             
