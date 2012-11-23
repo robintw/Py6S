@@ -14,16 +14,16 @@ class VisAOTTests(unittest.TestCase):
     s = SixS()
     s.run()
     
-    self.assertEqual(s.outputs.visibility, 8.49)
-    self.assertEqual(s.outputs.aot550, 0.5)
+    self.assertAlmostEqual(s.outputs.visibility, 8.49, delta=0.002)
+    self.assertAlmostEqual(s.outputs.aot550, 0.5, delta=0.002)
     
   def test_vis_aot_small(self):
     s = SixS()
     s.aot550 = 0.001
     s.run()
     
-    self.assertEqual(s.outputs.visibility, float("Inf"))
-    self.assertEqual(s.outputs.aot550, 0.001)   
+    self.assertAlmostEqual(s.outputs.visibility, float("Inf"))
+    self.assertAlmostEqual(s.outputs.aot550, 0.001, delta=0.002)   
 
 class WavelengthTests(unittest.TestCase):
 
@@ -32,33 +32,33 @@ class WavelengthTests(unittest.TestCase):
     s.wavelength = Wavelength(0.567)
     s.run()
     
-    self.assertEqual(s.outputs.apparent_radiance, 129.792)
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 129.792, delta=0.002)
   
   def test_wavelength_range(self):
     s = SixS()
     s.wavelength = Wavelength(0.5, 0.7)
     s.run()
     
-    self.assertEqual(s.outputs.apparent_radiance, 122.166)
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 122.166, delta=0.002)
    
   def test_wavelength_filter(self):
     s = SixS()
     s.wavelength = Wavelength(0.400, 0.410, [0.7, 0.9, 1.0, 0.3, 1.0])
     s.run()
     
-    self.assertEqual(s.outputs.apparent_radiance, 109.435)
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 109.435, delta=0.002)
     
   def test_wavelength_predefined(self):
     s = SixS()
     s.wavelength = Wavelength(PredefinedWavelengths.LANDSAT_TM_B1)
     s.run()
     
-    self.assertEqual(s.outputs.apparent_radiance, 138.126)
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 138.126, delta=0.002)
     
     s.wavelength = Wavelength(PredefinedWavelengths.MODIS_B6)
     s.run()
     
-    self.assertEqual(s.outputs.apparent_radiance, 17.917)
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 17.917, delta=0.002)
     
   def test_run_for_all_wvs(self):
     s = SixS()
@@ -66,8 +66,8 @@ class WavelengthTests(unittest.TestCase):
     
     a = np.array([ 138.392,  129.426,  111.635,   75.822,   16.684,    5.532])
     
-    self.assertEqual(results[0], [0.47750000000000004, 0.56125000000000003, 0.65874999999999995, 0.82624999999999993, 1.6487500000000002, 2.19625])
-    self.assertEqual(all(a == results[1]), True)
+    self.assertAlmostEqual(results[0], [0.47750000000000004, 0.56125000000000003, 0.65874999999999995, 0.82624999999999993, 1.6487500000000002, 2.19625], delta=0.002)
+    self.assertAlmostEqual(all(a == results[1]), True, delta=0.002)
 
 class AtmosProfileTests(unittest.TestCase):
 
@@ -85,7 +85,7 @@ class AtmosProfileTests(unittest.TestCase):
             s.atmos_profile = aps[i]
             s.run()
 
-            self.assertEqual(s.outputs.apparent_reflectance, results[i], "Error in atmos profile with ID %s. Got %f, expected %f." % (str(aps[i]), s.outputs.apparent_reflectance, results[i]))
+            self.assertAlmostEqual(s.outputs.apparent_reflectance, results[i], msg="Error in atmos profile with ID %s. Got %f, expected %f." % (str(aps[i]), s.outputs.apparent_reflectance, results[i]), delta=0.002)
 
 
 class AeroProfileTests(unittest.TestCase):
@@ -108,7 +108,7 @@ class AeroProfileTests(unittest.TestCase):
             s.aero_profile = aps[i]
             s.run()
 
-            self.assertEqual(s.outputs.apparent_radiance, results[i], "Error in aerosol profile with ID %s. Got %f, expected %f." % (str(aps[i]), s.outputs.apparent_radiance, results[i]))
+            self.assertAlmostEqual(s.outputs.apparent_radiance, results[i], "Error in aerosol profile with ID %s. Got %f, expected %f." % (str(aps[i]), s.outputs.apparent_radiance, results[i]), delta=0.002)
 
 class AtmosCorrTests(unittest.TestCase):
 
@@ -117,4 +117,4 @@ class AtmosCorrTests(unittest.TestCase):
     s.atmos_corr = AtmosCorr.AtmosCorrLambertianFromRadiance(130.1)
     s.run()
 
-    self.assertEqual(s.outputs.atmos_corrected_reflectance_lambertian, 0.29048)
+    self.assertAlmostEqual(s.outputs.atmos_corrected_reflectance_lambertian, 0.29048, delta=0.002)
