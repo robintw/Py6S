@@ -118,3 +118,20 @@ class AtmosCorrTests(unittest.TestCase):
     s.run()
 
     self.assertAlmostEqual(s.outputs.atmos_corrected_reflectance_lambertian, 0.29048, delta=0.002)
+
+class UserDefinedSpectraTest(unittest.TestCase):
+  
+
+  def test_aster_spectra(self):
+    s = SixS()
+    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_aster("http://speclib.jpl.nasa.gov/speclibdata/jhu.becknic.water.ice.none.solid.ice.spectrum.txt"))
+
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 7.753, delta=0.002)
+
+
+  def test_usgs_spectra(self):
+    s = SixS()
+    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_usgs("http://speclab.cr.usgs.gov/spectral.lib06/ds231/ASCII/V/cheatgrass_anp92-11a_veg.29744.asc"))
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 29.316, delta=0.002)
