@@ -181,10 +181,6 @@ Installing Py6S
 
 Installation from PyPI
 ^^^^^^^^^^^^^^^^^^^^^^
-
-.. warning::
-  This method of installing Py6S will not work at the moment, as the code has not been uploaded to PyPI yet. Please use one of the methods below instead.
-
 The easiest way to install Py6S is from the Python Package Index (PyPI; http://pypi.python.org/pypi). Simply open a command prompt and type::
 
   > pip install Py6S
