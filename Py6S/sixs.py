@@ -217,11 +217,16 @@ class SixS(object):
             wavelengths = ground_reflectance_lines[1][:,0]
             reflectances = ground_reflectance_lines[1][:,1]
 
+            # Remove the NaN's from the reflectances and wavelengths
+            # so that they are interpolated if necessary
+            wavelengths = wavelengths[~np.isnan(reflectances)]
+            reflectances = reflectances[~np.isnan(reflectances)]
+
             # Create an array of the wavelengths that we want to get the reflectances at
             new_wavelengths = np.arange(min_wv, max_wv+0.0025, 0.0025)
 
             # We then interpolate to get the right places
-            calc_refl = interp1d(wavelengths, reflectances)
+            calc_refl = interp1d(wavelengths, reflectances, bounds_error=False, fill_value=0.0)
             new_reflectances = calc_refl(new_wavelengths)
             
             str_ground_refl = str_ground_refl.replace("REFL_REPLACE", " ".join(map(str, new_reflectances)))
