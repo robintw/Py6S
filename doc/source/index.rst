@@ -32,6 +32,8 @@ Py6S is copyright Robin Wilson and the contributors listed `here <https://github
    params
    helpers
    casestudy
+   support
+   publications
    
   
 Indices and tables
