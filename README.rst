@@ -35,8 +35,7 @@ Followed by an image containing a graph showing the result for each wavelength.
 
 To use Py6S you will also need to compile and install the 6S executable. Please follow the installation instructions in the `documentation <http://py6s.readthedocs.org>`_ to find out how to do this on Windows, OS X or Linux.
 
-Py6S was described in a journal article which should be referenced if Py6S is used for producing
-outputs for a scientific report/publication. The article is currently In Press in the Computers and Geosciences journal, and a full reference will be added here when it is available.
+Py6S was described in a `journal article <https://py6s.readthedocs.org/en/latest/publications.html>`_ which should be referenced if Py6S is used for producing outputs for a scientific report/publication.
 
 This project was written as part of my PhD at the University of Southampton. The code is open-source,
 released under the LGPL license, and is available at `Github <http://github.com/robintw/py6s>`_.

@@ -37,7 +37,7 @@ setup(
         with a variety of input parameters, and to produce outputs in an easily processable form."""),
         license               = "BSD",
         url                   = "http://packages.python.org/Py6S",
-        long_description      =read('README'),
+        long_description      =read('README.rst'),
         classifiers           =[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Science/Research",
