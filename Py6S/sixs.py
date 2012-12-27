@@ -222,7 +222,6 @@ class SixS(object):
         # replacing it with the min and max wavelengths.
         #
         ground_reflectance_lines = self.create_ground_reflectance_lines()
-        print ground_reflectance_lines
         str_ground_refl = str(ground_reflectance_lines[0].replace("WV_REPLACE", "%f %f" % (min_wv, max_wv)))
 
         # Furthermore, to deal with spectra from spectral libraries
@@ -251,8 +250,6 @@ class SixS(object):
         input_file += str_ground_refl
 
         input_file += self.create_atmos_corr_lines()
-
-        print input_file
         
         tmp_file = tempfile.NamedTemporaryFile(prefix="tmp_Py6S_input_", delete=False)
             
