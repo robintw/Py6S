@@ -5,12 +5,12 @@ The current release of Py6S has achieved the original aim of producing a Python 
 
 Soon
 ----
-* Ability to import spectra for use as the GroundReflectance, rather than being limited to the predefined spectra provided by 6S. Importing of spectra should be possible from major spectral libraries (eg. the USGS and ASTER) as well as ENVI spectral library files (and maybe even field spectrometer data files?)
+* Ability to import spectra from ENVI Spectral Library files
 * Ability to link Py6S with the ProSAIL model to use ProSAIL outputs as inputs to Py6S
 
 Medium-term
 ------------
-* 
+* Ability to use Py6S (probably with a lookup-table) to perform atmospheric correction of satellite images.
 
 Eventually
 ----------
