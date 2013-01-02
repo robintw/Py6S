@@ -47,6 +47,8 @@ class GroundReflectance:
       model.ground_reflectance = GroundReflectance.HomogeneousLambertian(0.7) # A spectrally-constant reflectance of 0.7    
       model.ground_reflectance = GroundReflectance.HomogeneousLambertian(GroundReflectance.GreenVegetation) # A built-in green vegetation spectrum
       model.ground_reflectance = GroundReflectance.HomogeneousLambertian([0.6, 0.8, 0.34, 0.453]) # A user-defined spectrum given in micrometers with steps of 2.5nm
+      # A 2D ndarray, such as that returned by any of the Spectra.import_* functions
+      model.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_usgs("http://speclab.cr.usgs.gov/spectral.lib06/ds231/ASCII/V/russianolive.dw92-4.30728.asc"))
     """
     
     GreenVegetation = -1
@@ -104,15 +106,17 @@ WV_REPLACE
         - A single float value (for example, 0.634), in which case it is interpreted as a spectrally-constant reflectance value.
         - A constant defined by this class (one of ``GroundReflectance.GreenVegetation``, ``GroundReflectance.ClearWater``, ``GroundReflectance.Sand`` or ``GroundReflectance.LakeWater``) in which case a built-in spectrum of the specified material is used.
         - An array of values (for example, [0.67, 0.85, 0.34, 0.65]) in which case the values are taken to be reflectances across the whole wavelength range at a spacing of 2.5nm. In this case, if the start wavelength is s and the end wavelength is e, the values must be given for the wavelengths: ``s, s+2.5, s+5.0, s+7.5, ..., e-2.5, e``
-        - A tuple of two arrays giving wavelength and reflectance values
+        - A multidimensional ndarray giving wavelength (column 0) and reflectance (column 1) values
         """
         ro_target_type, ro_target_values = cls._GetTargetTypeAndValues(ro_target)
-        ro_env_type, ro_env_values = cls._GetTargetTypeAndValues(ro_env)
+        ro_env_type, ro_env_values = cls._GetTargetTypeAndValues(ro_env, "REFL_REPLACE_2")
 
-        return """1 (Non homogeneous surface)
+        s =  """1 (Non homogeneous surface)
 %s %s %f (ro1 ro2 radius)
 %s
 %s\n""" % (ro_target_type, ro_env_type, radius, ro_target_values, ro_env_values)
+
+        return [s, ro_target, ro_env]
 
     @classmethod
     def HomogeneousWalthall(cls, param1, param2, param3, albedo):
@@ -389,11 +393,14 @@ WV_REPLACE
       
       
     @classmethod
-    def _GetTargetTypeAndValues(cls, target):
-        # If it's iterable then it's a list (or tuple), so a spectrum has been given
+    def _GetTargetTypeAndValues(cls, target, name=None):
+        if name == None:
+          str_name = "REFL_REPLACE"
+        else:
+          str_name = name
         if isinstance(target, np.ndarray):
             target_type = "-1"
-            target_value = "REFL_REPLACE"
+            target_value = str_name
         elif isinstance(target, collections.Iterable):
             # If it has
             target_type = "-1"

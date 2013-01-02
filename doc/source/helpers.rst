@@ -30,18 +30,19 @@ Similar functions exist to run across the whole 6S wavelength range (:meth:`.run
     :scale: 50
 
 The supported sensors are:
-* Landsat MSS, TM and ETM
-* SPOT HRV1, HRV2 and Vegetation
-* MERIS
-* MODIS
-* POLDER
-* SeaWiFS
-* AATSR
-* ASTER
-* VIIRS
-* ER2 MODIS Airborne Simulator (MAS)
-* ALI
-* GLI
+
+  * Landsat MSS, TM and ETM
+  * SPOT HRV1, HRV2 and Vegetation
+  * MERIS
+  * MODIS
+  * POLDER
+  * SeaWiFS
+  * AATSR
+  * ASTER
+  * VIIRS
+  * ER2 MODIS Airborne Simulator (MAS)
+  * ALI
+  * GLI
 
 .. autoclass:: Py6S.SixSHelpers.Wavelengths
   :members:
@@ -80,4 +81,12 @@ Importing aerosol data from AERONET data
 The main function in this class (:meth:`.import_aeronet_data`) imports data from an AERONET CSV file and sets the ``aero_profile`` and ``aot550`` parameters of the 6S model accordingly.
 
 .. autoclass:: Py6S.SixSHelpers.Aeronet
+  :members:
+
+Importing ground reflectance spectra from spectral libraries
+------------------------------------------------------------
+
+These functions allow you to import spectra from two widely-used spectral libraries: the `USGS Spectral Library <http://speclab.cr.usgs.gov/spectral.lib06/>`_ and the `ASTER Spectral Library <http://speclib.jpl.nasa.gov/>`_ and use the spectra to define the ground reflectance of a 6S model run.
+
+.. autoclass:: Py6S.SixSHelpers.Spectra
   :members:

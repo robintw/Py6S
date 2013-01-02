@@ -74,7 +74,7 @@ class Aeronet:
     2. The AERONET measurement of AOT at 500nm is used for the 6S input of AOT at 550nm.
     
     """
-    filename = cls.raw(filename)
+    filename = cls._raw(filename)
     tmp_file, tmp_file_name = tempfile.mkstemp(prefix="tmp_aeronet_", text=True)
     
     # Get the given time from the user
@@ -193,7 +193,7 @@ class Aeronet:
     
           
   @classmethod
-  def raw(cls, text):
+  def _raw(cls, text):
       """Returns a raw string representation of text"""
       
       escape_dict={'\a':r'\a',

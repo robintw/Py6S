@@ -79,6 +79,9 @@ class SixS(object):
 
     # Stores the outputs from 6S as an instance of the Outputs class
     outputs = None
+
+    min_wv = None
+    max_wv = None
     
     def __init__(self, path=None):
         """Initialises the class and finds the right 6S executable to use.
@@ -185,6 +188,26 @@ class SixS(object):
         """Create the atmospheric correction lines for the input file"""
         return self.atmos_corr
 
+    def _refls_to_string(self, arr):
+        wavelengths = arr[:,0]
+        reflectances = arr[:,1]
+
+        # Remove the NaN's from the reflectances and wavelengths
+        # so that they are interpolated if necessary
+        wavelengths = wavelengths[~np.isnan(reflectances)]
+        reflectances = reflectances[~np.isnan(reflectances)]
+
+        # Create an array of the wavelengths that we want to get the reflectances at
+        new_wavelengths = np.arange(self.min_wv, self.max_wv+0.0025, 0.0025)
+
+        # We then interpolate to get the right places
+        calc_refl = interp1d(wavelengths, reflectances, bounds_error=False, fill_value=0.0)
+        new_reflectances = calc_refl(new_wavelengths)
+
+        s = " ".join(map(str, new_reflectances))
+
+        return s
+
     def write_input_file(self):
         """Generates a 6S input file from the parameters stored in the object
         and writes it to the given filename.
@@ -211,8 +234,8 @@ class SixS(object):
         # If only a single wavelength is given then that wavelength is
         # given in both min_wv and max_wv - that is, they are equal.
         input_file += self.create_wavelength_lines()[0]
-        min_wv = self.create_wavelength_lines()[1]
-        max_wv = self.create_wavelength_lines()[2]
+        self.min_wv = self.create_wavelength_lines()[1]
+        self.max_wv = self.create_wavelength_lines()[2]
         
         # Do replacements of the values within the surface specification
         # 
@@ -222,7 +245,7 @@ class SixS(object):
         # replacing it with the min and max wavelengths.
         #
         ground_reflectance_lines = self.create_ground_reflectance_lines()
-        str_ground_refl = str(ground_reflectance_lines[0].replace("WV_REPLACE", "%f %f" % (min_wv, max_wv)))
+        str_ground_refl = str(ground_reflectance_lines[0].replace("WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv)))
 
         # Furthermore, to deal with spectra from spectral libraries
         # where the spectra are given as a 2D array of wavelength, reflectance
@@ -230,22 +253,12 @@ class SixS(object):
         # and replace the REFL_REPLACE bit of the string
 
         if "REFL_REPLACE" in str_ground_refl:
-            wavelengths = ground_reflectance_lines[1][:,0]
-            reflectances = ground_reflectance_lines[1][:,1]
+            new_str = self._refls_to_string(ground_reflectance_lines[1])
+            str_ground_refl = str_ground_refl.replace("REFL_REPLACE", new_str)
 
-            # Remove the NaN's from the reflectances and wavelengths
-            # so that they are interpolated if necessary
-            wavelengths = wavelengths[~np.isnan(reflectances)]
-            reflectances = reflectances[~np.isnan(reflectances)]
-
-            # Create an array of the wavelengths that we want to get the reflectances at
-            new_wavelengths = np.arange(min_wv, max_wv+0.0025, 0.0025)
-
-            # We then interpolate to get the right places
-            calc_refl = interp1d(wavelengths, reflectances, bounds_error=False, fill_value=0.0)
-            new_reflectances = calc_refl(new_wavelengths)
-            
-            str_ground_refl = str_ground_refl.replace("REFL_REPLACE", " ".join(map(str, new_reflectances)))
+        if "REFL_REPLACE_2" in str_ground_refl:
+            new_str = self._refls_to_string(ground_reflectance_lines[2])
+            str_ground_refl = str_ground_refl.replace("REFL_REPLACE_2", new_str)
 
         input_file += str_ground_refl
 
