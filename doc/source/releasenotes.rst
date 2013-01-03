@@ -7,7 +7,7 @@ Details on the changes in recent versions of Py6S can be found below. More detai
 ^^^
 Added ability to import a spectrum from a spectral library (USGS or ASTER spectral libraries are currently supported) and then specify it as the ground reflectance. See :py:class:`Py6S.SixSHelpers.Spectra` and :py:class:`Py6S.GroundReflectance`.
 
-This also means that anything that can produce a 2D array with wavelengths (column 0, in micrometres) and reflectances (column 1) can be used to set the ground reflectance. For example, the Python interface to the ProSAIL model (`PyProSAIL <https://pyprosail.readthedocs.org/en/latest/>`_) can do this, and thus outputs from PyProSAIL can easily be used with 6S (see `here <https://pyprosail.readthedocs.org/en/latest/#using-with-py6s>`_ for more detailed instructions.
+This also means that anything that can produce a 2D array with wavelengths (column 0, in micrometres) and reflectances (column 1) can be used to set the ground reflectance. For example, the Python interface to the ProSAIL model (`PyProSAIL <https://pyprosail.readthedocs.org/en/latest/>`_) can do this, and thus outputs from PyProSAIL can easily be used with 6S (see `here <https://pyprosail.readthedocs.org/en/latest/#using-with-py6s>`_ for more detailed instructions).
 
 1.1.1
 ^^^^^

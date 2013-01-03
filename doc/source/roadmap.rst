@@ -6,7 +6,6 @@ The current release of Py6S has achieved the original aim of producing a Python 
 Soon
 ----
 * Ability to import spectra from ENVI Spectral Library files
-* Ability to link Py6S with the ProSAIL model to use ProSAIL outputs as inputs to Py6S
 
 Medium-term
 ------------
