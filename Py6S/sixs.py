@@ -245,7 +245,12 @@ class SixS(object):
         # replacing it with the min and max wavelengths.
         #
         ground_reflectance_lines = self.create_ground_reflectance_lines()
-        str_ground_refl = str(ground_reflectance_lines[0].replace("WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv)))
+
+        if (isinstance(ground_reflectance_lines, basestring)):
+            str_ground_refl = str(ground_reflectance_lines.replace("WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv)))
+        else:
+            str_ground_refl = str(ground_reflectance_lines[0].replace("WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv)))
+
 
         # Furthermore, to deal with spectra from spectral libraries
         # where the spectra are given as a 2D array of wavelength, reflectance
