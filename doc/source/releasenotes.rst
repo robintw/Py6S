@@ -3,6 +3,10 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.2.3 (10th Feb 2013)
+^^^^^^^^^^^^^^^^^^^^^
+Bugfix release to fix issue with importing geometry details from time and location, due to issues with importing PySolar.
+
 1.2.2 (4th Jan 2013)
 ^^^^^^^^^^^^^^^^^^^^
 Bugfix release to fix issue with installation not finding README.rst on some systems.
