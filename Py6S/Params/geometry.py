@@ -16,8 +16,6 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 import dateutil.parser
-#from sixs_exceptions import *
-
 class Geometry:
   class User:
     """Stores parameters for a user-defined geometry for 6S.
@@ -59,16 +57,16 @@ class Geometry:
       """
       # Try and import the PySolar module, if it fails give an error message
       try:
-        import solar
+        import Pysolar
       except:
-        raise ExecutionError("To set the geometry from a time and location you must have the PySolar module installed.\nTo install this, run 'pip install pysolar' at the command line.")
+        raise ImportError("To set the geometry from a time and location you must have the PySolar module installed.\nTo install this, run 'pip install pysolar' at the command line.")
 
       
       
       dt = dateutil.parser.parse(datetimestring, dayfirst=True)
-      self.solar_z = solar.GetAltitude(lat, long, dt)
+      self.solar_z = Pysolar.GetAltitude(lat, long, dt)
       
-      az = solar.GetAzimuth(lat, long, dt)
+      az = Pysolar.GetAzimuth(lat, long, dt)
       
       if az < 0:
         self.solar_a = abs(az) + 180
