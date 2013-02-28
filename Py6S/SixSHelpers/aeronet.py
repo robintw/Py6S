@@ -19,6 +19,7 @@ import numpy as np
 from scipy.interpolate import interp1d
 import dateutil.parser
 import tempfile
+import warnings
 from Py6S import *
 
 
@@ -99,6 +100,9 @@ class Aeronet:
     wavelengths = []
     radii = []
     radii_indices = []
+
+    aot_indices = []
+    aot_wavelengths = []
     
     # Extract the indices of the columns we want, plus the radii and the wavelengths
     for i in range(len(spl_header)):
@@ -111,8 +115,11 @@ class Aeronet:
         wv = wv.replace(")", "")
         wv = wv.replace("REFI", "")
         wavelengths.append(float(wv)/1000)
-      elif "AOT_500" in h:
-        aot_index = i
+      elif "AOT_" in h:
+        wv = h.replace("AOT_", "")
+        wv = float(wv)
+        aot_wavelengths.append(wv)
+        aot_indices.append(i)
       else:
         try:
           rad = float(h)
@@ -163,10 +170,10 @@ class Aeronet:
     finterp_imag = interp1d(wavelengths, refi_values, bounds_error=False)
     final_refi = finterp_imag(sixs_wavelengths)
     final_refi = cls._remove_nans(final_refi)
-    
+
     ### Load the AOT data from the CSV file
     a = np.genfromtxt(tmp_file_name, delimiter=',', skip_header=4,
-          usecols=[0] + [aot_index], converters={0: date_conv})
+          usecols=[0] + aot_indices, converters={0: date_conv})
     
     
     # Select the row with the closest time to the given
@@ -174,9 +181,30 @@ class Aeronet:
     diff = abs(diff)
     index = np.argmax(diff == min(diff))
     row = a[index]
-    
+
+    # Get the AOTs from the row and select the finite (non-NaN) ones
+    aots = np.array(list(row)[1:])
+    mask = np.isfinite(aots)
+
+    # Apply the mask
+    wvsarr = np.array(aot_wavelengths)
+    wvsarr = wvsarr[mask]
+    aots = aots[mask]
+
+    # Distance from 550nm - which is the wavelength at which AOT is wanted
+    diffs = np.abs(wvsarr - 550)
+    together = np.vstack((diffs, aots)).T
+
+    together.sort(axis=0)
+
+    wv_diff =  together[0,0]
+    aot = together[0,1]
+
+    if wv_diff > 70:
+      warnings.warn("AOT measurement was taken > 70nm away from 550nm - so AOT input may not be valid.") 
+
     # Set the values in the 6S object
-    s.aot550 = row[1]
+    s.aot550 = aot
     s.aero_profile = AeroProfile.SunPhotometerDistribution(radii, dvdlogr, final_refr, final_refi)
     
     return s
