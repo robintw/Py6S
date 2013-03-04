@@ -155,11 +155,28 @@ class Aeronet:
     # Select the row with the closest time to the given
     diff = a['f0'] - given_time
     diff = abs(diff)
-    index = np.argmax(diff == min(diff))
-    row = a[index]
+   
+
+    indices_to_try = diff.argsort()
+    index = 0
+    row = a[indices_to_try[index]]
     
     ref_ind = list(row)[1:]
+
+    while_has_run = False
+
+    while np.any(np.isnan(ref_ind)):
+      # Some of the refractive indices we selected are NaN
+      # So raise a warning and choose the next appropriate row
+      while_has_run = True
+      index += 1
+      row = a[indices_to_try[index]]
     
+      ref_ind = list(row)[1:]
+
+    if while_has_run:
+      warnings.warn("Refractive indices were NaN at closest time, so used nearest time with data. Time difference: %s" % str(diff[index]))
+
     refr_values = ref_ind[:len(ref_ind)/2]
     refi_values = ref_ind[len(ref_ind)/2:]
     
@@ -174,7 +191,6 @@ class Aeronet:
     ### Load the AOT data from the CSV file
     a = np.genfromtxt(tmp_file_name, delimiter=',', skip_header=4,
           usecols=[0] + aot_indices, converters={0: date_conv})
-    
     
     # Select the row with the closest time to the given
     diff = a['f0'] - given_time
@@ -201,7 +217,7 @@ class Aeronet:
     aot = together[0,1]
 
     if wv_diff > 70:
-      warnings.warn("AOT measurement was taken > 70nm away from 550nm - so AOT input may not be valid.") 
+      warnings.warn("AOT measurement was taken > 70nm away from 550nm - so AOT input may not be valid. Measurement was at %d" ) 
 
     # Set the values in the 6S object
     s.aot550 = aot
