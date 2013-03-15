@@ -64,7 +64,7 @@ class Geometry:
       
       
       dt = dateutil.parser.parse(datetimestring, dayfirst=True)
-      self.solar_z = Pysolar.GetAltitude(lat, long, dt)
+      self.solar_z = 90.0 - Pysolar.GetAltitude(lat, long, dt)
       
       az = Pysolar.GetAzimuth(lat, long, dt)
       
