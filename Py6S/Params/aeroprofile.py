@@ -130,9 +130,10 @@ class AeroProfile:
       This returns an :class:`.AerosolDistribution` object. Components can then be added to this distribution using the :meth:`.add_component`
       method of the returned class.
       
-      Example usage:
-      s.aeroprofile = AeroProfile.JungePowerLawDistribution(0.3, 0.1)
-      s.aeroprofile.add_component(...)
+      Example usage::
+      
+        s.aeroprofile = AeroProfile.JungePowerLawDistribution(0.1, 0.3)
+        s.aeroprofile.add_component(...)
       
       """
       return cls.AerosolDistribution(rmin, rmax, 10)
