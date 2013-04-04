@@ -76,7 +76,7 @@ class Altitudes:
     
     """
     
-    self.sensor_altitude = altitude
+    self.sensor_altitude = -1 * altitude
     self.aot = aot
     self.water = water
     self.ozone = ozone
@@ -86,4 +86,4 @@ class Altitudes:
     if self.sensor_altitude == None:
       return "%f\n%f\n" % (self.target_alt_pres, self.sensor_alt_pres)
     else:
-      return "%f\n%f %f\n%f\n" % (self.target_alt_press, self.sensor_altitude, self.water, self.ozone, self.aot)
+      return "%f\n%f\n%f %f\n%f\n" % (self.target_alt_pres, self.sensor_altitude, self.water, self.ozone, self.aot)
