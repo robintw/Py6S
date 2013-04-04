@@ -39,7 +39,7 @@ class Geometry:
     month = 1
     
     def __str__(self):
-      return '0 (User defined)\n%d %d %d %d %d %d\n' % (self.solar_z, self.solar_a, self.view_z, self.view_a, self.month, self.day)
+      return '0 (User defined)\n%f %f %f %f %d %d\n' % (self.solar_z, self.solar_a, self.view_z, self.view_a, self.month, self.day)
       
     def from_time_and_location(self, lat, long, datetimestring, view_z, view_a):
       """Sets the user-defined geometry to a given view zenith and azimuth, and a solar zenith and azimuth calculated from the lat, long and date given.
@@ -64,7 +64,7 @@ class Geometry:
       
       
       dt = dateutil.parser.parse(datetimestring, dayfirst=True)
-      self.solar_z = Pysolar.GetAltitude(lat, long, dt)
+      self.solar_z = 90.0 - Pysolar.GetAltitude(lat, long, dt)
       
       az = Pysolar.GetAzimuth(lat, long, dt)
       
