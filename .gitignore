@@ -18,3 +18,4 @@ CHL
 *.png
 .ropeproject
 *.ipynb
+.coverage
