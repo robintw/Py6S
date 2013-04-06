@@ -28,7 +28,10 @@ class Aeronet:
   def import_aeronet_data(cls, s, filename, time):
     """Imports data from an AERONET data file to a given SixS object.
     
-    This requires a valid AERONET data file. The type of file required is a *Combined file* for All Points (Level
+    This requires a valid AERONET data file and the `pandas` package (see http://pandas.pydata.org/ for
+    installation instructions).
+
+    The type of AERONET file required is a *Combined file* for All Points (Level
     1.5 or 2.0)
     
     To download a file like this:
@@ -80,10 +83,10 @@ class Aeronet:
 
 
     # Load in the data from the file
-    df = pandas.read_csv(filename, skiprows=3, na_values=["N/A"])
-
-    if df.shape[0] == 0:
-      raise ValueError("No data in the AERONET file!")
+    try:
+      df = pandas.read_csv(filename, skiprows=3, na_values=["N/A"])
+    except:
+      raise ParameterError("AERONET file", "Error reading AERONET file - does it exist and contain data?")
 
     # Parse the dates/times properly and set them up as the index
     df['Date(dd-mm-yyyy)'] = df['Date(dd-mm-yyyy)'].apply(cls._to_iso_date)

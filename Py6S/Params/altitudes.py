@@ -45,7 +45,7 @@ class Altitudes:
     """Set the pressure of the target (a proxy for the height of the target).
     
     Arguments:
-     * `pressure` -- The pressure at the target, in mb`
+     * `pressure` -- The pressure at the target, in mb
     
     """
     

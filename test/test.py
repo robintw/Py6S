@@ -77,6 +77,17 @@ class WavelengthTests(unittest.TestCase):
     
     self.assertAlmostEqual(s.outputs.apparent_radiance, 17.917, delta=0.002)
     
+
+  def test_invalid_wavelengths(self):
+    with self.assertRaises(ParameterError):
+      Wavelength(1000)
+
+    with self.assertRaises(ParameterError):
+      Wavelength(0.15)
+
+    with self.assertRaises(ParameterError):
+      Wavelength(0.5, 50)
+
   def test_run_for_all_wvs(self):
     s = SixS()
     results = SixSHelpers.Wavelengths.run_landsat_etm(s, "apparent_radiance")
@@ -152,3 +163,67 @@ class UserDefinedSpectraTest(unittest.TestCase):
     s.run()
 
     self.assertAlmostEqual(s.outputs.apparent_radiance, 29.316, delta=0.002)
+
+
+  def test_usgs_spectra_from_file(self):
+    s = SixS()
+    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_usgs("./test/butlerite_gds25.3947.asc"))
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 180.818, delta=0.002)
+
+
+
+class AltitudesTest(unittest.TestCase):
+
+  def test_custom_sensor_altitude(self):
+    s = SixS()
+    s.altitudes.set_sensor_custom_altitude(3, 0.26)
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 147.964, delta=0.002)
+
+  def test_custom_target_altitude(self):
+    s = SixS()
+    s.altitudes.set_target_custom_altitude(7)
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 139.192, delta=0.002)
+
+  def test_custom_altitudes(self):
+    s = SixS()
+    s.altitudes.set_target_custom_altitude(7)
+    s.altitudes.set_sensor_custom_altitude(50, 0.26)
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 158.101, delta=0.002)
+
+  def test_satellite_level(self):
+    s = SixS()
+    s.altitudes.set_sensor_satellite_level()
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 165.188, delta=0.002)
+
+  def test_target_pressure(self):
+    s = SixS()
+    s.altitudes.set_sensor_satellite_level()
+    s.altitudes.set_target_pressure(200)
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 165.188, delta=0.002)
+
+class AERONETImportTest(unittest.TestCase):
+
+  def test_import_aeronet(self):
+    s = SixS()
+    s = SixSHelpers.Aeronet.import_aeronet_data(s, "./test/070101_101231_Marambio.dubovik", "2008-02-22")
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 137.324, delta=0.002)
+
+  def test_import_empty_file(self):
+    s = SixS()
+    with self.assertRaises(ParameterError):
+      SixSHelpers.Aeronet.import_aeronet_data(s, "./test/empty_file", "2008-02-22")
+
