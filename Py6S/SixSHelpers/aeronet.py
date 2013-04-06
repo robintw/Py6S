@@ -18,14 +18,12 @@
 import numpy as np
 from scipy.interpolate import interp1d
 import dateutil.parser
-import tempfile
 import warnings
 from Py6S import *
 
-
 class Aeronet:
-  """Contains functions for importing data from AERONET measurements."""
-  
+  """Contains functions for importing AERONET measurements to set the 6S aerosol profile."""
+
   @classmethod
   def import_aeronet_data(cls, s, filename, time):
     """Imports data from an AERONET data file to a given SixS object.
@@ -75,178 +73,158 @@ class Aeronet:
     2. The AERONET measurement of AOT at 500nm is used for the 6S input of AOT at 550nm.
     
     """
-    filename = cls._raw(filename)
-    tmp_file, tmp_file_name = tempfile.mkstemp(prefix="tmp_aeronet_", text=True)
-    
-    # Get the given time from the user
-    given_time = dateutil.parser.parse(time, dayfirst=True)
-    
-    # Join first two columns of file
-    in_file = open(filename, "r")
-    out_file = open(tmp_file_name, "w")
-    for line in in_file:
-      line = line.replace(",", " ", 1)
-      out_file.write(line)
-    out_file.close()
-    
-    # Get the header line
-    f = open(tmp_file_name, "r")
-    lines = f.readlines()
-    header = lines[3]
-    spl_header = header.split(",")
-    
-    refr = []
-    refi = []
-    wavelengths = []
-    radii = []
-    radii_indices = []
+    try:
+       import pandas
+    except ImportError:
+       raise ImportError("Importing AERONET data requires the pandas module. Please see http://pandas.pydata.org/ for installation instructions.")
 
-    aot_indices = []
-    aot_wavelengths = []
+
+    # Load in the data from the file
+    df = pandas.read_csv(filename, skiprows=3, na_values=["N/A"])
+
+    if df.shape[0] == 0:
+      raise ValueError("No data in the AERONET file!")
+
+    # Parse the dates/times properly and set them up as the index
+    df['Date(dd-mm-yyyy)'] = df['Date(dd-mm-yyyy)'].apply(cls._to_iso_date)
+    df['timestamp'] = df.apply(lambda s: pandas.to_datetime(s['Date(dd-mm-yyyy)'] + " " + s['Time(hh:mm:ss)']), axis=1)
+    df.index = pandas.DatetimeIndex(df.timestamp)
     
-    # Extract the indices of the columns we want, plus the radii and the wavelengths
-    for i in range(len(spl_header)):
-      h = spl_header[i]
-      if "REFR" in h:
-        refr.append(i)
-      elif "REFI" in h:
-        refi.append(i)
-        wv = h.replace("(", "")
-        wv = wv.replace(")", "")
-        wv = wv.replace("REFI", "")
-        wavelengths.append(float(wv)/1000)
-      elif "AOT_" in h:
-        wv = h.replace("AOT_", "")
-        wv = float(wv)
-        aot_wavelengths.append(wv)
-        aot_indices.append(i)
-      else:
-        try:
-          rad = float(h)
-        except:
-          continue
-        radii.append(rad)
-        radii_indices.append(i)
-    
-    date_conv = lambda x: dateutil.parser.parse(x.replace(":", "/", 2), dayfirst=True)
-    
-    ### Load the radii data from the CSV file
-    a = np.genfromtxt(tmp_file_name, delimiter=',', skip_header=4,
-          usecols=[0] + radii_indices, converters={0: date_conv})
-    
-    
-    # Select the row with the closest time to the given
-    diff = a['f0'] - given_time
-    diff = abs(diff)
-    index = np.argmax(diff == min(diff))
-    row = a[index]
-    
-    
-    dvdlogr = list(row)[1:]
-    
+    given_time = dateutil.parser.parse(time)
+
+    df['timediffs'] = np.abs(df.timestamp - given_time).astype('timedelta64[ns]')
+
+
+    # Get the AOT data at the closest time that has AOT
+    # (may be closer to the given_time than the closest
+    # time that has full aerosol model information)
+    aot = cls._get_aot(df)
+    #print "AOT = %f" % aot
+
+
+    refr_ind, refi_ind, wvs, radii_ind, radii = cls._get_model_columns(df)
+
+    # Get the indices we're interested in from the main df
+    inds = refr_ind + refi_ind + radii_ind + [len(df.columns)-1]
+
+    # and put them into a smaller df for just the aerosol-model-related components
+    model_df = df.ix[:, inds]
+    # Get rid of rows which don't have a full set of data
+    model_df = model_df.dropna(axis=0, how='any')
+
+    if model_df.shape[0] == 0:
+      raise ValueError("No non-NaN data for aerosol model available in AERONET file.")
+
+    # And get the closest to the given time
+    rowind = model_df.timediffs.idxmin()
+
+    # Extract this row as a series
+    ser = model_df.ix[rowind]
+    # Get the new relevant indices for this smaller df
+    refr_ind, refi_ind, wvs, radii_ind, radii = cls._get_model_columns(model_df)
+
+    wvs = np.array(wvs) / 1000.0
+
+    # Interpolate both the real and imag parts of the refractive index
+    # at the 6S wavelengths from the wavelengths given in the AERONET file
     sixs_wavelengths = [0.350, 0.400, 0.412, 0.443, 0.470, 0.488, 0.515, 0.550, 0.590, 0.633, 0.670, 0.694, 0.760,
-          0.860, 1.240, 1.536, 1.650, 1.950, 2.250, 3.750]
-    
-    ### Load the refractive indices data from the CSV file
-    a = np.genfromtxt(tmp_file_name, delimiter=',', skip_header=4,
-          usecols=[0] + refr + refi, converters={0: date_conv})
-    
-    
-    # Select the row with the closest time to the given
-    diff = a['f0'] - given_time
-    diff = abs(diff)
-    index = np.argmax(diff == min(diff))
-    row = a[index]
-    
-    ref_ind = list(row)[1:]
-    
-    refr_values = ref_ind[:len(ref_ind)/2]
-    refi_values = ref_ind[len(ref_ind)/2:]
-    
-    finterp_real = interp1d(wavelengths, refr_values, bounds_error=False)
-    final_refr = finterp_real(sixs_wavelengths)
-    final_refr = cls._remove_nans(final_refr)
-    
-    finterp_imag = interp1d(wavelengths, refi_values, bounds_error=False)
-    final_refi = finterp_imag(sixs_wavelengths)
-    final_refi = cls._remove_nans(final_refi)
+            0.860, 1.240, 1.536, 1.650, 1.950, 2.250, 3.750]
 
-    ### Load the AOT data from the CSV file
-    a = np.genfromtxt(tmp_file_name, delimiter=',', skip_header=4,
-          usecols=[0] + aot_indices, converters={0: date_conv})
-    
-    
-    # Select the row with the closest time to the given
-    diff = a['f0'] - given_time
-    diff = abs(diff)
-    index = np.argmax(diff == min(diff))
-    row = a[index]
+    refr_values = ser[refr_ind]
+    f_interp_real = interp1d(wvs, refr_values, bounds_error=False)
+    final_refr = f_interp_real(sixs_wavelengths)
+    final_refr = pandas.Series(final_refr)
+    final_refr = final_refr.fillna(method='pad')
+    final_refr = final_refr.fillna(method='bfill')
 
-    # Get the AOTs from the row and select the finite (non-NaN) ones
-    aots = np.array(list(row)[1:])
-    mask = np.isfinite(aots)
+    refi_values = ser[refi_ind]
+    f_interp_imag = interp1d(wvs, refi_values, bounds_error=False)
+    final_refi = f_interp_imag(sixs_wavelengths)
+    final_refi = pandas.Series(final_refi)
+    final_refi = final_refi.fillna(method='pad')
+    final_refi = final_refi.fillna(method='bfill')
 
-    # Apply the mask
-    wvsarr = np.array(aot_wavelengths)
-    wvsarr = wvsarr[mask]
-    aots = aots[mask]
+    dvdlogr = ser[radii_ind]
 
-    # Distance from 550nm - which is the wavelength at which AOT is wanted
-    diffs = np.abs(wvsarr - 550)
-    together = np.vstack((diffs, aots)).T
-
-    together.sort(axis=0)
-
-    wv_diff =  together[0,0]
-    aot = together[0,1]
-
-    if wv_diff > 70:
-      warnings.warn("AOT measurement was taken > 70nm away from 550nm - so AOT input may not be valid.") 
-
-    # Set the values in the 6S object
     s.aot550 = aot
     s.aero_profile = AeroProfile.SunPhotometerDistribution(radii, dvdlogr, final_refr, final_refi)
-    
+
     return s
-  
+
   @classmethod
-  def _remove_nans(cls, a):
-    """Removes leading or trailing NaNs from a ndarray, by repeating the closest value."""
-    ind = np.where(~np.isnan(a))[0]
-    first, last = ind[0], ind[-1]
-    a[:first] = a[first]
-    a[last + 1:] = a[last]
-    
-    return(a)
-    
-          
+  def _get_model_columns(cls, df):
+    refr_ind = []
+    refi_ind = []
+    wvs = []
+    radii_ind = []
+    radii = []
+
+    for i,col in enumerate(df.columns):
+      if "REFR" in col:
+        refr_ind.append(i)
+      elif "REFI" in col:
+        refi_ind.append(i)
+        wv = int(col.replace("REFI", "").replace("(", "").replace(")", ""))
+        wvs.append(wv)
+      else:
+        try:
+          rad = float(col)
+        except:
+          continue
+        radii_ind.append(i)
+        radii.append(rad)
+
+    return refr_ind, refi_ind, wvs, radii_ind, radii
+
   @classmethod
-  def _raw(cls, text):
-      """Returns a raw string representation of text"""
-      
-      escape_dict={'\a':r'\a',
-           '\b':r'\b',
-           '\c':r'\c',
-           '\f':r'\f',
-           '\n':r'\n',
-           '\r':r'\r',
-           '\t':r'\t',
-           '\v':r'\v',
-           '\'':r'\'',
-           '\"':r'\"',
-           '\0':r'\0',
-           '\1':r'\1',
-           '\2':r'\2',
-           '\3':r'\3',
-           '\4':r'\4',
-           '\5':r'\5',
-           '\6':r'\6',
-           '\7':r'\7',
-           '\8':r'\8',
-           '\9':r'\9'}
-          
-      new_string=''
-      for char in text:
-          try: new_string+=escape_dict[char]
-          except KeyError: new_string+=char
-      return new_string
+  def _to_iso_date(cls, s):
+    """Converts the date which is, bizarrely, given as dd:mm:yyyy to the ISO standard
+    of yyyy-mm-dd."""
+    spl = s.split(":")
+    spl.reverse()
+
+    return "-".join(spl)
+
+  @classmethod
+  def _get_aot(cls, df):
+    """Gets the AOT data from the AERONET dataset, choosing the AOT at the closest time
+    to the time requested, and choosing the AOT measurement at the wavelength closest
+    to 550nm."""
+    wvs = []
+    inds = []
+
+    for i,col in enumerate(df.columns):
+      if "AOT_" in col:
+        inds.append(i)
+
+    inds.append(len(df.columns) - 1)
+    inds = np.array(inds)
+
+    # Remove the columns for AOT wavelengths with no data
+    aot_df = df.ix[:,inds]
+    aot_df = aot_df.dropna(axis=1, how='all')
+    aot_df = aot_df.dropna(axis=0, how='any')
+
+
+    wvs = []
+    inds = []
+    for i,col in enumerate(aot_df.columns):
+      if "AOT_" in col:
+        wvs.append(int(col.replace("AOT_", "")))
+        inds.append(i)
+
+    wvs = np.array(wvs)
+    inds = np.array(inds)
+
+    wv_diffs = np.abs(wvs - 550)
+
+    aot_col_index = wv_diffs.argmin()
+
+    if (wv_diffs[aot_col_index] > 70):
+      warnings.warn("Using AOT measured more than 70nm away from 550nm as nothing closer available - could cause inaccurate results.")
+
+    rowind = aot_df.timediffs.idxmin()
+
+    aot = aot_df.ix[rowind, aot_col_index]
+
+    return aot
