@@ -7,6 +7,7 @@ Soon
 ----
 * Ability to import spectra from ENVI Spectral Library files
 * Ability to import radiosonde data from a wider range of formats
+* Add spectral response functions for other modern sensors (eg. Sentinel-2, IKONOS and many others)
 * Developments in the API for atmospheric correction, making it easier to atmospherically-correct multiple wavelengths using the same settings
 
 Medium-term
