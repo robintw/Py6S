@@ -1,7 +1,7 @@
 Intended Audience
 ================================
 
-Py6S is an interface to the Second Simulation of the Satellite Signal in the Solar Spectrum (6S) radiative transfer model, and therefore the use of Py6S assumes some familiarity with the 6S model and the concepts behind Radiative Transfer Modelling for remote-sensing applications.
+Py6S is an interface to the Second Simulation of the Satellite Signal in the Solar Spectrum (6S) radiative transfer model, and therefore the use of Py6S assumes some familiarity with the 6S model and the concepts behind atmospheric Radiative Transfer Modelling for remote-sensing applications.
 
 The best resources to gain some familiarity with these topics are:
 

@@ -8,7 +8,6 @@ making it easier to use 6S, Py6S adds some new features:
 * The ability to run for many wavelengths and/or angles and easily plot the results
 * The ability to import real-world data to parameterise 6S, from radiosonde measurements and AERONET sun photometer measurements
 
-
 Py6S has been designed to be easy to use, and to work on the 'principle of least surprise'. Far more details are available in the rest of
 this documentation, but a quick code example should give you an idea of what Py6S can do::
 
@@ -35,9 +34,9 @@ This will produce the results shown below::
 .. image:: intro_wv_plot.png
     :scale: 50
 
-Py6S was described in a journal article in Computers and Geosciences (currently In Press) which should be referenced if Py6S is used for producing outputs for a scientific report/publication.
+Py6S was described in a journal article in Computers and Geosciences which **must** be cited if Py6S is used for producing outputs for a scientific report/publication - see the :doc:`publications` page for more information.
 
-This project was written as part of my PhD at the University of Southampton. The code is open-source,
+This project was written as part of my PhD at the `University of Southampton <www.soton.ac.uk>`_. The code is open-source,
 released under the Lesser GNU Public License, and is available at `GitHub <http://github.com/robintw/py6s>`_.
 
-I'm very interested in receiving feedback, bug reports and feature suggestions, so please email me at robin@rtwilson.com.
+I'm very interested in receiving feedback, bug reports and feature suggestions - please see the :doc:`support` page to find out how to get in touch with me.
