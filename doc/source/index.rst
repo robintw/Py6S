@@ -11,7 +11,7 @@ Py6S was originally created as part of my PhD, to allow me to easily run a numbe
 
 If you've just arrived here for the first time then you might like to read the :doc:`introduction` and :doc:`audience` pages to see whether Py6S is suitable for your needs, and then follow the :doc:`installation` instructions and then the :doc:`quickstart` guide. The `Py6S posts <http://blog.rtwilson.com/category/my-software/py6s/>`_ on my blog may also be of interest to you, as these explain various features of Py6S using case studies and example code. Full documentation of every function in Py6S can be accessed from the Table of Contents below.
 
-If you need further help, or just want to send me some comments about Py6S, then visit the :doc:`support` page. If you use Py6S as part of some research you publish then you **must** cite the first paper listed on the :doc:`publications` page.
+If you need further help, or just want to send me some comments about Py6S, then visit the :doc:`support` page, where you will find details of the Py6S mailing list. If you use Py6S as part of some research you publish then you **must** cite the first paper listed on the :doc:`publications` page.
 
 Py6S is fully-working, but also under active development. The :doc:`releasenotes` give information on what has changed in recent releases, and the :doc:`roadmap` describes plans for future features.
 
@@ -33,6 +33,8 @@ Table of Contents
    helpers
    casestudy
    support
+   releasenotes
+   roadmap
    publications
    
   
