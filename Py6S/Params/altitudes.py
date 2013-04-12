@@ -53,11 +53,16 @@ class Altitudes:
   
   def set_sensor_sea_level(self):
     """Set the sensor altitude to be sea level."""
-    
+    # Reset the sensor_altitude (as used by set_sensor_custom_altitude()) to None
+    # before setting the sensor_alt_pres
+    self.sensor_altitude = None
     self.sensor_alt_pres = 0
     
   def set_sensor_satellite_level(self):
     """Set the sensor altitude to be satellite level."""
+    # Reset the sensor_altitude (as used by set_sensor_custom_altitude()) to None
+    # before setting the sensor_alt_pres
+    self.sensor_altitude = None
     self.sensor_alt_pres = -1000
     
   def set_sensor_custom_altitude(self, altitude, aot, water=-1, ozone=-1):
