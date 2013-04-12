@@ -65,12 +65,18 @@ class Altitudes:
     self.sensor_altitude = None
     self.sensor_alt_pres = -1000
     
-  def set_sensor_custom_altitude(self, altitude, aot, water=-1, ozone=-1):
-    """Set the altitude of the sensor, along with other variables required for the parameterisation of the sensor.
+  def set_sensor_custom_altitude(self, altitude, aot=-1, water=-1, ozone=-1):
+    """Set the altitude of the sensor, along with other variables required for the parameterisation
+    of the sensor.
+
+    Takes optional arguments of `aot`, `water` and `ozone` to specify atmospheric contents underneath
+    the sensor. If these aren't specified then the water and ozone contents will be interpolated from
+    the US-1962 standard atmosphere, and the AOT will be interpolated from a 2km exponential aerosol
+    profile. 
     
     Arguments:
      * `altitude` -- The altitude of the sensor, in km.
-     * `aot` -- The AOT at 550nm at the sensor
+     * `aot` -- (Optional, keyword argument) The AOT at 550nm at the sensor
      * `water` -- (Optional, keyword argument) The water vapour content (in g/cm^2) at the sensor
      * `ozone` -- (Optional, keyword argument) The ozone content (in cm-atm) at the sensor
     
