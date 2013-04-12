@@ -205,6 +205,18 @@ class AltitudesTest(unittest.TestCase):
 
     self.assertAlmostEqual(s.outputs.apparent_radiance, 165.188, delta=0.002)
 
+  def test_changing_levels(self):
+    s = SixS()
+    s.altitudes.set_sensor_custom_altitude(1)
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 142.053, delta=0.002)
+
+    s.altitudes.set_sensor_satellite_level()
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 165.188, delta=0.002)
+
   def test_target_pressure(self):
     s = SixS()
     s.altitudes.set_sensor_satellite_level()
