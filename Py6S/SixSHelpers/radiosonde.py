@@ -206,6 +206,62 @@ class Radiosonde:
 4.000e-06,8.600e-08,4.300e-11,0.000e+00]
 ])
 
+  @classmethod
+  def _import_from_arrays(cls, pressure, altitude, temperature, mixing_ratio, base_profile):
+    """Import radiosonde data from a set of arrays containing various radiosonde parameters.
+
+    This routine deals with all of the interpolation and combining required for use in 6S.
+
+    The arguments must be:
+
+    * `pressure` in hPa or millibars
+    * `altitude` in km
+    * `temperature` in celsius
+    * `mixing_ratio` in g/kg
+
+    This returns an atmospheric profile suitable for storing in s.atmos_profile.
+    """
+    # Interpolate to 6S levels
+    max_alt = np.max(altitude)
+    
+    interp_altitudes = cls.sixs_altitudes[cls.sixs_altitudes < max_alt]
+    
+    f_interp_pressure = interp1d(altitude, pressure, bounds_error=False, fill_value=pressure[0])
+    f_interp_temp = interp1d(altitude, temperature, bounds_error=False, fill_value=temperature[0])
+    f_interp_mixrat = interp1d(altitude, mixing_ratio, bounds_error=False, fill_value=mixing_ratio[0])
+    
+    int_pres = f_interp_pressure(interp_altitudes)
+    int_temp = f_interp_temp(interp_altitudes)
+    int_mixrat = f_interp_mixrat(interp_altitudes)
+    
+    base_profile_index = base_profile - 1
+    
+    # Convert units (temperature from C -> K and mixing ratio to density)
+    int_temp = cls._celsius_to_kelvin(int_temp)
+    int_water = cls._mixing_ratio_to_density(int_pres, int_temp, int_mixrat)
+    
+    # Get the rest of the profile from the base profiles
+    rest_of_pres = cls.pressure_profiles[base_profile_index]
+    rest_of_pres = rest_of_pres[cls.sixs_altitudes >= max_alt]
+    
+    rest_of_temp = cls.temp_profiles[base_profile_index]
+    rest_of_temp = rest_of_temp[cls.sixs_altitudes >= max_alt]
+    
+    rest_of_water = cls.water_density_profiles[base_profile_index]
+    rest_of_water = rest_of_water[cls.sixs_altitudes >= max_alt]
+    
+    final_pressure = np.hstack( (int_pres, rest_of_pres))
+    final_temp = np.hstack( (int_temp, rest_of_temp))
+    final_water = np.hstack( (int_water, rest_of_water))
+    final_ozone = cls.ozone_density_profiles[base_profile_index]
+    
+    params = { 'altitude' : cls.sixs_altitudes,
+               'pressure' : final_pressure,
+               'temperature' : final_temp,
+               'water' : final_water,
+               'ozone' : final_ozone}
+    
+    return AtmosProfile.RadiosondeProfile(params)
 
   @classmethod
   def import_uow_radiosonde_data(cls, url, base_profile):
@@ -264,61 +320,49 @@ class Radiosonde:
     temperature = array[:,2]
     mixing_ratio = array[:,3]
     
-    # Interpolate to 6S levels
-    max_alt = np.max(altitude)
-    
-    interp_altitudes = cls.sixs_altitudes[cls.sixs_altitudes < max_alt]
-    
-    f_interp_pressure = interp1d(altitude, pressure, bounds_error=False, fill_value=pressure[0])
-    f_interp_temp = interp1d(altitude, temperature, bounds_error=False, fill_value=temperature[0])
-    f_interp_mixrat = interp1d(altitude, mixing_ratio, bounds_error=False, fill_value=mixing_ratio[0])
-    
-    int_pres = f_interp_pressure(interp_altitudes)
-    int_temp = f_interp_temp(interp_altitudes)
-    int_mixrat = f_interp_mixrat(interp_altitudes)
-    
-    base_profile_index = base_profile - 1
-    
-    # Convert units (temperature from C -> K and mixing ratio to density)
-    int_temp = cls.celsius_to_kelvin(int_temp)
-    int_water = cls.mixing_ratio_to_density(int_pres, int_temp, int_mixrat)
-    
-    # Get the rest of the profile from the base profiles
-    rest_of_pres = cls.pressure_profiles[base_profile_index]
-    rest_of_pres = rest_of_pres[cls.sixs_altitudes >= max_alt]
-    
-    rest_of_temp = cls.temp_profiles[base_profile_index]
-    rest_of_temp = rest_of_temp[cls.sixs_altitudes >= max_alt]
-    
-    rest_of_water = cls.water_density_profiles[base_profile_index]
-    rest_of_water = rest_of_water[cls.sixs_altitudes >= max_alt]
-    
-    final_pressure = np.hstack( (int_pres, rest_of_pres))
-    final_temp = np.hstack( (int_temp, rest_of_temp))
-    final_water = np.hstack( (int_water, rest_of_water))
-    final_ozone = cls.ozone_density_profiles[base_profile_index]
-    
-    params = { 'altitude' : cls.sixs_altitudes,
-               'pressure' : final_pressure,
-               'temperature' : final_temp,
-               'water' : final_water,
-               'ozone' : final_ozone}
-    
-    return AtmosProfile.RadiosondeProfile(params)
-    
-    
-
+    return cls._import_from_arrays(pressure, altitude, temperature, mixing_ratio, base_profile)
 
   @classmethod
-  def celsius_to_kelvin(cls, temp):
+  def import_bas_radiosonde_data(cls, filename, base_profile):
+    """Imports a radiosonde profile from the British Antarctic Survey radiosonde format.
+
+    TODO: More details here after checking with Martin
+    """
+    # Import to NumPy arrays
+    array = np.loadtxt(filename, skiprows=1, usecols=(2, 3, 4, 6))
+
+    pressure = array[:,0]
+    altitude = array[:,1] / 1000
+    temperature = array[:,2]
+    dewpoint = array[:,3]
+
+    mixing_ratio = cls._calculate_mixing_ratio(dewpoint, pressure)
+    
+    return cls._import_from_arrays(pressure, altitude, temperature, mixing_ratio, base_profile)
+
+  @classmethod
+  def _calculate_mixing_ratio(cls, dewpoint_temp, pressure):
+    """Calculates the mixing ratio from dewpoint temperature and pressure measurements.
+
+    Requires the dewpoint temperature to be in celsius andthe pressure to be in hPa, which
+    is the same as millibars.
+    """
+    e = 6.11 * 10**((7.5*dewpoint_temp) / (237.7 + dewpoint_temp)  )
+    mixing_ratio = 621.97 * (  e / (pressure - e)   )
+
+    return mixing_ratio
+
+  @classmethod
+  def _celsius_to_kelvin(cls, temp):
     """Converts the argument (which may be a scalar or a ndarray) from a temperature in degrees Celsius to a temperature in Kelvin."""
     return temp + 273.15
 
   @classmethod
-  def mixing_ratio_to_density(cls, pres, temp, mixrat):
+  def _mixing_ratio_to_density(cls, pres, temp, mixrat):
     """Converts mixing ratio (measured in g/kg) to density (measured in g/m3).
     
-    This is designed for use with mixing ratios derived from radiosonde measurements, where the mixing ratio defines the grams of water per kg of dry air.
+    This is designed for use with mixing ratios derived from radiosonde measurements,
+    where the mixing ratio defines the grams of water per kg of dry air.
     
     Arguments:
     

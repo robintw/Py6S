@@ -1,7 +1,7 @@
 Publications
 ================================
 
-Version 1.0 of Py6S was described in the paper below. Please cite this paper if you use Py6S as part of any research which you then publish.
+Py6S v1.0 was described in Wilson (2012). You **must** cite this paper if you use Py6S as part of any research which you then publish.
 
 Wilson, R. T., 2012, Py6S: A Python interface to the 6S radiative transfer model, *Computers and Geosciences*, 51, p166-171, `PDF <http://rtwilson.com/academic/Wilson_2012_Py6S_Paper.pdf>`_
 

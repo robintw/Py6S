@@ -3,3 +3,4 @@ Robin Wilson (https://github.com/robintw) is the primary author of Py6S.
 Other contributors, and their contributions, are listed below:
 
 * Vincent Schut (https://github.com/vincentschut): Bug fix for running Py6S on Linux where the 6S output file must finish with a newline.
+* Matthew Hanson (https://github.com/matthewhanson): Bug fixes for various issues with setting the observation geometry manually.

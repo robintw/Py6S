@@ -18,7 +18,19 @@ For example, the following code runs 6S simulations across the Visible-Near Infr
 .. image:: wv_plot.png
     :scale: 50
 
-Similar functions exist to run across the whole 6S wavelength range (:meth:`.run_whole_range`), and to run for all bands for the various sensors supported in 6S (for example, :meth:`.run_landsat_tm`, :meth:`.run_modis` and :meth:`.run_aatsr`). It should be noted that for these functions, bands which are outside of the 6S wavelength range (0.2-4.0um), such as the Landsat thermal band, will not be simulated. The example below shows the creation of a plot for the Landsat ETM bands::
+A similar function exist to run across the whole 6S wavelength range (:meth:`.run_whole_range`), and arbritary lists of wavelengths can be run using the :meth:`.run_wavelengths` function. For example, you can manually specify a number of wavelengths to run for::
+
+  wv, res = SixSHelpers.Wavelengths.run_wavelengths(s, [0.46, 0.67, 0.98], output_name='apparent_radiance')
+
+If you want to run user-specific ranges of wavelengths then you can use the handy numpy functions `arange <http://docs.scipy.org/doc/numpy/reference/generated/numpy.arange.html>`_ and `linspace <http://docs.scipy.org/doc/numpy/reference/generated/numpy.linspace.html>`_ to generate the lists of wavelengths for you. For example::
+
+  # Run the model between 0.5 and 0.7um with a step of 0.001um (1nm)
+  wv, res = SixSHelpers.Wavelengths.run_wavelengths(s, np.arange(0.5, 0.7, 0.001), output_name='apparent_radiance')
+
+  # Run the model at 50 equally-spaced wavelengths in the range 0.9-1.5um
+  wv, res = SixSHelpers.Wavelengths.run_wavelengths(s, np.linspace(0.9, 1.5, 50), output_name='apparent_radiance')
+
+Functions also exist to run for all bands of the various sensors supported in 6S (for example, :meth:`.run_landsat_tm`, :meth:`.run_modis` and :meth:`.run_aatsr`). It should be noted that for these functions, bands which are outside of the 6S wavelength range (0.2-4.0um), such as the Landsat thermal band, will not be simulated. The example below shows the creation of a plot for the Landsat ETM bands::
 
   from Py6S import *
   s = SixS()

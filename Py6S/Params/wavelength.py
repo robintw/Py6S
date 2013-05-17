@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-#from sixs_exceptions import *
+from .. import sixs_exceptions
 import collections
 
 def Wavelength(start_wavelength, end_wavelength=None, filter=None):
@@ -50,14 +50,14 @@ def Wavelength(start_wavelength, end_wavelength=None, filter=None):
         if end_wavelength == None:
                 # It's simply a wavelength value
                 if start_wavelength > PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH or start_wavelength < PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH:
-                    raise ParameterError("wavelength", "Wavelength must be between %f and %f" % (PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH, PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH))
+                    raise sixs_exceptions.ParameterError("wavelength", "Wavelength must be between %f and %f" % (PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH, PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH))
                 wv_type = "-1"
                 data = "%f" % start_wavelength
                 min_wv = start_wavelength
                 max_wv = start_wavelength
         else:
             if start_wavelength > PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH or start_wavelength < PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH or end_wavelength > PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH or end_wavelength < PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH:
-                raise ParameterError("wavelength", "Wavelength must be between %f and %f" % (PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH, PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH))
+                raise sixs_exceptions.ParameterError("wavelength", "Wavelength must be between %f and %f" % (PredefinedWavelengths.MIN_ALLOWABLE_WAVELENGTH, PredefinedWavelengths.MAX_ALLOWABLE_WAVELENGTH))
             min_wv = start_wavelength
             max_wv = end_wavelength
             if filter == None:

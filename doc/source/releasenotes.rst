@@ -3,6 +3,11 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.3 (6th April 2013)
+^^^^^^^^^^^^^^^^^^^^
+* Fixed a number of bugs relating to geometry specification (thanks Matthew Hanson).
+* Significantly improved the code for importing AERONET data - this is now far less likely to go wrong, and more intelligent about what measurements it takes.
+
 1.2.4 (28th Feb 2013)
 ^^^^^^^^^^^^^^^^^^^^^
 Bugfix release to fix issue with importing AERONET data from instruments which don't take measurements at 500nm. Importing should now work for any AERONET data, with a warning raised if the instrument doesn't have a band within 70nm of 550nm.

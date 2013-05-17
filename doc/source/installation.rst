@@ -9,7 +9,8 @@ Before starting the installation process, ensure that you have a working Python 
 * ``scipy``
 * ``matplotlib``
 * ``python-dateutil``
-* ``pysolar``
+* ``pysolar`` (only required for setting the geometry from a location and time)
+* ``pandas`` (only required for importing AERONET data)
 
 It will also be helpful to have the `IPython <http://ipython.org/>`_ installed for interactive testing of Py6S.
 
