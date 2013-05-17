@@ -154,7 +154,9 @@ class Aeronet:
     
     # Select the row with the closest time to the given
     diff = a['f0'] - given_time
+    
     diff = abs(diff)
+
    
 
     indices_to_try = diff.argsort()
@@ -170,12 +172,18 @@ class Aeronet:
       # So raise a warning and choose the next appropriate row
       while_has_run = True
       index += 1
+
+      if index > len(indices_to_try) - 1:
+        break
+
       row = a[indices_to_try[index]]
     
       ref_ind = list(row)[1:]
 
-    if while_has_run:
-      warnings.warn("Refractive indices were NaN at closest time, so used nearest time with data. Time difference: %s" % str(diff[index]))
+    if while_has_run and index <= len(indices_to_try) - 1:
+      warnings.warn("Refractive indices were NaN at closest time, so used nearest time with data. Time difference: %s (%s). Using date %s" % (str(diff[index]), diff.dtype, a['f0'][index]))
+    elif while_has_run and index > len(indices_to_try) - 1:
+      raise ValueError("Unable to import AERONET data as all rows in the input file have NaNs for refractive indices.")
 
     refr_values = ref_ind[:len(ref_ind)/2]
     refi_values = ref_ind[len(ref_ind)/2:]
