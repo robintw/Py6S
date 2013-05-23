@@ -185,8 +185,11 @@ class Outputs(object):
                     data_for_func = items[a:b]
                     if len(data_for_func) == 1:
                       data_for_func = data_for_func[0]
-                                        
-                    self.values[details[2]] = funct(data_for_func)
+                    
+                    try:
+                      self.values[details[2]] = funct(data_for_func)
+                    except:
+                      self.values[details[2]] = float('nan')
         
         # Process big grid in the middle of the output for transmittances
         grid_extractors = { 'global gas. trans. :' : "global_gas",
@@ -208,10 +211,23 @@ class Outputs(object):
                 if search in current_line:
                   items = current_line.split()
                   values = Transmittance()
-                  values.downward = float(items[4])
-                  values.upward = float(items[5])
-                  values.total = float(items[6])
-                  
+
+                  try:
+                    values.downward = float(items[4])
+                  except:
+                    values.downward = float('nan')
+
+
+                  try:
+                    values.upward = float(items[5])
+                  except:
+                    values.upward = float('nan')
+
+                  try:
+                    values.total = float(items[6])
+                  except:
+                    values.total = float('nan')
+
                   self.trans[name] = values
                   
           
@@ -240,9 +256,21 @@ class Outputs(object):
                   items = current_line.rsplit(None, 3)
                   
                   values = RayleighAerosolTotal()
-                  values.total = float(items[3])
-                  values.aerosol = float(items[2])
-                  values.rayleigh = float(items[1])
+
+                  try:
+                    values.total = float(items[3])
+                  except:
+                    values.total = float('nan')
+
+                  try:
+                    values.aerosol = float(items[2])
+                  except:
+                    values.aerosol = float('nan')
+
+                  try:
+                    values.rayleigh = float(items[1])
+                  except:
+                    values.rayleigh = float('nan')
                   
                   self.rat[name] = values
         
