@@ -82,9 +82,9 @@ These instructions were written based on testing with Mac OS X 10.7 (Lion), but 
 4. Open the Terminal (Applications->Utilities->Terminal) and type the following commands (this assumes the files you downloaded above are located in your Downloads folder, and you will need to enter your password when prompted)::
 
     cd ~/Downloads
-    sudo tar -xvf g77-bin.tar -C /
+    sudo tar -xvf g77-intel-bin.tar.gz -C /
 
-5. Now move Run the following commands, one after each other::
+5. Now run the following commands, one after each other::
 
     tar -xvf 6SV-1.1.tar
   	cd 6SV1.1
