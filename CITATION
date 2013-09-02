@@ -3,3 +3,18 @@ If you use Py6S in any academic work then you *must* cite the following paper:
 Wilson, R. T., 2012, Py6S: A Python interface to the 6S radiative transfer model, Computers and Geosciences, 51, p166-171
 
 The PDF of this paper is available at http://rtwilson.com/academic/Wilson_2012_Py6S_Paper.pdf
+
+
+In BibTeX format:
+
+@article{Wilson2013166,
+title = "Py6S: A Python interface to the 6S radiative transfer model ",
+journal = "Computers & Geosciences ",
+volume = "51",
+pages = "166 - 171",
+year = "2013",
+doi = "http://dx.doi.org/10.1016/j.cageo.2012.08.002",
+url = "http://www.sciencedirect.com/science/article/pii/S0098300412002798",
+author = "R.T. Wilson"
+}
+
