@@ -17,10 +17,14 @@
 
 from Py6S import *
 import numpy as np
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import re
-import StringIO
+import io
 from scipy.interpolate import interp1d
+import sys, locale
+
+# Get encoding (for line endings)
+encoding=locale.getdefaultlocale()[1]
 
 
 class Radiosonde:
@@ -290,13 +294,18 @@ class Radiosonde:
     
     """
     # Get data from given URL
-    u = urllib.urlopen(url)
-    
+    u = urllib.request.urlopen(url)
+
     if u.getcode() != 200:
       # We have't got the HTTP OK status code, so something is wrong (like the URL is invalid)
       raise ParameterException("url", "The URL for importing radiosonde data is not giving a valid response")
     
-    html = u.read()
+    # Check which Python version we're using.
+    # For Python 3 need to decode to unicode
+    if sys.version_info[0] > 2:
+        html = u.read().decode(encoding)
+    else:
+        html = u.read()
     
     if "Sorry, the server is too busy to process your request" in html:
       raise ParameterException("url", "The server is too busy")
@@ -312,7 +321,7 @@ class Radiosonde:
     table = "\n".join(spl)
     
     # Import to NumPy arrays
-    s = StringIO.StringIO(table)
+    s = io.StringIO(table)
     array = np.loadtxt(s, skiprows=4, usecols=(0, 1, 2, 5))
     
     pressure = array[:,0]

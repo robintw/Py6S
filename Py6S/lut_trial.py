@@ -17,27 +17,27 @@
 
 import itertools
 import numpy as np
-import sixs
-from Params import *
+from . import sixs
+from .Params import *
 
 def test(i):
   for res in i:
-    print res
+    print(res)
 
 def named_product(**items):
-    names = items.keys()
-    vals = items.values()
+    names = list(items.keys())
+    vals = list(items.values())
     for res in itertools.product(*vals):
-        yield dict(zip(names, res))
+        yield dict(list(zip(names, res)))
         
 def named_product_from_dict(d):
-    names = d.keys()
-    vals = d.values()
+    names = list(d.keys())
+    vals = list(d.values())
     for res in itertools.product(*vals):
-        yield dict(zip(names, res))
+        yield dict(list(zip(names, res)))
         
 def set_attrs_from_dict(sixs, d):
-  for key, value in d.iteritems():
+  for key, value in d.items():
     if "." in key:
       # We've got a parameter which isn't just s.param but s.param.param
       # For example, s.geometry.solar_z
@@ -70,7 +70,7 @@ for params in i:
   #print params
   set_attrs_from_dict(s, params)
   s.run()
-  print s.outputs.pixel_reflectance
+  print(s.outputs.pixel_reflectance)
 
 
 #  [GroundReflectance.HomogeneousLambertian(x) for x in np.arange(0, 10)]

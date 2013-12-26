@@ -174,8 +174,8 @@ class AeroProfile:
       if len(refr_imag) != 20:
           raise ParameterError("Aerosol Distribution Imaginary Refractive Index", "You must specify the imaginary part of the Refractive Index at 20 wavelengths.")
       
-      real = map(str, refr_real)
-      imag = map(str, refr_imag)
+      real = list(map(str, refr_real))
+      imag = list(map(str, refr_imag))
       comp += ' '.join(real) + '\n'
       comp += ' '.join(imag) + '\n'
       
@@ -240,8 +240,8 @@ class AeroProfile:
           raise ParameterError("Aerosol Distribution Imaginary Refractive Index", "You must specify the imaginary part of the Refractive Index at 20 wavelengths.")
         
         comp = "%f %f %f\n" % (rmean, sigma, percentage_density)
-        real = map(str, refr_real)
-        imag = map(str, refr_imag)
+        real = list(map(str, refr_real))
+        imag = list(map(str, refr_imag))
         comp += ' '.join(real) + '\n'
         comp += ' '.join(imag) + '\n'
         

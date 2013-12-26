@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-import urllib2
-from StringIO import StringIO
+import urllib.request, urllib.error, urllib.parse
+from io import StringIO
 import numpy as np
 
 class Spectra:
@@ -50,7 +50,7 @@ class Spectra:
 
         """
         if loc.startswith("""http://"""):
-            data = urllib2.urlopen(loc).read()
+            data = urllib.request.urlopen(loc).read()
             f = StringIO(data)
         else:
             f = open(loc, "r")
@@ -88,7 +88,7 @@ class Spectra:
 
         """
         if loc.startswith("""http://"""):
-            data = urllib2.urlopen(loc).read()
+            data = urllib.request.urlopen(loc).read()
             f = StringIO(data)
         else:
             f = open(loc, "r")

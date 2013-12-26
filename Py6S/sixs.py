@@ -19,9 +19,9 @@ import subprocess
 import os
 import numpy as np
 from scipy.interpolate import interp1d
-from Params import *
-from sixs_exceptions import *
-from outputs import *
+from .Params import *
+from .sixs_exceptions import *
+from .outputs import *
 import tempfile
 import math
 
@@ -131,9 +131,9 @@ class SixS(object):
       
       """
       if path != None:
-			  return path
+              return path
       else:
-			  return self._which('sixs.exe') or self._which('sixs') or self._which('sixsV1.1') or self._which('sixsV1.1.exe')
+              return self._which('sixs.exe') or self._which('sixs') or self._which('sixsV1.1') or self._which('sixsV1.1.exe')
         
     def _which(self, program):
         def is_exe(fpath):
@@ -246,7 +246,7 @@ class SixS(object):
         #
         ground_reflectance_lines = self.create_ground_reflectance_lines()
 
-        if (isinstance(ground_reflectance_lines, basestring)):
+        if (isinstance(ground_reflectance_lines, str)):
             str_ground_refl = str(ground_reflectance_lines.replace("WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv)))
         else:
             str_ground_refl = str(ground_reflectance_lines[0].replace("WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv)))
@@ -271,7 +271,7 @@ class SixS(object):
         
         tmp_file = tempfile.NamedTemporaryFile(prefix="tmp_Py6S_input_", delete=False)
             
-        tmp_file.file.write(input_file)
+        tmp_file.file.write(bytes(input_file,'utf-8'))
         name = tmp_file.name
         tmp_file.close()
         return name
@@ -289,8 +289,9 @@ class SixS(object):
         
         # Run the process and get the stdout from it
         process = subprocess.Popen("%s < %s" % (self.sixs_path, tmp_file_name), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        outputs = process.communicate()
-        self.outputs = Outputs(outputs[0], outputs[1])
+        (pstdout,pstderr) = process.communicate()
+
+        self.outputs = Outputs(pstdout,pstderr)
         
         # Remove the temporary file
         os.remove(tmp_file_name)
@@ -299,19 +300,19 @@ class SixS(object):
     def test(self):
         """Runs a simple test to ensure that 6S and Py6S are installed correctly."""
         test = SixS()
-        print "6S wrapper script by Robin Wilson"
+        print("6S wrapper script by Robin Wilson")
         sixs_path = test.find_path()
         if sixs_path == None:
-            print "Error: cannot find the sixs executable in $PATH or current directory."
+            print("Error: cannot find the sixs executable in $PATH or current directory.")
         else:
-            print "Using 6S located at %s" % sixs_path
-            print "Running 6S using a set of test parameters"
+            print("Using 6S located at %s" % sixs_path)
+            print("Running 6S using a set of test parameters")
             test.run()
-            print "The results are:"
-            print "Expected result: %f" % 619.158
-            print "Actual result: %f" % test.outputs.diffuse_solar_irradiance
+            print("The results are:")
+            print("Expected result: %f" % 619.158)
+            print("Actual result: %f" % test.outputs.diffuse_solar_irradiance)
             if (test.outputs.diffuse_solar_irradiance - 619.158 < 0.01):
-                print "#### Results agree, Py6S is working correctly"
+                print("#### Results agree, Py6S is working correctly")
                 return 0
             else:
                 return 1
