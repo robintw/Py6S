@@ -35,7 +35,7 @@ def all_angles(s):
       #values.append(s.outputs.pixel_reflectance)
       d = dict(s.outputs.values)
       values.append(d)
-      print("%i %i %f" % (azimuth, zenith, d['pixel_reflectance']))
+      print(("%i %i %f" % (azimuth, zenith, d['pixel_reflectance'])))
       
   return values
   

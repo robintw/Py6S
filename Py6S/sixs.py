@@ -270,8 +270,11 @@ class SixS(object):
         input_file += self.create_atmos_corr_lines()
         
         tmp_file = tempfile.NamedTemporaryFile(prefix="tmp_Py6S_input_", delete=False)
-            
-        tmp_file.file.write(bytes(input_file,'utf-8'))
+        
+        #print(input_file)
+        #print(tmp_file.name)
+        
+        tmp_file.write(input_file.encode())
         name = tmp_file.name
         tmp_file.close()
         return name
@@ -289,9 +292,8 @@ class SixS(object):
         
         # Run the process and get the stdout from it
         process = subprocess.Popen("%s < %s" % (self.sixs_path, tmp_file_name), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        (pstdout,pstderr) = process.communicate()
-
-        self.outputs = Outputs(pstdout,pstderr)
+        outputs = process.communicate()
+        self.outputs = Outputs(outputs[0], outputs[1])
         
         # Remove the temporary file
         os.remove(tmp_file_name)
@@ -305,12 +307,12 @@ class SixS(object):
         if sixs_path == None:
             print("Error: cannot find the sixs executable in $PATH or current directory.")
         else:
-            print("Using 6S located at %s" % sixs_path)
+            print(("Using 6S located at {sixs_path}".format(sixs_path=sixs_path)))
             print("Running 6S using a set of test parameters")
             test.run()
             print("The results are:")
-            print("Expected result: %f" % 619.158)
-            print("Actual result: %f" % test.outputs.diffuse_solar_irradiance)
+            print(("Expected result: %f" % 619.158))
+            print(("Actual result: %f" % test.outputs.diffuse_solar_irradiance))
             if (test.outputs.diffuse_solar_irradiance - 619.158 < 0.01):
                 print("#### Results agree, Py6S is working correctly")
                 return 0

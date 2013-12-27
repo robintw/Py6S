@@ -17,10 +17,6 @@
 
 import pprint
 from .sixs_exceptions import *
-import sys, locale
-
-# Get encoding (for line endings)
-encoding=locale.getdefaultlocale()[1]
 
 class Outputs(object):
     """Stores the output from a 6S run.
@@ -65,13 +61,7 @@ class Outputs(object):
             print(stderr)
             raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
         
-        # Check which python version we're using.
-        # For Python 3, need to decode to unicode.
-        if sys.version_info[0] > 2:
-            self.fulltext = stdout.decode(encoding)
-        else:
-            self.fulltext = stdout
-
+        self.fulltext = stdout
         
         self.extract_results()
         
@@ -107,7 +97,12 @@ class Outputs(object):
         
         # Remove all of the *'s from the text as they just make it look pretty
         # and get in the way of analysing the output
-        fulltext = str(self.fulltext).replace("*", "")
+        #print(self.fulltext)
+        #print(type(self.fulltext))
+        self.fulltext = self.fulltext.decode("utf-8")
+        #print(self.fulltext)
+        #print(type(self.fulltext))
+        fulltext = self.fulltext.replace("*", "")
         
         # Split into lines
         lines = fulltext.splitlines()
@@ -172,7 +167,7 @@ class Outputs(object):
         # Process most variables in the output
         for index in range(len(lines)):
             current_line = lines[index]
-            for label, details in extractors.items():
+            for label, details in list(extractors.items()):
                 # If the label we're searching for is in the current line
                 if label in current_line:
                     # See if the data is in the current line (as specified above)
@@ -216,7 +211,7 @@ class Outputs(object):
         
         for index in range(len(lines)):
             current_line = lines[index]
-            for search, name in grid_extractors.items():
+            for search, name in list(grid_extractors.items()):
                 # If the label we're searching for is in the current line
                 if search in current_line:
                   items = current_line.split()
@@ -260,7 +255,7 @@ class Outputs(object):
         
         for index in range(len(lines)):
             current_line = lines[index]
-            for search, name in bottom_grid_extractors.items():
+            for search, name in list(bottom_grid_extractors.items()):
                 # If the label we're searching for is in the current line
                 if search in current_line:
                   items = current_line.rsplit(None, 3)

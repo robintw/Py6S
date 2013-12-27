@@ -57,7 +57,7 @@ class Angles:
         else:
           raise ParameterException("all_angles", "You must choose to vary either the solar or view angle.")
         s.run()
-        print("Calculating for azimuth = %d, zenith = %d" % (azimuth, zenith))
+        print(("Calculating for azimuth = %d, zenith = %d" % (azimuth, zenith)))
         if output_name == None:
           results.append(s.outputs)
         else:
@@ -257,7 +257,7 @@ class Angles:
     results = []
     
     for i in range(len(all_zeniths)):
-      print("%s %s" % (all_zeniths[i], all_azimuths[i]))
+      print(("%s %s" % (all_zeniths[i], all_azimuths[i])))
       
       s.geometry.view_z = all_zeniths[i]
       s.geometry.view_a = all_azimuths[i]

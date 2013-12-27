@@ -40,7 +40,7 @@ for azimuth in azimuths:
     s.geometry.view_z = zenith
     s.run()
     values.append(s.outputs.pixel_reflectance)
-    print("%i %i %f" % (azimuth, zenith, s.outputs.pixel_reflectance))
+    print(("{azimuth} {zenith} {pxlrefl}".format(azimuth=azimuth, zenith=zenith, pxlrefl=s.outputs.pixel_reflectance)))
     
 theta = np.radians(azimuths)
 

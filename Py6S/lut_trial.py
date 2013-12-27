@@ -37,7 +37,7 @@ def named_product_from_dict(d):
         yield dict(list(zip(names, res)))
         
 def set_attrs_from_dict(sixs, d):
-  for key, value in d.items():
+  for key, value in list(d.items()):
     if "." in key:
       # We've got a parameter which isn't just s.param but s.param.param
       # For example, s.geometry.solar_z
@@ -70,7 +70,7 @@ for params in i:
   #print params
   set_attrs_from_dict(s, params)
   s.run()
-  print(s.outputs.pixel_reflectance)
+  print((s.outputs.pixel_reflectance))
 
 
 #  [GroundReflectance.HomogeneousLambertian(x) for x in np.arange(0, 10)]

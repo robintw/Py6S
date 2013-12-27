@@ -53,9 +53,9 @@ class Wavelengths:
       try:
         if (wavelength[0] % 0.05) < 0.0001:
           if (wavelength[1] == None):
-            print(wavelength[0])
+            print((wavelength[0]))
           else:
-            print("%f -> %f" % (wavelength[1], wavelength[2]))
+            print(("%f -> %f" % (wavelength[1], wavelength[2])))
       except:
         if (wavelength % 0.05) < 0.0001:
           print(wavelength)
