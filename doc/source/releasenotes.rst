@@ -3,6 +3,15 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.3.1 (15th Jan 2014)
+^^^^^^^^^^^^^^^^^^^^
+* Added proper error handling for dealing with erroneous 6S output, now things shouldn't crash if 6S produces strange results
+* Bugfix for error when setting custom altitudes in certain situations
+* Added more detailed error messages for failure to import AERONET data
+* Bugfix for the specification of geometry parameters within the 6S input file - now more accurate
+* Improvements to documentation (typos, clearer explanations etc)
+* Added CITATION file to explain how to cite Py6S
+
 1.3 (6th April 2013)
 ^^^^^^^^^^^^^^^^^^^^
 * Fixed a number of bugs relating to geometry specification (thanks Matthew Hanson).
