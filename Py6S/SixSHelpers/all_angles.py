@@ -77,6 +77,8 @@ class Angles:
 
     print "Running for many angles - this may take a long time"
     results = pool.map(f, itertools.product(azimuths, zeniths))
+
+    results = np.array(results)
         
     return (results, azimuths, zeniths, s.geometry.solar_a, s.geometry.solar_z)  
       
@@ -285,6 +287,8 @@ class Angles:
 
     print "Running for many angles - this may take a long time"
     results = pool.map(f, zip(all_zeniths, all_azimuths))
+
+    results = np.array(results)
     
     return all_zeniths_for_return, results
 
