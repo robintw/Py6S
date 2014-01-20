@@ -123,7 +123,7 @@ class Angles:
     * ``show_sun`` -- (Optional) Whether to place a marker showing the location of the sun on the contour plot (defaults to True, has no effect when ``solar_or_view`` set to ``'solar'``.)
     * ``na`` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)
     * ``nz`` -- (Optional) The number of zenith angles to iterate over to generate the data for the plot (defaults to 10, giving data every 10 degrees)
-    * ``colorbar`` -- (Optional) The label to use on the color bar shown with the plot
+    * ``colorbarlabel`` -- (Optional) The label to use on the color bar shown with the plot
     
     For example::
     
