@@ -22,7 +22,7 @@ import numpy as np
 class AllWavelengthsTests(unittest.TestCase):
 	def test_run_for_all_wvs(self):
 	  s = SixS()
-	  results = SixSHelpers.Wavelengths.run_landsat_etm(s, "apparent_radiance")
+	  results = SixSHelpers.Wavelengths.run_landsat_etm(s, output_name="apparent_radiance")
 	  
 	  a = np.array([ 138.392,  129.426,  111.635,   75.822,   16.684,    5.532])
 	  
