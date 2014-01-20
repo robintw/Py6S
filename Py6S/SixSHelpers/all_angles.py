@@ -62,6 +62,9 @@ class Angles:
           results.append(s.outputs)
         else:
           results.append(getattr(s.outputs, output_name))
+
+
+    results = np.array(results)
         
     return (results, azimuths, zeniths, s.geometry.solar_a, s.geometry.solar_z)  
       
@@ -267,6 +270,8 @@ class Angles:
       else:
         results.append(getattr(s.outputs, output_name))
     
+    results = np.array(results)
+
     return all_zeniths_for_return, results
 
     
