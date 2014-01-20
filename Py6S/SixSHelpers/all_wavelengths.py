@@ -23,6 +23,25 @@ class Wavelengths:
   """Helper functions for running the 6S model for a range of wavelengths, and plotting the result"""
   
   @classmethod
+  def parallel_run_wavelengths(cls, s, wavelengths, output_name=None):
+    # Create a function to be called by the map
+    def f(wv):
+      s.wavelength = Wavelength(wv)
+      s.run()
+      if output_name == None:
+        return s.outputs
+      else:
+        return getattr(s.outputs, output_name)
+
+    # Run the map
+    from multiprocessing.dummy import Pool
+
+    pool = Pool()
+    results = pool.map(f, wavelengths)
+
+    return np.array(wavelengths), np.array(results)
+
+  @classmethod
   def run_wavelengths(cls, s, wavelengths, output_name=None):
     """Runs the given SixS parameterisation for each of the wavelengths given, optionally extracting a specific output.
     
