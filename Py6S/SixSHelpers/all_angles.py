@@ -17,11 +17,12 @@
 
 import numpy as np
 from matplotlib.pyplot import *
+import itertools
 
 class Angles:
   
   @classmethod
-  def run360(cls, s, solar_or_view, na=36, nz=10, output_name=None):
+  def run360(cls, s, solar_or_view, na=36, nz=10, output_name=None, n=None):
     """Runs Py6S for lots of angles to produce a polar contour plot.
     
     Arguments:
@@ -45,23 +46,38 @@ class Angles:
     
     azimuths = np.linspace(0, 360, na)
     zeniths = np.linspace(0, 89, nz)
-      
-    for azimuth in azimuths:
-      for zenith in zeniths:
-        if solar_or_view == 'view':
-          s.geometry.view_a = azimuth
-          s.geometry.view_z = zenith
-        elif solar_or_view == 'solar':
-          s.geometry.solar_a = azimuth
-          s.geometry.solar_z = zenith
-        else:
-          raise ParameterException("all_angles", "You must choose to vary either the solar or view angle.")
-        s.run()
-        print "Calculating for azimuth = %d, zenith = %d" % (azimuth, zenith)
-        if output_name == None:
-          results.append(s.outputs)
-        else:
-          results.append(getattr(s.outputs, output_name))
+
+    def f(args):
+      azimuth, zenith = args
+
+      if solar_or_view == 'view':
+        s.geometry.view_a = azimuth
+        s.geometry.view_z = zenith
+      elif solar_or_view == 'solar':
+        s.geometry.solar_a = azimuth
+        s.geometry.solar_z = zenith
+      else:
+        raise ParameterException("all_angles", "You must choose to vary either the solar or view angle.")
+
+      s.run()
+
+      if output_name is None:
+        return s.outputs
+      else:
+        return getattr(s.outputs, output_name)
+
+
+    # Run the map
+    from multiprocessing.dummy import Pool
+
+    if n is None:
+      pool = Pool()
+    else:
+      pool = Pool(n)
+
+
+    print "Running for many wavelengths - this may take a long time"
+    results = pool.map(f, itertools.product(azimuths, zeniths))
         
     return (results, azimuths, zeniths, s.geometry.solar_a, s.geometry.solar_z)  
       
