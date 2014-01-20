@@ -18,6 +18,7 @@
 import numpy as np
 from matplotlib.pyplot import *
 import itertools
+from multiprocessing.dummy import Pool
 
 class Angles:
   
@@ -68,8 +69,6 @@ class Angles:
 
 
     # Run the map
-    from multiprocessing.dummy import Pool
-
     if n is None:
       pool = Pool()
     else:
@@ -245,12 +244,9 @@ class Angles:
     
     # Get the solar azimuth and zenith angles from the SixS instance
     sa = s.geometry.solar_a
-    sz = s.geometry.solar_z
     
     ## Compute the angles in the principal plane
     
-    # Get the equivalent view zenith for the solar zenith angle
-    vz_for_sz = 90 - sz
     # Get the solar azimuth on the opposite side for the other half of the principal plane
     opp_sa = (sa + 180) % 360
     
@@ -281,8 +277,6 @@ class Angles:
         return getattr(s.outputs, output_name)
 
     # Run the map
-    from multiprocessing.dummy import Pool
-
     if n is None:
       pool = Pool()
     else:
