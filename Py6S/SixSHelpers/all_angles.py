@@ -76,7 +76,7 @@ class Angles:
       pool = Pool(n)
 
 
-    print "Running for many wavelengths - this may take a long time"
+    print "Running for many angles - this may take a long time"
     results = pool.map(f, itertools.product(azimuths, zeniths))
         
     return (results, azimuths, zeniths, s.geometry.solar_a, s.geometry.solar_z)  
@@ -207,7 +207,7 @@ class Angles:
     return fig, ax, cax
   
   @classmethod
-  def run_principal_plane(cls, s, output_name=None):
+  def run_principal_plane(cls, s, output_name=None, n=None):
     """Runs the given 6S simulation to get the outputs for the solar principal plane.
     
     This function runs the simulation for all zenith angles in the azimuthal line of the sun. For example,
@@ -267,21 +267,30 @@ class Angles:
     all_zeniths = np.hstack((first_side_z, second_side_z))
     all_zeniths_for_return = np.hstack((first_side_z, -1 * second_side_z))
     all_azimuths = np.hstack((first_side_a, second_side_a))
-    
-    ## Iterate over these angles and get the results
-    
-    results = []
-    
-    for i in range(len(all_zeniths)):
-      print "%s %s" % (all_zeniths[i], all_azimuths[i])
-      
-      s.geometry.view_z = all_zeniths[i]
-      s.geometry.view_a = all_azimuths[i]
+
+    def f(arg):
+      zenith, azimuth = arg
+
+      s.geometry.view_z = zenith
+      s.geometry.view_a = azimuth
       s.run()
-      if output_name == None:
-        results.append(s.outputs)
+
+      if output_name is None:
+        return s.outputs
       else:
-        results.append(getattr(s.outputs, output_name))
+        return getattr(s.outputs, output_name)
+
+    # Run the map
+    from multiprocessing.dummy import Pool
+
+    if n is None:
+      pool = Pool()
+    else:
+      pool = Pool(n)
+
+
+    print "Running for many angles - this may take a long time"
+    results = pool.map(f, zip(all_zeniths, all_azimuths))
     
     return all_zeniths_for_return, results
 
