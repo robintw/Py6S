@@ -20,14 +20,27 @@ from Py6S import *
 import numpy as np
 
 class AllWavelengthsTests(unittest.TestCase):
-	def test_run_for_all_wvs(self):
-	  s = SixS()
-	  results = SixSHelpers.Wavelengths.run_landsat_etm(s, output_name="apparent_radiance")
-	  
-	  a = np.array([ 138.392,  129.426,  111.635,   75.822,   16.684,    5.532])
-	  
-	  self.assertAlmostEqual(results[0], [0.47750000000000004, 0.56125000000000003, 0.65874999999999995, 0.82624999999999993, 1.6487500000000002, 2.19625], delta=0.002)
-	  self.assertAlmostEqual(all(a == results[1]), True, delta=0.002)
+	def test_run_for_landsat_etm(self):
+		s = SixS()
+		results = SixSHelpers.Wavelengths.run_landsat_etm(s, output_name="apparent_radiance")
+
+		a = np.array([ 138.392,  129.426,  111.635,   75.822,   16.684,    5.532])
+
+		self.assertAlmostEqual(results[0], [0.47750000000000004, 0.56125000000000003, 0.65874999999999995, 0.82624999999999993, 1.6487500000000002, 2.19625], delta=0.002)
+		self.assertAlmostEqual(all(a == results[1]), True, delta=0.002)
+
+	def test_run_vnir(self):
+		s = SixS()
+
+		res1 = np.array([ 106.277,  142.776,  134.632,  132.691,  124.528,  114.522,
+         97.873,   95.501,   83.278,   74.604,   49.863,    9.326,
+         57.375,   51.397,   42.291,   11.783,   32.461,   34.105,
+         26.773,    1.051])
+
+
+		results = SixSHelpers.Wavelengths.run_vnir(s, spacing=0.05, output_name='apparent_radiance')
+		np.testing.assert_allclose(results[1], res1)
+
 
 
 class AllAnglesTests(unittest.TestCase):
