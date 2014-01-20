@@ -88,15 +88,6 @@ class WavelengthTests(unittest.TestCase):
     with self.assertRaises(ParameterError):
       Wavelength(0.5, 50)
 
-  def test_run_for_all_wvs(self):
-    s = SixS()
-    results = SixSHelpers.Wavelengths.run_landsat_etm(s, "apparent_radiance")
-    
-    a = np.array([ 138.392,  129.426,  111.635,   75.822,   16.684,    5.532])
-    
-    self.assertAlmostEqual(results[0], [0.47750000000000004, 0.56125000000000003, 0.65874999999999995, 0.82624999999999993, 1.6487500000000002, 2.19625], delta=0.002)
-    self.assertAlmostEqual(all(a == results[1]), True, delta=0.002)
-
 class AtmosProfileTests(unittest.TestCase):
 
     def test_atmos_profile(self):
