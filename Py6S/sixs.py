@@ -297,6 +297,29 @@ class SixS(object):
         # Remove the temporary file
         os.remove(tmp_file_name)
 
+    def produce_debug_report(self):
+        """Prints out information about the configuration of Py6S generally, and the current
+        SixS object specifically, which will be useful when debugging problems."""
+        import datetime
+        import platform
+        import sys
+
+        print "Py6S Debugging Report"
+        print "---------------------"
+        print "Run on %s" % (str(datetime.datetime.now()))
+        print "Platform: %s" % (platform.platform())
+        print "Python version: %s" % (sys.version.split('\n')[0])
+        print "Py6S version: %s" % (self.__version__)
+        print "---------------------"
+        self.test()
+        print "---------------------"
+
+        fname = self.write_input_file()
+        with open(fname) as f:
+            contents = f.readlines()
+
+        print "".join(contents)
+
     @classmethod
     def test(self):
         """Runs a simple test to ensure that 6S and Py6S are installed correctly."""
