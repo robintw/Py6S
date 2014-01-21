@@ -38,7 +38,7 @@ class ParallelEquivalenceTests(unittest.TestCase):
 		
 		for i in range(2, 10, 2):
 			parallel_res = SixSHelpers.Angles.run360(s, 'view', output_name='apparent_radiance', n=i)
-			np.testing.assert_allclose(parallel_res, serial_res)
+			np.testing.assert_allclose(parallel_res[0], serial_res[0])
 
 class AllWavelengthsTests(unittest.TestCase):
 	def test_run_for_all_wvs(self):
