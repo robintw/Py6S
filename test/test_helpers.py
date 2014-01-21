@@ -69,7 +69,7 @@ class AllWavelengthsTests(unittest.TestCase):
 
 
 		results = SixSHelpers.Wavelengths.run_vnir(s, spacing=0.01, output_name='apparent_radiance')
-		np.testing.assert_allclose(results[1], res1)
+		np.testing.assert_allclose(results[1], res1, atol=1e-3)
 
 
 
