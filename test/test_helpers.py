@@ -19,10 +19,21 @@ import unittest
 from Py6S import *
 import numpy as np
 
+class ParallelEquivalenceTests(unittest.TestCase):
+	def test_wavelengths_equiv(self):
+		s = SixS()
+		s.altitudes.set_sensor_satellite_level()
+		s.altitudes.set_target_sea_level()
+
+		serial_res = SixSHelpers.Wavelengths.run_vnir(s, spacing=0.05, output_name='apparent_radiance', n=1)
+		parallel_res = SixSHelpers.Wavelengths.run_vnir(s, spacing=0.05, output_name='apparent_radiance', n=4)
+
+		np.testing.assert_allclose(parallel_res, serial_res)
+
 class AllWavelengthsTests(unittest.TestCase):
 	def test_run_for_all_wvs(self):
 	  s = SixS()
-	  results = SixSHelpers.Wavelengths.run_landsat_etm(s, "apparent_radiance")
+	  results = SixSHelpers.Wavelengths.run_landsat_etm(s, output_name="apparent_radiance")
 	  
 	  a = np.array([ 138.392,  129.426,  111.635,   75.822,   16.684,    5.532])
 	  
