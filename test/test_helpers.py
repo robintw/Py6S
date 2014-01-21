@@ -26,9 +26,19 @@ class ParallelEquivalenceTests(unittest.TestCase):
 		s.altitudes.set_target_sea_level()
 
 		serial_res = SixSHelpers.Wavelengths.run_vnir(s, spacing=0.05, output_name='apparent_radiance', n=1)
-		parallel_res = SixSHelpers.Wavelengths.run_vnir(s, spacing=0.05, output_name='apparent_radiance', n=4)
+		
+		for i in range(2, 10, 2):
+			parallel_res = SixSHelpers.Wavelengths.run_vnir(s, spacing=0.05, output_name='apparent_radiance', n=i)
+			np.testing.assert_allclose(parallel_res, serial_res)
 
-		np.testing.assert_allclose(parallel_res, serial_res)
+	def test_angles_equiv(self):
+		s = SixS()
+
+		serial_res = SixSHelpers.Angles.run360(s, 'view', output_name='apparent_radiance', n=1)
+		
+		for i in range(2, 10, 2):
+			parallel_res = SixSHelpers.Angles.run360(s, 'view', output_name='apparent_radiance', n=i)
+			np.testing.assert_allclose(parallel_res, serial_res)
 
 class AllWavelengthsTests(unittest.TestCase):
 	def test_run_for_all_wvs(self):
