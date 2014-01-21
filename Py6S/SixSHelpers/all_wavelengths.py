@@ -18,6 +18,7 @@
 from Py6S import *
 import numpy as np
 from matplotlib.pyplot import *
+import copy
 
 class Wavelengths:
   """Helper functions for running the 6S model for a range of wavelengths, and plotting the result"""
@@ -56,12 +57,14 @@ class Wavelengths:
     """
     # Create a function to be called by the map
     def f(wv):
-      s.wavelength = Wavelength(wv)
-      s.run()
+      a = copy.deepcopy(s)
+      a.wavelength = Wavelength(wv)
+      print wv
+      a.run()
       if output_name == None:
-        return s.outputs
+        return a.outputs
       else:
-        return getattr(s.outputs, output_name)
+        return getattr(a.outputs, output_name)
 
     # Run the map
     from multiprocessing.dummy import Pool
