@@ -19,6 +19,7 @@ import numpy as np
 from matplotlib.pyplot import *
 import itertools
 from multiprocessing.dummy import Pool
+import copy
 
 class Angles:
   
@@ -50,22 +51,23 @@ class Angles:
 
     def f(args):
       azimuth, zenith = args
+      a = copy.deepcopy(s)
 
       if solar_or_view == 'view':
-        s.geometry.view_a = azimuth
-        s.geometry.view_z = zenith
+        a.geometry.view_a = azimuth
+        a.geometry.view_z = zenith
       elif solar_or_view == 'solar':
-        s.geometry.solar_a = azimuth
-        s.geometry.solar_z = zenith
+        a.geometry.solar_a = azimuth
+        a.geometry.solar_z = zenith
       else:
         raise ParameterException("all_angles", "You must choose to vary either the solar or view angle.")
 
-      s.run()
+      a.run()
 
       if output_name is None:
-        return s.outputs
+        return a.outputs
       else:
-        return getattr(s.outputs, output_name)
+        return getattr(a.outputs, output_name)
 
 
     # Run the map
@@ -269,14 +271,16 @@ class Angles:
     def f(arg):
       zenith, azimuth = arg
 
-      s.geometry.view_z = zenith
-      s.geometry.view_a = azimuth
-      s.run()
+      a = copy.deepcopy(s)
+
+      a.geometry.view_z = zenith
+      a.geometry.view_a = azimuth
+      a.run()
 
       if output_name is None:
-        return s.outputs
+        return a.outputs
       else:
-        return getattr(s.outputs, output_name)
+        return getattr(a.outputs, output_name)
 
     # Run the map
     if n is None:
