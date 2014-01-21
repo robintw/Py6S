@@ -26,6 +26,9 @@ class Angles:
   @classmethod
   def run360(cls, s, solar_or_view, na=36, nz=10, output_name=None, n=None):
     """Runs Py6S for lots of angles to produce a polar contour plot.
+
+    The calls to 6S for each angle will be run in parallel, making this function far faster than simply
+    running a for loop over all of the angles.
     
     Arguments:
     
@@ -34,7 +37,8 @@ class Angles:
     * ``output_name`` -- (Optional) The name of the output from the 6S simulation to plot. This should be a string containing exactly what you would put after ``s.outputs`` to print the output. For example `pixel_reflectance`.
     * ``na`` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)
     * ``nz`` -- (Optional) The number of zenith angles to iterate over to generate the data for the plot (defaults to 10, giving data every 10 degrees)
-    
+    * ``n`` -- (Optional) The number of threads to run in parallel. This defaults to the number of CPU cores in your system, and is unlikely to need changing.
+
     For example::
     
       s = SixS()
@@ -233,10 +237,14 @@ class Angles:
       270       80
       270       85
     
+    The calls to 6S for each angle will be run in parallel, making this function far faster than simply
+    running a for loop over each angle.
+
     Arguments:
     
     * ``s`` -- A :class:`.SixS` instance configured with all of the parameters you want to run the simulation with
     * ``output_name`` -- (Optional) The output name to extract (eg. "pixel_reflectance") if the given data is provided as instances of the Outputs class
+    * ``n`` -- (Optional) The number of threads to run in parallel. This defaults to the number of CPU cores in your system, and is unlikely to need changing.
 
     Return values:
     
