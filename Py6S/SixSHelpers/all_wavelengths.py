@@ -57,6 +57,7 @@ class Wavelengths:
     """
     # Create a function to be called by the map
     def f(wv):
+      s.outputs = None
       a = copy.deepcopy(s)
       a.wavelength = Wavelength(wv)
       print wv

@@ -83,6 +83,15 @@ class ParallelEquivalenceTests(unittest.TestCase):
 			parallel_res = SixSHelpers.Wavelengths.run_vnir(s, spacing=0.05, output_name='apparent_radiance', n=i)
 			np.testing.assert_allclose(parallel_res, serial_res)
 
+	def test_after_prev_run(self):
+		s = SixS()
+		s.run()
+
+		try:
+			results = SixSHelpers.Wavelengths.run_vnir(s, spacing=0.05, output_name='apparent_radiance', n=1)
+		except OutputParsingError:
+			self.fail("OutputParsingError raised by run_vnir after previous SixS.run")
+
 	def test_angles_equiv(self):
 		s = SixS()
 

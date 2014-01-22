@@ -55,6 +55,7 @@ class Angles:
 
     def f(args):
       azimuth, zenith = args
+      s.outputs = None
       a = copy.deepcopy(s)
 
       if solar_or_view == 'view':
@@ -278,7 +279,7 @@ class Angles:
 
     def f(arg):
       zenith, azimuth = arg
-
+      s.outputs = None
       a = copy.deepcopy(s)
 
       a.geometry.view_z = zenith
