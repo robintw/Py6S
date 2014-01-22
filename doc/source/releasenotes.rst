@@ -3,6 +3,10 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.4.1 (22nd Jan 2014)
+^^^^^^^^^^^^^^^^^^^^^
+* Fixed a minor bug which means that running for multiple wavelengths/angles after having already run the SixS object manually would crash
+
 1.4.0 (21st Jan 2014)
 ^^^^^^^^^^^^^^^^^^^^^
 * Added parallel processing support for the methods in SixSHelpers that run for multiple wavelengths and multiple angles. This will significantly speed up these runs: on a dual-core machine they should take approximately half the time, and the speedup will be even better on quad-core or eight-core computers. The parallelisation abilities (including the speedup) may be improved in the future, but this should be a significant improvement for now.
