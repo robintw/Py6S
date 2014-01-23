@@ -1,3 +1,4 @@
+.tox/
 tmp_in.txt
 *tmp.in*
 *.pyc
