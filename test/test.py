@@ -73,7 +73,7 @@ class VisAOTTests(unittest.TestCase):
     s.visibility = 40
     s.run()
 
-    self.assertAlmostEqual(s.outputs.phase_function_Q.aerosol, -0.04939)
+    self.assertAlmostEqual(s.outputs.phase_function_Q.aerosol, -0.04939, 0.002)
 
 class WavelengthTests(unittest.TestCase):
 
