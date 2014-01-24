@@ -169,3 +169,29 @@ class AllAnglesTests(unittest.TestCase):
 		results = SixSHelpers.Angles.run360(s, 'solar', output_name='apparent_radiance')
 
 		np.testing.assert_allclose(results[0], res0)
+
+
+class AERONETImportTest(unittest.TestCase):
+
+  def test_import_aeronet(self):
+    s = SixS()
+    s = SixSHelpers.Aeronet.import_aeronet_data(s, "./test/070101_101231_Marambio.dubovik", "2008-02-22")
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 137.324, delta=0.002)
+
+  def test_import_empty_file(self):
+    s = SixS()
+    with self.assertRaises(ParameterError):
+      SixSHelpers.Aeronet.import_aeronet_data(s, "./test/empty_file", "2008-02-22")
+
+class RadiosondeImportTest(unittest.TestCase):
+
+	def test_simple_radiosonde_import(self):
+		s = SixS()
+		s.altitudes.set_sensor_satellite_level()
+		s.altitudes.set_target_sea_level()
+		s.atmos_profile = SixSHelpers.Radiosonde.import_uow_radiosonde_data("http://weather.uwyo.edu/cgi-bin/sounding?region=europe&TYPE=TEXT%3ALIST&YEAR=2012&MONTH=02&FROM=2712&TO=2712&STNM=03808", AtmosProfile.MidlatitudeWinter)
+		s.run()
+
+		self.assertAlmostEqual(s.outputs.apparent_radiance, 164.482, delta=0.02)

@@ -66,7 +66,14 @@ class VisAOTTests(unittest.TestCase):
     s.run()
     
     self.assertAlmostEqual(s.outputs.visibility, float("Inf"))
-    self.assertAlmostEqual(s.outputs.aot550, 0.001, delta=0.002)   
+    self.assertAlmostEqual(s.outputs.aot550, 0.001, delta=0.002)
+
+  def test_set_vis(self):
+    s = SixS()
+    s.visibility = 40
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.phase_function_Q.aerosol, -0.04939)
 
 class WavelengthTests(unittest.TestCase):
 
@@ -249,18 +256,3 @@ class AltitudesTest(unittest.TestCase):
     s.run()
 
     self.assertAlmostEqual(s.outputs.apparent_radiance, 165.188, delta=0.002)
-
-class AERONETImportTest(unittest.TestCase):
-
-  def test_import_aeronet(self):
-    s = SixS()
-    s = SixSHelpers.Aeronet.import_aeronet_data(s, "./test/070101_101231_Marambio.dubovik", "2008-02-22")
-    s.run()
-
-    self.assertAlmostEqual(s.outputs.apparent_radiance, 137.324, delta=0.002)
-
-  def test_import_empty_file(self):
-    s = SixS()
-    with self.assertRaises(ParameterError):
-      SixSHelpers.Aeronet.import_aeronet_data(s, "./test/empty_file", "2008-02-22")
-
