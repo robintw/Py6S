@@ -44,14 +44,11 @@ class SixSClassTests(unittest.TestCase):
     old_path = os.environ["PATH"]
     os.environ["PATH"] = ""
 
-    s = SixS()
-    with self.assertRaises(ExecutionError):
-      s.run()
-
-    result = s.test()
+    result = SixS.test()
     self.assertEqual(result, 1)
 
     os.environ["PATH"] = old_path
+    print os.environ["PATH"]
 
 
 class VisAOTTests(unittest.TestCase):
