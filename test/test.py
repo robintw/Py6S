@@ -25,6 +25,35 @@ class SimpleTests(unittest.TestCase):
     result = SixS.test()
     self.assertEqual(result, 0)
     
+
+class SixSClassTests(unittest.TestCase):
+
+  def test_custom_path(self):
+    s = SixS("/home/robintw/Py6S/6S/6SV1.1/sixsV1.1")
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.transmittance_aerosol_scattering.downward, 0.93514, delta=0.002)
+
+  def test_debug_report(self):
+    s = SixS()
+    s.produce_debug_report()
+
+  def test_not_on_path(self):
+    import os
+
+    old_path = os.environ["PATH"]
+    os.environ["PATH"] = ""
+
+    s = SixS()
+    with self.assertRaises(ExecutionError):
+      s.run()
+
+    result = s.test()
+    self.assertEqual(result, 1)
+
+    os.environ["PATH"] = old_path
+
+
 class VisAOTTests(unittest.TestCase):
 
   def test_vis_aot_normal(self):
@@ -147,6 +176,14 @@ class UserDefinedSpectraTest(unittest.TestCase):
     
     self.assertAlmostEqual(s.outputs.apparent_radiance, 7.753, delta=0.002)
 
+  def test_aster_spectra_from_file(self):
+    s = SixS()
+    s.altitudes.set_target_sea_level()
+    s.altitudes.set_sensor_satellite_level()
+    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_aster("./test/jhu.becknic.vegetation.trees.conifers.solid.conifer.spectrum.txt"))
+    s.run()
+    
+    self.assertAlmostEqual(s.outputs.apparent_reflectance, 0.1403693, 0.002)
 
   def test_usgs_spectra(self):
     s = SixS()
