@@ -38,17 +38,17 @@ class SixSClassTests(unittest.TestCase):
     s = SixS()
     s.produce_debug_report()
 
-  def test_not_on_path(self):
-    import os
+  # def test_not_on_path(self):
+  #   import os
 
-    old_path = os.environ["PATH"]
-    os.environ["PATH"] = ""
+  #   old_path = os.environ["PATH"]
+  #   os.environ["PATH"] = ""
 
-    result = SixS.test()
-    self.assertEqual(result, 1)
+  #   result = SixS.test()
+  #   self.assertEqual(result, 1)
 
-    os.environ["PATH"] = old_path
-    print os.environ["PATH"]
+  #   os.environ["PATH"] = old_path
+  #   print os.environ["PATH"]
 
 
 class VisAOTTests(unittest.TestCase):
