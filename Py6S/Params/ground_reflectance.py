@@ -111,7 +111,11 @@ WV_REPLACE
         ro_target_type, ro_target_values = cls._GetTargetTypeAndValues(ro_target)
         ro_env_type, ro_env_values = cls._GetTargetTypeAndValues(ro_env, "REFL_REPLACE_2")
 
-        s =  """1 (Non homogeneous surface)
+        if ro_target_values == "" and ro_env_values == "":
+          s =  """1 (Non homogeneous surface)
+%s %s %f (ro1 ro2 radius)\n""" % (ro_target_type, ro_env_type, radius)
+        else:
+          s =  """1 (Non homogeneous surface)
 %s %s %f (ro1 ro2 radius)
 %s
 %s\n""" % (ro_target_type, ro_env_type, radius, ro_target_values, ro_env_values)

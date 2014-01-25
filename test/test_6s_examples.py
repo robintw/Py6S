@@ -37,10 +37,12 @@ class Example6STests(unittest.TestCase):
 
 		s.aot550 = 0.5
 		s.altitudes.set_target_custom_altitude(0.2)
-		s.altitudes.set_sensor_custom_altitude(3.3, water=1.5, ozone=3.5, aot=0.25)
+		s.altitudes.set_sensor_custom_altitude(3.3, aot=0.25)
 		s.wavelength = Wavelength(PredefinedWavelengths.AVHRR_NOAA9_B1)
 
-		s.ground_reflectance = GroundReflectance.HeterogeneousLambertian(GroundReflectance.ClearWater, GroundReflectance.GreenVegetation, 0.5)
+		s.ground_reflectance = GroundReflectance.HeterogeneousLambertian(0.5, GroundReflectance.ClearWater, GroundReflectance.GreenVegetation)
+
+		s.atmos_corr = AtmosCorr.AtmosCorrBRDFFromReflectance(0.1)
 		s.run()
 		self.assertAlmostEqual(s.outputs.apparent_radiance, 12.749, delta=0.002)
 
