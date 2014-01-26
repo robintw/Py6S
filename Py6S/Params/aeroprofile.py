@@ -17,6 +17,7 @@
 
 from collections import defaultdict
 #from sixs_exceptions import *
+from Py6S.sixs_exceptions import ParameterError
 
 
 class AeroProfile:
