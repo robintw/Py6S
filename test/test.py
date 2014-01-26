@@ -121,47 +121,6 @@ class WavelengthTests(unittest.TestCase):
     with self.assertRaises(ParameterError):
       Wavelength(0.5, 50)
 
-class AtmosProfileTests(unittest.TestCase):
-
-    def test_atmos_profile(self):
-
-        aps = [AtmosProfile.Tropical,
-               AtmosProfile.NoGaseousAbsorption,
-               AtmosProfile.UserWaterAndOzone(0.9, 3)]
-        results = [0.2723143,
-                   0.2747224,
-                   0.2476101]
-
-        for i in range(len(aps)):
-            s = SixS()
-            s.atmos_profile = aps[i]
-            s.run()
-
-            self.assertAlmostEqual(s.outputs.apparent_reflectance, results[i], msg="Error in atmos profile with ID %s. Got %f, expected %f." % (str(aps[i]), s.outputs.apparent_reflectance, results[i]), delta=0.002)
-
-
-class AeroProfileTests(unittest.TestCase):
-
-    def test_aero_profile(self):
-        user_ap = AeroProfile.UserProfile(AeroProfile.Maritime)
-        user_ap.add_layer(5, 0.34)
-
-        aps = [AeroProfile.Continental,
-               AeroProfile.NoAerosols,
-               AeroProfile.User(dust=0.3, oceanic=0.7),
-               user_ap]
-        results = [122.854,
-                   140.289,
-                   130.866,
-                   136.649]
-
-        for i in range(len(aps)):
-            s = SixS()
-            s.aero_profile = aps[i]
-            s.run()
-
-            self.assertAlmostEqual(s.outputs.apparent_radiance, results[i], "Error in aerosol profile with ID %s. Got %f, expected %f." % (str(aps[i]), s.outputs.apparent_radiance, results[i]), delta=0.002)
-
 class AtmosCorrTests(unittest.TestCase):
 
   def test_atmos_corr_radiance(self):
