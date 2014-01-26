@@ -63,7 +63,7 @@ class AeroProfileTests(unittest.TestCase):
       with self.assertRaises(ParameterError):
         ap = AeroProfile.User(dust=0.8, oceanic=0.4)
 
-    def test_sun_photo_dist_errors(self):
+    def test_sun_photo_dist_errors1(self):
       with self.assertRaises(ParameterError):
         # Different numbers of elements for first two arguments
         ap = AeroProfile.SunPhotometerDistribution([0.050000001, 0.065604001, 0.086076997,
@@ -77,6 +77,7 @@ class AeroProfileTests(unittest.TestCase):
       [1.47]*20,
       [0.0093]*20)
 
+    def test_sun_photo_dist_errors2(self):
       with self.assertRaises(ParameterError):
         # Different numbers of elements for first two arguments
         ap = AeroProfile.SunPhotometerDistribution([0.050000001, 0.065604001, 0.086076997,
@@ -90,6 +91,7 @@ class AeroProfileTests(unittest.TestCase):
       [1.47]*15,
       [0.0093]*20)
 
+    def test_sun_photo_dist_errors3(self):
       with self.assertRaises(ParameterError):
         # Different numbers of elements for first two arguments
         ap = AeroProfile.SunPhotometerDistribution([0.050000001, 0.065604001, 0.086076997,
@@ -103,7 +105,7 @@ class AeroProfileTests(unittest.TestCase):
       [1.47]*20,
       0.0093)
 
-    def test_multimodal_dist(self):
+    def test_multimodal_dist_errors1(self):
       with self.assertRaises(ParameterError):
         ap = AeroProfile.MultimodalLogNormalDistribution(0.001, 20)
         ap.add_component(0.05, 2.03, 0.538, [1.508,1.500,1.500,1.500,1.500,
@@ -132,6 +134,7 @@ class AeroProfileTests(unittest.TestCase):
           1.0E-08,1.48E-08,2.0E-08,6.85E-08,1.0E-07,1.25E-06,3.0E-06,3.5E-04,6.0E-04,6.86E-04,
           1.7E-03,4.0E-03,1.4E-03])
 
+    def test_multimodal_dist_errors2(self):
       with self.assertRaises(ParameterError):
         ap = AeroProfile.MultimodalLogNormalDistribution(0.001, 20)
         ap.add_component(0.05, 2.03, 0.538, [1.508,1.500,1.500,1.500,1.500,
@@ -140,6 +143,7 @@ class AeroProfileTests(unittest.TestCase):
           1.0E-08,1.0E-08,1.48E-08,2.0E-08,6.85E-08,1.0E-07,1.25E-06,3.0E-06,3.5E-04,
           6.0E-04,6.86E-04])
 
+    def test_multimodal_dist_errors3(self):
       with self.assertRaises(ParameterError):
         ap = AeroProfile.MultimodalLogNormalDistribution(0.001, 20)
         ap.add_component(0.4, 2.03, 0.005, [1.508,1.500,1.500,1.500,1.500,
