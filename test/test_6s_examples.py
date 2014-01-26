@@ -150,7 +150,7 @@ class Example6STests(unittest.TestCase):
 
 		s.wavelength = Wavelength(PredefinedWavelengths.AVHRR_NOAA11_B1)
 
-		GroundReflectance.HomogeneousLambertian([.827,.828,.828,.827,.827,.827,.827,
+		s.ground_reflectance = GroundReflectance.HomogeneousLambertian([.827,.828,.828,.827,.827,.827,.827,
 			.826,.826,.826,.826,.825,.826,.826,.827,.827,.827,.827,.828,.828,.828,.829,
 			.829,.828,.826,.826,.825,.826,.826,.826,.827,.827,.827,.826,.825,.826,.828,
 			.829,.830,.831,.833,.834,.835,.836,.836,.837,.838,.838,.837,.836,.837,.837,
