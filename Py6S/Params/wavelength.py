@@ -37,7 +37,7 @@ def Wavelength(start_wavelength, end_wavelength=None, filter=None):
     
     4. Pass a constant (as defined in this class) for a pre-defined wavelength range::
     
-        Wavelength(PredefinedWavelength.LANDSAT_TM_B1)
+        Wavelength(PredefinedWavelengths.LANDSAT_TM_B1)
     
     """
     try:
