@@ -168,13 +168,19 @@ class AeroProfile:
       
       for i in range(len(r)):
         ds += "%f %f\n" % (r[i], dvdlogr[i])
-        
-      if len(refr_real) != 20:
-          raise ParameterError("Aerosol Distribution Real Refractive Index", "You must specify the real part of the Refractive Index at 20 wavelengths.")
-        
-      if len(refr_imag) != 20:
-          raise ParameterError("Aerosol Distribution Imaginary Refractive Index", "You must specify the imaginary part of the Refractive Index at 20 wavelengths.")
       
+      try:
+        if len(refr_real) != 20:
+            raise ParameterError("Aerosol Distribution Real Refractive Index", "You must specify the real part of the Refractive Index at 20 wavelengths.")
+      except TypeError:
+        raise ParameterError("Aerosol Distribution Imaginary Refractive Index", "You must specify the imaginary part of the Refractive Index at 20 wavelengths.")
+
+      try:
+        if len(refr_imag) != 20:
+            raise ParameterError("Aerosol Distribution Imaginary Refractive Index", "You must specify the imaginary part of the Refractive Index at 20 wavelengths.")
+      except TypeError:
+        raise ParameterError("Aerosol Distribution Imaginary Refractive Index", "You must specify the imaginary part of the Refractive Index at 20 wavelengths.")
+
       real = map(str, refr_real)
       imag = map(str, refr_imag)
       comp += ' '.join(real) + '\n'
