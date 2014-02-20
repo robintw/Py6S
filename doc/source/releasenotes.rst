@@ -3,6 +3,10 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.4.2 (20th Feb 2014)
+^^^^^^^^^^^^^^^^^^^^^
+Fixed bug in the AERONET import routine which meant that ambiguous dates would be imported as MM/DD/YYYY rather than DD/MM/YYYY as specified in the documentation (thanks Marcin)
+
 1.4.1 (22nd Jan 2014)
 ^^^^^^^^^^^^^^^^^^^^^
 * Fixed a minor bug which means that running for multiple wavelengths/angles after having already run the SixS object manually would crash
