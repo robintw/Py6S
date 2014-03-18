@@ -79,10 +79,13 @@ class Wavelengths:
     print "Running for many wavelengths - this may take a long time"
     results = pool.map(f, wavelengths)
 
-    if len(wavelengths[0]) == 4:
-      cleaned_wavelengths = map(lambda x: x[:3], wavelengths)
-      return np.array(cleaned_wavelengths), np.array(results)
-    else:
+    try:
+      if len(wavelengths[0]) == 4:
+        cleaned_wavelengths = map(lambda x: x[:3], wavelengths)
+        return np.array(cleaned_wavelengths), np.array(results)
+      else:
+        return np.array(wavelengths), np.array(results)
+    except:
       return np.array(wavelengths), np.array(results)
 
   @classmethod
