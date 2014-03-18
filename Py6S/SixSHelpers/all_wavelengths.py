@@ -79,7 +79,11 @@ class Wavelengths:
     print "Running for many wavelengths - this may take a long time"
     results = pool.map(f, wavelengths)
 
-    return np.array(wavelengths), np.array(results)
+    if len(wavelengths[0]) == 4:
+      cleaned_wavelengths = map(lambda x: x[:3], wavelengths)
+      return np.array(cleaned_wavelengths), np.array(results)
+    else:
+      return np.array(wavelengths), np.array(results)
 
   @classmethod
   def run_vnir(cls, s, spacing=0.005, **kwargs):
@@ -166,6 +170,37 @@ class Wavelengths:
     """
     
     wv = [PredefinedWavelengths.LANDSAT_TM_B1, PredefinedWavelengths.LANDSAT_TM_B2, PredefinedWavelengths.LANDSAT_TM_B3, PredefinedWavelengths.LANDSAT_TM_B4, PredefinedWavelengths.LANDSAT_TM_B5, PredefinedWavelengths.LANDSAT_TM_B7]
+
+
+    wv, res = cls.run_wavelengths(s, wv, **kwargs)
+    
+    centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+    
+    return (centre_wvs, res)
+
+  @classmethod
+  def run_landsat_oli(cls, s, **kwargs):
+    """Runs the given SixS parameterisation for all of the Landsat TM bands within the 6S band range, optionally extracting a specific output.
+    
+    Arguments:
+    
+    * ``s`` -- A :class:`.SixS` instance with the parameters set as required
+    * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
+    
+    Return value:
+    
+    A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
+    or a list of values of the selected output if ``output_name`` is set.
+    """
+    
+    wv = [PredefinedWavelengths.LANDSAT_OLI_B1,
+          PredefinedWavelengths.LANDSAT_OLI_B2,
+          PredefinedWavelengths.LANDSAT_OLI_B3,
+          PredefinedWavelengths.LANDSAT_OLI_B4,
+          PredefinedWavelengths.LANDSAT_OLI_B5,
+          PredefinedWavelengths.LANDSAT_OLI_B6,
+          PredefinedWavelengths.LANDSAT_OLI_B7]
 
 
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
