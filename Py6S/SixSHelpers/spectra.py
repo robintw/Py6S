@@ -54,7 +54,12 @@ class Spectra:
         """
         if loc.startswith("""http://"""):
             data = urlopen(loc).read()
-            f = BytesIO(data.encode())
+            if type(data) == str:
+              # Python 2.7
+              f = BytesIO(data.encode())
+            else:
+              # Python 3
+              f = BytesIO(data)
         else:
             f = open(loc, "r")
         
@@ -92,7 +97,12 @@ class Spectra:
         """
         if loc.startswith("""http://"""):
             data = urlopen(loc).read()
-            f = BytesIO(data.encode())
+            if type(data) == str:
+              # Python 2.7
+              f = BytesIO(data.encode())
+            else:
+              # Python 3
+              f = BytesIO(data)
         else:
             f = open(loc, "r")
         
