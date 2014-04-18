@@ -317,7 +317,7 @@ class Radiosonde:
     table = "\n".join(spl)
     
     # Import to NumPy arrays
-    s = io.StringIO(table)
+    s = io.BytesIO(table)
     array = np.loadtxt(s, skiprows=4, usecols=(0, 1, 2, 5))
     
     pressure = array[:,0]

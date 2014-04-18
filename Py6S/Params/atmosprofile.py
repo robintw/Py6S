@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
+from Py6S.sixs_exceptions import ParameterError
+
 class AtmosProfile:
     """Stores a enumeration for the pre-specified atmospheric model types"""
     NoGaseousAbsorption=0 

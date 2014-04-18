@@ -3,6 +3,28 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.4.2 (20th Feb 2014)
+^^^^^^^^^^^^^^^^^^^^^
+Fixed bug in the AERONET import routine which meant that ambiguous dates would be imported as MM/DD/YYYY rather than DD/MM/YYYY as specified in the documentation (thanks Marcin)
+
+1.4.1 (22nd Jan 2014)
+^^^^^^^^^^^^^^^^^^^^^
+* Fixed a minor bug which means that running for multiple wavelengths/angles after having already run the SixS object manually would crash
+
+1.4.0 (21st Jan 2014)
+^^^^^^^^^^^^^^^^^^^^^
+* Added parallel processing support for the methods in SixSHelpers that run for multiple wavelengths and multiple angles. This will significantly speed up these runs: on a dual-core machine they should take approximately half the time, and the speedup will be even better on quad-core or eight-core computers. The parallelisation abilities (including the speedup) may be improved in the future, but this should be a significant improvement for now.
+* Added produce_debug_report() function to the SixS object. This gives all of the debugging information that I would need when helping to fix a problem - so please run this and send me the output whenever problems occur.
+
+1.3.1 (15th Jan 2014)
+^^^^^^^^^^^^^^^^^^^^
+* Added proper error handling for dealing with erroneous 6S output, now things shouldn't crash if 6S produces strange results
+* Bugfix for error when setting custom altitudes in certain situations
+* Added more detailed error messages for failure to import AERONET data
+* Bugfix for the specification of geometry parameters within the 6S input file - now more accurate
+* Improvements to documentation (typos, clearer explanations etc)
+* Added CITATION file to explain how to cite Py6S
+
 1.3 (6th April 2013)
 ^^^^^^^^^^^^^^^^^^^^
 * Fixed a number of bugs relating to geometry specification (thanks Matthew Hanson).

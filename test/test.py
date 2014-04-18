@@ -25,6 +25,32 @@ class SimpleTests(unittest.TestCase):
     result = SixS.test()
     self.assertEqual(result, 0)
     
+
+class SixSClassTests(unittest.TestCase):
+
+  def test_custom_path(self):
+    s = SixS("/home/robintw/Py6S/6S/6SV1.1/sixsV1.1")
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.transmittance_aerosol_scattering.downward, 0.93514, delta=0.002)
+
+  def test_debug_report(self):
+    s = SixS()
+    s.produce_debug_report()
+
+  # def test_not_on_path(self):
+  #   import os
+
+  #   old_path = os.environ["PATH"]
+  #   os.environ["PATH"] = ""
+
+  #   result = SixS.test()
+  #   self.assertEqual(result, 1)
+
+  #   os.environ["PATH"] = old_path
+  #   print os.environ["PATH"]
+
+
 class VisAOTTests(unittest.TestCase):
 
   def test_vis_aot_normal(self):
@@ -40,7 +66,14 @@ class VisAOTTests(unittest.TestCase):
     s.run()
     
     self.assertAlmostEqual(s.outputs.visibility, float("Inf"))
-    self.assertAlmostEqual(s.outputs.aot550, 0.001, delta=0.002)   
+    self.assertAlmostEqual(s.outputs.aot550, 0.001, delta=0.002)
+
+  def test_set_vis(self):
+    s = SixS()
+    s.visibility = 40
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.phase_function_Q.aerosol, -0.04939, delta=0.002)
 
 class WavelengthTests(unittest.TestCase):
 
@@ -88,56 +121,6 @@ class WavelengthTests(unittest.TestCase):
     with self.assertRaises(ParameterError):
       Wavelength(0.5, 50)
 
-  def test_run_for_all_wvs(self):
-    s = SixS()
-    results = SixSHelpers.Wavelengths.run_landsat_etm(s, "apparent_radiance")
-    
-    a = np.array([ 138.392,  129.426,  111.635,   75.822,   16.684,    5.532])
-    
-    self.assertAlmostEqual(results[0], [0.47750000000000004, 0.56125000000000003, 0.65874999999999995, 0.82624999999999993, 1.6487500000000002, 2.19625], delta=0.002)
-    self.assertAlmostEqual(all(a == results[1]), True, delta=0.002)
-
-class AtmosProfileTests(unittest.TestCase):
-
-    def test_atmos_profile(self):
-
-        aps = [AtmosProfile.Tropical,
-               AtmosProfile.NoGaseousAbsorption,
-               AtmosProfile.UserWaterAndOzone(0.9, 3)]
-        results = [0.2723143,
-                   0.2747224,
-                   0.2476101]
-
-        for i in range(len(aps)):
-            s = SixS()
-            s.atmos_profile = aps[i]
-            s.run()
-
-            self.assertAlmostEqual(s.outputs.apparent_reflectance, results[i], msg="Error in atmos profile with ID %s. Got %f, expected %f." % (str(aps[i]), s.outputs.apparent_reflectance, results[i]), delta=0.002)
-
-
-class AeroProfileTests(unittest.TestCase):
-
-    def test_aero_profile(self):
-        user_ap = AeroProfile.UserProfile(AeroProfile.Maritime)
-        user_ap.add_layer(5, 0.34)
-
-        aps = [AeroProfile.Continental,
-               AeroProfile.NoAerosols,
-               AeroProfile.User(dust=0.3, oceanic=0.7),
-               user_ap]
-        results = [122.854,
-                   140.289,
-                   130.866,
-                   136.649]
-
-        for i in range(len(aps)):
-            s = SixS()
-            s.aero_profile = aps[i]
-            s.run()
-
-            self.assertAlmostEqual(s.outputs.apparent_radiance, results[i], "Error in aerosol profile with ID %s. Got %f, expected %f." % (str(aps[i]), s.outputs.apparent_radiance, results[i]), delta=0.002)
-
 class AtmosCorrTests(unittest.TestCase):
 
   def test_atmos_corr_radiance(self):
@@ -156,6 +139,14 @@ class UserDefinedSpectraTest(unittest.TestCase):
     
     self.assertAlmostEqual(s.outputs.apparent_radiance, 7.753, delta=0.002)
 
+  def test_aster_spectra_from_file(self):
+    s = SixS()
+    s.altitudes.set_target_sea_level()
+    s.altitudes.set_sensor_satellite_level()
+    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_aster("./test/jhu.becknic.vegetation.trees.conifers.solid.conifer.spectrum.txt"))
+    s.run()
+    
+    self.assertAlmostEqual(s.outputs.apparent_reflectance, 0.1403693, 0.002)
 
   def test_usgs_spectra(self):
     s = SixS()
@@ -224,18 +215,3 @@ class AltitudesTest(unittest.TestCase):
     s.run()
 
     self.assertAlmostEqual(s.outputs.apparent_radiance, 165.188, delta=0.002)
-
-class AERONETImportTest(unittest.TestCase):
-
-  def test_import_aeronet(self):
-    s = SixS()
-    s = SixSHelpers.Aeronet.import_aeronet_data(s, "./test/070101_101231_Marambio.dubovik", "2008-02-22")
-    s.run()
-
-    self.assertAlmostEqual(s.outputs.apparent_radiance, 137.324, delta=0.002)
-
-  def test_import_empty_file(self):
-    s = SixS()
-    with self.assertRaises(ParameterError):
-      SixSHelpers.Aeronet.import_aeronet_data(s, "./test/empty_file", "2008-02-22")
-

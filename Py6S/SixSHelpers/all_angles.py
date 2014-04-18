@@ -17,12 +17,18 @@
 
 import numpy as np
 from matplotlib.pyplot import *
+import itertools
+from multiprocessing.dummy import Pool
+import copy
 
 class Angles:
   
   @classmethod
-  def run360(cls, s, solar_or_view, na=36, nz=10, output_name=None):
+  def run360(cls, s, solar_or_view, na=36, nz=10, output_name=None, n=None):
     """Runs Py6S for lots of angles to produce a polar contour plot.
+
+    The calls to 6S for each angle will be run in parallel, making this function far faster than simply
+    running a for loop over all of the angles.
     
     Arguments:
     
@@ -31,7 +37,8 @@ class Angles:
     * ``output_name`` -- (Optional) The name of the output from the 6S simulation to plot. This should be a string containing exactly what you would put after ``s.outputs`` to print the output. For example `pixel_reflectance`.
     * ``na`` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)
     * ``nz`` -- (Optional) The number of zenith angles to iterate over to generate the data for the plot (defaults to 10, giving data every 10 degrees)
-    
+    * ``n`` -- (Optional) The number of threads to run in parallel. This defaults to the number of CPU cores in your system, and is unlikely to need changing.
+
     For example::
     
       s = SixS()
@@ -45,23 +52,40 @@ class Angles:
     
     azimuths = np.linspace(0, 360, na)
     zeniths = np.linspace(0, 89, nz)
-      
-    for azimuth in azimuths:
-      for zenith in zeniths:
-        if solar_or_view == 'view':
-          s.geometry.view_a = azimuth
-          s.geometry.view_z = zenith
-        elif solar_or_view == 'solar':
-          s.geometry.solar_a = azimuth
-          s.geometry.solar_z = zenith
-        else:
-          raise ParameterException("all_angles", "You must choose to vary either the solar or view angle.")
-        s.run()
-        print(("Calculating for azimuth = %d, zenith = %d" % (azimuth, zenith)))
-        if output_name == None:
-          results.append(s.outputs)
-        else:
-          results.append(getattr(s.outputs, output_name))
+
+    def f(args):
+      azimuth, zenith = args
+      s.outputs = None
+      a = copy.deepcopy(s)
+
+      if solar_or_view == 'view':
+        a.geometry.view_a = azimuth
+        a.geometry.view_z = zenith
+      elif solar_or_view == 'solar':
+        a.geometry.solar_a = azimuth
+        a.geometry.solar_z = zenith
+      else:
+        raise ParameterException("all_angles", "You must choose to vary either the solar or view angle.")
+
+      a.run()
+
+      if output_name is None:
+        return a.outputs
+      else:
+        return getattr(a.outputs, output_name)
+
+
+    # Run the map
+    if n is None:
+      pool = Pool()
+    else:
+      pool = Pool(n)
+
+
+    print("Running for many angles - this may take a long time")
+    results = pool.map(f, itertools.product(azimuths, zeniths))
+
+    results = np.array(results)
         
     return (results, azimuths, zeniths, s.geometry.solar_a, s.geometry.solar_z)  
       
@@ -107,7 +131,7 @@ class Angles:
     * ``show_sun`` -- (Optional) Whether to place a marker showing the location of the sun on the contour plot (defaults to True, has no effect when ``solar_or_view`` set to ``'solar'``.)
     * ``na`` -- (Optional) The number of azimuth angles to iterate over to generate the data for the plot (defaults to 36, giving data every 10 degrees)
     * ``nz`` -- (Optional) The number of zenith angles to iterate over to generate the data for the plot (defaults to 10, giving data every 10 degrees)
-    * ``colorbar`` -- (Optional) The label to use on the color bar shown with the plot
+    * ``colorbarlabel`` -- (Optional) The label to use on the color bar shown with the plot
     
     For example::
     
@@ -191,7 +215,7 @@ class Angles:
     return fig, ax, cax
   
   @classmethod
-  def run_principal_plane(cls, s, output_name=None):
+  def run_principal_plane(cls, s, output_name=None, n=None):
     """Runs the given 6S simulation to get the outputs for the solar principal plane.
     
     This function runs the simulation for all zenith angles in the azimuthal line of the sun. For example,
@@ -214,10 +238,14 @@ class Angles:
       270       80
       270       85
     
+    The calls to 6S for each angle will be run in parallel, making this function far faster than simply
+    running a for loop over each angle.
+
     Arguments:
     
     * ``s`` -- A :class:`.SixS` instance configured with all of the parameters you want to run the simulation with
     * ``output_name`` -- (Optional) The output name to extract (eg. "pixel_reflectance") if the given data is provided as instances of the Outputs class
+    * ``n`` -- (Optional) The number of threads to run in parallel. This defaults to the number of CPU cores in your system, and is unlikely to need changing.
 
     Return values:
     
@@ -229,12 +257,9 @@ class Angles:
     
     # Get the solar azimuth and zenith angles from the SixS instance
     sa = s.geometry.solar_a
-    sz = s.geometry.solar_z
     
     ## Compute the angles in the principal plane
     
-    # Get the equivalent view zenith for the solar zenith angle
-    vz_for_sz = 90 - sz
     # Get the solar azimuth on the opposite side for the other half of the principal plane
     opp_sa = (sa + 180) % 360
     
@@ -251,22 +276,35 @@ class Angles:
     all_zeniths = np.hstack((first_side_z, second_side_z))
     all_zeniths_for_return = np.hstack((first_side_z, -1 * second_side_z))
     all_azimuths = np.hstack((first_side_a, second_side_a))
-    
-    ## Iterate over these angles and get the results
-    
-    results = []
-    
-    for i in range(len(all_zeniths)):
-      print(("%s %s" % (all_zeniths[i], all_azimuths[i])))
-      
-      s.geometry.view_z = all_zeniths[i]
-      s.geometry.view_a = all_azimuths[i]
-      s.run()
-      if output_name == None:
-        results.append(s.outputs)
+
+    def f(arg):
+      zenith, azimuth = arg
+      s.outputs = None
+      a = copy.deepcopy(s)
+
+      a.geometry.view_z = zenith
+      a.geometry.view_a = azimuth
+      a.run()
+
+      if output_name is None:
+        return a.outputs
       else:
-        results.append(getattr(s.outputs, output_name))
+        return getattr(a.outputs, output_name)
+
+    # Run the map
+    if n is None:
+      pool = Pool()
+    else:
+      pool = Pool(n)
+
+
+    print("Running for many angles - this may take a long time")
+    results = pool.map(f, zip(all_zeniths, all_azimuths))
+
+    results = np.array(results)
     
+    results = np.array(results)
+
     return all_zeniths_for_return, results
 
     

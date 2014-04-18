@@ -93,7 +93,7 @@ class Aeronet:
     df['timestamp'] = df.apply(lambda s: pandas.to_datetime(s['Date(dd-mm-yyyy)'] + " " + s['Time(hh:mm:ss)']), axis=1)
     df.index = pandas.DatetimeIndex(df.timestamp)
     
-    given_time = dateutil.parser.parse(time)
+    given_time = dateutil.parser.parse(time, dayfirst=True)
 
     df['timediffs'] = np.abs(df.timestamp - given_time).astype('timedelta64[ns]')
 

@@ -82,6 +82,8 @@ class SixS(object):
 
     min_wv = None
     max_wv = None
+
+    __version__ = "1.4.2"
     
     def __init__(self, path=None):
         """Initialises the class and finds the right 6S executable to use.
@@ -297,6 +299,29 @@ class SixS(object):
         
         # Remove the temporary file
         os.remove(tmp_file_name)
+
+    def produce_debug_report(self):
+        """Prints out information about the configuration of Py6S generally, and the current
+        SixS object specifically, which will be useful when debugging problems."""
+        import datetime
+        import platform
+        import sys
+
+        print "Py6S Debugging Report"
+        print "---------------------"
+        print "Run on %s" % (str(datetime.datetime.now()))
+        print "Platform: %s" % (platform.platform())
+        print "Python version: %s" % (sys.version.split('\n')[0])
+        print "Py6S version: %s" % (self.__version__)
+        print "---------------------"
+        self.test()
+        print "---------------------"
+
+        fname = self.write_input_file()
+        with open(fname) as f:
+            contents = f.readlines()
+
+        print "".join(contents)
 
     @classmethod
     def test(self):
