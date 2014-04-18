@@ -321,7 +321,7 @@ class SixS(object):
         with open(fname) as f:
             contents = f.readlines()
 
-        print "".join(contents)
+        print("".join(contents))
 
     @classmethod
     def test(self):
