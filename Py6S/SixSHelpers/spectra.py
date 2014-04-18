@@ -19,7 +19,7 @@ try:
   from urllib.request import urlopen
 except:
   from urllib import urlopen
-from io import StringIO
+from io import BytesIO
 import numpy as np
 
 class Spectra:
@@ -54,7 +54,7 @@ class Spectra:
         """
         if loc.startswith("""http://"""):
             data = urlopen(loc).read()
-            f = StringIO(data)
+            f = BytesIO(data.encode())
         else:
             f = open(loc, "r")
         
@@ -92,7 +92,7 @@ class Spectra:
         """
         if loc.startswith("""http://"""):
             data = urlopen(loc).read()
-            f = StringIO(data)
+            f = BytesIO(data.encode())
         else:
             f = open(loc, "r")
         
