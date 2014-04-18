@@ -303,18 +303,18 @@ class Radiosonde:
     
     html = u.read()
     
-    if "Sorry, the server is too busy to process your request" in html:
+    if b"Sorry, the server is too busy to process your request" in html:
       raise ParameterException("url", "The server is too busy")
 
     # Extract the data inside the PRE tag (we can do it like this because it is very simple HTML)
-    regex = re.compile("<PRE>(.*?)</PRE>",re.IGNORECASE|re.DOTALL)
+    regex = re.compile(b"<PRE>(.*?)</PRE>",re.IGNORECASE|re.DOTALL)
     r = regex.search(html)
     table = r.groups()[0].strip()
     
     # Remove last line as it is normally incomplete
-    spl = table.split("\n")
+    spl = table.split(b"\n")
     spl = spl[:-1]
-    table = "\n".join(spl)
+    table = b"\n".join(spl)
     
     # Import to NumPy arrays
     s = io.BytesIO(table)
