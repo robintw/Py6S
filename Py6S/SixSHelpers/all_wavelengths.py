@@ -178,7 +178,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.485, 0.56, 0.66, 0.83, 1.65, 2.215]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
 
     
     return (centre_wvs, res)
@@ -209,7 +209,7 @@ class Wavelengths:
 
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
 
     
     return (centre_wvs, res)
@@ -232,7 +232,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.4825, 0.565, 0.66, 0.825, 1.65, 2.215]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
 
     return (centre_wvs, res)
   
@@ -254,7 +254,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.55, 0.65, 0.75, 0.95]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
 
 
     return (centre_wvs, res)
@@ -277,7 +277,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.4125, 0.4425, 0.490, 0.510, 0.560, 0.620, 0.665, 0.70875, 0.75375, 0.760625, 0.77875, 0.8125, 0.865, 0.885, 0.900]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
     
     return (centre_wvs, res)
   
@@ -299,7 +299,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.4125, 0.469, 0.555, 0.645, 0.8585, 1.24, 1.64, 2.13]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
     
     return (centre_wvs, res)
     
@@ -321,7 +321,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.545, 0.645, 0.84]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
     
     return (centre_wvs, res)
   
@@ -343,7 +343,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.45, 0.645, 0.835, 1.665]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
     
     return (centre_wvs, res)
   
@@ -365,7 +365,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.4445, 0.4449, 0.4922, 0.5645, 0.6702, 0.7633, 0.7631, 0.9077]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
     
     return (centre_wvs, res)
   
@@ -387,7 +387,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.412, 0.443, 0.49, 0.51, 0.555, 0.67, 0.765, 0.865]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
     
     return (centre_wvs, res)
     
@@ -409,7 +409,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.560, 0.660, 0.862, 1.594]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
     
     return (centre_wvs, res)
     
@@ -431,7 +431,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.56, 0.66, 0.81, 0.81, 1.65, 2.185, 2.205, 2.26, 2.33, 2.395]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
     
     return (centre_wvs, res)
   
@@ -453,7 +453,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.412, 0.445, 0.488, 0.555, 0.640,  0.672, 0.746, 0.865, 1.24, 1.378, 1.61, 2.25, 3.70, 3.74]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
     
     return (centre_wvs, res)
     
@@ -475,7 +475,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.4649, 0.5494, 0.6550, 0.7024, 0.7431, 0.8248, 0.8667]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
     
     return (centre_wvs, res)
     
@@ -497,7 +497,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.443, 0.4825, 0.565, 0.66, 0.79, 0.8675, 1.25, 1.65, 2.215]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
     
     return (centre_wvs, res)
     
@@ -519,7 +519,7 @@ class Wavelengths:
     wv, res = cls.run_wavelengths(s, wv, **kwargs)
     
     #centre_wvs = [0.380, 0.400, 0.412, 0.443, 0.460, 0.490, 0.520, 0.545, 0.565, 0.625, 0.660, 0.666, 0.680, 0.678, 0.710, 0.710, 0.749, 0.763, 0.825, 0.865, 0.865, 1.050, 1.135, 1.240, 1.380, 1.640, 2.210, 3.715]
-    centre_wvs = map(cls.to_centre_wavelengths, wv)
+    centre_wvs = list(map(cls.to_centre_wavelengths, wv))
     
     return (centre_wvs, res)  
     
