@@ -307,15 +307,15 @@ class SixS(object):
         import platform
         import sys
 
-        print "Py6S Debugging Report"
-        print "---------------------"
-        print "Run on %s" % (str(datetime.datetime.now()))
-        print "Platform: %s" % (platform.platform())
-        print "Python version: %s" % (sys.version.split('\n')[0])
-        print "Py6S version: %s" % (self.__version__)
-        print "---------------------"
+        print("Py6S Debugging Report")
+        print("---------------------")
+        print(("Run on %s" % (str(datetime.datetime.now()))))
+        print(("Platform: %s" % (platform.platform())))
+        print(("Python version: %s" % (sys.version.split('\n')[0])))
+        print(("Py6S version: %s" % (self.__version__)))
+        print("---------------------")
         self.test()
-        print "---------------------"
+        print("---------------------")
 
         fname = self.write_input_file()
         with open(fname) as f:
