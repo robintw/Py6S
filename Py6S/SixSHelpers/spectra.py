@@ -15,7 +15,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-import urllib.request, urllib.error, urllib.parse
+try:
+  from urllib.request import urlopen
+except:
+  from urllib import urlopen
 from io import StringIO
 import numpy as np
 
@@ -50,7 +53,7 @@ class Spectra:
 
         """
         if loc.startswith("""http://"""):
-            data = urllib.request.urlopen(loc).read()
+            data = urlopen(loc).read()
             f = StringIO(data)
         else:
             f = open(loc, "r")
@@ -88,7 +91,7 @@ class Spectra:
 
         """
         if loc.startswith("""http://"""):
-            data = urllib.request.urlopen(loc).read()
+            data = urlopen(loc).read()
             f = StringIO(data)
         else:
             f = open(loc, "r")

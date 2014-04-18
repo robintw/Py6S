@@ -17,7 +17,12 @@
 
 from Py6S import *
 import numpy as np
-import urllib.request, urllib.parse, urllib.error
+
+try:
+  from urllib.request import urlopen
+except:
+  from urllib import urlopen
+
 import re
 import io
 from scipy.interpolate import interp1d
@@ -290,7 +295,7 @@ class Radiosonde:
     
     """
     # Get data from given URL
-    u = urllib.request.urlopen(url)
+    u = urlopen(url)
     
     if u.getcode() != 200:
       # We have't got the HTTP OK status code, so something is wrong (like the URL is invalid)
