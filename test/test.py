@@ -164,6 +164,17 @@ class UserDefinedSpectraTest(unittest.TestCase):
     self.assertAlmostEqual(s.outputs.apparent_radiance, 180.818, delta=0.002)
 
 
+class GeometryTest(unittest.TestCase):
+  def test_geometry_from_location(self):
+    s = SixS()
+    s.geometry = Geometry.User()
+    s.geometry.from_time_and_location(50.1, -1.3, '2010-04-03 14:37', 35, 19)
+
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.solar_z, 54.42, delta=0.002)
+    self.assertEqual(s.outputs.solar_a, 227.62, delta=0.002)
+
 
 class AltitudesTest(unittest.TestCase):
 
