@@ -173,7 +173,7 @@ class GeometryTest(unittest.TestCase):
     s.run()
 
     self.assertAlmostEqual(s.outputs.solar_z, 54.42, delta=0.002)
-    self.assertEqual(s.outputs.solar_a, 227.62, delta=0.002)
+    self.assertAlmostEqual(s.outputs.solar_a, 227.62, delta=0.002)
 
 
 class AltitudesTest(unittest.TestCase):
