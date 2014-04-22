@@ -3,6 +3,10 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.5.0 (22nd April 2014)
+^^^^^^^^^^^^^^^^^^^^^^^
+Updated to support both Python 2 and Python 3 (tested on Python 2.7-3.3). Thanks to Pete Bunting and Dan Clewley for the original Python 3 conversion.
+
 1.4.2 (20th Feb 2014)
 ^^^^^^^^^^^^^^^^^^^^^
 Fixed bug in the AERONET import routine which meant that ambiguous dates would be imported as MM/DD/YYYY rather than DD/MM/YYYY as specified in the documentation (thanks Marcin)

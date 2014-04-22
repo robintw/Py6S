@@ -17,6 +17,8 @@ It will also be helpful to have the `IPython <http://ipython.org/>`_ installed f
 An easy way to sort all of this out is to use the `Enthought Python Distribution <http://enthought.com/products/epd.php>`_ which will install Python plus many modules which are
 often used for scientific computing, along with many tools.
 
+Py6S now supports both Python 2 and Python 3, and I suggest you use either Python 2.7 or Python 3.3, as this is where the majority of my testing has been focused.
+
 Compiling 6S   
 -------------
 Py6S is an interface to 6S, not a replacement, so to use Py6S the 6S executable must already exist on your system.
