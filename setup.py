@@ -87,7 +87,8 @@ I'm very interested in receiving feedback, bug reports and feature suggestions, 
         "Topic :: Scientific/Engineering :: Physics",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
-        "Programming Language :: Python"
-        
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 3"
         ],
 )
