@@ -82,7 +82,7 @@ class Angles:
       pool = Pool(n)
 
 
-    print "Running for many angles - this may take a long time"
+    print("Running for many angles - this may take a long time")
     results = pool.map(f, itertools.product(azimuths, zeniths))
 
     results = np.array(results)
@@ -298,7 +298,7 @@ class Angles:
       pool = Pool(n)
 
 
-    print "Running for many angles - this may take a long time"
+    print("Running for many angles - this may take a long time")
     results = pool.map(f, zip(all_zeniths, all_azimuths))
 
     results = np.array(results)

@@ -19,9 +19,9 @@ import subprocess
 import os
 import numpy as np
 from scipy.interpolate import interp1d
-from Params import *
-from sixs_exceptions import *
-from outputs import *
+from .Params import *
+from .sixs_exceptions import *
+from .outputs import *
 import tempfile
 import math
 
@@ -83,7 +83,7 @@ class SixS(object):
     min_wv = None
     max_wv = None
 
-    __version__ = "1.4.2"
+    __version__ = "1.5.0"
     
     def __init__(self, path=None):
         """Initialises the class and finds the right 6S executable to use.
@@ -133,9 +133,9 @@ class SixS(object):
       
       """
       if path != None:
-			  return path
+              return path
       else:
-			  return self._which('sixs.exe') or self._which('sixs') or self._which('sixsV1.1') or self._which('sixsV1.1.exe')
+              return self._which('sixs.exe') or self._which('sixs') or self._which('sixsV1.1') or self._which('sixsV1.1.exe')
         
     def _which(self, program):
         def is_exe(fpath):
@@ -227,7 +227,7 @@ class SixS(object):
         input_file += self._create_elevation_lines()
         
 
-        # Unlike all of the other functions here, _create_wavelength_lines
+        # Unlike all of the other functions here, create_wavelength_lines
         # returns 3 values:
         # * The string to go into the input file
         # * The minimum wavelength
@@ -248,7 +248,7 @@ class SixS(object):
         #
         ground_reflectance_lines = self._create_ground_reflectance_lines()
 
-        if (isinstance(ground_reflectance_lines, basestring)):
+        if (isinstance(ground_reflectance_lines, str)):
             str_ground_refl = str(ground_reflectance_lines.replace("WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv)))
         else:
             str_ground_refl = str(ground_reflectance_lines[0].replace("WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv)))
@@ -272,8 +272,11 @@ class SixS(object):
         input_file += self._create_atmos_corr_lines()
         
         tmp_file = tempfile.NamedTemporaryFile(prefix="tmp_Py6S_input_", delete=False)
-            
-        tmp_file.file.write(input_file)
+        
+        #print(input_file)
+        #print(tmp_file.name)
+        
+        tmp_file.write(input_file.encode())
         name = tmp_file.name
         tmp_file.close()
         return name
@@ -304,39 +307,39 @@ class SixS(object):
         import platform
         import sys
 
-        print "Py6S Debugging Report"
-        print "---------------------"
-        print "Run on %s" % (str(datetime.datetime.now()))
-        print "Platform: %s" % (platform.platform())
-        print "Python version: %s" % (sys.version.split('\n')[0])
-        print "Py6S version: %s" % (self.__version__)
-        print "---------------------"
+        print("Py6S Debugging Report")
+        print("---------------------")
+        print(("Run on %s" % (str(datetime.datetime.now()))))
+        print(("Platform: %s" % (platform.platform())))
+        print(("Python version: %s" % (sys.version.split('\n')[0])))
+        print(("Py6S version: %s" % (self.__version__)))
+        print("---------------------")
         self.test()
-        print "---------------------"
+        print("---------------------")
 
         fname = self.write_input_file()
         with open(fname) as f:
             contents = f.readlines()
 
-        print "".join(contents)
+        print("".join(contents))
 
     @classmethod
     def test(self):
         """Runs a simple test to ensure that 6S and Py6S are installed correctly."""
         test = SixS()
         print "6S wrapper script by Robin Wilson"
-        sixs_path = test._find_path()
+        sixs_path = test.find_path()
         if sixs_path == None:
-            print "Error: cannot find the sixs executable in $PATH or current directory."
+            print("Error: cannot find the sixs executable in $PATH or current directory.")
         else:
-            print "Using 6S located at %s" % sixs_path
-            print "Running 6S using a set of test parameters"
+            print(("Using 6S located at {sixs_path}".format(sixs_path=sixs_path)))
+            print("Running 6S using a set of test parameters")
             test.run()
-            print "The results are:"
-            print "Expected result: %f" % 619.158
-            print "Actual result: %f" % test.outputs.diffuse_solar_irradiance
+            print("The results are:")
+            print(("Expected result: %f" % 619.158))
+            print(("Actual result: %f" % test.outputs.diffuse_solar_irradiance))
             if (test.outputs.diffuse_solar_irradiance - 619.158 < 0.01):
-                print "#### Results agree, Py6S is working correctly"
+                print("#### Results agree, Py6S is working correctly")
                 return 0
             else:
                 return 1
