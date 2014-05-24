@@ -16,7 +16,7 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 import pprint
-from .sixs_exceptions import *
+from sixs_exceptions import *
 
 class Outputs(object):
     """Stores the output from a 6S run.
@@ -58,7 +58,7 @@ class Outputs(object):
         
         if len(stderr) > 0:
             # Something on standard error - so there's been an error
-            print(stderr)
+            print stderr
             raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
         
         self.fulltext = stdout
@@ -71,7 +71,7 @@ class Outputs(object):
         explicity"""
         
         # If there is a key with this name in the standard variables field then use it
-        if name in self.values:
+        if self.values.has_key(name):
             return self.values[name]
         else:
             # If not, then split it by .'s 
@@ -79,17 +79,17 @@ class Outputs(object):
             if items[0] == "transmittance":
               return self.trans["_".join(items[1:])]
             else:
-              if name in self.rat:
+              if self.rat.has_key(name):
                 return self.rat[name]
               else:
                 raise OutputParsingError("The specifed output variable does not exist.")
     
     def __dir__(self):
       # Returns list of the attributes that I want to tab-complete on that aren't actually attributes, for IPython
-      trans_keys = ["transmittance_" + key for key in list(self.trans.keys())]
-      rat_keys = list(self.rat.keys())
+      trans_keys = ["transmittance_" + key for key in self.trans.keys()]
+      rat_keys = self.rat.keys()
       
-      all_keys = list(self.values.keys()) + trans_keys + rat_keys
+      all_keys = self.values.keys() + trans_keys + rat_keys
       return sorted(all_keys)
               
     def extract_results(self):
@@ -97,11 +97,6 @@ class Outputs(object):
         
         # Remove all of the *'s from the text as they just make it look pretty
         # and get in the way of analysing the output
-        #print(self.fulltext)
-        #print(type(self.fulltext))
-        self.fulltext = self.fulltext.decode("utf-8")
-        #print(self.fulltext)
-        #print(type(self.fulltext))
         fulltext = self.fulltext.replace("*", "")
         
         # Split into lines
@@ -123,10 +118,10 @@ class Outputs(object):
         #              Search Term                                Line   Index DictKey   Type
         extractors = { "month"                                 : (CURRENT, 1, "month", self.to_int),
                        "day"                                   : (CURRENT, 4, "day", self.to_int),
-                       "solar zenith angle"                    : (CURRENT, 3, "solar_z", float),
-                       "solar azimuthal angle"                 : (CURRENT, 8, "solar_a", float),
-                       "view zenith angle"                     : (CURRENT, 3, "view_z", float),
-                       "view azimuthal angle"                  : (CURRENT, 8, "view_a", float),
+                       "solar zenith angle"                    : (CURRENT, 3, "solar_z", self.to_int),
+                       "solar azimuthal angle"                 : (CURRENT, 8, "solar_a", self.to_int),
+                       "view zenith angle"                     : (CURRENT, 3, "view_z", self.to_int),
+                       "view azimuthal angle"                  : (CURRENT, 8, "view_a", self.to_int),
                        "scattering angle"                      : (CURRENT, 2, "scattering_angle", float),
                        "azimuthal angle difference"            : (CURRENT, 7, "azimuthal_angle_difference", float),
                        "optical condition identity"            : (1, WHOLE_LINE, "visibility", self.extract_vis),
@@ -167,7 +162,7 @@ class Outputs(object):
         # Process most variables in the output
         for index in range(len(lines)):
             current_line = lines[index]
-            for label, details in list(extractors.items()):
+            for label, details in extractors.iteritems():
                 # If the label we're searching for is in the current line
                 if label in current_line:
                     # See if the data is in the current line (as specified above)
@@ -211,7 +206,7 @@ class Outputs(object):
         
         for index in range(len(lines)):
             current_line = lines[index]
-            for search, name in list(grid_extractors.items()):
+            for search, name in grid_extractors.iteritems():
                 # If the label we're searching for is in the current line
                 if search in current_line:
                   items = current_line.split()
@@ -255,7 +250,7 @@ class Outputs(object):
         
         for index in range(len(lines)):
             current_line = lines[index]
-            for search, name in list(bottom_grid_extractors.items()):
+            for search, name in bottom_grid_extractors.iteritems():
                 # If the label we're searching for is in the current line
                 if search in current_line:
                   items = current_line.rsplit(None, 3)

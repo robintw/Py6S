@@ -17,7 +17,7 @@
 
 #from sixs_exceptions import *
 import collections
-import io
+import StringIO
 import numpy as np
 
 class GroundReflectance:
@@ -389,7 +389,7 @@ WV_REPLACE
       
     @classmethod  
     def _ArrayToString(cls, array):
-      text = io.StringIO()
+      text = StringIO.StringIO()
       np.savetxt(text, array, fmt="%.5f", delimiter=' ')
       s = text.getvalue()
       text.close()

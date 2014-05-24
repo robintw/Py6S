@@ -17,14 +17,9 @@
 
 from Py6S import *
 import numpy as np
-
-try:
-  from urllib.request import urlopen
-except:
-  from urllib import urlopen
-
+import urllib
 import re
-import io
+import StringIO
 from scipy.interpolate import interp1d
 
 
@@ -295,7 +290,7 @@ class Radiosonde:
     
     """
     # Get data from given URL
-    u = urlopen(url)
+    u = urllib.urlopen(url)
     
     if u.getcode() != 200:
       # We have't got the HTTP OK status code, so something is wrong (like the URL is invalid)
@@ -303,21 +298,21 @@ class Radiosonde:
     
     html = u.read()
     
-    if b"Sorry, the server is too busy to process your request" in html:
+    if "Sorry, the server is too busy to process your request" in html:
       raise ParameterException("url", "The server is too busy")
 
     # Extract the data inside the PRE tag (we can do it like this because it is very simple HTML)
-    regex = re.compile(b"<PRE>(.*?)</PRE>",re.IGNORECASE|re.DOTALL)
+    regex = re.compile("<PRE>(.*?)</PRE>",re.IGNORECASE|re.DOTALL)
     r = regex.search(html)
     table = r.groups()[0].strip()
     
     # Remove last line as it is normally incomplete
-    spl = table.split(b"\n")
+    spl = table.split("\n")
     spl = spl[:-1]
-    table = b"\n".join(spl)
+    table = "\n".join(spl)
     
     # Import to NumPy arrays
-    s = io.BytesIO(table)
+    s = StringIO.StringIO(table)
     array = np.loadtxt(s, skiprows=4, usecols=(0, 1, 2, 5))
     
     pressure = array[:,0]

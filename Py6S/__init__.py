@@ -15,20 +15,20 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-from .sixs_exceptions import *
+from sixs_exceptions import *
 __all__ = ["SixS", "Outputs", "ParameterError", "OutputParsingError", "ExecutionError"]
 
-from . import Params
+import Params
 __all__ += ["Params"]
 
-from .Params import *
+from Params import *
 __all__ += Params.__all__
 
-from .sixs import SixS
-from .outputs import Outputs
+from sixs import SixS
+from outputs import Outputs
 
-from . import SixSHelpers
+import SixSHelpers
 __all__ += ["SixSHelpers"]
 
-from .SixSHelpers import *
+from SixSHelpers import *
 __all__ += SixSHelpers.__all__

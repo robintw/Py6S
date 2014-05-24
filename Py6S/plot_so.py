@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-from . import sixs
-from .Params import *
+import sixs
+from Params import *
 from pylab import *
 import numpy as np
 
@@ -40,7 +40,7 @@ for azimuth in azimuths:
     s.geometry.view_z = zenith
     s.run()
     values.append(s.outputs.pixel_reflectance)
-    print(("{azimuth} {zenith} {pxlrefl}".format(azimuth=azimuth, zenith=zenith, pxlrefl=s.outputs.pixel_reflectance)))
+    print "%i %i %f" % (azimuth, zenith, s.outputs.pixel_reflectance)
     
 theta = np.radians(azimuths)
 

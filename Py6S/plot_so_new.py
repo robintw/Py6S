@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-from . import sixs
-from .Params import *
+import sixs
+from Params import *
 from pylab import *
 import numpy as np
 
@@ -35,7 +35,7 @@ def all_angles(s):
       #values.append(s.outputs.pixel_reflectance)
       d = dict(s.outputs.values)
       values.append(d)
-      print(("%i %i %f" % (azimuth, zenith, d['pixel_reflectance'])))
+      print "%i %i %f" % (azimuth, zenith, d['pixel_reflectance'])
       
   return values
   
