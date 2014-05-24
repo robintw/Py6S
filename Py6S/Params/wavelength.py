@@ -95,8 +95,6 @@ class PredefinedWavelengths:
     # Note: IDs must be > 1 for new predefined wavelengths
 
     # Landsat OLI
-    # Taken from spreadsheet downloadable from http://landsat.gsfc.nasa.gov/?p=5779
-    # Interpolated to 2.5nm intervals, as required by 6S
     LANDSAT_OLI_B1 = (  1, 0.427, 0.457,
                         np.array([  7.30000000e-05,   2.52450000e-03,   2.47670000e-02,
                         3.85985000e-01,   9.08749000e-01,   9.80591500e-01,
@@ -271,6 +269,12 @@ class PredefinedWavelengths:
                                  5.24376500e-01,   1.67313000e-01,   4.61755000e-02,
                                  1.51780000e-02,   6.70950000e-03,   3.22000000e-03,
                                  1.21200000e-03]))
+
+
+
+
+
+
 
     # All of the original predefined wavelengths from 6S
     # CONSTANT_NAME = (ID for Constant, Start Wavelength, End Wavelength)
