@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-import sixs
-from Params import *
+from . import sixs
+from .Params import *
 from pylab import *
 import numpy as np
 
@@ -34,13 +34,13 @@ zeniths = np.arange(0, 90, 10)
 values = []
 
 for azimuth in azimuths:
-  for zenith in zeniths:
-    s.view_a = azimuth
-    s.view_z = zenith
-    s.run()
-    print "%i %i" % (azimuth, zenith)
-    values.append(s.outputs.pixel_reflectance)
-    
+    for zenith in zeniths:
+        s.view_a = azimuth
+        s.view_z = zenith
+        s.run()
+        print "%i %i" % (azimuth, zenith)
+        values.append(s.outputs.pixel_reflectance)
+
 theta = np.radians(azimuths)
 
 values = np.array(values)
@@ -48,7 +48,7 @@ values = values.reshape(len(azimuths), len(zeniths))
 
 r, t = np.meshgrid(zeniths, azimuths)
 
-x = r*np.cos(t)
-y = r*np.sin(t)
+x = r * np.cos(t)
+y = r * np.sin(t)
 
 contourf(x, y, values)

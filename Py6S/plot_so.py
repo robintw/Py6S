@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-import sixs
-from Params import *
+from . import sixs
+from .Params import *
 from pylab import *
 import numpy as np
 
@@ -33,15 +33,15 @@ s.solar_z = 30
 s.solar_a = 0
 
 for azimuth in azimuths:
-  for zenith in zeniths:
-    # Run some sort of model and get some output
-    # We'll just use rand for this example
-    s.geometry.view_a = azimuth
-    s.geometry.view_z = zenith
-    s.run()
-    values.append(s.outputs.pixel_reflectance)
-    print "%i %i %f" % (azimuth, zenith, s.outputs.pixel_reflectance)
-    
+    for zenith in zeniths:
+        # Run some sort of model and get some output
+        # We'll just use rand for this example
+        s.geometry.view_a = azimuth
+        s.geometry.view_z = zenith
+        s.run()
+        values.append(s.outputs.pixel_reflectance)
+        print "%i %i %f" % (azimuth, zenith, s.outputs.pixel_reflectance)
+
 theta = np.radians(azimuths)
 
 values = np.array(values)
