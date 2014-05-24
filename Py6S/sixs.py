@@ -155,15 +155,15 @@ class SixS(object):
 
         return None
 
-    def _creategeom_lines(self):
+    def _create_geom_lines(self):
         """Creates the geometry lines for the input file"""
         return str(self.geometry)
 
-    def _createatmos_aero_lines(self):
+    def _create_atmos_aero_lines(self):
         """Creates the atmosphere and aerosol lines for the input file"""
         return str(self.atmos_profile) + '\n' + str(self.aero_profile) + '\n'
 
-    def _createaot_vis_lines(self):
+    def _create_aot_vis_lines(self):
         """Create the AOT or Visibility lines for the input file"""
         if not isinstance(self.aero_profile, AeroProfile.UserProfile):
             # We don't need to set AOT or visibility for a UserProfile, but we do for all others
@@ -176,19 +176,19 @@ class SixS(object):
         else:
             return ""
 
-    def _createelevation_lines(self):
+    def _create_elevation_lines(self):
         """Create the elevation lines for the input file"""
         return str(self.altitudes)
 
-    def _createwavelength_lines(self):
+    def _create_wavelength_lines(self):
         """Create the wavelength lines for the input file"""
         return self.wavelength
 
-    def _createground_reflectance_lines(self):
+    def _create_ground_reflectance_lines(self):
         """Create the ground reflectance lines for the input file"""
         return self.ground_reflectance
 
-    def _createatmos_corr_lines(self):
+    def _create_atmos_corr_lines(self):
         """Create the atmospheric correction lines for the input file"""
         return self.atmos_corr
 
@@ -220,15 +220,15 @@ class SixS(object):
 
         """
 
-        input_file = self._creategeom_lines()
+        input_file = self._create_geom_lines()
 
-        input_file += self._createatmos_aero_lines()
+        input_file += self._create_atmos_aero_lines()
 
-        input_file += self._createaot_vis_lines()
+        input_file += self._create_aot_vis_lines()
 
-        input_file += self._createelevation_lines()
+        input_file += self._create_elevation_lines()
 
-        # Unlike all of the other functions here, _createwavelength_lines
+        # Unlike all of the other functions here, _create_wavelength_lines
         # returns 3 values:
         # * The string to go into the input file
         # * The minimum wavelength
@@ -236,9 +236,9 @@ class SixS(object):
         #
         # If only a single wavelength is given then that wavelength is
         # given in both min_wv and max_wv - that is, they are equal.
-        input_file += self._createwavelength_lines()[0]
-        self.min_wv = self._createwavelength_lines()[1]
-        self.max_wv = self._createwavelength_lines()[2]
+        input_file += self._create_wavelength_lines()[0]
+        self.min_wv = self._create_wavelength_lines()[1]
+        self.max_wv = self._create_wavelength_lines()[2]
 
         # Do replacements of the values within the surface specification
         #
@@ -247,7 +247,7 @@ class SixS(object):
         # oh well). We deal with this by putting in the text WV_REPLACE, and then
         # replacing it with the min and max wavelengths.
         #
-        ground_reflectance_lines = self._createground_reflectance_lines()
+        ground_reflectance_lines = self._create_ground_reflectance_lines()
 
         if (isinstance(ground_reflectance_lines, basestring)):
             str_ground_refl = str(ground_reflectance_lines.replace("WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv)))
@@ -269,7 +269,7 @@ class SixS(object):
 
         input_file += str_ground_refl
 
-        input_file += self._createatmos_corr_lines()
+        input_file += self._create_atmos_corr_lines()
 
         tmp_file = tempfile.NamedTemporaryFile(prefix="tmp_Py6S_input_", delete=False)
 
