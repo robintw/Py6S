@@ -72,10 +72,12 @@ class Aeronet:
 
         1. The refractive indices for aerosols are only provided in AERONET data at a few wavelengths, but 6S requires
         them at 20 wavelengths. Thus, the refractive indices are extrapolated outside of their original range, to provide
-        the necessary data. This is generally not a good idea, but is acceptable here as the refractive indices seem to
-        change very little any way, and it is the only possible way to do it!
+        the necessary data. This is generally not a wonderful idea, but it is the only way to be able to use the data
+        within 6S. In many cases the refractive indices seem to change very little - but please do check this yourself!
 
-        2. The AERONET measurement of AOT at 500nm is used for the 6S input of AOT at 550nm.
+        2. The AERONET AOT measurement at the wavelength closest to 550nm (the wavelength required for the AOT
+        specification in 6S) is used. This varies depending on the AERONET site, but may be 50-100nm (or more) away
+        from 550nm. In future versions this code will interpolate the AOT at 550nm using the Angstrom coefficent.
 
         """
         try:
