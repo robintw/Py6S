@@ -212,7 +212,7 @@ class SixS(object):
 
         return s
 
-    def write_input_file(self):
+    def write_input_file(self, filename=None):
         """Generates a 6S input file from the parameters stored in the object
         and writes it to the given filename.
 
@@ -271,11 +271,20 @@ class SixS(object):
 
         input_file += self._create_atmos_corr_lines()
 
-        tmp_file = tempfile.NamedTemporaryFile(prefix="tmp_Py6S_input_", delete=False)
 
-        tmp_file.file.write(input_file)
-        name = tmp_file.name
-        tmp_file.close()
+        if filename is None:
+            # No filename given, so write to temporary file
+            tmp_file = tempfile.NamedTemporaryFile(prefix="tmp_Py6S_input_", delete=False)
+
+            tmp_file.file.write(input_file)
+            name = tmp_file.name
+            tmp_file.close()
+        else:
+            f = open(filename, 'w')
+            f.write(input_file)
+            name = filename
+            f.close()
+
         return name
 
     def run(self):
