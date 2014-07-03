@@ -3,9 +3,18 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.5.1 (3rd July 2014)
+^^^^^^^^^^^^^^^^^^^^^
+* Added an option to write_input_file to allow a filename to be given - allowing users to easily export standard 6S input files from Py6S.
+
+1.5.0 (22nd April 2014)
+^^^^^^^^^^^^^^^^^^^^^^^
+* First release compatible with Python 3. All Py6S functionality should work fine on Python 3 - please contact me if there are any problems.
+* Added Landsat 8 spectral response functions, and a run_landsat_oli function.
+
 1.4.2 (20th Feb 2014)
 ^^^^^^^^^^^^^^^^^^^^^
-Fixed bug in the AERONET import routine which meant that ambiguous dates would be imported as MM/DD/YYYY rather than DD/MM/YYYY as specified in the documentation (thanks Marcin)
+* Fixed bug in the AERONET import routine which meant that ambiguous dates would be imported as MM/DD/YYYY rather than DD/MM/YYYY as specified in the documentation (thanks Marcin)
 
 1.4.1 (22nd Jan 2014)
 ^^^^^^^^^^^^^^^^^^^^^
