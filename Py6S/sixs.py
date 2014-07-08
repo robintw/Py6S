@@ -85,7 +85,7 @@ class SixS(object):
     min_wv = None
     max_wv = None
 
-    __version__ = "1.5.1"
+    __version__ = "1.5.2"
 
     def __init__(self, path=None):
         """Initialises the class and finds the right 6S executable to use.
