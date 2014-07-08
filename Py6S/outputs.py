@@ -158,7 +158,9 @@ class Outputs(object):
                       "atmospherically corrected reflect": (2, 3, "atmos_corrected_reflectance_brdf", float),
                       "coefficients xa": (CURRENT, 5, "coef_xa", float),
                       "coefficients xa xb": (CURRENT, 6, "coef_xb", float),
-                      "coefficients xa xb xc": (CURRENT, 7, "coef_xc", float)
+                      "coefficients xa xb xc": (CURRENT, 7, "coef_xc", float),
+                      "int. funct filter (in mic)": (1, 0, 'int_funct_filt', float),
+                      "int. sol. spect (in w/m2)": (1, 1, 'int_solar_spectrum', float)
                       }
         # Process most variables in the output
         for index in range(len(lines)):
