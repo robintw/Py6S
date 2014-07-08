@@ -3,6 +3,10 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.5.2 (8th July 2014)
+^^^^^^^^^^^^^^^^^^^^^
+* Added extraction of two outputs that had been missed out before: the integrated filter function, and the integrated solar spectrum.
+
 1.5.1 (3rd July 2014)
 ^^^^^^^^^^^^^^^^^^^^^
 * Added an option to write_input_file to allow a filename to be given - allowing users to easily export standard 6S input files from Py6S.
