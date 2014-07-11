@@ -84,8 +84,7 @@ class Altitudes:
 
         Example usage::
 
-          s.altitudes = Altitudes()
-          s.altitudes.set_sensor_altitude(8, 0.35, 1.6, 0.4) # Altitude of 8km, AOT of 0.35, Water content of 1.6g/cm^2 and Ozone of 0.4cm-atm
+          s.altitudes.set_sensor_custom_altitude(8, 0.35, 1.6, 0.4) # Altitude of 8km, AOT of 0.35, Water content of 1.6g/cm^2 and Ozone of 0.4cm-atm
 
         """
 
