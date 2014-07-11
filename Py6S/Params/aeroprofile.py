@@ -144,7 +144,8 @@ class AeroProfile:
     def SunPhotometerDistribution(cls, r, dvdlogr, refr_real, refr_imag):
         """Set 6S to use an aerosol parameterisation from Sun Photometer measurements.
 
-        Wavelength dependent values must be input at the following wavelengths (given in micrometers):
+        The real and imaginary parts of the refractive indices must be input at the following wavelengths
+        (given in micrometers):
         0.350, 0.400, 0.412, 0.443, 0.470, 0.488, 0.515, 0.550, 0.590, 0.633, 0.670, 0.694, 0.760,
         0.860, 1.240, 1.536, 1.650, 1.950, 2.250, 3.750
 
@@ -152,8 +153,10 @@ class AeroProfile:
 
         * ``r`` -- A list of radius measurements from a sun photometer (microns)
         * ``dvdlogr`` -- A list of dV/d(logr) measurements from a sun photometer, for the radiuses as above (cm^3/cm^2/micron)
-        * ``refr_real`` -- The real part of the refractive indices for each of the 20 wavelengths (above)
-        * ``refr_imag`` -- The imaginary part of the refractive indices for each of the 20 wavelengths (above)
+        * ``refr_real`` -- A list containing the real part of the refractive indices for each of the 20 wavelengths (above). If a single
+          float value is given then the value is treated as constant for all wavelengths.
+        * ``refr_imag`` -- A list containing the imaginary part of the refractive indices for each of the 20 wavelengths (above). If a single
+          float value is given then the value is treated as constant for all wavelengths.
 
         """
         header = "11 (Sun Photometric Distribution)\n"
@@ -171,13 +174,17 @@ class AeroProfile:
             ds += "%f %f\n" % (r[i], dvdlogr[i])
 
         try:
-            if len(refr_real) != 20:
+            if type(refr_real) is float:
+                refr_real = [refr_real] * 20
+            elif len(refr_real) != 20:
                 raise ParameterError("Aerosol Distribution Real Refractive Index", "You must specify the real part of the Refractive Index at 20 wavelengths.")
         except TypeError:
             raise ParameterError("Aerosol Distribution Imaginary Refractive Index", "You must specify the imaginary part of the Refractive Index at 20 wavelengths.")
 
         try:
-            if len(refr_imag) != 20:
+            if type(refr_imag) is float:
+                refr_imag = [refr_imag] * 20
+            elif len(refr_imag) != 20:
                 raise ParameterError("Aerosol Distribution Imaginary Refractive Index", "You must specify the imaginary part of the Refractive Index at 20 wavelengths.")
         except TypeError:
             raise ParameterError("Aerosol Distribution Imaginary Refractive Index", "You must specify the imaginary part of the Refractive Index at 20 wavelengths.")
