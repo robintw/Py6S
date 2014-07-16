@@ -30,7 +30,7 @@ setup(
         packages              = ['Py6S', 'Py6S.Params', 'Py6S.SixSHelpers'],
         requires              = ['pysolar'],
         install_requires      = ['pysolar'],
-        version               = "1.5.3",
+        version               = "1.5.4",
         author                = "Robin Wilson",
         author_email          = "robin@rtwilson.com",
         description           = ("""A wrapper for the 6S Radiative Transfer Model to make it easy to run simulations
