@@ -26,7 +26,7 @@ Windows
 ^^^^^^^^
 These instructions were written based on testing with Windows 7, but should work with any version of Windows since Windows XP.
 
-1. Download the 6S source code from http://6s.ltdri.org/. Choose *Download 6S* then *6SV1.1* and download the `.tar` file.
+1. Download the 6S source code from http://6s.ltdri.org/. Choose *Download 6S* then *6SV1.1* and download the `.tar` file. This website seems to be down quite often at the moment, so there is a mirror of these files `here <https://dl.dropboxusercontent.com/u/315580/6SV-1.1.zip>`_.
 2. We need to download the ``make`` and ``tar`` tools to allow us to install 6S. The easiest way to get these is through a project called GNUWin32. Go to http://gnuwin32.sourceforge.net/packages.html and choose the setup link next to ``tar`` and ``make`` and download the files.
 3. Run the two executable files you just downloaded and work through the setup wizard for each, accepting the default options.
 4. To compile the 6S code we will need a Fortran 77 compiler. These are a little difficult to find, as most compilers are now based on the (more modern) Fortran 95 standard. However, for some reason 6S does not compile using these compilers, so we need to find a Fortran 77 compiler. The best place I've found to get one for Windows is http://www.cse.yorku.ca/~roumani/fortran/ftn.htm. Download the ``FORT99.zip`` file, and extract it somewhere. Copy the ``G77`` folder to the root of the C drive (so that the folder is ``C:\G77``).
@@ -73,7 +73,7 @@ OS X
 ^^^^^^^^^^^^
 These instructions were written based on testing with Mac OS X 10.7 (Lion), but should work with previous (and later) versions.
 
-1. Download the 6S source code from http://6s.ltdri.org/. Choose *Download 6S* then *6SV1.1* and download the `.tar` file.
+1. Download the 6S source code from http://6s.ltdri.org/. Choose *Download 6S* then *6SV1.1* and download the `.tar` file. This website seems to be down quite often at the moment, so there is a mirror of these files `here <https://dl.dropboxusercontent.com/u/315580/6SV-1.1.zip>`_.
 
 2. You will need to have ``gcc`` installed to compile 6S. If you already have the XCode developement environment for OS X installed then you've already got GCC, if not, go to https://github.com/kennethreitz/osx-gcc-installer/ and choose *Option 1: Downloading Pre-Built Binaries* and download the appropriate file for your version of OS X. Double-click the file to run it, and follow through the installer.
 
@@ -114,7 +114,7 @@ Part of the problem with installation instructions for Linux is that there are s
 do things slightly differently. Therefore, the instructions below will be a bit more general than those above, but you should be able to
 work out what to do.
 
-1. Download the 6S source code from http://6s.ltdri.org/. Choose *Download 6S* then *6SV1.1* and download the `.tar` file.
+1. Download the 6S source code from http://6s.ltdri.org/. Choose *Download 6S* then *6SV1.1* and download the `.tar` file. This website seems to be down quite often at the moment, so there is a mirror of these files `here <https://dl.dropboxusercontent.com/u/315580/6SV-1.1.zip>`_.
 
 #. You need to install ``gfortran`` - the GNU Fortran compiler. This may already be installed in your system - you can check by typing ``gfortran -v`` in a terminal, if you don't get an error, then it is installed. If not, install it using the standard installation method for your distribution. You can often do this via a GUI tool, such as Synaptic Package Manager, or via the command-line, for example::
 
