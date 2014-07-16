@@ -3,6 +3,10 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.5.4 (16th July 2014)
+^^^^^^^^^^^^^^^^^^^^^^
+Fixed minor error on install (didn't affect any functionality)
+
 1.5.3 (16th July 2014)
 ^^^^^^^^^^^^^^^^^^^^^^
 * Added RapidEye bands to PredefinedWavelengths
