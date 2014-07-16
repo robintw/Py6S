@@ -21,12 +21,12 @@ import numpy as np
 
 class PredefinedWavelengthTests(unittest.TestCase):
 
-def test_all_predefined_wavelengths(self):
-    s = SixS()
-    attribs = dir(PredefinedWavelengths)
-    for wavelength in attribs:
-        wv = eval('PredefinedWavelengths.%s' % wavelength)
-        if type(wv) is tuple:
-            print(wavelength)
-            s.wavelength = Wavelength(wv)
-            s.run()
+    def test_all_predefined_wavelengths(self):
+        s = SixS()
+        attribs = dir(PredefinedWavelengths)
+        for wavelength in attribs:
+            wv = eval('PredefinedWavelengths.%s' % wavelength)
+            if type(wv) is tuple:
+                print(wavelength)
+                s.wavelength = Wavelength(wv)
+                s.run()
