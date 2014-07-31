@@ -25,7 +25,7 @@ class RunAllWavelengthsTests(unittest.TestCase):
         s = SixS()
         attribs = dir(SixSHelpers.Wavelengths)
         for f in attribs:
-        	if "run" in f:
+        	if "run" in f and f != 'run_wavelengths':
         		func = eval('SixSHelpers.Wavelengths.' + f)
         		results = func(s, output_name='apparent_radiance')
 
