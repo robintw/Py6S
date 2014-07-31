@@ -18,6 +18,7 @@
 import unittest
 from Py6S import *
 import numpy as np
+import os
 
 class SimpleTests(unittest.TestCase):
 
@@ -38,18 +39,18 @@ class SixSClassTests(unittest.TestCase):
     s = SixS()
     s.produce_debug_report()
 
-  # def test_not_on_path(self):
-  #   import os
+  def test_writing_input_file(self):
+    s = SixS()
+    s.write_input_file('test_input_file.txt')
 
-  #   old_path = os.environ["PATH"]
-  #   os.environ["PATH"] = ""
+    self.assertEqual(os.path.exists('test_input_file.txt'), True)
 
-  #   result = SixS.test()
-  #   self.assertEqual(result, 1)
+  def test_no_sixs_path(self):
+    s = SixS()
+    s.sixs_path = None
 
-  #   os.environ["PATH"] = old_path
-  #   print os.environ["PATH"]
-
+    with self.assertRaises(ExecutionError):
+      s.run()
 
 class VisAOTTests(unittest.TestCase):
 
@@ -70,6 +71,7 @@ class VisAOTTests(unittest.TestCase):
 
   def test_set_vis(self):
     s = SixS()
+    s.aot550 = None
     s.visibility = 40
     s.run()
 
@@ -163,6 +165,14 @@ class UserDefinedSpectraTest(unittest.TestCase):
 
     self.assertAlmostEqual(s.outputs.apparent_radiance, 180.818, delta=0.002)
 
+class GeometryTest(unittest.TestCase):
+
+  def test_geom_from_time_and_loc(self):
+    g = Geometry.User()
+
+    g.from_time_and_location(50, -1, '2014-05-06', 0, 30)
+
+    self.asserEqual(str(g), '0 (User defined)\n113.587146 359.826938 0.000000 30.000000 5 6\n')
 
 
 class AltitudesTest(unittest.TestCase):
