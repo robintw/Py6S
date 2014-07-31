@@ -30,3 +30,12 @@ class RunAllWavelengthsTests(unittest.TestCase):
         		results = func(s, output_name='apparent_radiance')
 
         		results = func(s)
+
+    def test_extract_output(self):
+    	s = SixS()
+    	wvs, values = SixSHelpers.Wavelengths.run_landsat_etm(s, output_name='apparent_reflectance')
+    	wvs, objs = SixSHelpers.Wavelengths.run_landsat_etm(s)
+
+    	obj_values = SixSHelpers.Wavelengths.extract_output(objs, 'apparent_reflectance')
+
+    	self.assertTrue(np.all(values == obj_values))
