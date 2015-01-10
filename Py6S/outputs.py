@@ -16,6 +16,7 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 import pprint
+import sys
 from .sixs_exceptions import *
 
 
@@ -62,7 +63,12 @@ class Outputs(object):
             print(stderr)
             raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
 
+
         self.fulltext = stdout
+
+        # For Python 3 need to decode to string
+        if sys.version_info[0] >= 3:
+            self.fulltext = self.fulltext.decode()
 
         self.extract_results()
 
@@ -165,7 +171,7 @@ class Outputs(object):
         # Process most variables in the output
         for index in range(len(lines)):
             current_line = lines[index]
-            for label, details in extractors.iteritems():
+            for label, details in extractors.items():
                     # If the label we're searching for is in the current line
                 if label in current_line:
                     # See if the data is in the current line (as specified above)
@@ -209,7 +215,7 @@ class Outputs(object):
 
         for index in range(len(lines)):
             current_line = lines[index]
-            for search, name in grid_extractors.iteritems():
+            for search, name in grid_extractors.items():
                 # If the label we're searching for is in the current line
                 if search in current_line:
                     items = current_line.split()
@@ -251,7 +257,7 @@ class Outputs(object):
 
         for index in range(len(lines)):
             current_line = lines[index]
-            for search, name in bottom_grid_extractors.iteritems():
+            for search, name in bottom_grid_extractors.items():
                 # If the label we're searching for is in the current line
                 if search in current_line:
                     items = current_line.rsplit(None, 3)
