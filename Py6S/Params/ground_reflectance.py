@@ -16,9 +16,17 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 #from sixs_exceptions import *
+import sys
 import collections
-import StringIO
 import numpy as np
+try:
+    import StringIO
+except ImportError:
+    # If Python 3 import io as StringIO (so we can still use StringIO.StringIO)
+    if sys.version_info[0] >= 3:
+        import io as StringIO
+    else:
+        raise
 
 
 class GroundReflectance:

@@ -16,11 +16,20 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 from Py6S import *
+import sys
 import numpy as np
 import urllib
 import re
-import StringIO
 from scipy.interpolate import interp1d
+try:
+    import StringIO
+except ImportError:
+    # If Python 3 import io as StringIO (so we can still use StringIO.StringIO)
+    if sys.version_info[0] >= 3:
+        import io as StringIO
+    else:
+        raise
+
 
 
 class Radiosonde:

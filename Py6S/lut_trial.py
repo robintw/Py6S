@@ -23,7 +23,7 @@ from .Params import *
 
 def test(i):
     for res in i:
-        print res
+        print(res)
 
 
 def named_product(**items):
@@ -74,7 +74,7 @@ for params in i:
     # print params
     set_attrs_from_dict(s, params)
     s.run()
-    print s.outputs.pixel_reflectance
+    print(s.outputs.pixel_reflectance)
 
 
 #  [GroundReflectance.HomogeneousLambertian(x) for x in np.arange(0, 10)]

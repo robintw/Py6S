@@ -15,9 +15,26 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-import urllib2
-from StringIO import StringIO
+import sys
 import numpy as np
+
+# Python 2/3 imports
+try:
+    import urllib2
+except ImportError:
+    if sys.version_info[0] >= 3:
+        import urllib.request as urllib2
+    else:
+        raise
+
+try:
+    import StringIO
+except ImportError:
+    if sys.version_info[0] >= 3:
+        import io as StringIO
+    else:
+        raise
+
 
 
 class Spectra:

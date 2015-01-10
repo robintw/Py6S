@@ -62,7 +62,7 @@ class Wavelengths:
             s.outputs = None
             a = copy.deepcopy(s)
             a.wavelength = Wavelength(wv)
-            print wv
+            print(wv)
             a.run()
             if output_name is None:
                 return a.outputs
@@ -77,7 +77,7 @@ class Wavelengths:
         else:
             pool = Pool(n)
 
-        print "Running for many wavelengths - this may take a long time"
+        print("Running for many wavelengths - this may take a long time")
         results = pool.map(f, wavelengths)
 
         try:
