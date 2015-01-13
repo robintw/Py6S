@@ -29,8 +29,10 @@ except ImportError:
         import io as StringIO
     else:
         raise
-
-
+if sys.version_info[0] >= 3:
+    import urllib.request as urllib
+else:
+    import urllib
 
 class Radiosonde:
 

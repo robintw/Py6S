@@ -31,7 +31,7 @@ try:
     import StringIO
 except ImportError:
     if sys.version_info[0] >= 3:
-        import io as StringIO
+        from io import StringIO
     else:
         raise
 
@@ -70,7 +70,10 @@ class Spectra:
         """
         if loc.startswith("""http://"""):
             data = urllib2.urlopen(loc).read()
-            f = StringIO(data)
+            if sys.version_info[0] >= 3:
+                f = StringIO(data.decode())
+            else:
+                f = StringIO(data)
         else:
             f = open(loc, "r")
 
@@ -108,7 +111,10 @@ class Spectra:
         """
         if loc.startswith("""http://"""):
             data = urllib2.urlopen(loc).read()
-            f = StringIO(data)
+            if sys.version_info[0] >= 3:
+                f = StringIO(data.decode())
+            else:
+                f = StringIO(data)
         else:
             f = open(loc, "r")
 
