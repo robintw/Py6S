@@ -18,7 +18,7 @@
 from collections import defaultdict
 #from sixs_exceptions import *
 from Py6S.sixs_exceptions import ParameterError
-
+import sys
 
 class AeroProfile:
 
@@ -191,6 +191,11 @@ class AeroProfile:
 
         real = map(str, refr_real)
         imag = map(str, refr_imag)
+
+        if sys.version_info[0] >= 3:
+            real = list(real)
+            imag = list(imag)
+
         comp += ' '.join(real) + '\n'
         comp += ' '.join(imag) + '\n'
 
@@ -257,6 +262,11 @@ class AeroProfile:
             comp = "%f %f %f\n" % (rmean, sigma, percentage_density)
             real = map(str, refr_real)
             imag = map(str, refr_imag)
+
+            if sys.version_info[0] >= 3:
+                real = list(real)
+                imag = list(imag)
+
             comp += ' '.join(real) + '\n'
             comp += ' '.join(imag) + '\n'
 

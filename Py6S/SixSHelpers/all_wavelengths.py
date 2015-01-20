@@ -19,7 +19,7 @@ from Py6S import *
 import numpy as np
 from matplotlib.pyplot import *
 import copy
-
+import sys
 
 class Wavelengths:
 
@@ -178,6 +178,9 @@ class Wavelengths:
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
 
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
         return (centre_wvs, res)
 
     @classmethod
@@ -207,6 +210,9 @@ class Wavelengths:
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
 
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
         return (centre_wvs, res)
 
     @classmethod
@@ -227,6 +233,9 @@ class Wavelengths:
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
 
@@ -249,6 +258,9 @@ class Wavelengths:
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
 
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
         return (centre_wvs, res)
 
     @classmethod
@@ -269,6 +281,9 @@ class Wavelengths:
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
 
@@ -291,6 +306,9 @@ class Wavelengths:
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
 
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
         return (centre_wvs, res)
 
     @classmethod
@@ -311,6 +329,9 @@ class Wavelengths:
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
 
@@ -333,6 +354,9 @@ class Wavelengths:
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
 
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
         return (centre_wvs, res)
 
     @classmethod
@@ -353,6 +377,9 @@ class Wavelengths:
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
 
@@ -375,6 +402,9 @@ class Wavelengths:
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
 
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
         return (centre_wvs, res)
 
     @classmethod
@@ -396,6 +426,9 @@ class Wavelengths:
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
 
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
         return (centre_wvs, res)
 
     @classmethod
@@ -416,6 +449,9 @@ class Wavelengths:
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
+        
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
 
@@ -438,6 +474,9 @@ class Wavelengths:
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
 
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
         return (centre_wvs, res)
 
     @classmethod
@@ -458,6 +497,9 @@ class Wavelengths:
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
 
@@ -480,6 +522,9 @@ class Wavelengths:
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
 
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
         return (centre_wvs, res)
 
     @classmethod
@@ -500,6 +545,9 @@ class Wavelengths:
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
 

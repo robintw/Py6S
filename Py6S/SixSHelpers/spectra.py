@@ -28,7 +28,7 @@ except ImportError:
         raise
 
 try:
-    import StringIO
+    from StringIO import StringIO
 except ImportError:
     if sys.version_info[0] >= 3:
         from io import StringIO

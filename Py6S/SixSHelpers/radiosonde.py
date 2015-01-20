@@ -308,6 +308,8 @@ class Radiosonde:
             raise ParameterException("url", "The URL for importing radiosonde data is not giving a valid response")
 
         html = u.read()
+        if sys.version_info[0] >= 3:
+            html = html.decode()
 
         if "Sorry, the server is too busy to process your request" in html:
             raise ParameterException("url", "The server is too busy")
