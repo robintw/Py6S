@@ -344,7 +344,7 @@ class SixS(object):
             print "The results are:"
             print "Expected result: %f" % 619.158
             print "Actual result: %f" % test.outputs.diffuse_solar_irradiance
-            if (test.outputs.diffuse_solar_irradiance - 619.158 < 0.01):
+            if np.abs((test.outputs.diffuse_solar_irradiance - 619.158) < 0.01):
                 print "#### Results agree, Py6S is working correctly"
                 return 0
             else:
