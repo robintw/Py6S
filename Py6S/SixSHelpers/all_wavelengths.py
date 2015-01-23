@@ -201,7 +201,8 @@ class Wavelengths:
               PredefinedWavelengths.LANDSAT_OLI_B4,
               PredefinedWavelengths.LANDSAT_OLI_B5,
               PredefinedWavelengths.LANDSAT_OLI_B6,
-              PredefinedWavelengths.LANDSAT_OLI_B7]
+              PredefinedWavelengths.LANDSAT_OLI_B7,
+              PredefinedWavelengths.LANDSAT_OLI_B9]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
