@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # This file is part of Py6S.
 #
 # Copyright 2012 Robin Wilson and contributors listed in the CONTRIBUTORS file.
@@ -25,11 +26,13 @@ from setuptools import setup
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+reqs = ['pysolar', 'matplotlib', 'scipy']
+
 setup(
         name                  = "Py6S",
         packages              = ['Py6S', 'Py6S.Params', 'Py6S.SixSHelpers'],
-        requires              = ['pysolar'],
-        install_requires      = ['pysolar'],
+        requires              = reqs,
+        install_requires      = reqs,
         version               = "1.5.4",
         author                = "Robin Wilson",
         author_email          = "robin@rtwilson.com",
