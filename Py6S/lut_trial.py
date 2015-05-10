@@ -52,7 +52,7 @@ def named_product_from_dict(d):
 
 
 def set_attrs_from_dict(sixs, d):
-    for key, value in d.tems():
+    for key, value in d.items():
         if "." in key:
             # We've got a parameter which isn't just s.param but s.param.param
             # For example, s.geometry.solar_z
