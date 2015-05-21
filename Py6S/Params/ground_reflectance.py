@@ -348,8 +348,8 @@ WV_REPLACE
         bottom = "%f %f %f %f %f\n" % (chlorophyll_content, leaf_water_equiv_thickness, effective_num_layers, ratio_refractive_indices, weight_first_price_function)
 
         return header + middle + bottom
-
-    def HomogeneousUserDefined(observed_reflectance, albedo, ro_sun_at_thetas, ro_sun_at_thetav):
+    @classmethod
+    def HomogeneousUserDefined(cls, observed_reflectance, albedo, ro_sun_at_thetas, ro_sun_at_thetav):
         """Parameterisation for a user-defined surface BRDF.
 
         The parameters are:
@@ -361,7 +361,7 @@ WV_REPLACE
         - `ro_sun_at_thetav` -- A reflectance table (described below) for the scenario when the sun is at theta_v
           (the view zenith angle specified in the Geometry parameterisation)
 
-        The reflectance tables mentioned above must be NumPy arrays (that is, instances of :class:`ndarray`) with a shape of (10, 14) where the table headers are as below,
+        The reflectance tables mentioned above must be NumPy arrays (that is, instances of :class:`ndarray`) with a shape of (10, 13) where the table headers are as below,
         and each cell contains the reflectance of the surface in the specified geometry::
 
                 zenith
@@ -379,12 +379,12 @@ WV_REPLACE
         """
         header = "0 Homogeneous surface\n1 (directional effects)\n0 Input user's defined model\n"
 
-        top_table = _ArrayToString(ro_sun_at_thetas)
-        bottom_table = _ArrayToString(ro_sun_at_thetav)
+        top_table = cls._ArrayToString(ro_sun_at_thetas)
+        bottom_table = cls._ArrayToString(ro_sun_at_thetav)
 
-        bottom = "%f %f\n" % (albedo, observed_reflectance)
+        bottom = "%f\n %f\n" % (albedo, observed_reflectance)
 
-        return header + top_table + bottom_table + bottom
+        return header + top_table + "\n"+ bottom_table + bottom
 
     @classmethod
     def _ArrayToString(cls, array):
