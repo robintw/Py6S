@@ -148,7 +148,7 @@ class UserDefinedSpectraTest(unittest.TestCase):
     s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_aster("./test/jhu.becknic.vegetation.trees.conifers.solid.conifer.spectrum.txt"))
     s.run()
     
-    self.assertAlmostEqual(s.outputs.apparent_reflectance, 0.1403693, 0.002)
+    self.assertAlmostEqual(s.outputs.apparent_reflectance, 0.1403693, delta=0.002)
 
   def test_usgs_spectra(self):
     s = SixS()

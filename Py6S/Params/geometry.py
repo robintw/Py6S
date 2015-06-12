@@ -45,15 +45,15 @@ class Geometry:
         def __str__(self):
             return '0 (User defined)\n%f %f %f %f %d %d\n' % (self.solar_z, self.solar_a, self.view_z, self.view_a, self.month, self.day)
 
-        def from_time_and_location(self, lat, long, datetimestring, view_z, view_a):
-            """Sets the user-defined geometry to a given view zenith and azimuth, and a solar zenith and azimuth calculated from the lat, long and date given.
+        def from_time_and_location(self, lat, lon, datetimestring, view_z, view_a):
+            """Sets the user-defined geometry to a given view zenith and azimuth, and a solar zenith and azimuth calculated from the lat, lon and date given.
 
             Uses the PySolar module for the calculations.
 
             Arguments:
 
             * ``lat`` -- The latitude of the location (0-90 degrees)
-            * ``long`` -- The longitude of the location
+            * ``lon`` -- The longitude of the location
             * ``datetimestring`` -- Any string that can be parsed to produce a date/time object. All that is really needed is a time - eg. "14:53"
             * ``view_z`` -- The view zenith angle
             * ``view_a`` -- The view azimuth angle
@@ -63,12 +63,12 @@ class Geometry:
             try:
                 import Pysolar
             except:
-                raise ImportError("To set the geometry from a time and location you must have the PySolar module installed.\nTo install this, run 'pip install pysolar' at the command line.")
+                raise ImportError("To set the geometry from a time and location you must have the PySolar module installed.\nPy6S requires Pysolar v0.6.\nTo install this, run 'pip install pysolar==0.6' at the command line.")
 
             dt = dateutil.parser.parse(datetimestring, dayfirst=True)
-            self.solar_z = 90.0 - Pysolar.GetAltitude(lat, long, dt)
+            self.solar_z = 90.0 - Pysolar.GetAltitude(lat, lon, dt)
 
-            az = Pysolar.GetAzimuth(lat, long, dt)
+            az = Pysolar.GetAzimuth(lat, lon, dt)
 
             if az < 0:
                 self.solar_a = abs(az) + 180
