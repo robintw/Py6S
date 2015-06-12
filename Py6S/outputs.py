@@ -58,9 +58,10 @@ class Outputs(object):
         self.rat = {}
 
         if len(stderr) > 0:
-            # Something on standard error - so there's been an error
-            print stderr
-            raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
+            if not stderr.startswith("Note: The following floating-point exceptions are signalling"):
+              # Something on standard error - so there's been an error
+              print stderr
+              raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
 
         self.fulltext = stdout
 
