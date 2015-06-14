@@ -79,36 +79,7 @@ These instructions were written based on testing with Mac OS X 10.7 (Lion), but 
 
 2. You will need to have ``gcc`` installed to compile 6S. If you already have the XCode developement environment for OS X installed then you've already got GCC, if not, go to https://github.com/kennethreitz/osx-gcc-installer/ and choose *Option 1: Downloading Pre-Built Binaries* and download the appropriate file for your version of OS X. Double-click the file to run it, and follow through the installer.
 
-3. Download the f77 compiler from http://hpc.sourceforge.net/. You should choose one of the binary download links under the g77 3.4 heading. If you're not sure which binary you require then choose the Intel version, as that is what most modern Macs use.
-
-4. Open the Terminal (Applications->Utilities->Terminal) and type the following commands (this assumes the files you downloaded above are located in your Downloads folder, and you will need to enter your password when prompted)::
-
-    cd ~/Downloads
-    sudo tar -xvf g77-intel-bin.tar.gz -C /
-
-5. Now run the following commands, one after each other::
-
-    tar -xvf 6SV-1.1.tar
-  	cd 6SV1.1
-  	make
-
-#. If no errors have been produced, then test the 6S executable by typing::
-
-    sixsV1.1 < ../Examples/Example_In_1.txt
-
-#. If this is working correctly you should see a number of screen's worth of output, finishing with something that looks like::
-
-    *******************************************************************************
-    *                        atmospheric correction result                        *
-    *                        -----------------------------                        *
-    *       input apparent reflectance            :    0.100                      *
-    *       measured radiance [w/m2/sr/mic]       :   38.529                      *
-    *       atmospherically corrected reflectance                                 *
-    *       Lambertian case :      0.22187                                        *
-    *       BRDF       case :      0.22187                                        *
-    *       coefficients xa xb xc                 :  0.00685  0.03870  0.06820    *
-    *       y=xa*(measured radiance)-xb;  acr=y/(1.+xc*y)                         *
-    *******************************************************************************
+3. Follow the instructions for Linux below, starting from step 3.
 
 Linux
 ^^^^^
@@ -143,7 +114,7 @@ work out what to do.
   
 #. to::
   
-    FC      = gfortran -std=legacy -ffixed-line-length-none $(FFLAGS)
+    FC      = gfortran -std=legacy -ffixed-line-length-none -ffpe-summary=none $(FFLAGS)
   
 #. Exit the editor and return to the command line.
 
