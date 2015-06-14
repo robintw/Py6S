@@ -16,7 +16,11 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 import dateutil.parser
+import sys
 
+# Fix for Python 3 where long is not available
+if sys.version_info[0] >= 3:
+    long = int
 
 class Geometry:
 
