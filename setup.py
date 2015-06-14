@@ -33,7 +33,7 @@ setup(
         packages              = ['Py6S', 'Py6S.Params', 'Py6S.SixSHelpers'],
         requires              = reqs,
         install_requires      = reqs,
-        version               = "1.5.4",
+        version               = "1.6.0",
         author                = "Robin Wilson",
         author_email          = "robin@rtwilson.com",
         description           = ("""A wrapper for the 6S Radiative Transfer Model to make it easy to run simulations
