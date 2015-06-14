@@ -17,6 +17,7 @@
 
 import subprocess
 import os
+import sys
 import numpy as np
 from scipy.interpolate import interp1d
 from .Params import *
@@ -25,6 +26,9 @@ from .outputs import *
 import tempfile
 import math
 
+# Fix for Python 3 where basestring is not available
+if sys.version_info[0] >= 3:
+    basestring = str
 
 class SixS(object):
 
@@ -275,8 +279,12 @@ class SixS(object):
         if filename is None:
             # No filename given, so write to temporary file
             tmp_file = tempfile.NamedTemporaryFile(prefix="tmp_Py6S_input_", delete=False)
-
-            tmp_file.file.write(input_file)
+            
+            # For Python 3, convert to Byte
+            if sys.version_info[0] >= 3:
+                tmp_file.file.write(bytes(input_file,'utf-8'))
+            else:
+                tmp_file.file.write(input_file)
             name = tmp_file.name
             tmp_file.close()
         else:
@@ -313,39 +321,39 @@ class SixS(object):
         import platform
         import sys
 
-        print "Py6S Debugging Report"
-        print "---------------------"
-        print "Run on %s" % (str(datetime.datetime.now()))
-        print "Platform: %s" % (platform.platform())
-        print "Python version: %s" % (sys.version.split('\n')[0])
-        print "Py6S version: %s" % (self.__version__)
-        print "---------------------"
+        print("Py6S Debugging Report")
+        print("---------------------")
+        print("Run on %s" % (str(datetime.datetime.now())))
+        print("Platform: %s" % (platform.platform()))
+        print("Python version: %s" % (sys.version.split('\n')[0]))
+        print("Py6S version: %s" % (self.__version__))
+        print("---------------------")
         self.test()
-        print "---------------------"
+        print("---------------------")
 
         fname = self.write_input_file()
         with open(fname) as f:
             contents = f.readlines()
 
-        print "".join(contents)
+        print("".join(contents))
 
     @classmethod
     def test(self):
         """Runs a simple test to ensure that 6S and Py6S are installed correctly."""
         test = SixS()
-        print "6S wrapper script by Robin Wilson"
+        print("6S wrapper script by Robin Wilson")
         sixs_path = test._find_path()
         if sixs_path is None:
-            print "Error: cannot find the sixs executable in $PATH or current directory."
+            print("Error: cannot find the sixs executable in $PATH or current directory.")
         else:
-            print "Using 6S located at %s" % sixs_path
-            print "Running 6S using a set of test parameters"
+            print("Using 6S located at %s" % sixs_path)
+            print("Running 6S using a set of test parameters")
             test.run()
-            print "The results are:"
-            print "Expected result: %f" % 619.158
-            print "Actual result: %f" % test.outputs.diffuse_solar_irradiance
+            print("The results are:")
+            print("Expected result: %f" % 619.158)
+            print("Actual result: %f" % test.outputs.diffuse_solar_irradiance)
             if np.abs((test.outputs.diffuse_solar_irradiance - 619.158) < 0.01):
-                print "#### Results agree, Py6S is working correctly"
+                print("#### Results agree, Py6S is working correctly")
                 return 0
             else:
                 return 1
