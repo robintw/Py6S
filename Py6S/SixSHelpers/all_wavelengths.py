@@ -77,12 +77,16 @@ class Wavelengths:
         else:
             pool = Pool(n)
 
+        print("wavelengths pass:")
+        print(wavelengths)
+        print(type(wavelengths))
+
         print("Running for many wavelengths - this may take a long time")
         results = pool.map(f, wavelengths)
 
         try:
             if len(wavelengths[0]) == 4:
-                cleaned_wavelengths = map(lambda x: x[:3], wavelengths)
+                cleaned_wavelengths = list(map(lambda x: x[:3], wavelengths))
                 return np.array(cleaned_wavelengths), np.array(results)
             else:
                 return np.array(wavelengths), np.array(results)
@@ -205,6 +209,7 @@ class Wavelengths:
               PredefinedWavelengths.LANDSAT_OLI_B5,
               PredefinedWavelengths.LANDSAT_OLI_B6,
               PredefinedWavelengths.LANDSAT_OLI_B7,
+              PredefinedWavelengths.LANDSAT_OLI_B8,
               PredefinedWavelengths.LANDSAT_OLI_B9]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
