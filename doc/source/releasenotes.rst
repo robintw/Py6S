@@ -3,6 +3,14 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.6 (14th June 2014)
+^^^^^^^^^^^^^^^^^^^^
+* Py6S now works properly with Python 3. This was meant to be the case as of v1.5, but various things seemed to go wrong. Thanks to Pete Bunting and Dan Clewley for help fixing this.
+* Made setup.py script executable (thanks Matthew Hanson)
+* Fixed unusable Homogeneous User Defined BRDF specification (thanks J Gomez-Dans)
+* Fixed requirement for pysolar, to deal with upstream changes
+* Added many more tests
+
 1.5.4 (16th July 2014)
 ^^^^^^^^^^^^^^^^^^^^^^
 Fixed minor error on install (didn't affect any functionality)

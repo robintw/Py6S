@@ -9,13 +9,15 @@ Before starting the installation process, ensure that you have a working Python 
 * ``scipy``
 * ``matplotlib``
 * ``python-dateutil``
-* ``pysolar`` (only required for setting the geometry from a location and time)
+* ``pysolar`` v0.6 (only required for setting the geometry from a location and time)
 * ``pandas`` (only required for importing AERONET data)
 
 It will also be helpful to have the `IPython <http://ipython.org/>`_ installed for interactive testing of Py6S.
 
 An easy way to sort all of this out is to use the `Enthought Python Distribution <http://enthought.com/products/epd.php>`_ which will install Python plus many modules which are
 often used for scientific computing, along with many tools.
+
+Py6S works with Python 2 and Python 3, with a minimum requirement of Python 2.7.
 
 Compiling 6S   
 -------------
