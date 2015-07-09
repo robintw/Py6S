@@ -18,14 +18,17 @@ def import_from_excel(filename, sheetid):
 
 def process_band(df, bandid):
 	data = df[[0, bandid]]
+	data.columns = [0, 1]
 	f = interp1d(data.ix[:, 0], data.ix[:, 1])
 
 	indices = np.where(data.ix[:, 1] > 0.001)[0]
-	print indices
+	print(indices)
 	minwv = data.ix[indices.min(), 0]
 	maxwv = data.ix[indices.max(), 0]
 	newwvs = np.arange(minwv, maxwv, 2.5)
 
 	values = f(newwvs)
+
+	values[values < 0.001] = 0.0
 
 	print("%.3f, %.3f,\nnp.%s)" % (minwv / 1000.0, maxwv / 1000.0, values.__repr__()))
