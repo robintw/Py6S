@@ -26,7 +26,7 @@ class Wavelengths:
     """Helper functions for running the 6S model for a range of wavelengths, and plotting the result"""
 
     @classmethod
-    def run_wavelengths(cls, s, wavelengths, output_name=None, n=None):
+    def run_wavelengths(cls, s, wavelengths, output_name=None, n=None, verbose=True):
         """Runs the given SixS parameterisation for each of the wavelengths given, optionally extracting a specific output.
 
         This function is used by all of the other wavelengths running functions, such as :method:`run_vnir`, and thus
@@ -41,6 +41,7 @@ class Wavelengths:
         * ``wavelengths`` -- An iterable containing the wavelengths to iterate over
         * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
         * ``n`` -- (Optional) The number of threads to run in parallel. This defaults to the number of CPU cores in your system, and is unlikely to need changing.
+        * ``verbose`` -- (Optional) Print wavelengths as Py6S is running (default=True)
 
         Return value:
 
@@ -62,7 +63,8 @@ class Wavelengths:
             s.outputs = None
             a = copy.deepcopy(s)
             a.wavelength = Wavelength(wv)
-            print(wv)
+            if verbose:
+               print(wv)
             a.run()
             if output_name is None:
                 return a.outputs
@@ -77,9 +79,10 @@ class Wavelengths:
         else:
             pool = Pool(n)
 
-        print("wavelengths pass:")
-        print(wavelengths)
-        print(type(wavelengths))
+        if verbose:
+            print("wavelengths pass:")
+            print(wavelengths)
+            print(type(wavelengths))
 
         print("Running for many wavelengths - this may take a long time")
         results = pool.map(f, wavelengths)
