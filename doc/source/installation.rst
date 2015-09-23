@@ -5,6 +5,7 @@ Prerequisites
 -------------
 Before starting the installation process, ensure that you have a working Python installation with the following modules installed:
 
+* ``nose``
 * ``numpy``
 * ``scipy``
 * ``matplotlib``
@@ -44,7 +45,7 @@ These instructions were written based on testing with Windows 7, but should work
 8. Run the following commands, one after each other::
 
     tar -xvf 6SV-1.1.tar
-  	cd 6SV1.1
+    cd 6SV1.1
     
 #. Browse to the 6SV1.1 folder in Windows Explorer (it should in your Downloads folder). Inside the folder you should find a file called ``Makefile``. Open the file by double-clicking on it, and selecting Notepad when asked which program to open the file with. When the file has opened, find the text saying ``-lm`` (it will be near the end of the file) and delete it. Save the file.
 
@@ -181,7 +182,7 @@ Where ``<eggfile>`` is the correct egg file for your Python version.
 
 Testing Py6S
 ------------
-To check that both 6S and Py6S have been installed correctly, and that Py6S can find the 6S executable, run ``ipython`` from the command line, and then run the following commands::
+To check that Py6S can find the 6S executable, run ``ipython`` from the command line, and then run the following commands::
 
   from Py6S import *
   SixS.test()
@@ -196,7 +197,9 @@ The output should look like this::
   Actual result: 619.158000
   #### Results agree, Py6S is working correctly
   
-This shows where the 6S executable that Py6S is using has been found (``C:\_Work\Py6S\6S\sixs.exe`` in this case). If the executable cannot be found then it is possible to specify the locationmanually::
+This shows where the 6S executable that Py6S is using has been found
+(``C:\_Work\Py6S\6S\sixs.exe`` in this case). If the executable cannot
+be found then it is possible to specify the location manually::
 
   from Py6S import *
   SixS.test("C:\Test\sixsV1.1")
@@ -205,3 +208,10 @@ If you choose this method then remember to include the same path whenever you in
 
   from Py6S import *
   s = SixS("C:\Test\sixsV1.1")
+
+To verify that both 6S and Py6S have been installed correctly::
+  nosetests Py6S
+
+
+
+
