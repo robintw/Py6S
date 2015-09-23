@@ -18,6 +18,9 @@
 import unittest
 from Py6S import *
 import numpy as np
+import os.path
+
+test_dir = os.path.relpath(os.path.dirname(__file__))
 
 class AllWavelengthsTests(unittest.TestCase):
 	def test_run_for_landsat_etm(self):
@@ -175,7 +178,7 @@ class AERONETImportTest(unittest.TestCase):
 
   def test_import_aeronet(self):
     s = SixS()
-    s = SixSHelpers.Aeronet.import_aeronet_data(s, "./test/070101_101231_Marambio.dubovik", "2008-02-22")
+    s = SixSHelpers.Aeronet.import_aeronet_data(s, os.path.join(test_dir, "070101_101231_Marambio.dubovik"), "2008-02-22")
     s.run()
 
     self.assertAlmostEqual(s.outputs.apparent_radiance, 137.324, delta=0.002)
@@ -183,7 +186,7 @@ class AERONETImportTest(unittest.TestCase):
   def test_import_empty_file(self):
     s = SixS()
     with self.assertRaises(ParameterError):
-      SixSHelpers.Aeronet.import_aeronet_data(s, "./test/empty_file", "2008-02-22")
+      SixSHelpers.Aeronet.import_aeronet_data(s, os.path.join(test_dir, "empty_file"), "2008-02-22")
 
 class RadiosondeImportTest(unittest.TestCase):
 
