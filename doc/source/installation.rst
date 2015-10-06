@@ -53,11 +53,11 @@ These instructions were written based on testing with Windows 7, but should work
 
     make
 
-9. If no errors have been produced, then test the 6S executable by typing::
+#. If no errors have been produced, then test the 6S executable by typing::
 
     sixsV1.1 < ..\Examples\Example_In_1.txt
 
-10. If this is working correctly you should see several screen's worth of output, finishing with something that looks like::
+#. If this is working correctly you should see several screen's worth of output, finishing with something that looks like::
 
     *******************************************************************************
     *                        atmospheric correction result                        *
