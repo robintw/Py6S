@@ -39,8 +39,9 @@ setup(
         description           = ("""A wrapper for the 6S Radiative Transfer Model to make it easy to run simulations
         with a variety of input parameters, and to produce outputs in an easily processable form."""),
         license               = "BSD",
+        test_suite = 'nose.collector',
         url                   = "http://packages.python.org/Py6S",
-        long_description      = """Introduction 
+        long_description      = """Introduction
 -------------
 Py6S is a Python interface to the 6S Radiative Transfer Model. It allows you to run many 6S simulations using a
 simple Python syntax, rather than dealing with the rather cryptic 6S input and output files. As well as generally
@@ -68,11 +69,11 @@ this documentation, but a quick code example should give you an idea of what Py6
   # Run the model across the VNIR wavelengths, and plot the result
   wavelengths, results = SixSHelpers.Wavelengths.run_vnir(s, output_name='pixel_radiance')
   SixSHelpers.Wavelengths.plot_wavelengths(wavelengths, results, "Pixel radiance ($W/m^2$)")
-  
+
 This will produce the results shown below::
 
   0.283 112.095 667.589
-  
+
 Followed by an image containing a graph showing the result for each wavelength.
 
 To use Py6S you will also need to compile and install the 6S executable. Please follow the installation instructions in the `documentation <http://py6s.readthedocs.org>`_ to find out how to do this on Windows, OS X or Linux.
@@ -91,6 +92,6 @@ I'm very interested in receiving feedback, bug reports and feature suggestions, 
         "Topic :: Software Development :: Libraries :: Python Modules",
         "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
         "Programming Language :: Python"
-        
+
         ],
 )
