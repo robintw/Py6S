@@ -18,7 +18,9 @@
 import unittest
 from Py6S import *
 import numpy as np
-import os
+import os.path
+
+test_dir = os.path.relpath(os.path.dirname(__file__))
 
 class SimpleTests(unittest.TestCase):
 
@@ -145,7 +147,7 @@ class UserDefinedSpectraTest(unittest.TestCase):
     s = SixS()
     s.altitudes.set_target_sea_level()
     s.altitudes.set_sensor_satellite_level()
-    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_aster("./test/jhu.becknic.vegetation.trees.conifers.solid.conifer.spectrum.txt"))
+    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_aster(os.path.join(test_dir, "jhu.becknic.vegetation.trees.conifers.solid.conifer.spectrum.txt")))
     s.run()
     
     self.assertAlmostEqual(s.outputs.apparent_reflectance, 0.1403693, delta=0.002)
@@ -160,7 +162,7 @@ class UserDefinedSpectraTest(unittest.TestCase):
 
   def test_usgs_spectra_from_file(self):
     s = SixS()
-    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_usgs("./test/butlerite_gds25.3947.asc"))
+    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_usgs(os.path.join(test_dir, "butlerite_gds25.3947.asc")))
     s.run()
 
     self.assertAlmostEqual(s.outputs.apparent_radiance, 180.818, delta=0.002)
