@@ -7,9 +7,9 @@ Prerequisites
 Executables
 ^^^^^^^^^^^
 * ``Python 2.7`` or greater
-* ``6S v1.1``
+* ``6S v1.1`` (installation instructions below)
 
-**Nota bene: Py6S is an interface to 6S, not a replacement, so to use Py6S the 6S
+**NB: Py6S is an interface to 6S, not a replacement, so to use Py6S the 6S
 executable MUST exist on your system.**
 
 Python modules
@@ -24,9 +24,9 @@ Python modules
 * ``ipython`` (recommended)
 
 An easy way to sort all of this out is to use the `Enthought Python
-Distribution <http://enthought.com/products/epd.php>`_ which will
-install Python plus many modules which are often used for scientific
-computing, along with many tools.
+Distribution <http://enthought.com/products/epd.php>`_ or
+`Anaconda <https://www.continuum.io/downloads>`_, either of which will install
+Python plus many modules which are often used for scientific computing.
 
 Installing 6S
 -------------
@@ -46,9 +46,9 @@ sections below.
    #. Run the two executable files you just downloaded and work
       through the setup wizard for each, accepting the default
       options.
-      
+
 #. Install the Fortran compiler:
-   
+
    :Windows: To compile the 6S code we will need a Fortran 77
              compiler. These are a little difficult to find, as most compilers
              are now based on the (more modern) Fortran 95 standard. However,
@@ -56,8 +56,8 @@ sections below.
              we need to find a Fortran 77 compiler. The best place I've found
              to get one for Windows is:
              http://www.cse.yorku.ca/~roumani/fortran/ftn.htm.
-             #. Download the ``FORT99.zip`` file, and extract it somewhere.     
-             
+             #. Download the ``FORT99.zip`` file, and extract it somewhere.
+
              #. Copy the ``G77`` folder to the root of the C drive (so that
                 the folder is ``C:\G77``).
 
@@ -91,14 +91,14 @@ sections below.
              $ sudo apt-get install gfortran  # Debian/Ubuntu-based distributions or...
              $ sudo emerge gfortran           # Gentoo or...
              $ sudo pacman -S gfortran        # Arch or... etc.
-  
+
 #. Download the source code for 6SV1.1_.
-    *Do not use the current available versions from*
-    http://6s.ltdri.org/ *(1.1b or 2.1) as they are not supported
+    *Do not use the current available versions (v2.1 or v1.0Beta) from*
+    http://6s.ltdri.org/ *(1.1b or 2.1) as they are not yet supported
     by Py6S*
-      
+
 #. Extract the download:
-   
+
    :Windows: Open the command window by opening the **Start Menu** and
              typing *'cmd'*.  In the terminal::
                $ MD C:\Users\robin\source
@@ -109,9 +109,9 @@ sections below.
                $ CD 6SV1.1
 
    :Linux/OS X:
-      
+
       ::
-         
+
          $ mkdir source
          $ mv ~/Downloads/6SV-1.1.tar source/
          $ mkdir -p build/6SV/1.1
@@ -134,7 +134,7 @@ sections below.
                 compiler, so we need to instruct it to use ``gfortran``
                 instead. Open the file called ``Makefile`` in an editor of your
                 choice, for example::
-                  
+
                   $ nano Makefile
 
                 Change the line::
@@ -151,7 +151,7 @@ sections below.
 
    #. If no errors have been produced, then test the 6S executable by
       typing:
-      
+
       :Windows: ``$ sixsV1.1.exe < ..\Examples\Example_In_1.txt``
       :Linux/OS X: ``$ sixsV1.1 < ../Examples/Example_In_1.txt``
 
@@ -168,7 +168,7 @@ sections below.
         *       coefficients xa xb xc                 :  0.00685  0.03870  0.06820    *
         *       y=xa*(measured radiance)-xb;  acr=y/(1.+xc*y)                         *
         *******************************************************************************
-   
+
 Using 6S
 --------
 
@@ -182,7 +182,7 @@ environment variable. There are three ways to do this:
   want) and then edit the ``PATH`` environment variable (see above) to include that
   folder. The method to do this varies by platform, but a quick Google
   search should show you how to accomplish this.
-  
+
 * **Move 6S to a location which is already in the PATH:**
   This is fairly simple as it just involves copying a file. Sensible
   places to copy to include ``/usr/local/bin`` (Linux/OS X) or
@@ -192,7 +192,7 @@ environment variable. There are three ways to do this:
 
   :Windows: ``$ MKLINK sixsV1.1.exe C:\Windows\System``
   :Linux/OS X: ``$ ln sixsV1.1 /usr/local/bin/sixs``
-    
+
 If it is impossible (for some reason) to point to the 6S executable
 with ``PATH``, it is possible to specify the location manually when
 running Py6S (see below).
@@ -207,46 +207,36 @@ The easiest way to install Py6S is from the Python Package Index
 (PyPI; http://pypi.python.org/pypi). Simply open a command prompt and
 type::
   $ pip install Py6S
-  
+
 If you get an error saying that ``pip`` cannot be found or is not
 installed, simply run::
   $ easy_install pip
   $ pip install Py6S
-  
+
 
 Installation from a .egg file
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Py6S is also distributed as a Python Egg file, with a name like
 ``Py6S-0.51-py2.7.egg``. You will need to choose the correct egg file
 for your version of python. To find out your Python version run::
-  
+
   $ python -V
   Python 2.7.2 -- EPD 7.1-2 (64-bit)
-  
+
 Then simply run the following code, which will install PySolar (required for some Py6S functions), and then Py6S itself::
 
   $ pip install PySolar
   $ easy_install <eggfile>
-  
+
 Where ``<eggfile>`` is the correct egg file for your Python version.
 
 Testing Py6S
 ------------
-To verify that both 6S and Py6S have been installed correctly::
-
-  $ python
-  >>> import os.path
-  >>> import Py6S; print os.path.dirpath(Py6S.__file__)
-  <PATH_TO_PY6S_MODULE>
-  >>> exit()
-  cd <PATH_TO_PY6S_MODULE>
-  $ nosetests
-
 To check that Py6S can find the 6S executable::
 
   $ python
   >>> from Py6S import *
-  >>> SixS.test()  
+  >>> SixS.test()
   6S wrapper script by Robin Wilson
   Using 6S located at <PATH_TO_SIXS_EXE>
   Running 6S using a set of test parameters
@@ -254,7 +244,7 @@ To check that Py6S can find the 6S executable::
   Expected result: 619.158000
   Actual result: 619.158000
   #### Results agree, Py6S is working correctly
-  
+
 This shows where the 6S executable that Py6S is using has been found
 at <PATH_TO_SIXS_EXE>. If the executable cannot be found then it is
 possible to specify the location manually::
@@ -268,6 +258,17 @@ whenever you instantiate the ``SixS`` class, as follows::
 
   >>> from Py6S import *
   >>> s = SixS("C:\Test\sixsV1.1")
+
+To run the full test suite to verify that both 6S and Py6S have been
+installed correctly (recommended)::
+
+  $ python
+  >>> import os.path
+  >>> import Py6S; print os.path.dirpath(Py6S.__file__)
+  <PATH_TO_PY6S_MODULE>
+  >>> exit()
+  cd <PATH_TO_PY6S_MODULE>
+  $ nosetests
 
 .. _GnuWin32: http://gnuwin32.sourceforge.net/packages.html
 .. _Homebrew: http://brew.sh
