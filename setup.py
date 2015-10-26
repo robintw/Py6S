@@ -38,12 +38,10 @@ setup(
         author_email          = "robin@rtwilson.com",
         description           = ("""A wrapper for the 6S Radiative Transfer Model to make it easy to run simulations
         with a variety of input parameters, and to produce outputs in an easily processable form."""),
-        license               = "BSD",
+        license               = "GPL",
         test_suite = 'nose.collector',
-        url                   = "http://packages.python.org/Py6S",
-        long_description      = """Introduction
--------------
-Py6S is a Python interface to the 6S Radiative Transfer Model. It allows you to run many 6S simulations using a
+        url                   = "http://py6s.rtwilson.com/",
+        long_description      = """Py6S is a Python interface to the 6S Radiative Transfer Model. It allows you to run many 6S simulations using a
 simple Python syntax, rather than dealing with the rather cryptic 6S input and output files. As well as generally
 making it easier to use 6S, Py6S adds some new features:
 
@@ -91,7 +89,8 @@ I'm very interested in receiving feedback, bug reports and feature suggestions, 
         "Topic :: Scientific/Engineering :: Physics",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
-        "Programming Language :: Python"
-
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 2"
         ],
 )
