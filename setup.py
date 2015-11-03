@@ -35,15 +35,18 @@ def read_file(filepath, root=PROJECT_ROOT):
     return text
 
 
-REQS = ['pysolar==0.6', 'matplotlib', 'scipy']
 LONG_DESCRIPTION = read_file("README.rst")
 SHORT_DESCRIPTION = "A wrapper for the 6S Radiative Transfer Model to make it easy to run simulations with a variety of input parameters, and to produce outputs in an easily processable form."
+REQS = [
+    'pysolar==0.6',
+    'matplotlib',
+    'scipy'
+]
 
 
 setup(
     name                  = "Py6S",
     packages              = ['Py6S', 'Py6S.Params', 'Py6S.SixSHelpers'],
-    requires              = REQS,
     install_requires      = REQS,
     version               = "1.6.1",
     author                = "Robin Wilson",
