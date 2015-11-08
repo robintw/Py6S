@@ -279,7 +279,7 @@ class SixS(object):
         if filename is None:
             # No filename given, so write to temporary file
             tmp_file = tempfile.NamedTemporaryFile(prefix="tmp_Py6S_input_", delete=False)
-            
+
             # For Python 3, convert to Byte
             if sys.version_info[0] >= 3:
                 tmp_file.file.write(bytes(input_file,'utf-8'))
@@ -338,9 +338,9 @@ class SixS(object):
         print("".join(contents))
 
     @classmethod
-    def test(self):
+    def test(cls, path=None):
         """Runs a simple test to ensure that 6S and Py6S are installed correctly."""
-        test = SixS()
+        test = cls(path)
         print("6S wrapper script by Robin Wilson")
         sixs_path = test._find_path()
         if sixs_path is None:
