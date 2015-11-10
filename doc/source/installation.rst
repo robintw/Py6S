@@ -145,6 +145,9 @@ sections below.
 
                   FC      = gfortran -std=legacy -ffixed-line-length-none -ffpe-summary=none $(FFLAGS)
 
+                (*Note:* The ``-ffpe-summary=none`` flag isn't available when using GCC 4.8.4, so leave
+                it out - 6S seems to compile ok without it in that situation)
+
 #. Compile 6S:
 
    #. Compile the source code: ``$ make``
