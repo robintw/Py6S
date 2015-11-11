@@ -36,6 +36,11 @@ class AtmosProfileTests(unittest.TestCase):
 
             self.assertAlmostEqual(s.outputs.apparent_reflectance, results[i], msg="Error in atmos profile with ID %s. Got %f, expected %f." % (str(aps[i]), s.outputs.apparent_reflectance, results[i]), delta=0.002)
 
+    def test_from_lat_and_date(self):
+        ap = AtmosProfile.FromLatitudeAndDate(53, '2015-07-14')
+
+        assert ap == AtmosProfile.PredefinedType(AtmosProfile.SubarcticSummer)
+
 
 class AeroProfileTests(unittest.TestCase):
 
