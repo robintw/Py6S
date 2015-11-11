@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
+import dateutil.parser
+
 from Py6S.sixs_exceptions import ParameterError
 
 
@@ -28,6 +30,136 @@ class AtmosProfile:
     SubarcticSummer = 4
     SubarcticWinter = 5
     USStandard1962 = 6
+
+    @classmethod
+    def FromLatitudeAndDate(cls, latitude, date):
+        """Automatically pick the atmospheric profile based on the latitude
+        and date.
+
+        Based on the table provided at http://www.exelisvis.com/docs/FLAASH.html
+        """
+        dt = dateutil.parser.parse(date, dayfirst=True)
+
+        rounded_lat = round(latitude, -1)
+
+        # Data from Table 2-2 in http://www.exelisvis.com/docs/FLAASH.html
+        SAW = cls.PredefinedType(cls.SubarcticWinter)
+        SAS = cls.PredefinedType(cls.SubarcticSummer)
+        MLS = cls.PredefinedType(cls.MidlatitudeSummer)
+        MLW = cls.PredefinedType(cls.MidlatitudeWinter)
+        T = cls.PredefinedType(cls.Tropical)
+
+        ap_JFMA = {80: SAW,
+                   70: SAW,
+                   60: MLW,
+                   50: MLW,
+                   40: SAS,
+                   30: MLS,
+                   20: T,
+                   10: T,
+                   0: T,
+                   -10: T,
+                   -20: T,
+                   -30: MLS,
+                   -40: SAS,
+                   -50: SAS,
+                   -60: MLW,
+                   -70: MLW,
+                   -80: MLW
+        }
+
+        ap_MJ = {80:SAW,
+                 70: MLW,
+                 60: MLW,
+                 50: SAS,
+                 40: SAS,
+                 30: MLS,
+                 20: T,
+                 10: T,
+                 0: T,
+                 -10: T,
+                 -20: T,
+                 -30: MLS,
+                 -40: SAS,
+                 -50: SAS,
+                 -60: MLW,
+                 -70: MLW,
+                 -80: MLW
+        }
+
+        ap_JA = {80:MLW,
+                 70: MLW,
+                 60: SAS,
+                 50: SAS,
+                 40: MLS,
+                 30: T,
+                 20: T,
+                 10: T,
+                 0: T,
+                 -10: T,
+                 -20: MLS,
+                 -30: MLS,
+                 -40: SAS,
+                 -50: MLW,
+                 -60: MLW,
+                 -70: MLW,
+                 -80: SAW
+        }
+
+        ap_SO = {80:  MLW,
+                 70:  MLW,
+                 60:  SAS,
+                 50:  SAS,
+                 40:  MLS,
+                 30:  T,
+                 20:  T,
+                 10:  T,
+                 0:   T,
+                 -10: T,
+                 -20: MLS,
+                 -30: MLS,
+                 -40: SAS,
+                 -50: MLW,
+                 -60: MLW,
+                 -70: MLW,
+                 -80: MLW
+        }
+
+        ap_ND = {80: SAW,
+                 70: SAW,
+                 60: MLW,
+                 50: SAS,
+                 40: SAS,
+                 30: MLS,
+                 20: T,
+                 10: T,
+                 0: T,
+                 -10: T,
+                 -20: T,
+                 -30: MLS,
+                 -40: SAS,
+                 -50: SAS,
+                 -60: MLW,
+                 -70: MLW,
+                 -80: MLW
+        }
+
+
+        ap_dict = {1: ap_JFMA,
+                   2: ap_JFMA,
+                   3: ap_JFMA,
+                   4: ap_JFMA,
+                   5: ap_MJ,
+                   6: ap_MJ,
+                   7: ap_JA,
+                   8: ap_JA,
+                   9: ap_SO,
+                   10: ap_SO,
+                   11: ap_ND,
+                   12: ap_ND
+        }
+
+        return ap_dict[dt.month][rounded_lat]
 
     @classmethod
     def PredefinedType(cls, type):
