@@ -158,6 +158,9 @@ sections below.
       :Windows: ``$ sixsV1.1.exe < ..\Examples\Example_In_1.txt``
       :Linux/OS X: ``$ sixsV1.1 < ../Examples/Example_In_1.txt``
 
+      Note: on Windows, make sure you run this in the standard Command Prompt
+      (cmd.exe), not Powershell (PowerCmd.exe).
+
    #. If this is working correctly you should see a number of screen's
       worth of output, finishing with something that looks like::
         *******************************************************************************
