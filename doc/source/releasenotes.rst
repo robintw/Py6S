@@ -1,7 +1,11 @@
-Release Notes 
+Release Notes
 -------------
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
+
+1.6.2 (13th Jan 2016)
+^^^^^^^^^^^^^^^^^^^^^
+* Fixed bug with all SixSHelpers.Wavelengths.run_xxx functions. They now work with extracting outputs like transmittance_total_scattering.total
 
 1.6.1 (9th July 2015)
 ^^^^^^^^^^^^^^^^^^^^^

@@ -48,7 +48,7 @@ setup(
     name                  = "Py6S",
     packages              = ['Py6S', 'Py6S.Params', 'Py6S.SixSHelpers'],
     install_requires      = REQS,
-    version               = "1.6.1",
+    version               = "1.6.2",
     author                = "Robin Wilson",
     author_email          = "robin@rtwilson.com",
     description           = SHORT_DESCRIPTION,
