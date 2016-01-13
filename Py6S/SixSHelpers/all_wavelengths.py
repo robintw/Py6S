@@ -69,7 +69,7 @@ class Wavelengths:
             if output_name is None:
                 return a.outputs
             else:
-                return getattr(a.outputs, output_name)
+                return cls.recursive_getattr(a.outputs, output_name)
 
         # Run the map
         from multiprocessing.dummy import Pool
@@ -458,7 +458,7 @@ class Wavelengths:
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
-        
+
         if sys.version_info[0] >= 3:
             centre_wvs = list(centre_wvs)
 
@@ -561,6 +561,15 @@ class Wavelengths:
         return (centre_wvs, res)
 
     @classmethod
+    def recursive_getattr(cls, obj, attr):
+        prev_part = obj
+
+        for part in attr.split("."):
+            prev_part = getattr(prev_part, part)
+
+        return prev_part
+
+    @classmethod
     def extract_output(cls, results, output_name):
         """Extracts data for one particular SixS output from a list of SixS.Outputs instances.
 
@@ -572,7 +581,7 @@ class Wavelengths:
         * ``output_name`` -- The name of the output to extract. This should be a string containing whatever is put after the `s.outputs` when printing the output, for example `'pixel_reflectance'`.
 
         """
-        results_output = [getattr(r, output_name) for r in results]
+        results_output = [cls.recursive_getattr(r, output_name) for r in results]
 
         return results_output
 
