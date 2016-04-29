@@ -21,14 +21,8 @@ import numpy as np
 import urllib
 import re
 from scipy.interpolate import interp1d
-try:
-    import StringIO
-except ImportError:
-    # If Python 3 import io as StringIO (so we can still use StringIO.StringIO)
-    if sys.version_info[0] >= 3:
-        import io as StringIO
-    else:
-        raise
+import io
+
 if sys.version_info[0] >= 3:
     import urllib.request as urllib
 else:
@@ -325,8 +319,8 @@ class Radiosonde:
         table = "\n".join(spl)
 
         # Import to NumPy arrays
-        s = StringIO.StringIO(table)
-        array = np.loadtxt(s, skiprows=4, usecols=(0, 1, 2, 5))
+        s = io.BytesIO(table.encode())
+        array = np.genfromtxt(s,skip_header=4, delimiter=7,usecols=(0, 1, 2, 5),filling_values=0)
 
         pressure = array[:, 0]
         altitude = array[:, 1] / 1000
