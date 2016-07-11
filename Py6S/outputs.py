@@ -96,7 +96,7 @@ class Outputs(object):
         trans_keys = ["transmittance_" + key for key in self.trans.keys()]
         rat_keys = self.rat.keys()
 
-        all_keys = self.values.keys() + trans_keys + rat_keys
+        all_keys = list(self.values.keys()) + list(trans_keys) + list(rat_keys)
         return sorted(all_keys)
 
     def extract_results(self):
