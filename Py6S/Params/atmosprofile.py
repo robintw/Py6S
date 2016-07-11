@@ -171,7 +171,7 @@ class AtmosProfile:
 
         Example usage::
 
-          s.atmosprofile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer)
+          s.atmos_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer)
 
         """
         return "%d" % type
@@ -187,7 +187,7 @@ class AtmosProfile:
 
         Example usage::
 
-          s.atmosprofile = AtmosProfile.UserWaterAndOzone(3.6, 0.9)
+          s.atmos_profile = AtmosProfile.UserWaterAndOzone(3.6, 0.9)
 
         """
         return "8 (Water Vapour and Ozone)\n%f %f" % (water, ozone)
