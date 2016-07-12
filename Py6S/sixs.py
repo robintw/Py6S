@@ -26,6 +26,9 @@ from .outputs import *
 import tempfile
 import math
 
+
+SIXSVERSION = '1.1'
+
 # Fix for Python 3 where basestring is not available
 if sys.version_info[0] >= 3:
     basestring = str
@@ -349,6 +352,8 @@ class SixS(object):
             print("Using 6S located at %s" % sixs_path)
             print("Running 6S using a set of test parameters")
             test.run()
+            print("6sV version: %s" % (test.outputs.version))
+            assert test.outputs.version == SIXSVERSION, "Unsupported 6sV version: {0}. Need version {1}".format(test.outputs.version, SIXSVERSION)
             print("The results are:")
             print("Expected result: %f" % 619.158)
             print("Actual result: %f" % test.outputs.diffuse_solar_irradiance)

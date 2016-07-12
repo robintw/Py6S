@@ -123,7 +123,8 @@ class Outputs(object):
         # be used here if desired.
 
         #              Search Term                                Line   Index DictKey   Type
-        extractors = {"month": (CURRENT, 1, "month", self.to_int),
+        extractors = {"6SV version": (CURRENT, 2, "version", str),
+                      "month": (CURRENT, 1, "month", self.to_int),
                       "day": (CURRENT, 4, "day", self.to_int),
                       "solar zenith angle": (CURRENT, 3, "solar_z", self.to_int),
                       "solar azimuthal angle": (CURRENT, 8, "solar_a", self.to_int),
@@ -173,7 +174,7 @@ class Outputs(object):
             current_line = lines[index]
             for label, details in extractors.items():
                     # If the label we're searching for is in the current line
-                if label in current_line:
+                if label.lower() in current_line.lower():
                     # See if the data is in the current line (as specified above)
                     if details[0] == CURRENT:
                         extracting_line = current_line
@@ -192,6 +193,7 @@ class Outputs(object):
                         b = details[1] + 1
 
                     data_for_func = items[a:b]
+
                     if len(data_for_func) == 1:
                         data_for_func = data_for_func[0]
 

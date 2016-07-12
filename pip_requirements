@@ -1,3 +1,4 @@
 pysolar==0.6
 python-dateutil
 mock
+pandas
