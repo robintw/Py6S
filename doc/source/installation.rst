@@ -19,8 +19,8 @@ Python modules
 * ``scipy``
 * ``matplotlib``
 * ``python-dateutil``
-* ``pysolar`` v0.6 (only required for setting the geometry from a location and time)
-* ``pandas`` (only required for importing AERONET data)
+* ``pysolar`` v0.6 (optional: only required for setting the geometry from a location and time)
+* ``pandas`` (optional: only required for importing AERONET data)
 * ``ipython`` (recommended)
 
 An easy way to sort all of this out is to use the `Enthought Python
@@ -144,6 +144,11 @@ sections below.
                 to::
 
                   FC      = gfortran -std=legacy -ffixed-line-length-none -ffpe-summary=none $(FFLAGS)
+
+                  (*Note:* The ``-ffpe-summary=none`` flag isn't available when using
+                  GCC 4.8.4. Some people have had success leaving it out, but others
+                  have found problems. Ideally use GCC > 4.8.4, but if that is impossible
+                  then try without this flag.)
 
 #. Compile 6S:
 
