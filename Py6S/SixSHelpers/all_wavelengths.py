@@ -321,6 +321,80 @@ class Wavelengths:
         return (centre_wvs, res)
 
     @classmethod
+    def run_aqua(cls, s, **kwargs):
+        """Runs the given SixS parameterisation for all of the MODIS bands within the 6S band range, optionally extracting a specific output.
+
+        Arguments:
+
+        * ``s`` -- A :class:`.SixS` instance with the parameters set as required
+        * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
+
+        Return value:
+
+        A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
+        or a list of values of the selected output if ``output_name`` is set.
+        """
+        wv = [PredefinedWavelengths.ACCURATE_MODIS_AQUA_1_RSR_645,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_2_RSR_859,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_3_RSR_469,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_4_RSR_555,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_5_RSR_1240,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_6_RSR_1640,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_7_RSR_2130,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_11_RSR_531,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_12_RSR_551,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_13_RSR_667,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_14_RSR_678,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_15_RSR_748]
+
+        wv, res = cls.run_wavelengths(s, wv, **kwargs)
+
+        centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
+        return (centre_wvs, res)
+
+
+    @classmethod
+    def run_terra(cls, s, **kwargs):
+        """Runs the given SixS parameterisation for all of the MODIS bands within the 6S band range, optionally extracting a specific output.
+
+        Arguments:
+
+        * ``s`` -- A :class:`.SixS` instance with the parameters set as required
+        * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
+
+        Return value:
+
+        A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
+        or a list of values of the selected output if ``output_name`` is set.
+        """
+        wv = [PredefinedWavelengths.ACCURATE_MODIS_TERRA_1_RSR_645,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_2_RSR_859,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_3_RSR_469,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_4_RSR_555,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_5_RSR_1240,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_6_RSR_1640,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_7_RSR_2130,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_11_RSR_531,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_12_RSR_551,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_13_RSR_667,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_14_RSR_678,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_15_RSR_748]
+
+        wv, res = cls.run_wavelengths(s, wv, **kwargs)
+
+        centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
+        return (centre_wvs, res)
+
+
+    @classmethod
     def run_spot_hrv(cls, s, **kwargs):
         """Runs the given SixS parameterisation for all of the SPOT HRV (both 1 and 2, as the only bands specified are the same for both) bands within the 6S band range, optionally extracting a specific output.
 
