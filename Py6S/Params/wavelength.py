@@ -25,19 +25,29 @@ def Wavelength(start_wavelength, end_wavelength=None, filter=None):
 
     There are a number of ways to do this:
 
-    1. Pass a single value of a wavelength in micrometres. The simulation will be performed for just this wavelength::
+    1. Pass a single value of a wavelength in micrometres.
+       The simulation will be performed for just this wavelength::
 
         Wavelength(0.43)
 
-    2. Pass a start and end wavelength in micrometres. The simulation will be performed across this wavelength range with a constant filter function (spectral response function) of 1.0::
+    2. Pass a start and end wavelength in micrometres.
+       The simulation will be performed across this wavelength range with a
+       constant filter function (spectral response function) of 1.0::
 
         Wavelength(0.43, 0.50)
 
-    3. Pass a start and end wavelength, and a filter given at 2.5nm intervals. The simulation will be performed across this wavelength range using the given filter function::
+    3. Pass a start and end wavelength, and a filter given at 2.5nm intervals.
+       The simulation will be performed across this wavelength range using the
+       given filter function::
 
-        Wavelength(0.400, 0.410, [0.7, 0.9, 1.0, 0.3])
+        Wavelength(0.400, 0.410, [0.7, 0.9, 1.0, 0.3, 0.15])
 
-    4. Pass a constant (as defined in this class) for a pre-defined wavelength range::
+       The filter function must include values for the start and end wavelengths,
+       plus values every 2.5nm (0.0025um) in between. So, in the example above,
+       there are five values given: one each for 0.400, 0.4025, 0.405, 0.4075, 0.410.
+
+    4. Pass a constant (as defined in this class) for a pre-defined wavelength
+       range::
 
         Wavelength(PredefinedWavelengths.LANDSAT_TM_B1)
 
