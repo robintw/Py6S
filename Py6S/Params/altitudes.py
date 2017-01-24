@@ -87,7 +87,8 @@ class Altitudes:
           s.altitudes.set_sensor_custom_altitude(8, 0.35, 1.6, 0.4) # Altitude of 8km, AOT of 0.35, Water content of 1.6g/cm^2 and Ozone of 0.4cm-atm
 
         """
-
+        if altitude < 0 or altitude >= 100:
+            raise ValueError('Sensor altitude must be > 0km and < 100km')
         self.sensor_altitude = -1 * altitude
         self.aot = aot
         self.water = water
