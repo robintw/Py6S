@@ -3,6 +3,19 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.7 (31st Jan 2017)
+^^^^^^^^^^^^^^^^^^^
+* Added new spectral response functions
+    - Sentinel 2 Multispectral Instrument (MSI) as `PredefinedWavelengths.S2A_MSI_xx`, and with a `run_s2a_msi` function
+    - Sentinel 3 Ocean and Land Colour Instrument (OLCI) as `PredefinedWavelengths.S3A_OLCI_xx`, and with a `run_s3a_olci` function
+    - Accurate MODIS bands, based on actual measurements of the MODIS sensor on the Aqua and Terra satellites and taking into
+      account differences between the sensors. Includes the ocean bands. Provided as `PredefinedWavelengths.ACCURATE_MODIS_TERRA_x`
+      and the same for Aqua, with run functions `run_aqua` and `run_terra`.
+* Changed radiosonde import to manage missing values properly
+* Fixed tab-completion on Python 3
+* Added range checking for the altitude parameter to give a sensible error if ground altitudes > 100km or < 0km are given.
+* Improved various parts of the documentation
+
 1.6.2 (13th Jan 2016)
 ^^^^^^^^^^^^^^^^^^^^^
 * Fixed bug with all SixSHelpers.Wavelengths.run_xxx functions. They now work with extracting outputs like transmittance_total_scattering.total
