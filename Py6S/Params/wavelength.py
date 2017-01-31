@@ -599,7 +599,7 @@ class PredefinedWavelengths:
     # * AQUA: http://oceancolor.gsfc.nasa.gov/DOCS/RSR/HMODISA_RSRs.txt
     # And the code that creates the bands is available here:
     # https://gist.github.com/jgomezdans/0cd6fc1537e5a76e5d3971ad167badd6
-    ACCURATE_MODIS_TERRA_1_RSR_645 = (20, 0.61500, 0.68000,
+    ACCURATE_MODIS_TERRA_1 = (20, 0.61500, 0.68000,
                                       np.array(
                                           [0.02807, 0.14457, 0.37699, 0.63749,
                                            0.76990,
@@ -612,7 +612,7 @@ class PredefinedWavelengths:
                                            0.22151, 0.09847, 0.04423, 0.01564,
                                            ]))
 
-    ACCURATE_MODIS_TERRA_2_RSR_859 = (21, 0.82000, 0.89750,
+    ACCURATE_MODIS_TERRA_2 = (21, 0.82000, 0.89750,
                                       np.array(
                                           [0.01046, 0.02323, 0.04527, 0.08294,
                                            0.13231,
@@ -627,7 +627,7 @@ class PredefinedWavelengths:
                                            0.02474, 0.01912, 0.01369,
                                            ]))
 
-    ACCURATE_MODIS_TERRA_3_RSR_469 = (22, 0.45250, 0.48000,
+    ACCURATE_MODIS_TERRA_3 = (22, 0.45250, 0.48000,
                                       np.array(
                                           [0.02715, 0.19656, 0.66544, 0.98628,
                                            0.93702,
@@ -636,7 +636,7 @@ class PredefinedWavelengths:
                                            0.02998,
                                            ]))
 
-    ACCURATE_MODIS_TERRA_4_RSR_555 = (23, 0.54000, 0.56750,
+    ACCURATE_MODIS_TERRA_4 = (23, 0.54000, 0.56750,
                                       np.array(
                                           [0.04011, 0.24383, 0.65195, 0.94575,
                                            0.99606,
@@ -645,7 +645,7 @@ class PredefinedWavelengths:
                                            0.05180,
                                            ]))
 
-    ACCURATE_MODIS_TERRA_5_RSR_1240 = (24, 1.21500, 1.27000,
+    ACCURATE_MODIS_TERRA_5 = (24, 1.21500, 1.27000,
                                        np.array(
                                            [0.01581, 0.03020, 0.05587, 0.10725,
                                             0.19486,
@@ -657,7 +657,7 @@ class PredefinedWavelengths:
                                             0.01910, 0.01206,
                                             ]))
 
-    ACCURATE_MODIS_TERRA_6_RSR_1640 = (25, 1.59750, 1.66000,
+    ACCURATE_MODIS_TERRA_6 = (25, 1.59750, 1.66000,
                                        np.array(
                                            [0.01510, 0.02596, 0.04589, 0.08177,
                                             0.14737,
@@ -670,7 +670,7 @@ class PredefinedWavelengths:
                                             0.04009, 0.02624, 0.01373,
                                             ]))
 
-    ACCURATE_MODIS_TERRA_7_RSR_2130 = (26, 2.06000, 2.17500,
+    ACCURATE_MODIS_TERRA_7 = (26, 2.06000, 2.17500,
                                        np.array(
                                            [0.01090, 0.01563, 0.02103, 0.03128,
                                             0.04292,
@@ -690,7 +690,7 @@ class PredefinedWavelengths:
                                             0.01462, 0.01036,
                                             ]))
 
-    ACCURATE_MODIS_TERRA_8_RSR_412 = (27, 0.40000, 0.42250,
+    ACCURATE_MODIS_TERRA_8 = (27, 0.40000, 0.42250,
                                       np.array(
                                           [0.01396, 0.13170, 0.59932, 0.67268,
                                            0.79013,
@@ -698,56 +698,56 @@ class PredefinedWavelengths:
                                            0.03272,
                                            ]))
 
-    ACCURATE_MODIS_TERRA_9_RSR_443 = (28, 0.43500, 0.45000,
+    ACCURATE_MODIS_TERRA_9 = (28, 0.43500, 0.45000,
                                       np.array(
                                           [0.11465, 0.52805, 0.94626, 0.99552,
                                            0.91925,
                                            0.37027, 0.03831,
                                            ]))
 
-    ACCURATE_MODIS_TERRA_10_RSR_488 = (29, 0.47750, 0.49500,
+    ACCURATE_MODIS_TERRA_10 = (29, 0.47750, 0.49500,
                                        np.array(
                                            [0.01416, 0.15956, 0.66826, 0.94806,
                                             0.99412,
                                             0.95485, 0.46874, 0.02232,
                                             ]))
 
-    ACCURATE_MODIS_TERRA_11_RSR_531 = (30, 0.52000, 0.54000,
+    ACCURATE_MODIS_TERRA_11 = (30, 0.52000, 0.54000,
                                        np.array(
                                            [0.01480, 0.24145, 0.76250, 0.97399,
                                             0.99901,
                                             0.90343, 0.63643, 0.18019, 0.01435,
                                             ]))
 
-    ACCURATE_MODIS_TERRA_12_RSR_551 = (31, 0.53750, 0.55500,
+    ACCURATE_MODIS_TERRA_12 = (31, 0.53750, 0.55500,
                                        np.array(
                                            [0.01470, 0.17968, 0.64797, 0.98082,
                                             0.99460,
                                             0.86391, 0.42490, 0.04215,
                                             ]))
 
-    ACCURATE_MODIS_TERRA_13_RSR_667 = (32, 0.65750, 0.67500,
+    ACCURATE_MODIS_TERRA_13 = (32, 0.65750, 0.67500,
                                        np.array(
                                            [0.06338, 0.37724, 0.81862, 0.99604,
                                             0.88368,
                                             0.62629, 0.25126, 0.01371,
                                             ]))
 
-    ACCURATE_MODIS_TERRA_14_RSR_678 = (33, 0.66750, 0.68750,
+    ACCURATE_MODIS_TERRA_14 = (33, 0.66750, 0.68750,
                                        np.array(
                                            [0.05618, 0.27689, 0.68142, 0.97341,
                                             0.98489,
                                             0.86696, 0.53632, 0.14128, 0.01578,
                                             ]))
 
-    ACCURATE_MODIS_TERRA_15_RSR_748 = (34, 0.73750, 0.75500,
+    ACCURATE_MODIS_TERRA_15 = (34, 0.73750, 0.75500,
                                        np.array(
                                            [0.04077, 0.23050, 0.62169, 0.94550,
                                             0.97978,
                                             0.75860, 0.35374, 0.05302,
                                             ]))
 
-    ACCURATE_MODIS_TERRA_16_RSR_869 = (35, 0.85250, 0.88000,
+    ACCURATE_MODIS_TERRA_16 = (35, 0.85250, 0.88000,
                                        np.array(
                                            [0.02770, 0.11693, 0.34382, 0.66672,
                                             0.91719,
@@ -756,7 +756,7 @@ class PredefinedWavelengths:
                                             0.02056,
                                             ]))
 
-    ACCURATE_MODIS_AQUA_1_RSR_645 = (36, 0.61500, 0.68000,
+    ACCURATE_MODIS_AQUA_1 = (36, 0.61500, 0.68000,
                                      np.array(
                                          [0.02807, 0.14457, 0.37699, 0.63749,
                                           0.76990,
@@ -769,7 +769,7 @@ class PredefinedWavelengths:
                                           0.22151, 0.09847, 0.04423, 0.01564,
                                           ]))
 
-    ACCURATE_MODIS_AQUA_2_RSR_859 = (37, 0.82000, 0.89750,
+    ACCURATE_MODIS_AQUA_2 = (37, 0.82000, 0.89750,
                                      np.array(
                                          [0.01046, 0.02323, 0.04527, 0.08294,
                                           0.13231,
@@ -784,7 +784,7 @@ class PredefinedWavelengths:
                                           0.02474, 0.01912, 0.01369,
                                           ]))
 
-    ACCURATE_MODIS_AQUA_3_RSR_469 = (38, 0.45250, 0.48000,
+    ACCURATE_MODIS_AQUA_3 = (38, 0.45250, 0.48000,
                                      np.array(
                                          [0.02715, 0.19656, 0.66544, 0.98628,
                                           0.93702,
@@ -793,7 +793,7 @@ class PredefinedWavelengths:
                                           0.02998,
                                           ]))
 
-    ACCURATE_MODIS_AQUA_4_RSR_555 = (39, 0.54000, 0.56750,
+    ACCURATE_MODIS_AQUA_4 = (39, 0.54000, 0.56750,
                                      np.array(
                                          [0.04011, 0.24383, 0.65195, 0.94575,
                                           0.99606,
@@ -802,7 +802,7 @@ class PredefinedWavelengths:
                                           0.05180,
                                           ]))
 
-    ACCURATE_MODIS_AQUA_5_RSR_1240 = (40, 1.21500, 1.27000,
+    ACCURATE_MODIS_AQUA_5 = (40, 1.21500, 1.27000,
                                       np.array(
                                           [0.01581, 0.03020, 0.05587, 0.10725,
                                            0.19486,
@@ -814,7 +814,7 @@ class PredefinedWavelengths:
                                            0.01910, 0.01206,
                                            ]))
 
-    ACCURATE_MODIS_AQUA_6_RSR_1640 = (41, 1.59750, 1.66000,
+    ACCURATE_MODIS_AQUA_6 = (41, 1.59750, 1.66000,
                                       np.array(
                                           [0.01510, 0.02596, 0.04589, 0.08177,
                                            0.14737,
@@ -827,7 +827,7 @@ class PredefinedWavelengths:
                                            0.04009, 0.02624, 0.01373,
                                            ]))
 
-    ACCURATE_MODIS_AQUA_7_RSR_2130 = (42, 2.06000, 2.17500,
+    ACCURATE_MODIS_AQUA_7 = (42, 2.06000, 2.17500,
                                       np.array(
                                           [0.01090, 0.01563, 0.02103, 0.03128,
                                            0.04292,
@@ -847,63 +847,63 @@ class PredefinedWavelengths:
                                            0.01462, 0.01036,
                                            ]))
 
-    ACCURATE_MODIS_AQUA_8_RSR_412 = (43, 0.40250, 0.4225,
+    ACCURATE_MODIS_AQUA_8 = (43, 0.40250, 0.4225,
                                      np.array(
                                          [0.08730698,  0.5009796 ,  0.62325783,
                                           0.73623119,  0.52280358,  0.83059659,
                                           0.91752085,  0.32830619,  0.0332021
                                           ]))
 
-    ACCURATE_MODIS_AQUA_9_RSR_443 = (44, 0.43250, 0.45000,
+    ACCURATE_MODIS_AQUA_9 = (44, 0.43250, 0.45000,
                                      np.array(
                                          [0.01902, 0.09698, 0.51329, 0.92505,
                                           0.99995,
                                           0.94153, 0.39117, 0.03671,
                                           ]))
 
-    ACCURATE_MODIS_AQUA_10_RSR_488 = (45, 0.47750, 0.49500,
+    ACCURATE_MODIS_AQUA_10 = (45, 0.47750, 0.49500,
                                       np.array(
                                           [0.01964, 0.09723, 0.58592, 0.96018,
                                            0.98957,
                                            0.98879, 0.59678, 0.03983,
                                            ]))
 
-    ACCURATE_MODIS_AQUA_11_RSR_531 = (46, 0.52000, 0.54000,
+    ACCURATE_MODIS_AQUA_11 = (46, 0.52000, 0.54000,
                                       np.array(
                                           [0.01215, 0.19041, 0.68607, 0.98495,
                                            0.99800,
                                            0.93087, 0.70338, 0.25414, 0.02052,
                                            ]))
 
-    ACCURATE_MODIS_AQUA_12_RSR_551 = (47, 0.53750, 0.55500,
+    ACCURATE_MODIS_AQUA_12 = (47, 0.53750, 0.55500,
                                       np.array(
                                           [0.02111, 0.16232, 0.57148, 0.97131,
                                            0.99150,
                                            0.87360, 0.50867, 0.07715,
                                            ]))
 
-    ACCURATE_MODIS_AQUA_13_RSR_667 = (48, 0.65750, 0.67500,
+    ACCURATE_MODIS_AQUA_13 = (48, 0.65750, 0.67500,
                                       np.array(
                                           [0.04175, 0.32634, 0.79150, 0.99988,
                                            0.89403,
                                            0.68671, 0.28090, 0.01440,
                                            ]))
 
-    ACCURATE_MODIS_AQUA_14_RSR_678 = (49, 0.66750, 0.68750,
+    ACCURATE_MODIS_AQUA_14 = (49, 0.66750, 0.68750,
                                       np.array(
                                           [0.03422, 0.18745, 0.58587, 0.93366,
                                            0.99127,
                                            0.93329, 0.62790, 0.22864, 0.02571,
                                            ]))
 
-    ACCURATE_MODIS_AQUA_15_RSR_748 = (50, 0.73500, 0.75500,
+    ACCURATE_MODIS_AQUA_15 = (50, 0.73500, 0.75500,
                                       np.array(
                                           [0.01266, 0.02854, 0.19037, 0.58331,
                                            0.92908,
                                            0.99234, 0.77888, 0.37822, 0.05551,
                                            ]))
 
-    ACCURATE_MODIS_AQUA_16_RSR_869 = (51, 0.85250, 0.88000,
+    ACCURATE_MODIS_AQUA_16 = (51, 0.85250, 0.88000,
                                       np.array(
                                           [0.01859, 0.08363, 0.28236, 0.59771,
                                            0.87955,
