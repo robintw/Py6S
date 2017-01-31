@@ -449,18 +449,18 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.ACCURATE_MODIS_AQUA_1_RSR_645,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_2_RSR_859,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_3_RSR_469,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_4_RSR_555,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_5_RSR_1240,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_6_RSR_1640,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_7_RSR_2130,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_11_RSR_531,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_12_RSR_551,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_13_RSR_667,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_14_RSR_678,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_15_RSR_748]
+        wv = [PredefinedWavelengths.ACCURATE_MODIS_AQUA_1,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_2,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_3,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_4,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_5,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_6,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_7,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_11,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_12,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_13,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_14,
+              PredefinedWavelengths.ACCURATE_MODIS_AQUA_15]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -486,18 +486,18 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.ACCURATE_MODIS_TERRA_1_RSR_645,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_2_RSR_859,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_3_RSR_469,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_4_RSR_555,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_5_RSR_1240,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_6_RSR_1640,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_7_RSR_2130,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_11_RSR_531,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_12_RSR_551,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_13_RSR_667,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_14_RSR_678,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_15_RSR_748]
+        wv = [PredefinedWavelengths.ACCURATE_MODIS_TERRA_1,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_2,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_3,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_4,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_5,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_6,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_7,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_11,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_12,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_13,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_14,
+              PredefinedWavelengths.ACCURATE_MODIS_TERRA_15]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
