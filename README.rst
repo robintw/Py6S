@@ -1,7 +1,7 @@
 .. image:: https://travis-ci.org/robintw/Py6S.svg?branch=master
     :target: https://travis-ci.org/robintw/Py6S
-.. image:: https://coveralls.io/repos/github/robintw/Py6S/badge.svg?branch=test-ci
-    :target: https://coveralls.io/github/robintw/Py6S?branch=test-ci
+.. image:: https://coveralls.io/repos/github/robintw/Py6S/badge.svg
+    :target: https://coveralls.io/github/robintw/Py6S
 
 Introduction 
 -------------
