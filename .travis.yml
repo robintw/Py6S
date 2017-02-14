@@ -28,4 +28,4 @@ install:
 
 script:
   # Your test script goes here
-  py.test -v --junitxml=result.xml
+  python -m pytest -v --junitxml=result.xml
