@@ -8,6 +8,7 @@ dependencies:
         - chmod a+x /home/ubuntu/bin/sixs
         - pip install numpy
         - pip install nose
+        - pip install pandas
 
 test:
     override:
