@@ -1,4 +1,4 @@
 dependencies:
     pre:
-        - wget -O /usr/bin/sixs http://rtwilson.com/downloads/sixs 
+        - sudo wget -O /usr/bin/sixs http://rtwilson.com/downloads/sixs 
         - pip install numpy
