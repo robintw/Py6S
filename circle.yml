@@ -1,4 +1,5 @@
 dependencies:
     pre:
-        - wget -O /home/ubuntu/bin/sixs http://rtwilson.com/downloads/sixs 
+        - wget -O /home/ubuntu/bin/sixs http://rtwilson.com/downloads/sixs
+        - chmod a+x /home/ubuntu/bin/sixs
         - pip install numpy
