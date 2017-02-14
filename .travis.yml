@@ -22,10 +22,12 @@ install:
   - conda info -a
 
   # Replace dep1 dep2 ... with your dependencies
-  - conda create -q -n test-environment -c conda-forge python=$TRAVIS_PYTHON_VERSION sixs pysolar numpy scipy pandas matplotlib pytest
+  - conda create -q -n test-environment -c conda-forge python=$TRAVIS_PYTHON_VERSION sixs pysolar numpy scipy pandas matplotlib pytest pytest-cov
   - source activate test-environment
   - python setup.py install
 
 script:
   # Your test script goes here
-  python -m pytest -v --junitxml=result.xml
+  python -m pytest -v --junitxml=result.xml --cov Py6S --cov-report term-missing
+after_success:
+  - coveralls
