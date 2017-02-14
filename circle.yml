@@ -3,3 +3,8 @@ dependencies:
         - wget -O /home/ubuntu/bin/sixs http://rtwilson.com/downloads/sixs
         - chmod a+x /home/ubuntu/bin/sixs
         - pip install numpy
+        - pip install nose
+
+test:
+    override:
+        - tox
