@@ -1,11 +1,66 @@
 Installation
 ================================
 
+Recommended: Using conda
+----------------------------
+Py6S and all of its dependencies (including 6S itself) are available through the
+``conda`` package manager on the ``conda-forge`` channel. This is by far the
+easiest way to install Py6S, and is strongly recommended.
+
+If you already have ``conda`` installed, then you can create a new environment containing Py6S and all
+of its dependencies by running::
+
+    $ conda create -n py6s-env -c conda-forge py6s
+
+This will create a new environment called ``py6s-env``, and will then tell you how to 'activate'
+the environment, which you should now do. You can now skip to `Testing Py6S`_.
+
+If you don't already have ``conda`` installed then:
+
+#. Install either `Miniconda <https://conda.io/miniconda.html>`_ or `Anaconda <https://www.continuum.io/downloads>`_.
+    These are two different distributions of Python, both of which include
+    the ``conda`` package manager. Miniconda comes with the 'bare minimum' of Python, conda and
+    a few essential libraries, whereas Anaconda comes with many libraries required for data science
+    work in Python.
+
+    Anaconda and Miniconda are available in Python 2 and Python 3 versions, although both of these can create
+    'environments' using either version of Python. Py6S also works with both Python 2 and Python 3,
+    although we recommend using Python 3.
+
+    *If you don't know which one to choose, then choose Miniconda3.*
+
+#. Open up a terminal window and create a new environment containing Py6S.
+    To open up the command-line window, run a program called *Terminal* on OS X or Linux,
+    and *Command Prompt* on Windows).
+
+    In the terminal window, run::
+
+        $ conda create -n py6s-env -c conda-forge py6s
+
+    This will create a separate 'conda environment' for Py6S. In conda, environments are kept
+    entirely separate, meaning that anything you install for Py6S won't affect any other Python
+    installation you use on your system.
+
+    You'll need to agree to the package installation plan that conda provides, and then it will
+    download and install Py6S and its dependencies (including the underlying 6S model).
+
+#. Activate the environment by running the command shown at the end of the installation
+    On Linux/OS X this is ``source activate py6s-env``.
+
+    On Windows this is ``activate py6s-env``.
+
+    Remember, you will need to do this **every** time before using Py6S.
+
+You can now skip to `Testing Py6S`_.
+
+Alternative: Manual installation
+--------------------------------
+
 Prerequisites
--------------
+^^^^^^^^^^^^^
 
 Executables
-^^^^^^^^^^^
+***********
 * ``Python 2.7`` or greater
 * ``6S v1.1`` (installation instructions below)
 
@@ -13,7 +68,7 @@ Executables
 executable MUST exist on your system.**
 
 Python modules
-^^^^^^^^^^^^^^
+**************
 * ``nose``
 * ``numpy``
 * ``scipy``
@@ -29,8 +84,7 @@ Distribution <http://enthought.com/products/epd.php>`_ or
 Python plus many modules which are often used for scientific computing.
 
 Installing 6S
--------------
-
+^^^^^^^^^^^^^
 6S is provided as a number of Fortran 77 source-code files from the
 `6S website <http://6s.ltdri.org/>`_, and must be compiled for your
 specific computer system. Detailed instructions are provided in the
@@ -178,7 +232,7 @@ sections below.
         *******************************************************************************
 
 Using 6S
---------
+^^^^^^^^^
 
 Once you have compiled 6S, you must place the executable (which is, by
 default, called ``sixsV1.1`` or ``sixsV1.1.exe``) somewhere where Py6S can find it. The
@@ -207,10 +261,10 @@ running Py6S (see below).
 
 
 Installing Py6S
----------------
+^^^^^^^^^^^^^^^^^^
 
 Installation from PyPI
-^^^^^^^^^^^^^^^^^^^^^^
+***********************
 The easiest way to install Py6S is from the Python Package Index
 (PyPI; http://pypi.python.org/pypi). Simply open a command prompt and
 type::
@@ -223,7 +277,7 @@ installed, simply run::
 
 
 Installation from a .egg file
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+******************************
 Py6S is also distributed as a Python Egg file, with a name like
 ``Py6S-0.51-py2.7.egg``. You will need to choose the correct egg file
 for your version of python. To find out your Python version run::
@@ -239,7 +293,8 @@ Then simply run the following code, which will install PySolar (required for som
 Where ``<eggfile>`` is the correct egg file for your Python version.
 
 Testing Py6S
-------------
+-------------
+
 To check that Py6S can find the 6S executable::
 
   $ python
@@ -255,7 +310,8 @@ To check that Py6S can find the 6S executable::
 
 This shows where the 6S executable that Py6S is using has been found
 at <PATH_TO_SIXS_EXE>. If the executable cannot be found then it is
-possible to specify the location manually::
+possible to specify the location manually (this is unlikely to be necessary
+if you are using the ``conda``-based installation method)::
 
   $ python
   >>> from Py6S import *
@@ -276,7 +332,7 @@ installed correctly (recommended)::
   <PATH_TO_PY6S_MODULE>
   >>> exit()
   cd <PATH_TO_PY6S_MODULE>
-  $ nosetests
+  $ py.test
 
 .. _GnuWin32: http://gnuwin32.sourceforge.net/packages.html
 .. _Homebrew: http://brew.sh
