@@ -1290,7 +1290,7 @@ class PredefinedWavelengths:
     ASTER_B5 = (-133, 2.120, 2.2825)
     ASTER_B6 = (-134, 2.150, 2.295)
     ASTER_B7 = (-135, 2.210, 2.39)
-    ASTER_B8 = (-136, 2.250, 2.244)
+    ASTER_B8 = (-136, 2.25, 2.44)
     ASTER_B9 = (-137, 2.2975, 2.4875)
     LANDSAT_ETM_B1 = (-138, 0.435, 0.52)
     LANDSAT_ETM_B2 = (-139, 0.5, 0.6225)
