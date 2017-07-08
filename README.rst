@@ -1,3 +1,8 @@
+.. image:: https://travis-ci.org/robintw/Py6S.svg?branch=master
+    :target: https://travis-ci.org/robintw/Py6S
+.. image:: https://coveralls.io/repos/github/robintw/Py6S/badge.svg
+    :target: https://coveralls.io/github/robintw/Py6S
+
 Introduction 
 -------------
 Py6S is a Python interface to the 6S Radiative Transfer Model. It allows you to run many 6S simulations using a

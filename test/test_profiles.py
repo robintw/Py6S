@@ -36,6 +36,11 @@ class AtmosProfileTests(unittest.TestCase):
 
             self.assertAlmostEqual(s.outputs.apparent_reflectance, results[i], msg="Error in atmos profile with ID %s. Got %f, expected %f." % (str(aps[i]), s.outputs.apparent_reflectance, results[i]), delta=0.002)
 
+    def test_from_lat_and_date(self):
+        ap = AtmosProfile.FromLatitudeAndDate(53, '2015-07-14')
+
+        assert ap == AtmosProfile.PredefinedType(AtmosProfile.SubarcticSummer)
+
 
 class AeroProfileTests(unittest.TestCase):
 
@@ -92,9 +97,8 @@ class AeroProfileTests(unittest.TestCase):
       [0.0093]*20)
 
     def test_sun_photo_dist_errors3(self):
-      with self.assertRaises(ParameterError):
-        # Different numbers of elements for first two arguments
-        ap = AeroProfile.SunPhotometerDistribution([0.050000001, 0.065604001, 0.086076997,
+      # Different numbers of elements for first two arguments
+      ap1 = AeroProfile.SunPhotometerDistribution([0.050000001, 0.065604001, 0.086076997,
       0.112939   , 0.148184001, 0.194428995, 0.255104989, 0.334715992, 0.439173013, 0.576227009,
       0.756052017, 0.99199599 , 1.30157101 , 1.707757   , 2.24070191 , 2.93996596 , 3.85745192 ,
       5.06126022 , 6.64074516 , 8.71314526 , 11.4322901 , 15],
@@ -103,7 +107,20 @@ class AeroProfileTests(unittest.TestCase):
       0.014523974,0.016981738,0.017641816,0.016284294,0.01335547,0.009732267,0.006301342,
       0.003625077,],
       [1.47]*20,
-      0.0093)
+      [2.3]*20)
+
+      ap2 = AeroProfile.SunPhotometerDistribution([0.050000001, 0.065604001, 0.086076997,
+      0.112939   , 0.148184001, 0.194428995, 0.255104989, 0.334715992, 0.439173013, 0.576227009,
+      0.756052017, 0.99199599 , 1.30157101 , 1.707757   , 2.24070191 , 2.93996596 , 3.85745192 ,
+      5.06126022 , 6.64074516 , 8.71314526 , 11.4322901 , 15],
+      [0.001338098,0.007492487,0.026454749, 0.058904506,0.082712278,0.073251031,0.040950641,
+      0.014576218,0.003672085,0.001576356,0.002422644,0.004472982,0.007452302,0.011037065,
+      0.014523974,0.016981738,0.017641816,0.016284294,0.01335547,0.009732267,0.006301342,
+      0.003625077,],
+      1.47,
+      2.3)
+
+      self.assertEqual(ap1, ap2)
 
     def test_multimodal_dist_errors1(self):
       with self.assertRaises(ParameterError):

@@ -1,11 +1,61 @@
-Release Notes 
+Release Notes
 -------------
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.7 (31st Jan 2017)
+^^^^^^^^^^^^^^^^^^^
+* Added new spectral response functions
+    - Sentinel 2 Multispectral Instrument (MSI) as `PredefinedWavelengths.S2A_MSI_xx`, and with a `run_s2a_msi` function
+    - Sentinel 3 Ocean and Land Colour Instrument (OLCI) as `PredefinedWavelengths.S3A_OLCI_xx`, and with a `run_s3a_olci` function
+    - Accurate MODIS bands, based on actual measurements of the MODIS sensor on the Aqua and Terra satellites and taking into
+      account differences between the sensors. Includes the ocean bands. Provided as `PredefinedWavelengths.ACCURATE_MODIS_TERRA_x`
+      and the same for Aqua, with run functions `run_aqua` and `run_terra`.
+* Changed radiosonde import to manage missing values properly
+* Fixed tab-completion on Python 3
+* Added range checking for the altitude parameter to give a sensible error if ground altitudes > 100km or < 0km are given.
+* Improved various parts of the documentation
+
+1.6.2 (13th Jan 2016)
+^^^^^^^^^^^^^^^^^^^^^
+* Fixed bug with all SixSHelpers.Wavelengths.run_xxx functions. They now work with extracting outputs like transmittance_total_scattering.total
+
+1.6.1 (9th July 2015)
+^^^^^^^^^^^^^^^^^^^^^
+* Added Pleiades spectral response functions, so simulations can now be run using Pleiades wavelengths
+
+1.6 (14th June 2015)
+^^^^^^^^^^^^^^^^^^^^
+* Py6S now works properly with Python 3. This was meant to be the case as of v1.5, but various things seemed to go wrong. Thanks to Pete Bunting and Dan Clewley for help fixing this.
+* Made setup.py script executable (thanks Matthew Hanson)
+* Fixed unusable Homogeneous User Defined BRDF specification (thanks J Gomez-Dans)
+* Fixed requirement for pysolar, to deal with upstream changes
+* Added many more tests
+
+1.5.4 (16th July 2014)
+^^^^^^^^^^^^^^^^^^^^^^
+Fixed minor error on install (didn't affect any functionality)
+
+1.5.3 (16th July 2014)
+^^^^^^^^^^^^^^^^^^^^^^
+* Added RapidEye bands to PredefinedWavelengths
+
+1.5.2 (8th July 2014)
+^^^^^^^^^^^^^^^^^^^^^
+* Added extraction of two outputs that had been missed out before: the integrated filter function, and the integrated solar spectrum.
+
+1.5.1 (3rd July 2014)
+^^^^^^^^^^^^^^^^^^^^^
+* Added an option to write_input_file to allow a filename to be given - allowing users to easily export standard 6S input files from Py6S.
+
+1.5.0 (22nd April 2014)
+^^^^^^^^^^^^^^^^^^^^^^^
+* First release compatible with Python 3. All Py6S functionality should work fine on Python 3 - please contact me if there are any problems.
+* Added Landsat 8 spectral response functions, and a run_landsat_oli function.
+
 1.4.2 (20th Feb 2014)
 ^^^^^^^^^^^^^^^^^^^^^
-Fixed bug in the AERONET import routine which meant that ambiguous dates would be imported as MM/DD/YYYY rather than DD/MM/YYYY as specified in the documentation (thanks Marcin)
+* Fixed bug in the AERONET import routine which meant that ambiguous dates would be imported as MM/DD/YYYY rather than DD/MM/YYYY as specified in the documentation (thanks Marcin)
 
 1.4.1 (22nd Jan 2014)
 ^^^^^^^^^^^^^^^^^^^^^

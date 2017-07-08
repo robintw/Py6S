@@ -18,58 +18,63 @@
 import unittest
 from Py6S import *
 import numpy as np
+import os.path
+
+test_dir = os.path.relpath(os.path.dirname(__file__))
 
 class SimpleTests(unittest.TestCase):
 
   def test_inbuilt_test(self):
     result = SixS.test()
     self.assertEqual(result, 0)
-    
+
 
 class SixSClassTests(unittest.TestCase):
 
   def test_custom_path(self):
+    from Py6S import sixs
     s = SixS("/home/robintw/Py6S/6S/6SV1.1/sixsV1.1")
     s.run()
-
+    self.assertEqual(s.outputs.version, sixs.SIXSVERSION)
     self.assertAlmostEqual(s.outputs.transmittance_aerosol_scattering.downward, 0.93514, delta=0.002)
 
   def test_debug_report(self):
     s = SixS()
     s.produce_debug_report()
 
-  # def test_not_on_path(self):
-  #   import os
+  def test_writing_input_file(self):
+    s = SixS()
+    s.write_input_file('test_input_file.txt')
 
-  #   old_path = os.environ["PATH"]
-  #   os.environ["PATH"] = ""
+    self.assertEqual(os.path.exists('test_input_file.txt'), True)
 
-  #   result = SixS.test()
-  #   self.assertEqual(result, 1)
+  def test_no_sixs_path(self):
+    s = SixS()
+    s.sixs_path = None
 
-  #   os.environ["PATH"] = old_path
-  #   print os.environ["PATH"]
-
+    with self.assertRaises(ExecutionError):
+      s.run()
 
 class VisAOTTests(unittest.TestCase):
 
   def test_vis_aot_normal(self):
     s = SixS()
     s.run()
-    
+
     self.assertAlmostEqual(s.outputs.visibility, 8.49, delta=0.002)
     self.assertAlmostEqual(s.outputs.aot550, 0.5, delta=0.002)
-    
+
   def test_vis_aot_small(self):
     s = SixS()
     s.aot550 = 0.001
     s.run()
-    
+
     self.assertAlmostEqual(s.outputs.visibility, float("Inf"))
     self.assertAlmostEqual(s.outputs.aot550, 0.001, delta=0.002)
 
   def test_set_vis(self):
     s = SixS()
+    s.aot550 = None
     s.visibility = 40
     s.run()
 
@@ -81,35 +86,35 @@ class WavelengthTests(unittest.TestCase):
     s = SixS()
     s.wavelength = Wavelength(0.567)
     s.run()
-    
+
     self.assertAlmostEqual(s.outputs.apparent_radiance, 129.792, delta=0.002)
-  
+
   def test_wavelength_range(self):
     s = SixS()
     s.wavelength = Wavelength(0.5, 0.7)
     s.run()
-    
+
     self.assertAlmostEqual(s.outputs.apparent_radiance, 122.166, delta=0.002)
-   
+
   def test_wavelength_filter(self):
     s = SixS()
     s.wavelength = Wavelength(0.400, 0.410, [0.7, 0.9, 1.0, 0.3, 1.0])
     s.run()
-    
+
     self.assertAlmostEqual(s.outputs.apparent_radiance, 109.435, delta=0.002)
-    
+
   def test_wavelength_predefined(self):
     s = SixS()
     s.wavelength = Wavelength(PredefinedWavelengths.LANDSAT_TM_B1)
     s.run()
-    
+
     self.assertAlmostEqual(s.outputs.apparent_radiance, 138.126, delta=0.002)
-    
+
     s.wavelength = Wavelength(PredefinedWavelengths.MODIS_B6)
     s.run()
-    
+
     self.assertAlmostEqual(s.outputs.apparent_radiance, 17.917, delta=0.002)
-    
+
 
   def test_invalid_wavelengths(self):
     with self.assertRaises(ParameterError):
@@ -136,17 +141,17 @@ class UserDefinedSpectraTest(unittest.TestCase):
     s = SixS()
     s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_aster("http://speclib.jpl.nasa.gov/speclibdata/jhu.becknic.water.ice.none.solid.ice.spectrum.txt"))
     s.run()
-    
+
     self.assertAlmostEqual(s.outputs.apparent_radiance, 7.753, delta=0.002)
 
   def test_aster_spectra_from_file(self):
     s = SixS()
     s.altitudes.set_target_sea_level()
     s.altitudes.set_sensor_satellite_level()
-    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_aster("./test/jhu.becknic.vegetation.trees.conifers.solid.conifer.spectrum.txt"))
+    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_aster(os.path.join(test_dir, "jhu.becknic.vegetation.trees.conifers.solid.conifer.spectrum.txt")))
     s.run()
-    
-    self.assertAlmostEqual(s.outputs.apparent_reflectance, 0.1403693, 0.002)
+
+    self.assertAlmostEqual(s.outputs.apparent_reflectance, 0.1403693, delta=0.002)
 
   def test_usgs_spectra(self):
     s = SixS()
@@ -158,22 +163,19 @@ class UserDefinedSpectraTest(unittest.TestCase):
 
   def test_usgs_spectra_from_file(self):
     s = SixS()
-    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_usgs("./test/butlerite_gds25.3947.asc"))
+    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_usgs(os.path.join(test_dir, "butlerite_gds25.3947.asc")))
     s.run()
 
     self.assertAlmostEqual(s.outputs.apparent_radiance, 180.818, delta=0.002)
 
-
 class GeometryTest(unittest.TestCase):
-  def test_geometry_from_location(self):
-    s = SixS()
-    s.geometry = Geometry.User()
-    s.geometry.from_time_and_location(50.1, -1.3, '2010-04-03 14:37', 35, 19)
 
-    s.run()
+  def test_geom_from_time_and_loc(self):
+    g = Geometry.User()
 
-    self.assertAlmostEqual(s.outputs.solar_z, 54.42, delta=0.002)
-    self.assertAlmostEqual(s.outputs.solar_a, 227.62, delta=0.002)
+    g.from_time_and_location(50, -1, '2014-05-06', 0, 30)
+
+    self.assertEqual(str(g), '0 (User defined)\n113.587146 359.826938 0.000000 30.000000 5 6\n')
 
 
 class AltitudesTest(unittest.TestCase):

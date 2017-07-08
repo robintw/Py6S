@@ -15,40 +15,27 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-from . import sixs
-from .Params import *
-from pylab import *
+import unittest
+from Py6S import *
 import numpy as np
 
-# Create the 6S object
-s = sixs.SixS()
+class RunAllWavelengthsTests(unittest.TestCase):
 
-# Set some parameters
-s.aero_profile = AeroProfile.URBAN
-s.ground_reflectance = GroundReflectance.HomogeneousRoujean(0.037, 0.0, 0.133)
-s.solar_z = 30
-s.solar_a = 0
+    def test_run_all_wavelengths(self):
+        s = SixS()
+        attribs = dir(SixSHelpers.Wavelengths)
+        for f in attribs:
+        	if "run" in f and f != 'run_wavelengths':
+        		func = eval('SixSHelpers.Wavelengths.' + f)
+        		results = func(s, output_name='apparent_radiance')
 
-azimuths = np.arange(0, 360, 1)
-zeniths = np.arange(0, 90, 10)
-values = []
+        		results = func(s)
 
-for azimuth in azimuths:
-  for zenith in zeniths:
-    s.view_a = azimuth
-    s.view_z = zenith
-    s.run()
-    print(("%i %i" % (azimuth, zenith)))
-    values.append(s.outputs.pixel_reflectance)
-    
-theta = np.radians(azimuths)
+    def test_extract_output(self):
+    	s = SixS()
+    	wvs, values = SixSHelpers.Wavelengths.run_landsat_etm(s, output_name='apparent_reflectance')
+    	wvs, objs = SixSHelpers.Wavelengths.run_landsat_etm(s)
 
-values = np.array(values)
-values = values.reshape(len(azimuths), len(zeniths))
+    	obj_values = SixSHelpers.Wavelengths.extract_output(objs, 'apparent_reflectance')
 
-r, t = np.meshgrid(zeniths, azimuths)
-
-x = r*np.cos(t)
-y = r*np.sin(t)
-
-contourf(x, y, values)
+    	self.assertTrue(np.all(values == obj_values))

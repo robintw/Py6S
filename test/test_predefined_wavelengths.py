@@ -15,20 +15,18 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-from .sixs_exceptions import *
-__all__ = ["SixS", "Outputs", "ParameterError", "OutputParsingError", "ExecutionError"]
+import unittest
+from Py6S import *
+import numpy as np
 
-from . import Params
-__all__ += ["Params"]
+class PredefinedWavelengthTests(unittest.TestCase):
 
-from .Params import *
-__all__ += Params.__all__
-
-from .sixs import SixS
-from .outputs import Outputs
-
-from . import SixSHelpers
-__all__ += ["SixSHelpers"]
-
-from .SixSHelpers import *
-__all__ += SixSHelpers.__all__
+    def test_all_predefined_wavelengths(self):
+        s = SixS()
+        attribs = dir(PredefinedWavelengths)
+        for wavelength in attribs:
+            wv = eval('PredefinedWavelengths.%s' % wavelength)
+            if type(wv) is tuple:
+                print(wavelength)
+                s.wavelength = Wavelength(wv)
+                s.run()

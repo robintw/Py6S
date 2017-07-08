@@ -15,14 +15,30 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-try:
-  from urllib.request import urlopen
-except:
-  from urllib import urlopen
-from io import BytesIO
+import sys
 import numpy as np
 
+# Python 2/3 imports
+try:
+    import urllib2
+except ImportError:
+    if sys.version_info[0] >= 3:
+        import urllib.request as urllib2
+    else:
+        raise
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    if sys.version_info[0] >= 3:
+        from io import StringIO
+    else:
+        raise
+
+
+
 class Spectra:
+
     """Class allowing the import of spectral libraries from various sources"""
 
     @classmethod
@@ -30,7 +46,7 @@ class Spectra:
         """Imports a spectral library from the USGS Spectral Library (available at http://speclab.cr.usgs.gov/spectral.lib06/).
 
         Arguments:
-          
+
           * ``loc`` -- Location of the data to import. Can either be a URL (eg. http://speclab.cr.usgs.gov/spectral.lib06/ds231/ASCII/V/russianolive.dw92-4.30728.asc) or a file path.
 
         Returns:
@@ -53,19 +69,17 @@ class Spectra:
 
         """
         if loc.startswith("""http://"""):
-            data = urlopen(loc).read()
-            if type(data) == str:
-              # Python 2.7
-              f = BytesIO(data.encode())
+            data = urllib2.urlopen(loc).read()
+            if sys.version_info[0] >= 3:
+                f = StringIO(data.decode())
             else:
-              # Python 3
-              f = BytesIO(data)
+                f = StringIO(data)
         else:
             f = open(loc, "r")
-        
+
         npdata = np.loadtxt(f, skiprows=16)
         f.close()
-        npdata[npdata==-1.23e+34] = np.nan
+        npdata[npdata == -1.23e+34] = np.nan
         npdata = npdata[:, 0:2]
 
         return npdata
@@ -75,7 +89,7 @@ class Spectra:
         """Imports a spectral library from the ASTER Spectral Library (http://speclib.jpl.nasa.gov/)
 
         Arguments:
-          
+
           * ``loc`` -- Location of the data to import. Can either be a URL (eg. http://speclib.jpl.nasa.gov/speclibdata/jhu.becknic.vegetation.trees.conifers.solid.conifer.spectrum.txt) or a file path.
 
         Returns:
@@ -96,20 +110,15 @@ class Spectra:
 
         """
         if loc.startswith("""http://"""):
-            data = urlopen(loc).read()
-            if type(data) == str:
-              # Python 2.7
-              f = BytesIO(data.encode())
+            data = urllib2.urlopen(loc).read()
+            if sys.version_info[0] >= 3:
+                f = StringIO(data.decode())
             else:
-              # Python 3
-              f = BytesIO(data)
+                f = StringIO(data)
         else:
             f = open(loc, "r")
-        
+
         npdata = np.loadtxt(f, skiprows=26)
         f.close()
-        npdata[:,1] = npdata[:,1] / 100
+        npdata[:, 1] = npdata[:, 1] / 100
         return npdata
-
-
-   
