@@ -78,9 +78,9 @@ Python modules
 * ``pandas`` (optional: only required for importing AERONET data)
 * ``ipython`` (recommended)
 
-An easy way to sort all of this out is to use the `Enthought Python
-Distribution <http://enthought.com/products/epd.php>`_ or
-`Anaconda <https://www.continuum.io/downloads>`_, either of which will install
+An easy way to sort all of this out is to use  
+`Anaconda <https://www.continuum.io/downloads>`_ or the `Enthought Python
+Distribution <http://enthought.com/products/epd.php>`_, either of which will install
 Python plus many modules which are often used for scientific computing.
 
 Installing 6S
@@ -148,8 +148,8 @@ sections below.
 
 #. Download the source code for 6SV1.1_.
     *Do not use the current available versions (v2.1 or v1.0Beta) from*
-    http://6s.ltdri.org/ *(1.1b or 2.1) as they are not yet supported
-    by Py6S*
+    *http://6s.ltdri.org/ as they are not yet supported*
+    *by Py6S*
 
 #. Extract the download:
 
@@ -336,4 +336,4 @@ installed correctly (recommended)::
 
 .. _GnuWin32: http://gnuwin32.sourceforge.net/packages.html
 .. _Homebrew: http://brew.sh
-.. _6SV1.1: https://dl.dropboxusercontent.com/u/315580/6SV-1.1.zip
+.. _6SV1.1: https://www.dropbox.com/s/bzus7wz0da4abqh/6SV-1.1.tar?dl=0
