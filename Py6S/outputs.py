@@ -104,13 +104,15 @@ class Outputs(object):
 
         # Remove all of the *'s from the text as they just make it look pretty
         # and get in the way of analysing the output
-        fulltext = self.fulltext.replace("*", "")
+        #fulltext = self.fulltext.replace("*", "") # the invalid values in the output text file are represented as *********
+                                                  # maybe * should not removed from the output str, since this will results in wrong 
+                                                  # index of results 
 
         # Split into lines
-        lines = fulltext.splitlines()
+        lines = self.fulltext.splitlines()
 
         CURRENT = 0
-        WHOLE_LINE = (0, 30)
+        WHOLE_LINE = (1, 31)
 
         # The dictionary below specifies how to extract each variable from the text output
         # of 6S.
@@ -123,51 +125,54 @@ class Outputs(object):
         # be used here if desired.
 
         #              Search Term                                Line   Index DictKey   Type
-        extractors = {"6SV version": (CURRENT, 2, "version", str),
-                      "month": (CURRENT, 1, "month", self.to_int),
-                      "day": (CURRENT, 4, "day", self.to_int),
-                      "solar zenith angle": (CURRENT, 3, "solar_z", self.to_int),
-                      "solar azimuthal angle": (CURRENT, 8, "solar_a", self.to_int),
-                      "view zenith angle": (CURRENT, 3, "view_z", self.to_int),
-                      "view azimuthal angle": (CURRENT, 8, "view_a", self.to_int),
-                      "scattering angle": (CURRENT, 2, "scattering_angle", float),
-                      "azimuthal angle difference": (CURRENT, 7, "azimuthal_angle_difference", float),
+        extractors = {"6SV version": (CURRENT, 3, "version", str),
+                      "month": (CURRENT, 2, "month", self.to_int),
+                      "day": (CURRENT, 5, "day", self.to_int),
+                      "solar zenith angle": (CURRENT, 4, "solar_z", self.to_int),
+                      "solar azimuthal angle": (CURRENT, 9, "solar_a", self.to_int),
+                      "view zenith angle": (CURRENT, 4, "view_z", self.to_int),
+                      "view azimuthal angle": (CURRENT, 9, "view_a", self.to_int),
+                      "scattering angle": (CURRENT, 3, "scattering_angle", float),
+                      "azimuthal angle difference": (CURRENT, 8, "azimuthal_angle_difference", float),
                       "optical condition identity": (1, WHOLE_LINE, "visibility", self.extract_vis),
                       "optical condition": (1, WHOLE_LINE, "aot550", self.extract_aot),
-                      "ground pressure": (CURRENT, 3, "ground_pressure", float),
-                      "ground altitude": (CURRENT, 3, "ground_altitude", float),
+                      "ground pressure": (CURRENT, 4, "ground_pressure", float),
+                      "ground altitude": (CURRENT, 3, "ground_altitude", self.extract_altitude),
 
-                      "appar. rad.(w/m2/sr/mic)": (CURRENT, 2, "apparent_reflectance", float),
-                      "appar. rad.": (CURRENT, 5, "apparent_radiance", float),
-                      "total gaseous transmittance": (CURRENT, 3, "total_gaseous_transmittance", float),
+                      "appar. rad.(w/m2/sr/mic)": (CURRENT, 3, "apparent_reflectance", float),
+                      "appar. rad.": (CURRENT, 6, "apparent_radiance", float),
+                      "total gaseous transmittance": (CURRENT, 4, "total_gaseous_transmittance", float),
 
-                      "wv above aerosol": (CURRENT, 4, "wv_above_aerosol", float),
-                      "wv mixed with aerosol": (CURRENT, 10, "wv_mixed_with_aerosol", float),
-                      "wv under aerosol": (CURRENT, 4, "wv_under_aerosol", float),
+                      "wv above aerosol": (CURRENT, 5, "wv_above_aerosol", float),
+                      "wv mixed with aerosol": (CURRENT, 11, "wv_mixed_with_aerosol", float),
+                      "wv under aerosol": (CURRENT, 5, "wv_under_aerosol", float),
 
-                      "% of irradiance": (2, 0, "percent_direct_solar_irradiance", float),
-                      "% of irradiance at": (2, 1, "percent_diffuse_solar_irradiance", float),
-                      "% of irradiance at ground level": (2, 2, "percent_environmental_irradiance", float),
-                      "reflectance at satellite level": (2, 0, "atmospheric_intrinsic_reflectance", float),
-                      "reflectance at satellite lev": (2, 1, "background_reflectance", float),
-                      "reflectance at satellite l": (2, 2, "pixel_reflectance", float),
-                      "irr. at ground level": (2, 0, "direct_solar_irradiance", float),
-                      "irr. at ground level (w/": (2, 1, "diffuse_solar_irradiance", float),
-                      "irr. at ground level (w/m2/mic)": (2, 2, "environmental_irradiance", float),
-                      "rad at satel. level": (2, 0, "atmospheric_intrinsic_radiance", float),
-                      "rad at satel. level (w/m2/": (2, 1, "background_radiance", float),
-                      "rad at satel. level (w/m2/sr/mic)": (2, 2, "pixel_radiance", float),
-                      "sol. spect (in w/m2/mic)": (1, 0, "solar_spectrum", float),
+                      "% of irradiance": (2, 1, "percent_direct_solar_irradiance", float),
+                      "% of irradiance at": (2, 2, "percent_diffuse_solar_irradiance", float),
+                      "% of irradiance at ground level": (2, 3, "percent_environmental_irradiance", float),
+                      "reflectance at satellite level": (2, 1, "atmospheric_intrinsic_reflectance", float),
+                      "reflectance at satellite lev": (2, 2, "background_reflectance", float),
+                      "reflectance at satellite l": (2, 3, "pixel_reflectance", float),
+                      "irr. at ground level": (2, 1, "direct_solar_irradiance", float),
+                      "irr. at ground level (w/": (2, 2, "diffuse_solar_irradiance", float),
+                      "irr. at ground level (w/m2/mic)": (2, 3, "environmental_irradiance", float),
+                      "rad at satel. level": (2, 1, "atmospheric_intrinsic_radiance", float),
+                      "rad at satel. level (w/m2/": (2, 2, "background_radiance", float),
+                      "rad at satel. level (w/m2/sr/mic)": (2, 3, "pixel_radiance", float),
+                      "sol. spect (in w/m2/mic)": (1, 1, "solar_spectrum", float),
 
 
-                      "measured radiance [w/m2/sr/mic]": (CURRENT, 4, "measured_radiance", float),
-                      "atmospherically corrected reflectance": (1, 3, "atmos_corrected_reflectance_lambertian", float),
-                      "atmospherically corrected reflect": (2, 3, "atmos_corrected_reflectance_brdf", float),
-                      "coefficients xa": (CURRENT, 5, "coef_xa", float),
-                      "coefficients xa xb": (CURRENT, 6, "coef_xb", float),
-                      "coefficients xa xb xc": (CURRENT, 7, "coef_xc", float),
-                      "int. funct filter (in mic)": (1, 0, 'int_funct_filt', float),
-                      "int. sol. spect (in w/m2)": (1, 1, 'int_solar_spectrum', float)
+                      "measured radiance [w/m2/sr/mic]": (CURRENT, 5, "measured_radiance", float),
+                      "atmospherically corrected reflectance": (1, 4, "atmos_corrected_reflectance_lambertian", float),
+                      "atmospherically corrected reflect": (2, 4, "atmos_corrected_reflectance_brdf", float),
+                      "int. sol. spect (in w/m2)": (1, 2, 'int_solar_spectrum', float),
+                      "coefficients xa ": (CURRENT, 6, "coef_xa", float),
+                      "coefficients xa xb": (CURRENT, 7, "coef_xb", float),
+                      "coefficients xa xb xc": (CURRENT, 8, "coef_xc", float),
+                      "coefficients xap ": (CURRENT, 6, "coef_xap", float),
+                      "coefficients xap xb": (CURRENT, 7, "coef_xbp", float),
+                      "coefficients xap xb xc": (CURRENT, 8, "coef_xcp", float),
+                      "int. funct filter (in mic)": (1, 1, 'int_funct_filt', float),
                       }
         # Process most variables in the output
         for index in range(len(lines)):
@@ -224,17 +229,17 @@ class Outputs(object):
                     values = Transmittance()
 
                     try:
-                        values.downward = float(items[4])
+                        values.downward = float(items[5])
                     except:
                         values.downward = float('nan')
 
                     try:
-                        values.upward = float(items[5])
+                        values.upward = float(items[6])
                     except:
                         values.upward = float('nan')
 
                     try:
-                        values.total = float(items[6])
+                        values.total = float(items[7])
                     except:
                         values.total = float('nan')
 
@@ -262,7 +267,7 @@ class Outputs(object):
             for search, name in bottom_grid_extractors.items():
                 # If the label we're searching for is in the current line
                 if search in current_line:
-                    items = current_line.rsplit(None, 3)
+                    items = current_line.rsplit(None, 4)
 
                     values = RayleighAerosolTotal()
 
@@ -294,6 +299,11 @@ class Outputs(object):
 
         """
         return int(float(str))
+    
+    def extract_altitude(self, data):
+        """Extracts altitude"""
+        spl = data.split('[km]')
+        return float(spl[1])
 
     def extract_vis(self, data):
         """Extracts the visibility from the visibility and AOT line in the output"""
@@ -310,10 +320,7 @@ class Outputs(object):
 
     def extract_aot(self, data):
         """Extracts the AOT from the visibility and AOT line in the output."""
-        s = " ".join(data)
-        spl = s.split(":")
-
-        return float(spl[2])
+        return float(data[-2])
 
     def write_output_file(self, filename):
         """Writes the full textual output of the 6S model run to the specified filename.
