@@ -336,4 +336,4 @@ installed correctly (recommended)::
 
 .. _GnuWin32: http://gnuwin32.sourceforge.net/packages.html
 .. _Homebrew: http://brew.sh
-.. _6SV1.1: https://www.dropbox.com/s/bzus7wz0da4abqh/6SV-1.1.tar?dl=0
+.. _6SV1.1: http://rtwilson.com/downloads/6SV-1.1.tar
