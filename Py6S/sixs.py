@@ -266,13 +266,13 @@ class SixS(object):
         # we need to interpolate to the right spacing
         # and replace the REFL_REPLACE bit of the string
 
-        if "REFL_REPLACE" in str_ground_refl:
-            new_str = self._refls_to_string(ground_reflectance_lines[1])
-            str_ground_refl = str_ground_refl.replace("REFL_REPLACE", new_str)
-
         if "REFL_REPLACE_2" in str_ground_refl:
             new_str = self._refls_to_string(ground_reflectance_lines[2])
             str_ground_refl = str_ground_refl.replace("REFL_REPLACE_2", new_str)
+
+        if "REFL_REPLACE" in str_ground_refl:
+            new_str = self._refls_to_string(ground_reflectance_lines[1])
+            str_ground_refl = str_ground_refl.replace("REFL_REPLACE", new_str)
 
         input_file += str_ground_refl
 
