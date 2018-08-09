@@ -228,3 +228,24 @@ class AltitudesTest(unittest.TestCase):
     s.run()
 
     self.assertAlmostEqual(s.outputs.apparent_radiance, 165.188, delta=0.002)
+
+class GroundReflectanceTest(unittest.TestCase):
+
+  def test_hetero_ground_reflectance(self):
+    s = SixS()
+    s.altitudes.set_sensor_satellite_level()
+    s.altitudes.set_target_sea_level()
+    s.wavelength = Wavelength(PredefinedWavelengths.LANDSAT_ETM_B2)
+
+    wavelengths = np.arange(0.5, 0.6, 0.025)
+    ro_target = np.array([wavelengths, [1.0]*4]).T
+    ro_env = np.array([wavelengths, [0.5]*4]).T
+
+    s.ground_reflectance = GroundReflectance.HeterogeneousLambertian(0.3,
+                                                                    ro_target,
+                                                                    ro_env)
+
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.apparent_radiance, 343.68, delta=0.002)
+
