@@ -3,6 +3,13 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.7.1 (18th Oct 2018)
+^^^^^^^^^^^^^^^^^^^^^
+* Fixed bug with all `SixSHelpers.Wavelengths.run_XXX` functions which weren't closing a thread pool and
+thus could fail if run multiple times in succession.
+* Fixed bug with `GroundReflectance.HeterogeneousLambertian` where the reflectances are given as arrays of
+wavelengths and reflectances. This previously resulted in an error, it now works correctly.
+
 1.7 (31st Jan 2017)
 ^^^^^^^^^^^^^^^^^^^
 * Added new spectral response functions
