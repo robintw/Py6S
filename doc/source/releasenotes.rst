@@ -6,15 +6,15 @@ Details on the changes in recent versions of Py6S can be found below. More detai
 1.7.2 (18th Oct 2018)
 ^^^^^^^^^^^^^^^^^^^^^
 * Fixed similar thread pool bug with `SixSHelpers.Angles.run_360` and
-`SixHelpers.Angles.run_principal_plane`. Both now close the thread pool, allowing them to be run
-many times with no problems.
+  `SixHelpers.Angles.run_principal_plane`. Both now close the thread pool, allowing them to be run
+  many times with no problems.
 
 1.7.1 (18th Oct 2018)
 ^^^^^^^^^^^^^^^^^^^^^
 * Fixed bug with all `SixSHelpers.Wavelengths.run_XXX` functions which weren't closing a thread pool and
-thus could fail if run multiple times in succession.
+  thus could fail if run multiple times in succession.
 * Fixed bug with `GroundReflectance.HeterogeneousLambertian` where the reflectances are given as arrays of
-wavelengths and reflectances. This previously resulted in an error, it now works correctly.
+  wavelengths and reflectances. This previously resulted in an error, it now works correctly.
 
 1.7 (31st Jan 2017)
 ^^^^^^^^^^^^^^^^^^^
