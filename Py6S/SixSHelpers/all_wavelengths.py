@@ -87,6 +87,9 @@ class Wavelengths:
         print("Running for many wavelengths - this may take a long time")
         results = pool.map(f, wavelengths)
 
+        pool.close()
+        pool.join()
+
         try:
             if len(wavelengths[0]) == 4:
                 cleaned_wavelengths = list(map(lambda x: x[:3], wavelengths))
