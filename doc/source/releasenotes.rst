@@ -3,6 +3,12 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.7.2 (18th Oct 2018)
+^^^^^^^^^^^^^^^^^^^^^
+* Fixed similar thread pool bug with `SixSHelpers.Angles.run_360` and
+`SixHelpers.Angles.run_principal_plane`. Both now close the thread pool, allowing them to be run
+many times with no problems.
+
 1.7.1 (18th Oct 2018)
 ^^^^^^^^^^^^^^^^^^^^^
 * Fixed bug with all `SixSHelpers.Wavelengths.run_XXX` functions which weren't closing a thread pool and
