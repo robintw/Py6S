@@ -25,6 +25,7 @@ install:
   - conda create -q -n test-environment -c conda-forge python=$TRAVIS_PYTHON_VERSION sixs pysolar numpy scipy pandas matplotlib pytest pytest-cov
   - source activate test-environment
   - pip install python-coveralls
+  - pip install coverage==4.4
   - python setup.py install
 
 script:
