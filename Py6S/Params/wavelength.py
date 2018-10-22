@@ -82,7 +82,10 @@ def Wavelength(start_wavelength, end_wavelength=None, filter=None):
                 data = "%f %f" % (start_wavelength, end_wavelength)
             else:
                 # Filter has been given, so we must use it.
-                # We assume filter has been given at 2.5nm intervals
+                # We check filter has been given at 2.5nm intervals
+                n_req_filter_values = round((end_wavelength - start_wavelength) / 0.0025) + 1
+                if len(filter) != n_req_filter_values:
+                    raise sixs_exceptions.ParameterError("wavelength", "You must provide a filter value at 2.5nm (0.0025um) intervals, including both the start and end wavelengths.")
                 wv_type = "1 User's defined filtered function"
                 data = """%f %f
     %s""" % (start_wavelength, end_wavelength, " ".join(map(str, filter)))
