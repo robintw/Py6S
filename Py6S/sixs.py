@@ -88,17 +88,17 @@ class SixS(object):
                             
                             s.aot550 = 0.2
                     
-                    Note: only one of ``visibility`` or ``aot550`` can be set.
-                    When setting one, ensure the other is set to ``None``. (By default, ``s.visibility`` is set to None,
-                    so just setting ``s.aot550`` will work.)
+      Note: only one of ``visibility`` or ``aot550`` can be set.
+      When setting one, ensure the other is set to ``None``. (By default, ``s.visibility`` is set to None,
+      so just setting ``s.aot550`` will work.)
 
     * ``visibility`` -- The visibility value (in km) to use for the simulation. For example::
 
                             s.visibility = 40
 
-                    Note: only one of ``visibility`` or ``aot550`` can be set.
-                    When setting one, ensure the other is set to ``None``. (By default, ``s.visibility`` is set to None,
-                    so to set a visibility value you must also do ``s.aot550 = None``)
+      Note: only one of ``visibility`` or ``aot550`` can be set.
+      When setting one, ensure the other is set to ``None``. (By default, ``s.visibility`` is set to None,
+      so to set a visibility value you must also do ``s.aot550 = None``)
     """
 
     # Stores the outputs from 6S as an instance of the Outputs class
