@@ -109,6 +109,14 @@ class Outputs(object):
         # Split into lines
         lines = fulltext.splitlines()
 
+        # There should be hundreds of lines for a full 6S run - so if there are
+        # less than 10 then it suggests something has gone seriously wrong
+        if len(lines) < 10:
+            print(fulltext)
+            raise OutputParsingError("6S didn't return a full output. See raw 6S output above for "
+                                     "more information and check for invalid parameter inputs")
+
+
         CURRENT = 0
         WHOLE_LINE = (0, 30)
 
