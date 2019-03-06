@@ -212,10 +212,6 @@ class AeroProfile:
         * :meth:`.JungePowerLawDistribution`
 
         """
-        numtype = 0
-        rmin = 0
-        rmax = 0
-        values = []
 
         def __init__(self, rmin, rmax, numtype):
             """Initialise an Aerosol Distribution with various parameters.
@@ -232,6 +228,7 @@ class AeroProfile:
             self.rmin = rmin
             self.rmax = rmax
             self.numtype = numtype
+            self.values = []
 
         def add_component(self, rmean, sigma, percentage_density, refr_real, refr_imag):
             """Adds a component to the aerosol distribution.
