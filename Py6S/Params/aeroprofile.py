@@ -294,8 +294,6 @@ class AeroProfile:
           s.aeroprofile.add_layer(100, 0.01) # Add a 100km-thick layer with an AOT of 0.01
 
         """
-        values = []
-        aerotype = 0
 
         def __init__(self, atype):
             """Initialises the user-defined aerosol profile to a specific aerosol type.
@@ -306,6 +304,7 @@ class AeroProfile:
 
             """
             self.aerotype = atype
+            self.values = []
 
         def add_layer(self, height, optical_thickness):
             """Adds a layer to the user-defined profile.
