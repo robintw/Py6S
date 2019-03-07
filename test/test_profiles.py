@@ -169,3 +169,14 @@ class AeroProfileTests(unittest.TestCase):
           1.443,1.430,1.470, 1.999, 1.999, 0], [3.24E-07,3.0E-08,2.86E-08,2.51E-08,2.2E-08,2.0E-08,1.0E-08,
           1.0E-08,1.48E-08,2.0E-08,6.85E-08,1.0E-07,1.25E-06,3.0E-06,3.5E-04,6.0E-04,6.86E-04,
           1.7E-03,4.0E-03,1.4E-03])
+
+    def test_running_multiple_add_components(self):
+      s = SixS()
+      real_intp = [0.0] * 20
+      imag_intp = [0.0] * 20
+
+      # Running these lines more than twice used to give an error
+      for i in range(4):
+        s.aeroprofile = AeroProfile.MultimodalLogNormalDistribution(0.085, 2.9)
+        s.aeroprofile.add_component(rmean=2.65,sigma=0.62,percentage_density=0.093,refr_real=real_intp,refr_imag=imag_intp)
+        s.aeroprofile.add_component(rmean=0.176,sigma=0.46,percentage_density=0.907,refr_real=real_intp,refr_imag=imag_intp)
