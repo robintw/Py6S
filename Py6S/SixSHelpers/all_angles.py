@@ -91,7 +91,8 @@ class Angles:
         return (results, azimuths, zeniths, s.geometry.solar_a, s.geometry.solar_z)
 
     @classmethod
-    def plot360(cls, data, output_name=None, show_sun=True, colorbarlabel=None):
+    def plot360(cls, data, output_name=None, show_sun=True,
+                **kwargs):
         """Plot the data returned from :meth:`run360` as a polar contour plot, selecting an output if required.
 
         Arguments:
@@ -111,7 +112,7 @@ class Angles:
 
             results = cls.extract_output(results, output_name)
 
-        fig, ax, cax = cls.plot_polar_contour(results, azimuths, zeniths, colorbarlabel=colorbarlabel)
+        fig, ax, cax = cls.plot_polar_contour(results, azimuths, zeniths, **kwargs)
 
         if show_sun:
             ax.autoscale(False)
@@ -168,7 +169,8 @@ class Angles:
         return results_output
 
     @classmethod
-    def plot_polar_contour(cls, values, azimuths, zeniths, filled=True, colorbarlabel=""):
+    def plot_polar_contour(cls, values, azimuths, zeniths, filled=True,
+                           colorbarlabel="", figsize=None):
         """Plot a polar contour plot, with 0 degrees at the North.
 
         Arguments:
@@ -202,7 +204,7 @@ class Angles:
         values = values.reshape(len(azimuths), len(zeniths))
 
         r, theta = np.meshgrid(zeniths, np.radians(azimuths))
-        fig, ax = subplots(subplot_kw=dict(projection='polar'))
+        fig, ax = subplots(subplot_kw=dict(projection='polar'), figsize=figsize)
         ax.set_theta_zero_location("N")
         ax.set_theta_direction(-1)
         if filled:
