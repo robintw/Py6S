@@ -289,18 +289,18 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.S2A_SR_AV_B01
-              PredefinedWavelengths.S2A_SR_AV_B02
-              PredefinedWavelengths.S2A_SR_AV_B03
-              PredefinedWavelengths.S2A_SR_AV_B04
-              PredefinedWavelengths.S2A_SR_AV_B05
-              PredefinedWavelengths.S2A_SR_AV_B06
-              PredefinedWavelengths.S2A_SR_AV_B07
-              PredefinedWavelengths.S2A_SR_AV_B08
-              PredefinedWavelengths.S2A_SR_AV_B8A
-              PredefinedWavelengths.S2A_SR_AV_B09
-              PredefinedWavelengths.S2A_SR_AV_B10
-              PredefinedWavelengths.S2A_SR_AV_B11
+        wv = [PredefinedWavelengths.S2A_SR_AV_B01,
+              PredefinedWavelengths.S2A_SR_AV_B02,
+              PredefinedWavelengths.S2A_SR_AV_B03,
+              PredefinedWavelengths.S2A_SR_AV_B04,
+              PredefinedWavelengths.S2A_SR_AV_B05,
+              PredefinedWavelengths.S2A_SR_AV_B06,
+              PredefinedWavelengths.S2A_SR_AV_B07,
+              PredefinedWavelengths.S2A_SR_AV_B08,
+              PredefinedWavelengths.S2A_SR_AV_B8A,
+              PredefinedWavelengths.S2A_SR_AV_B09,
+              PredefinedWavelengths.S2A_SR_AV_B10,
+              PredefinedWavelengths.S2A_SR_AV_B11,
               PredefinedWavelengths.S2A_SR_AV_B12]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
