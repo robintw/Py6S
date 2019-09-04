@@ -27,7 +27,7 @@ this documentation, but a quick code example should give you an idea of what Py6
   # Run the model
   s.run()
   # Print some outputs
-  print s.outputs.pixel_reflectance, s.outputs.pixel_radiance, s.outputs.direct_solar_irradiance
+  print(s.outputs.pixel_reflectance, s.outputs.pixel_radiance, s.outputs.direct_solar_irradiance)
   # Run the model across the VNIR wavelengths, and plot the result
   wavelengths, results = SixSHelpers.Wavelengths.run_vnir(s, output_name='pixel_radiance')
   SixSHelpers.Wavelengths.plot_wavelengths(wavelengths, results, "Pixel radiance ($W/m^2$)")

@@ -7,7 +7,7 @@ The :class:`.SixS` class is the heart of Py6S. It has attributes and methods tha
   s = SixS() # Instantiate the class
   s.aero_profile = AeroProfile.PredefinedType(AeroProfile.Maritime) # Set various parameters
   s.run() # Run the model
-  print s.outputs.pixel_irradiance # Access the outputs
+  print(s.outputs.pixel_irradiance) # Access the outputs
   
 
 .. autoclass:: Py6S.SixS

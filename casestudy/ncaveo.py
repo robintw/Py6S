@@ -58,13 +58,13 @@ savefig("ncaveo_perc_diff.png")
 wv, early_spot = SixSHelpers.Wavelengths.run_spot_hrv(early, output_name='pixel_radiance')
 wv, late_spot = SixSHelpers.Wavelengths.run_spot_hrv(late, output_name='pixel_radiance')
 
-print early_spot
-print late_spot
+print(early_spot)
+print(late_spot)
 
 # Calculate NDVIs
 early_ndvi = ndvi(early_spot[1], early_spot[2])
 late_ndvi = ndvi(late_spot[1], late_spot[2])
 
-print "Early NDVI:\t%f" % early_ndvi
-print "Late NDVI:\t%f" % late_ndvi
-print "Percentage Difference:\t%f" % (((early_ndvi - late_ndvi) / early_ndvi) * 100)
+print("Early NDVI:\t%f" % early_ndvi)
+print("Late NDVI:\t%f" % late_ndvi)
+print("Percentage Difference:\t%f" % (((early_ndvi - late_ndvi) / early_ndvi) * 100))

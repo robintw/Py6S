@@ -104,7 +104,7 @@ class Aeronet:
         # (may be closer to the given_time than the closest
         # time that has full aerosol model information)
         aot = cls._get_aot(df)
-        # print "AOT = %f" % aot
+        # print("AOT = %f" % aot)
 
         refr_ind, refi_ind, wvs, radii_ind, radii = cls._get_model_columns(df)
 

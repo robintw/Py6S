@@ -11,7 +11,7 @@ def run(azimuth, zenith):
   s.ground_reflectance = Py6S.GroundReflectance.HomogeneousRoujean(0.037, 0.0, 0.133)
   s.geometry.view_a = azimuth
   s.geometry.view_z = zenith
-  print zenith
+  print(zenith)
   s.run()
   return s.outputs.pixel_radiance
 
@@ -31,7 +31,7 @@ for azimuth in azimuths:
     
 result = [task.get() for task in tasks]
 pend = time.time()
-print result
+print(result)
 
 sstart = time.time()
 res = []
@@ -41,5 +41,5 @@ for azimuth in azimuths:
 
 send = time.time()
 
-print "Parallel %f" % (pend-pstart)
-print "Serial %f" % (send-sstart)
+print("Parallel %f" % (pend-pstart))
+print("Serial %f" % (send-sstart))
