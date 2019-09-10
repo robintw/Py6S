@@ -57,7 +57,7 @@ We'll start with an example, and then explain the details::
   s.atmos_profile = AtmosProfile.PredefinedType(AtmosProfile.Tropical)
   s.wavelength = Wavelength(0.357)
   s.run()
-  print s.outputs.pixel_radiance
+  print(s.outputs.pixel_radiance)
 
 You can see here that we have changed the atmospheric profile to a pre-defined profile called 'Tropical', and changed the wavelength that we are using for the simulation to 0.357 micrometres. You can also see that here we're accessing the outputs directly, rather than running it over a specific wavelength range and plotting it. Try finding out what other outputs you can access, by typing ``s.outputs.`` and pressing *TAB*.
 
@@ -90,7 +90,7 @@ As you can see, the parameter and class names are designed to be fairly self-exp
   s.geometry.latitude = 51.148
   s.geometry.longitude = 0.307
   s.run()
-  print s.outputs.pixel_radiance
+  print(s.outputs.pixel_radiance)
   
 This is far more detailed, but should be self-explanatory given the comments and the table above. Far more details about the individual parameterisations are available in their documentation pages.
 
@@ -102,7 +102,7 @@ The real power of Py6S comes when you combine the paramterisation abilities of P
   for param in [AtmosProfile.Tropical, AtmosProfile.MidlatitudeSummer, AtmosProfile.MidlatitudeWinter]:
     s.atmos_profile = AtmosProfile.PredefinedType(param)
     s.run()
-    print s.outputs.pixel_radiance
+    print(s.outputs.pixel_radiance)
     
 You can see that in this instance the change in pixel radiance over different atmospheric profiles is fairly low (< 0.8). Again, this saves a lot of time and complex input file editing.
 
@@ -115,16 +115,16 @@ The outputs from the 6S model are available under the ``s.outputs`` attribute. T
   from Py6S import *
   s = SixS()
   s.run()
-  print s.outputs.values
+  print(s.outputs.values)
   
 However, it's normally more useful to access individual outputs. This can be done using the standard Python dictionary access methods - for example, ``print s.outputs.values['pixel_radiance']``, but it is generally easy to do this by appending the output name to ``s.outputs.``. For example::
 
   from Py6S import *
   s = SixS()
   s.run()
-  print s.outputs.pixel_radiance
-  print s.outputs.environmental_irradiance
-  print s.outputs.total_gaseous_transmittance
+  print(s.outputs.pixel_radiance)
+  print(s.outputs.environmental_irradiance)
+  print(s.outputs.total_gaseous_transmittance)
 
 The outputs stored under ``s.outputs.values`` are the main outputs of 6S provided on the first two 'screenfulls' of raw 6S output. The names of the outputs in Py6S have been kept as similar to the labels in the raw 6S output as possible, although sometimes names have been changed to improve clarity. Remember that a list of all possible outputs can be gained by typing ``s.outputs.`` and pressing *TAB* in IPython.
 
@@ -133,20 +133,20 @@ The tables showing the integrated values of various transmittances (rayleigh, wa
   from Py6S import *
   s = SixS()
   s.run()
-  print s.outputs.transmittance_rayleigh_scattering
-  print s.outputs.transmittance_rayleigh_scattering.downward
-  print s.outputs.transmittance_rayleigh_scattering.upward
-  print s.outputs.transmittance_rayleigh_scattering.total
-  print s.outputs.transmittance_water
+  print(s.outputs.transmittance_rayleigh_scattering)
+  print(s.outputs.transmittance_rayleigh_scattering.downward)
+  print(s.outputs.transmittance_rayleigh_scattering.upward)
+  print(s.outputs.transmittance_rayleigh_scattering.total)
+  print(s.outputs.transmittance_water)
   
 Outputs from the other large grid shown in the raw 6S output, which includes outputs like spherical albedo, total optical depth and polarized reflectance, are also available::
 
   from Py6S import *
   s = SixS()
   s.run()
-  print s.outputs.spherical_albedo
-  print s.outputs.optical_depth_total
-  print s.outputs.polarized_reflectance
+  print(s.outputs.spherical_albedo)
+  print(s.outputs.optical_depth_total)
+  print(s.outputs.polarized_reflectance)
   
 SixSHelpers
 -----------
@@ -185,7 +185,7 @@ If you don't set the ``output_name`` argument then the function will return lots
   # Run for the whole range (takes a long time!)
   wv, res = SixSHelpers.Wavelengths.run_landsat_tm(s)
   # Look at what is in the results list - it should be an outputs instance
-  print res[0]
+  print(res[0])
   # We can't do anything with the outputs instances directly, but lets
   # extract some outputs - we can do all of this without having to run
   # the whole simulation again, as the res variable is storing all of the
