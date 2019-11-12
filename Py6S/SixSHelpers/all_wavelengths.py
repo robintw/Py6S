@@ -388,6 +388,81 @@ class Wavelengths:
 
         return (centre_wvs, res)
 
+    @classmethod
+    def run_s3b_olci(cls, s, **kwargs):
+        """Runs the given SixS parameterisation for all of the Sentinel3/OLCI bands within the 6S band range, optionally extracting a specific output.
+
+        Arguments:
+
+        * ``s`` -- A :class:`.SixS` instance with the parameters set as required
+        * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
+
+        Return value:
+
+        A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
+        or a list of values of the selected output if ``output_name`` is set.
+        """
+        wv = [PredefinedWavelengths.S3B_OLCI_01,
+              PredefinedWavelengths.S3B_OLCI_02,
+              PredefinedWavelengths.S3B_OLCI_03,
+              PredefinedWavelengths.S3B_OLCI_04,
+              PredefinedWavelengths.S3B_OLCI_05,
+              PredefinedWavelengths.S3B_OLCI_06,
+              PredefinedWavelengths.S3B_OLCI_07,
+              PredefinedWavelengths.S3B_OLCI_08,
+              PredefinedWavelengths.S3B_OLCI_09,
+              PredefinedWavelengths.S3B_OLCI_10,
+              PredefinedWavelengths.S3B_OLCI_11,
+              PredefinedWavelengths.S3B_OLCI_12,
+              PredefinedWavelengths.S3B_OLCI_13,
+              PredefinedWavelengths.S3B_OLCI_14,
+              PredefinedWavelengths.S3B_OLCI_15,
+              PredefinedWavelengths.S3B_OLCI_16,
+              PredefinedWavelengths.S3B_OLCI_17,
+              PredefinedWavelengths.S3B_OLCI_18,
+              PredefinedWavelengths.S3B_OLCI_19,
+              PredefinedWavelengths.S3B_OLCI_20,
+              PredefinedWavelengths.S3B_OLCI_21]
+
+        wv, res = cls.run_wavelengths(s, wv, **kwargs)
+
+        centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
+        return (centre_wvs, res)
+
+
+    @classmethod
+    def run_s3b_slstr(cls, s, **kwargs):
+        """Runs the given SixS parameterisation for all of the Sentinel3/SLSTR bands within the 6S band range, optionally extracting a specific output.
+
+        Arguments:
+
+        * ``s`` -- A :class:`.SixS` instance with the parameters set as required
+        * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
+
+        Return value:
+
+        A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
+        or a list of values of the selected output if ``output_name`` is set.
+        """
+        wv = [PredefinedWavelengths.S3B_SLSTR_01,
+              PredefinedWavelengths.S3B_SLSTR_02,
+              PredefinedWavelengths.S3B_SLSTR_03,
+              PredefinedWavelengths.S3B_SLSTR_04,
+              PredefinedWavelengths.S3B_SLSTR_05,
+              PredefinedWavelengths.S3B_SLSTR_06]
+
+        wv, res = cls.run_wavelengths(s, wv, **kwargs)
+
+        centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
+        return (centre_wvs, res)
 
 
     @classmethod
