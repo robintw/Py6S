@@ -1058,9 +1058,6 @@ class PredefinedWavelengths:
 		     0.97293, 0.97185, 0.94923, 0.87905, 0.74452,
 		     0.56139, 0.37587, 0.22824, 0.12957, 0.07039,
 		     0.03621, 0.01760, ]))
--- 
-Dominique JOLIVET
-HYGEOS
 
     # Redefined MODIS TERRA and AQUA bands to a more accurate spectral
     # sampling actually measured from each satellite
