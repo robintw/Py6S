@@ -112,7 +112,7 @@ class Aeronet:
         inds = refr_ind + refi_ind + radii_ind + [len(df.columns) - 1]
 
         # and put them into a smaller df for just the aerosol-model-related components
-        model_df = df.ix[:, inds]
+        model_df = df.iloc[:, inds]
         # Get rid of rows which don't have a full set of data
         model_df = model_df.dropna(axis=0, how='any')
 
@@ -123,7 +123,7 @@ class Aeronet:
         rowind = model_df.timediffs.idxmin()
 
         # Extract this row as a series
-        ser = model_df.ix[rowind]
+        ser = model_df.iloc[rowind]
         # Get the new relevant indices for this smaller df
         refr_ind, refi_ind, wvs, radii_ind, radii = cls._get_model_columns(model_df)
 
@@ -205,7 +205,7 @@ class Aeronet:
         inds = np.array(inds)
 
         # Remove the columns for AOT wavelengths with no data
-        aot_df = df.ix[:, inds]
+        aot_df = df.iloc[:, inds]
         aot_df = aot_df.dropna(axis=1, how='all')
         aot_df = aot_df.dropna(axis=0, how='any')
 
@@ -228,6 +228,6 @@ class Aeronet:
 
         rowind = aot_df.timediffs.idxmin()
 
-        aot = aot_df.ix[rowind, aot_col_index]
+        aot = aot_df.iloc[rowind, aot_col_index]
 
         return aot
