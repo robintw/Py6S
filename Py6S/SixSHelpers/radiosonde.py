@@ -318,9 +318,15 @@ class Radiosonde:
         spl = spl[:-1]
         table = "\n".join(spl)
 
+        # Check for partly empty first line in U of W data which impacts interpolations:
+        if len(table.split('\n')[4].split()) != 11:
+        num_skip = 5
+        else:
+        num_skip = 4
+
         # Import to NumPy arrays
         s = io.BytesIO(table.encode())
-        array = np.genfromtxt(s,skip_header=4, delimiter=7,usecols=(0, 1, 2, 5),filling_values=0)
+        array = np.genfromtxt(s,skip_header=num_skip, delimiter=7,usecols=(0, 1, 2, 5),filling_values=0)
 
         pressure = array[:, 0]
         altitude = array[:, 1] / 1000
