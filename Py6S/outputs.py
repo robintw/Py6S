@@ -60,9 +60,15 @@ class Outputs(object):
 
         if len(stderr) > 0:
             # Something on standard error - so there's been an error
-            print(stderr)
-            raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
-
+            if sys.version_info[0] >= 3:
+                stderr = stderr.decode('utf-8')
+            import platform
+            if platform.system() != 'Darwin':
+                print(stderr)
+                raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
+            elif (platform.system() == 'Darwin') and (not ('IEEE_INVALID_FLAG' in stderr)): # Ignoring error on MacOS IEEE_INVALID_FLAG
+                print(stderr)
+                raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
 
         self.fulltext = stdout
 
