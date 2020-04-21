@@ -26,7 +26,7 @@ class Wavelengths:
     """Helper functions for running the 6S model for a range of wavelengths, and plotting the result"""
 
     @classmethod
-    def run_wavelengths(cls, s, wavelengths, output_name=None, n=None, verbose=True):
+    def run_wavelengths(cls, s, wavelengths, output_name=None, n=None, verbose=False):
         """Runs the given SixS parameterisation for each of the wavelengths given, optionally extracting a specific output.
 
         This function is used by all of the other wavelengths running functions, such as :method:`run_vnir`, and thus
