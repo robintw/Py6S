@@ -289,19 +289,19 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.S2A_SR_AV_B01,
-              PredefinedWavelengths.S2A_SR_AV_B02,
-              PredefinedWavelengths.S2A_SR_AV_B03,
-              PredefinedWavelengths.S2A_SR_AV_B04,
-              PredefinedWavelengths.S2A_SR_AV_B05,
-              PredefinedWavelengths.S2A_SR_AV_B06,
-              PredefinedWavelengths.S2A_SR_AV_B07,
-              PredefinedWavelengths.S2A_SR_AV_B08,
-              PredefinedWavelengths.S2A_SR_AV_B8A,
-              PredefinedWavelengths.S2A_SR_AV_B09,
-              PredefinedWavelengths.S2A_SR_AV_B10,
-              PredefinedWavelengths.S2A_SR_AV_B11,
-              PredefinedWavelengths.S2A_SR_AV_B12]
+        wv = [PredefinedWavelengths.S2A_MSI_01,
+              PredefinedWavelengths.S2A_MSI_02,
+              PredefinedWavelengths.S2A_MSI_03,
+              PredefinedWavelengths.S2A_MSI_04,
+              PredefinedWavelengths.S2A_MSI_05,
+              PredefinedWavelengths.S2A_MSI_06,
+              PredefinedWavelengths.S2A_MSI_07,
+              PredefinedWavelengths.S2A_MSI_08,
+              PredefinedWavelengths.S2A_MSI_8A,
+              PredefinedWavelengths.S2A_MSI_09,
+              PredefinedWavelengths.S2A_MSI_10,
+              PredefinedWavelengths.S2A_MSI_11,
+              PredefinedWavelengths.S2A_MSI_12]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -311,6 +311,44 @@ class Wavelengths:
             centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
+
+    @classmethod
+    def run_s2b_msi(cls, s, **kwargs):
+        """Runs the given SixS parameterisation for all of the Sentinel2/MSI bands within the 6S band range, optionally extracting a specific output.
+
+        Arguments:
+
+        * ``s`` -- A :class:`.SixS` instance with the parameters set as required
+        * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
+
+        Return value:
+
+        A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
+        or a list of values of the selected output if ``output_name`` is set.
+        """
+        wv = [PredefinedWavelengths.S2B_MSI_01,
+              PredefinedWavelengths.S2B_MSI_02,
+              PredefinedWavelengths.S2B_MSI_03,
+              PredefinedWavelengths.S2B_MSI_04,
+              PredefinedWavelengths.S2B_MSI_05,
+              PredefinedWavelengths.S2B_MSI_06,
+              PredefinedWavelengths.S2B_MSI_07,
+              PredefinedWavelengths.S2B_MSI_08,
+              PredefinedWavelengths.S2B_MSI_8A,
+              PredefinedWavelengths.S2B_MSI_09,
+              PredefinedWavelengths.S2B_MSI_10,
+              PredefinedWavelengths.S2B_MSI_11,
+              PredefinedWavelengths.S2B_MSI_12]
+
+        wv, res = cls.run_wavelengths(s, wv, **kwargs)
+
+        centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
+        return (centre_wvs, res)
+
 
     @classmethod
     def run_s3a_olci(cls, s, **kwargs):
