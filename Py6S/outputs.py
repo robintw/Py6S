@@ -66,7 +66,7 @@ class Outputs(object):
             if platform.system() != 'Darwin':
                 print(stderr)
                 raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
-            elif (platform.system() == 'Darwin') and (not ('IEEE_INVALID_FLAG' in stderr)): # Ignoring error on MacOS IEEE_INVALID_FLAG
+            elif (platform.system() == 'Darwin') and (not ('IEEE_INVALID_FLAG' in stderr)) and (not ('IEEE_DENORMAL' in stderr)): # Ignoring error on MacOS IEEE_INVALID_FLAG
                 print(stderr)
                 raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
 
