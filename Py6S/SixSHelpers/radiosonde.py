@@ -320,9 +320,9 @@ class Radiosonde:
 
         # Check for partly empty first line in U of W data which impacts interpolations:
         if len(table.split('\n')[4].split()) != 11:
-        num_skip = 5
+            num_skip = 5
         else:
-        num_skip = 4
+            num_skip = 4
 
         # Import to NumPy arrays
         s = io.BytesIO(table.encode())
