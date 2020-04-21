@@ -604,7 +604,9 @@ class PredefinedWavelengths:
 #                                 0.07168 ,  0.049143,  0.033776,  0.025699,  0.018176,  0.013197,
 #                                 0.012156,  0.00902 ,  0.008416,  0.00428 ,  0.003313,  0.002669,
 #                                 0.002212,  0.001829,  0.001529,  0.001363,  0.001215]))
+
     # Sentinel-2A MSI spectral response functions
+    # Taken from https://earth.esa.int/web/sentinel/user-guides/sentinel-2-msi/document-library/-/asset_publisher/Wk0TKajiISaR/content/sentinel-2a-spectral-responses
     S2A_MSI_01 = (53, 0.4120, 0.4570, 
                      np.array([0.00177574,0.00357067,0.00378029,0.00162485,0.00125044,
                      0.00109536,0.00182373,0.01670008,0.32387506,0.73834764,
@@ -933,6 +935,7 @@ class PredefinedWavelengths:
                          0.03827, 0.01809, 0.00721, ]))
     
     # Sentinel-2B MSI spectral response functions
+    # Taken from https://earth.esa.int/web/sentinel/user-guides/sentinel-2-msi/document-library/-/asset_publisher/Wk0TKajiISaR/content/sentinel-2a-spectral-responses
     S2B_MSI_01 = (93, 0.4110, 0.4585, 
                      np.array([6.79779800e-03,5.38819850e-03,7.13011000e-03,
                      5.32861200e-03,6.21707000e-04,4.19444050e-03,
