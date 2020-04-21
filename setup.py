@@ -48,6 +48,7 @@ setup(
     name                  = "Py6S",
     packages              = ['Py6S', 'Py6S.Params', 'Py6S.SixSHelpers'],
     install_requires      = REQS,
+    python_requires       = '>=3',
     version               = "1.7.2",
     author                = "Robin Wilson",
     author_email          = "robin@rtwilson.com",
@@ -65,6 +66,5 @@ setup(
         "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 2"
     ],
 )
