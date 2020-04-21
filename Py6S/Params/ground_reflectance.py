@@ -411,7 +411,7 @@ WV_REPLACE
         if isinstance(target, np.ndarray):
             target_type = "-1"
             target_value = str_name
-        elif isinstance(target, collections.Iterable):
+        elif isinstance(target, collections.abc.Iterable):
             # If it has
             target_type = "-1"
             target_value = " ".join(map(str, target))
