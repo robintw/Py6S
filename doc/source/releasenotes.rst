@@ -3,6 +3,20 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.8.0 (23rd April 2020)
+^^^^^^^^^^^^^^^^^^^^^^^
+* Removed support for Python 2, and updated all docs and code examples to be Python 3 compatible
+* Fixed issues when running with conda-forge `sixs` package on Mac OS X, where floating point issues caused the run method to give an error
+* Updated Sentinel 2A and 2B MSI spectral response functions with new data from European Space Agency
+* Add Sentinel 3 A and B OLCI and SLSTR spectral response functions
+* Updated all usages of pandas to work with pandas 1.0
+* Fix issue with AerosolDistribution and UserProfile classes, where values could accidentally be shared between instances
+* Add error checking to custom filter function specification
+* Add check for whether 6S provided a reasonable amount of output, raising an error otherwise
+* Updated plot functions to take `figsize` as an argument
+* Fixed importing of malformed UoW Radiosonde data
+* Updated various parts of the documentation to be clearer
+
 1.7.2 (18th Oct 2018)
 ^^^^^^^^^^^^^^^^^^^^^
 * Fixed similar thread pool bug with `SixSHelpers.Angles.run_360` and
