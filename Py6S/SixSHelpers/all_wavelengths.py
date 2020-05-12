@@ -41,7 +41,7 @@ class Wavelengths:
         * ``wavelengths`` -- An iterable containing the wavelengths to iterate over
         * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
         * ``n`` -- (Optional) The number of threads to run in parallel. This defaults to the number of CPU cores in your system, and is unlikely to need changing.
-        * ``verbose`` -- (Optional) Print wavelengths as Py6S is running (default=True)
+        * ``verbose`` -- (Optional) Print wavelengths as Py6S is running (default=False)
 
         Return value:
 
