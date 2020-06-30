@@ -673,7 +673,7 @@ class Wavelengths:
 
         return (centre_wvs, res)
 
-   @classmethod
+    @classmethod
     def run_probav_1(cls, s, **kwargs):
         """Runs the given SixS parameterisation for all of the Proba-V left camera bands within the 6S band range, optionally extracting a specific output.
 
