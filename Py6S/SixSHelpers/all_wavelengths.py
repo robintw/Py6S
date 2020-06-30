@@ -41,7 +41,7 @@ class Wavelengths:
         * ``wavelengths`` -- An iterable containing the wavelengths to iterate over
         * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
         * ``n`` -- (Optional) The number of threads to run in parallel. This defaults to the number of CPU cores in your system, and is unlikely to need changing.
-        * ``verbose`` -- (Optional) Print wavelengths as Py6S is running (default=True)
+        * ``verbose`` -- (Optional) Print wavelengths as Py6S is running (default=False)
 
         Return value:
 
@@ -664,6 +664,90 @@ class Wavelengths:
         or a list of values of the selected output if ``output_name`` is set.
         """
         wv = [PredefinedWavelengths.SPOT_VGT_B1, PredefinedWavelengths.SPOT_VGT_B2, PredefinedWavelengths.SPOT_VGT_B3, PredefinedWavelengths.SPOT_VGT_B4]
+        wv, res = cls.run_wavelengths(s, wv, **kwargs)
+
+        centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
+        return (centre_wvs, res)
+
+   @classmethod
+    def run_probav_1(cls, s, **kwargs):
+        """Runs the given SixS parameterisation for all of the Proba-V left camera bands within the 6S band range, optionally extracting a specific output.
+
+        Arguments:
+
+        * ``s`` -- A :class:`.SixS` instance with the parameters set as required
+        * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
+
+        Return value:
+
+        A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
+        or a list of values of the selected output if ``output_name`` is set.
+        """
+        wv = [PredefinedWavelengths.PROBAV_1_01,
+              PredefinedWavelengths.PROBAV_1_02,
+              PredefinedWavelengths.PROBAV_1_03,
+              PredefinedWavelengths.PROBAV_1_04]
+
+        wv, res = cls.run_wavelengths(s, wv, **kwargs)
+
+        centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
+        return (centre_wvs, res)
+
+    @classmethod
+    def run_probav_2(cls, s, **kwargs):
+        """Runs the given SixS parameterisation for all of the Proba-V middle camera bands within the 6S band range, optionally extracting a specific output.
+
+        Arguments:
+
+        * ``s`` -- A :class:`.SixS` instance with the parameters set as required
+        * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
+
+        Return value:
+
+        A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
+        or a list of values of the selected output if ``output_name`` is set.
+        """
+        wv = [PredefinedWavelengths.PROBAV_2_01,
+              PredefinedWavelengths.PROBAV_2_02,
+              PredefinedWavelengths.PROBAV_2_03,
+              PredefinedWavelengths.PROBAV_2_04]
+
+        wv, res = cls.run_wavelengths(s, wv, **kwargs)
+
+        centre_wvs = map(cls.to_centre_wavelengths, wv)
+
+        if sys.version_info[0] >= 3:
+            centre_wvs = list(centre_wvs)
+
+        return (centre_wvs, res)
+
+    @classmethod
+    def run_probav_3(cls, s, **kwargs):
+        """Runs the given SixS parameterisation for all of the Proba-V right camera bands within the 6S band range, optionally extracting a specific output.
+
+        Arguments:
+
+        * ``s`` -- A :class:`.SixS` instance with the parameters set as required
+        * ``output_name`` -- (Optional) The output to extract from ``s.outputs``, as a string that could be placed after ``s.outputs.``, for example ``pixel_reflectance``
+
+        Return value:
+
+        A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
+        or a list of values of the selected output if ``output_name`` is set.
+        """
+        wv = [PredefinedWavelengths.PROBAV_3_01,
+              PredefinedWavelengths.PROBAV_3_02,
+              PredefinedWavelengths.PROBAV_3_03,
+              PredefinedWavelengths.PROBAV_3_04]
+
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)

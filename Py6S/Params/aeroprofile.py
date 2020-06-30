@@ -94,7 +94,7 @@ class AeroProfile:
 
         Example usage::
 
-          s.aeroprofile = AeroProfile.MultimodalLogNormalDistribution(0.3, 0.1)
+          s.aeroprofile = AeroProfile.MultimodalLogNormalDistribution(0.1, 0.3)
           s.aeroprofile.add_component(...)
 
         """
@@ -114,7 +114,7 @@ class AeroProfile:
 
         Example usage::
 
-          s.aeroprofile = AeroProfile.ModifiedGammaDistribution(0.3, 0.1)
+          s.aeroprofile = AeroProfile.ModifiedGammaDistribution(0.1, 0.3)
           s.aeroprofile.add_component(...)
 
         """
