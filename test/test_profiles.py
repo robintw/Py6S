@@ -177,6 +177,6 @@ class AeroProfileTests(unittest.TestCase):
 
       # Running these lines more than twice used to give an error
       for i in range(4):
-        s.aeroprofile = AeroProfile.MultimodalLogNormalDistribution(0.085, 2.9)
-        s.aeroprofile.add_component(rmean=2.65,sigma=0.62,percentage_density=0.093,refr_real=real_intp,refr_imag=imag_intp)
-        s.aeroprofile.add_component(rmean=0.176,sigma=0.46,percentage_density=0.907,refr_real=real_intp,refr_imag=imag_intp)
+        s.aero_profile = AeroProfile.MultimodalLogNormalDistribution(0.085, 2.9)
+        s.aero_profile.add_component(rmean=2.65,sigma=0.62,percentage_density=0.093,refr_real=real_intp,refr_imag=imag_intp)
+        s.aero_profile.add_component(rmean=0.176,sigma=0.46,percentage_density=0.907,refr_real=real_intp,refr_imag=imag_intp)

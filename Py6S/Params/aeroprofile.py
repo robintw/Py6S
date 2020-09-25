@@ -42,7 +42,7 @@ class AeroProfile:
 
         Example usage::
 
-          s.aeroprofile = AeroProfile.PredefinedType(AeroProfile.Urban)
+          s.aero_profile = AeroProfile.PredefinedType(AeroProfile.Urban)
 
         """
         return "%d" % type
@@ -64,8 +64,8 @@ class AeroProfile:
 
         Example usage::
 
-          s.aeroprofile = AeroProfile.User(dust=0.3, oceanic=0.7)
-          s.aeroprofile = AeroProfile.User(soot = 0.1, water = 0.3, oceanic = 0.05, dust = 0.55)
+          s.aero_profile = AeroProfile.User(dust=0.3, oceanic=0.7)
+          s.aero_profile = AeroProfile.User(soot = 0.1, water = 0.3, oceanic = 0.05, dust = 0.55)
 
         """
         d = defaultdict(lambda: 0, kwargs)
@@ -94,8 +94,8 @@ class AeroProfile:
 
         Example usage::
 
-          s.aeroprofile = AeroProfile.MultimodalLogNormalDistribution(0.1, 0.3)
-          s.aeroprofile.add_component(...)
+          s.aero_profile = AeroProfile.MultimodalLogNormalDistribution(0.1, 0.3)
+          s.aero_profile.add_component(...)
 
         """
         return cls.AerosolDistribution(rmin, rmax, 8)
@@ -114,8 +114,8 @@ class AeroProfile:
 
         Example usage::
 
-          s.aeroprofile = AeroProfile.ModifiedGammaDistribution(0.1, 0.3)
-          s.aeroprofile.add_component(...)
+          s.aero_profile = AeroProfile.ModifiedGammaDistribution(0.1, 0.3)
+          s.aero_profile.add_component(...)
 
         """
         return cls.AerosolDistribution(rmin, rmax, 9)
@@ -134,8 +134,8 @@ class AeroProfile:
 
         Example usage::
 
-          s.aeroprofile = AeroProfile.JungePowerLawDistribution(0.1, 0.3)
-          s.aeroprofile.add_component(...)
+          s.aero_profile = AeroProfile.JungePowerLawDistribution(0.1, 0.3)
+          s.aero_profile.add_component(...)
 
         """
         return cls.AerosolDistribution(rmin, rmax, 10)
@@ -288,10 +288,10 @@ class AeroProfile:
 
         Example usage::
 
-          s.aeroprofile = AeroProfile.UserProfile(AeroProfile.Maritime)
-          s.aeroprofile.add_layer(5, 0.34) # Add a 5km-thick layer with an AOT of 0.34
-          s.aeroprofile.add_layer(10, 0.7) # Add a 10km-thick layer with an AOT of 0.7
-          s.aeroprofile.add_layer(100, 0.01) # Add a 100km-thick layer with an AOT of 0.01
+          s.aero_profile = AeroProfile.UserProfile(AeroProfile.Maritime)
+          s.aero_profile.add_layer(5, 0.34) # Add a 5km-thick layer with an AOT of 0.34
+          s.aero_profile.add_layer(10, 0.7) # Add a 10km-thick layer with an AOT of 0.7
+          s.aero_profile.add_layer(100, 0.01) # Add a 100km-thick layer with an AOT of 0.01
 
         """
 
@@ -316,7 +316,7 @@ class AeroProfile:
 
             Example usage::
 
-              s.aeroprofile.add_layer(5, 0.34) # Add a 5km-thick layer with an AOT of 0.34
+              s.aero_profile.add_layer(5, 0.34) # Add a 5km-thick layer with an AOT of 0.34
             """
             self.values.append((height, optical_thickness))
 
