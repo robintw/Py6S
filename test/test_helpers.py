@@ -80,9 +80,11 @@ class ParallelEquivalenceTests(unittest.TestCase):
 		s.altitudes.set_sensor_satellite_level()
 		s.altitudes.set_target_sea_level()
 
+		print("Running in serial")
 		serial_res = SixSHelpers.Wavelengths.run_vnir(s, spacing=0.05, output_name='apparent_radiance', n=1)
 		
 		for i in range(2, 10, 2):
+			print("Running for n = " + str(i))
 			parallel_res = SixSHelpers.Wavelengths.run_vnir(s, spacing=0.05, output_name='apparent_radiance', n=i)
 			np.testing.assert_allclose(parallel_res, serial_res)
 
