@@ -1,0 +1,28 @@
+name: Scheduled Py6S conda install test
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    # at 07:14 on a Sunday
+    - cron:  '14 7 * * 0'
+jobs:
+  test-py6s:
+    name: Test Py6S from conda install
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [3.6, 3.7, 3.8]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+          channels: conda-forge
+          activate-environment: py6s-test
+      - shell: bash -l {0}
+        run: |
+          conda install py6s
+      - shell: bash -l {0}
+        run: python -c "from Py6S import *; SixS.test()"
