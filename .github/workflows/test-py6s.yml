@@ -36,7 +36,10 @@ jobs:
         run: python setup.py install
       - name: Run tests
         shell: bash -l {0}
-        run: python -m pytest -v --cov-report=xml --cov=Py6S test/  
+        run: python -m pytest -v --cov-report=xml --cov=Py6S test/
+      - name: Get coverage report
+        shell: bash -l {0}
+        run: coverage report
       - uses: codecov/codecov-action@v1
         with:
           file: ./coverage.xml
