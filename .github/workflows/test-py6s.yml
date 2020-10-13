@@ -40,3 +40,5 @@ jobs:
       - uses: codecov/codecov-action@v1
         with:
           file: ./result.xml
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
