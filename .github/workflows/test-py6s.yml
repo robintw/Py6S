@@ -1,4 +1,4 @@
-name: test-py6s
+name: Test Py6S
 on:
   push:
     branches:
@@ -37,3 +37,6 @@ jobs:
       - name: Run tests
         shell: bash -l {0}
         run: python -m pytest -v --junitxml=result.xml --cov Py6S --cov-report term-missing
+      - uses: codecov/codecov-action@v1
+        with:
+          file: ./result.xml
