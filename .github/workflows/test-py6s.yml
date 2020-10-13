@@ -36,9 +36,9 @@ jobs:
         run: python setup.py install
       - name: Run tests
         shell: bash -l {0}
-        run: python -m pytest -v --junitxml=result.xml --cov Py6S --cov-report term-missing
+        run: python -m pytest -v -k 'Example' --cov-report=xml --cov=Py6S test/  
       - uses: codecov/codecov-action@v1
         with:
-          file: ./result.xml
+          file: ./coverage.xml
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
