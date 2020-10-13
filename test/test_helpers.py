@@ -100,6 +100,7 @@ class ParallelEquivalenceTests(unittest.TestCase):
 
 		serial_res = SixSHelpers.Angles.run360(s, 'view', output_name='apparent_radiance', n=1)
 		
+		# Run for 2, 4 and 6 jobs (8 seems to fail on the Github Actions Windows runners)
 		for i in range(2, 8, 2):
 			parallel_res = SixSHelpers.Angles.run360(s, 'view', output_name='apparent_radiance', n=i)
 			np.testing.assert_allclose(parallel_res[0], serial_res[0])
