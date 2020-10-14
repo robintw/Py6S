@@ -1,4 +1,4 @@
-name: test-py6s
+name: Test Py6S
 on:
   push:
     branches:
@@ -30,10 +30,16 @@ jobs:
         shell: bash -l {0}
         run: |
           pip install python-coveralls
-          pip install coverage==4.4
+          pip install coverage
       - name: Install Py6S
         shell: bash -l {0}
         run: python setup.py install
       - name: Run tests
         shell: bash -l {0}
-        run: python -m pytest -v --junitxml=result.xml --cov Py6S --cov-report term-missing
+        run: python -m pytest -v --cov-report=xml --cov=Py6S test/
+      - name: Get coverage report
+        shell: bash -l {0}
+        run: coverage report
+      - uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
