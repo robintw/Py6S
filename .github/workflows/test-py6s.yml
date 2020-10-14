@@ -30,7 +30,7 @@ jobs:
         shell: bash -l {0}
         run: |
           pip install python-coveralls
-          pip install coverage==4.4
+          pip install coverage
       - name: Install Py6S
         shell: bash -l {0}
         run: python setup.py install
