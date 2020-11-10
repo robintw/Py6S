@@ -360,7 +360,7 @@ class SixS(object):
         """Runs a simple test to ensure that 6S and Py6S are installed correctly."""
         test = cls(path)
         print("6S wrapper script by Robin Wilson")
-        sixs_path = test._find_path()
+        sixs_path = test._find_path(path)
         if sixs_path is None:
             print("Error: cannot find the sixs executable in $PATH or current directory.")
         else:
