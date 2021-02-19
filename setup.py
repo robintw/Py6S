@@ -49,7 +49,7 @@ setup(
     packages              = ['Py6S', 'Py6S.Params', 'Py6S.SixSHelpers'],
     install_requires      = REQS,
     python_requires       = '>=3',
-    version               = "1.8.0",
+    version               = "1.8.1",
     author                = "Robin Wilson",
     author_email          = "robin@rtwilson.com",
     description           = SHORT_DESCRIPTION,

@@ -3,6 +3,10 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.8.1 (9th February 2021)
+^^^^^^^^^^^^^^^^^^^^^^^^^
+* Fixed bug when running Py6S with numpy 1.20.0
+
 1.8.0 (23rd April 2020)
 ^^^^^^^^^^^^^^^^^^^^^^^
 * Removed support for Python 2, and updated all docs and code examples to be Python 3 compatible
