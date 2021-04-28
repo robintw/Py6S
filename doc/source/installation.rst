@@ -328,7 +328,7 @@ installed correctly (recommended)::
 
   $ python
   >>> import os.path
-  >>> import Py6S; print(os.path.dirpath(Py6S.__file__))
+  >>> import Py6S; print(os.path.dirname(Py6S.__file__))
   <PATH_TO_PY6S_MODULE>
   >>> exit()
   cd <PATH_TO_PY6S_MODULE>
