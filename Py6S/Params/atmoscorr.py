@@ -30,7 +30,7 @@ class AtmosCorr:
         """Set 6S to perform atmospheric correction assuming a Lambertian surface, using a given radiance value.
 
         Arguments:
-        * ``radiance`` -- Radiance of the surface.
+        * ``radiance`` -- Radiance of the surface, as measured at the sensor.
 
         """
         return """0 Atm. correction Lambertian
@@ -42,7 +42,7 @@ class AtmosCorr:
         """Set 6S to perform atmospheric correction assuming a Lambertian surface, using a given reflectance value.
 
         Arguments:
-        * ``reflectance`` -- Reflectance of the surface.
+        * ``reflectance`` -- Reflectance of the surface, as measured at the sensor.
 
         """
         return """0 Atm. correction Lambertian
@@ -54,7 +54,7 @@ class AtmosCorr:
         """Set 6S to perform atmospheric correction using a fully BRDF-represented surface, using a given radiance value.
 
         Arguments:
-        * ``radiance`` -- Radiance of the surface
+        * ``radiance`` -- Radiance of the surface, as measured at the sensor.
 
         """
         return """1 BRDF
@@ -66,7 +66,7 @@ class AtmosCorr:
         """Set 6S to perform atmospheric correction using a fully BRDF-represented surface, using a given reflectance value.
 
         Arguments:
-        * ``reflectance`` -- Reflectance of the surface.
+        * ``reflectance`` -- Reflectance of the surface, as measured at the sensor.
 
         """
         return """1 BRDF
