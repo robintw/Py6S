@@ -30,16 +30,6 @@ class SimpleTests(unittest.TestCase):
 
 
 class SixSClassTests(unittest.TestCase):
-    def test_custom_path(self):
-        from Py6S import sixs
-
-        s = SixS("/home/robintw/Py6S/6S/6SV1.1/sixsV1.1")
-        s.run()
-        self.assertEqual(s.outputs.version, sixs.SIXSVERSION)
-        self.assertAlmostEqual(
-            s.outputs.transmittance_aerosol_scattering.downward, 0.93514, delta=0.002
-        )
-
     def test_debug_report(self):
         s = SixS()
         s.produce_debug_report()
