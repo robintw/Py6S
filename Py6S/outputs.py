@@ -183,7 +183,11 @@ class Outputs(object):
                       "coefficients xa xb": (CURRENT, 6, "coef_xb", float),
                       "coefficients xa xb xc": (CURRENT, 7, "coef_xc", float),
                       "int. funct filter (in mic)": (1, 0, 'int_funct_filt', float),
-                      "int. sol. spect (in w/m2)": (1, 1, 'int_solar_spectrum', float)
+                      "int. sol. spect (in w/m2)": (1, 1, 'int_solar_spectrum', float),
+
+                      "Foam:": (CURRENT, 1, "water_component_foam", float),
+                      "Water:": (CURRENT, 3, "water_component_water", float),
+                      "Glint:": (CURRENT, 5, "water_component_glint", float),
                       }
         # Process most variables in the output
         for index in range(len(lines)):

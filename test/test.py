@@ -249,3 +249,14 @@ class GroundReflectanceTest(unittest.TestCase):
 
     self.assertAlmostEqual(s.outputs.apparent_radiance, 343.68, delta=0.002)
 
+
+class WaterTest(unittest.TestCase):
+  def test_extraction_of_water_components(self):
+    s = SixS()
+    s.ground_reflectance = GroundReflectance.HomogeneousOcean(10, 180, 30, 0)
+
+    s.run()
+
+    self.assertAlmostEqual(s.outputs.water_component_foam, 0.00215)
+    self.assertAlmostEqual(s.outputs.water_component_water, 0.01123)
+    self.assertAlmostEqual(s.outputs.water_component_glint, 0.00614)
