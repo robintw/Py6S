@@ -36,18 +36,19 @@ except ImportError:
         raise
 
 
-
 class Spectra:
 
     """Class allowing the import of spectral libraries from various sources"""
 
     @classmethod
     def import_from_usgs(cls, loc):
-        """Imports a spectral library from the USGS Spectral Library (available at http://speclab.cr.usgs.gov/spectral.lib06/).
+        """NOT WORKING AT THE MOMENT - USGS have changed the format of their spectra.
+        
+        Imports a spectral library from the USGS Spectral Library (available at http://speclab.cr.usgs.gov/spectral.lib06/).
 
         Arguments:
 
-          * ``loc`` -- Location of the data to import. Can either be a URL (eg. http://speclab.cr.usgs.gov/spectral.lib06/ds231/ASCII/V/russianolive.dw92-4.30728.asc) or a file path.
+          * ``loc`` -- Location of the data to import.
 
         Returns:
 
@@ -79,7 +80,7 @@ class Spectra:
 
         npdata = np.loadtxt(f, skiprows=16)
         f.close()
-        npdata[npdata == -1.23e+34] = np.nan
+        npdata[npdata == -1.23e34] = np.nan
         npdata = npdata[:, 0:2]
 
         return npdata
@@ -90,7 +91,7 @@ class Spectra:
 
         Arguments:
 
-          * ``loc`` -- Location of the data to import. Can either be a URL (eg. http://speclib.jpl.nasa.gov/speclibdata/jhu.becknic.vegetation.trees.conifers.solid.conifer.spectrum.txt) or a file path.
+          * ``loc`` -- Location of the data to import. Must be a local file path - URLs do not work currently due to SSL errors at the remote end
 
         Returns:
 
