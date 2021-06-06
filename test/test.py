@@ -173,7 +173,7 @@ class GeometryTest(unittest.TestCase):
   def test_geom_from_time_and_loc(self):
     g = Geometry.User()
 
-    g.from_time_and_location(50, -1, '2014-05-06', 0, 30)
+    g.from_time_and_location(50, -1, '2014-06-05', 0, 30)
 
     self.assertEqual(str(g), '0 (User defined)\n113.587146 359.826938 0.000000 30.000000 5 6\n')
 
