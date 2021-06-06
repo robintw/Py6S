@@ -136,14 +136,6 @@ class AtmosCorrTests(unittest.TestCase):
     self.assertAlmostEqual(s.outputs.atmos_corrected_reflectance_lambertian, 0.29048, delta=0.002)
 
 class UserDefinedSpectraTest(unittest.TestCase):
-
-  def test_aster_spectra(self):
-    s = SixS()
-    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_aster("http://speclib.jpl.nasa.gov/speclibdata/jhu.becknic.water.ice.none.solid.ice.spectrum.txt"))
-    s.run()
-
-    self.assertAlmostEqual(s.outputs.apparent_radiance, 7.753, delta=0.002)
-
   def test_aster_spectra_from_file(self):
     s = SixS()
     s.altitudes.set_target_sea_level()
@@ -152,14 +144,6 @@ class UserDefinedSpectraTest(unittest.TestCase):
     s.run()
 
     self.assertAlmostEqual(s.outputs.apparent_reflectance, 0.1403693, delta=0.002)
-
-  def test_usgs_spectra(self):
-    s = SixS()
-    s.ground_reflectance = GroundReflectance.HomogeneousLambertian(Spectra.import_from_usgs("http://speclab.cr.usgs.gov/spectral.lib06/ds231/ASCII/V/cheatgrass_anp92-11a_veg.29744.asc"))
-    s.run()
-
-    self.assertAlmostEqual(s.outputs.apparent_radiance, 29.316, delta=0.002)
-
 
   def test_usgs_spectra_from_file(self):
     s = SixS()
@@ -173,7 +157,7 @@ class GeometryTest(unittest.TestCase):
   def test_geom_from_time_and_loc(self):
     g = Geometry.User()
 
-    g.from_time_and_location(50, -1, '2014-05-06', 0, 30)
+    g.from_time_and_location(50, -1, '2014-06-05', 0, 30)
 
     self.assertEqual(str(g), '0 (User defined)\n113.587146 359.826938 0.000000 30.000000 5 6\n')
 
