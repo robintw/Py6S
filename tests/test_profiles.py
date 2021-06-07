@@ -19,7 +19,7 @@ import unittest
 
 import numpy as np
 
-from Py6S import *
+from Py6S import AeroProfile, AtmosProfile, ParameterError, SixS
 
 
 class AtmosProfileTests(unittest.TestCase):
