@@ -34,8 +34,8 @@ SixSHelpers.Aeronet.import_aeronet_data(late, "CHL", "17/06/2006 11:30:00")
 # Set the geometry for each SixS object
 # With solar angles from location and time and
 # with view from nadir
-early.geometry.from_time_and_location(51.14510, -1.43861, "17/06/2006 08:00:00", 0, 0)
-late.geometry.from_time_and_location(51.14510, -1.43861, "17/06/2006 11:30:00", 0, 0)
+early.geometry.from_time_and_location(51.14510, -1.43861, "2006-06-17 08:00:00", 0, 0)
+late.geometry.from_time_and_location(51.14510, -1.43861, "2006-06-1711:30:00", 0, 0)
 
 # Run each simulation for the VNIR wavelengths - using a wider spacing than default
 # to make the simulation faster
