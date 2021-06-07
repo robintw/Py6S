@@ -18,7 +18,7 @@
 import pprint
 import sys
 
-from .sixs_exceptions import *
+from .sixs_exceptions import OutputParsingError
 
 
 class Outputs(object):
