@@ -22,7 +22,7 @@ from multiprocessing.dummy import Pool
 import numpy as np
 from matplotlib.pyplot import plot, show, subplots, xlabel, ylabel
 
-from Py6S import ParameterError
+from ..sixs_exceptions import ParameterError
 
 
 class Angles:
