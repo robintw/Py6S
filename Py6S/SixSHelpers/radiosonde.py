@@ -23,7 +23,7 @@ import urllib
 import numpy as np
 from scipy.interpolate import interp1d
 
-from Py6S import *
+from Py6S.Params import AtmosProfile
 
 if sys.version_info[0] >= 3:
     import urllib.request as urllib

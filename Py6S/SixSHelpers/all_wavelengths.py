@@ -21,7 +21,7 @@ import sys
 import numpy as np
 from matplotlib.pyplot import *
 
-from Py6S import *
+from Py6S.Params import PredefinedWavelengths, Wavelength
 
 
 class Wavelengths:

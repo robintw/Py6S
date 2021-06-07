@@ -21,7 +21,7 @@ import dateutil.parser
 import numpy as np
 from scipy.interpolate import interp1d
 
-from Py6S import *
+from Py6S.Params import AeroProfile
 
 
 class Aeronet:
