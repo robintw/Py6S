@@ -30,6 +30,8 @@ except ImportError:
     else:
         raise
 
+from ..sixs_exceptions import ParameterError
+
 
 class GroundReflectance:
 
@@ -321,7 +323,7 @@ WV_REPLACE
 
         """
         if leaf_reflec + leaf_trans > 0.99:
-            raise ParameterException(
+            raise ParameterError(
                 "leaf_reflec", "Leaf reflectance + Leaf transmittance must be < 0.99"
             )
 
@@ -388,7 +390,7 @@ WV_REPLACE
 
         params_line = "%d %d %d\n" % (kappa_param, phase_funct, scattering_type)
 
-        if kappa_param == KappaGivenValues:
+        if kappa_param == cls.KappaGivenValues:
             middle_line = "%f %f %f %f\n" % (
                 leaf_area_density,
                 sun_flecks_radius,
@@ -398,9 +400,9 @@ WV_REPLACE
         else:
             middle_line = "%f %f %f\n" % (leaf_area_density, sun_flecks_radius, chil)
 
-        if phase_funct == PhaseIsotropic:
+        if phase_funct == cls.PhaseIsotropic:
             last_line = ""
-        elif phase_funct == PhaseHeyneyGreenstein:
+        elif phase_funct == cls.PhaseHeyneyGreenstein:
             last_line = "%f" % (asym_factor)
         else:
             last_line == "%f %f\n" % (legendre_first, legendre_second)

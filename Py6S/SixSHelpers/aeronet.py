@@ -21,8 +21,8 @@ import dateutil.parser
 import numpy as np
 from scipy.interpolate import interp1d
 
-from Py6S import ParameterError
-from Py6S.Params import AeroProfile
+from ..Params import AeroProfile
+from ..sixs_exceptions import ParameterError
 
 
 class Aeronet:
@@ -93,7 +93,7 @@ class Aeronet:
         # Load in the data from the file
         try:
             df = pandas.read_csv(filename, skiprows=3, na_values=["N/A"])
-        except:
+        except Exception:
             raise ParameterError(
                 "AERONET file",
                 "Error reading AERONET file - does it exist and contain data?",
@@ -206,7 +206,7 @@ class Aeronet:
             else:
                 try:
                     rad = float(col)
-                except:
+                except ValueError:
                     continue
                 radii_ind.append(i)
                 radii.append(rad)

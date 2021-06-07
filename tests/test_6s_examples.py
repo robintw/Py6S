@@ -17,8 +17,6 @@
 
 import unittest
 
-import numpy as np
-
 from Py6S import (
     AeroProfile,
     AtmosCorr,

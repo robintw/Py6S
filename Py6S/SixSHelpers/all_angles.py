@@ -22,7 +22,7 @@ from multiprocessing.dummy import Pool
 import numpy as np
 from matplotlib.pyplot import plot, show, subplots, xlabel, ylabel
 
-from Py6S import ParameterError
+from ..sixs_exceptions import ParameterError
 
 
 class Angles:
@@ -112,7 +112,7 @@ class Angles:
         if not isinstance(results[0], float):
             # The results are not floats, so a float must be extracted from the output
             if output_name is None:
-                raise ParameterException(
+                raise ParameterError(
                     "output_name",
                     "You must specify an output name when plotting data which is given as Outputs instances",
                 )

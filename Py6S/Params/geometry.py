@@ -77,7 +77,7 @@ class Geometry:
             # Try and import the pysolar module, if it fails give an error message
             try:
                 import pysolar
-            except:
+            except ImportError:
                 raise ImportError(
                     "To set the geometry from a time and location you must have the pysolar module installed.\nPy6S requires Pysolar v0.9 or later.\nTo install this, run 'pip install pysolar==0.6' at the command line."
                 )

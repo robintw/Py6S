@@ -17,8 +17,6 @@
 
 import unittest
 
-import numpy as np
-
 from Py6S import AeroProfile, AtmosProfile, ParameterError, SixS
 
 
@@ -78,12 +76,12 @@ class AeroProfileTests(unittest.TestCase):
 
     def test_aero_profile_errors(self):
         with self.assertRaises(ParameterError):
-            ap = AeroProfile.User(dust=0.8, oceanic=0.4)
+            AeroProfile.User(dust=0.8, oceanic=0.4)
 
     def test_sun_photo_dist_errors1(self):
         with self.assertRaises(ParameterError):
             # Different numbers of elements for first two arguments
-            ap = AeroProfile.SunPhotometerDistribution(
+            AeroProfile.SunPhotometerDistribution(
                 [
                     0.050000001,
                     0.065604001,
@@ -137,7 +135,7 @@ class AeroProfileTests(unittest.TestCase):
     def test_sun_photo_dist_errors2(self):
         with self.assertRaises(ParameterError):
             # Different numbers of elements for first two arguments
-            ap = AeroProfile.SunPhotometerDistribution(
+            AeroProfile.SunPhotometerDistribution(
                 [
                     0.050000001,
                     0.065604001,
