@@ -86,7 +86,8 @@ class Geometry:
                 dt = dateutil.parser.isoparse(datetimestring)
             except ValueError:
                 raise ParameterError(
-                    "You must pass a date-time in ISO 8601 format - ie. YYYY-MM-DD HH:MM:SS"
+                    "datetime",
+                    "You must pass a date-time in ISO 8601 format - ie. YYYY-MM-DD HH:MM:SS",
                 )
 
             dt = dt.replace(tzinfo=timezone.utc)
