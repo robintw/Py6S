@@ -16,6 +16,7 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
+from datetime import timezone
 
 import dateutil.parser
 
@@ -60,36 +61,33 @@ class Geometry:
         def from_time_and_location(self, lat, lon, datetimestring, view_z, view_a):
             """Sets the user-defined geometry to a given view zenith and azimuth, and a solar zenith and azimuth calculated from the lat, lon and date given.
 
-            Uses the PySolar module for the calculations.
+            Uses the pysolar module for the calculations.
 
             Arguments:
 
             * ``lat`` -- The latitude of the location (0-90 degrees)
             * ``lon`` -- The longitude of the location
-            * ``datetimestring`` -- Any string that can be parsed to produce a date/time object. All that is really needed is a time - eg. "14:53"
+            * ``datetimestring`` -- A date-time string in ISO format (eg. "2018-06-14 11:37"). This must be in UTC.
             * ``view_z`` -- The view zenith angle
             * ``view_a`` -- The view azimuth angle
 
             """
-            # Try and import the PySolar module, if it fails give an error message
+            # Try and import the pysolar module, if it fails give an error message
             try:
-                import Pysolar
+                import pysolar
             except:
                 raise ImportError(
-                    "To set the geometry from a time and location you must have the PySolar module installed.\nPy6S requires Pysolar v0.6.\nTo install this, run 'pip install pysolar==0.6' at the command line."
+                    "To set the geometry from a time and location you must have the pysolar module installed.\nPy6S requires Pysolar v0.8 or later.\nTo install this, run 'pip install pysolar==0.6' at the command line."
                 )
 
-            dt = dateutil.parser.parse(datetimestring, dayfirst=True)
-            self.solar_z = 90.0 - Pysolar.GetAltitude(lat, lon, dt)
+            dt = dateutil.parser.isoparse(datetimestring)
+            dt = dt.replace(tzinfo=timezone.utc)
 
-            az = Pysolar.GetAzimuth(lat, lon, dt)
+            self.solar_z = 90.0 - pysolar.solar.get_altitude(lat, lon, dt)
 
-            if az < 0:
-                self.solar_a = abs(az) + 180
-            else:
-                self.solar_a = abs(az - 180)
+            az = pysolar.solar.get_azimuth(lat, lon, dt)
 
-            self.solar_a = self.solar_a % 360
+            self.solar_a = az % 360
 
             self.day = dt.day
             self.month = dt.month
