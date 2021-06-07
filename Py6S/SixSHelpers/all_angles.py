@@ -20,9 +20,8 @@ import itertools
 from multiprocessing.dummy import Pool
 
 import numpy as np
-from matplotlib.pyplot import plot, show, subplots, xlabel, ylabel
 
-from Py6S import ParameterError
+from ..sixs_exceptions import ParameterError
 
 
 class Angles:
@@ -106,6 +105,10 @@ class Angles:
         * ``show_sun`` -- (Optional) Whether to show the location of the sun on the resulting polar plot.
         * ``colorbarlabel`` -- (Optional) The label to use on the color bar shown with the plot
         """
+        try:
+            from matplotlib.pyplot import plot, show, subplots, xlabel, ylabel
+        except ImportError:
+            raise ImportError("You must install matplotlib to use the plotting functionality")
 
         results, azimuths, zeniths, sa, sz = data
 
