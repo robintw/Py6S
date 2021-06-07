@@ -22,8 +22,8 @@ import sys
 import numpy as np
 from scipy.interpolate import interp1d
 
-from Py6S import ParameterError
-from Py6S.Params import AtmosProfile
+from ..Params import AtmosProfile
+from ..sixs_exceptions import ParameterError
 
 if sys.version_info[0] >= 3:
     import urllib.request as urllib
