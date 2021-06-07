@@ -19,6 +19,7 @@ import os.path
 import unittest
 
 import numpy as np
+import pytest
 
 from Py6S import (
     AtmosCorr,
@@ -182,6 +183,12 @@ class GeometryTest(unittest.TestCase):
         g.from_time_and_location(50, -1, "2020-01-05 13:47", 0, 30)
 
         self.assertEqual(str(g), "0 (User defined)\n75.738903 203.219508 0.000000 30.000000 1 5\n")
+
+    def test_geom_from_time_and_loc_invalid_date(self):
+        g = Geometry.User()
+
+        with pytest.raises(ParameterError):
+            g.from_time_and_location(50, -1, "2020-99-05", 0, 30)
 
 
 class AltitudesTest(unittest.TestCase):
