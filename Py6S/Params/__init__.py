@@ -21,7 +21,7 @@ from .aeroprofile import AeroProfile
 from .altitudes import Altitudes
 from .atmoscorr import AtmosCorr
 from .atmosprofile import AtmosProfile
-from .geometry import *
+from .geometry import Geometry
 from .ground_reflectance import GroundReflectance
 from .wavelength import PredefinedWavelengths, Wavelength
 

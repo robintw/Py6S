@@ -29,9 +29,9 @@ class RunAllWavelengthsTests(unittest.TestCase):
         for f in attribs:
             if "run" in f and f != "run_wavelengths":
                 func = eval("SixSHelpers.Wavelengths." + f)
-                results = func(s, output_name="apparent_radiance")
+                func(s, output_name="apparent_radiance")
 
-                results = func(s)
+                func(s)
 
     def test_extract_output(self):
         s = SixS()

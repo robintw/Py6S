@@ -15,8 +15,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-import collections
-
 import numpy as np
 
 from .. import sixs_exceptions
@@ -64,7 +62,7 @@ def Wavelength(start_wavelength, end_wavelength=None, filter=None):
             data = None
             min_wv = start_wavelength[1]
             max_wv = start_wavelength[2]
-    except:
+    except Exception:
         if end_wavelength is None:
             # It's simply a wavelength value
             if (

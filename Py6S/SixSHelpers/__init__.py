@@ -17,10 +17,10 @@
 
 """Contains a number of classes for helper methods"""
 
-from .aeronet import *
-from .all_angles import *
-from .all_wavelengths import *
-from .radiosonde import *
+from .aeronet import Aeronet
+from .all_angles import Angles
+from .all_wavelengths import Wavelengths
+from .radiosonde import Radiosonde
 from .spectra import Spectra
 
 __all__ = ["Angles", "Wavelengths", "Radiosonde", "Aeronet", "Spectra"]

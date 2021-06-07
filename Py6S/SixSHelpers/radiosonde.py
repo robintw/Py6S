@@ -18,11 +18,11 @@
 import io
 import re
 import sys
-import urllib
 
 import numpy as np
 from scipy.interpolate import interp1d
 
+from Py6S import ParameterError
 from Py6S.Params import AtmosProfile
 
 if sys.version_info[0] >= 3:
@@ -1054,7 +1054,7 @@ class Radiosonde:
 
         if u.getcode() != 200:
             # We have't got the HTTP OK status code, so something is wrong (like the URL is invalid)
-            raise ParameterException(
+            raise ParameterError(
                 "url",
                 "The URL for importing radiosonde data is not giving a valid response",
             )
@@ -1064,7 +1064,7 @@ class Radiosonde:
             html = html.decode()
 
         if "Sorry, the server is too busy to process your request" in html:
-            raise ParameterException("url", "The server is too busy")
+            raise ParameterError("url", "The server is too busy")
 
         # Extract the data inside the PRE tag (we can do it like this because it is very simple HTML)
         regex = re.compile("<PRE>(.*?)</PRE>", re.IGNORECASE | re.DOTALL)
