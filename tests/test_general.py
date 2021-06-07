@@ -20,7 +20,17 @@ import unittest
 
 import numpy as np
 
-from Py6S import *
+from Py6S import (
+    AtmosCorr,
+    ExecutionError,
+    Geometry,
+    GroundReflectance,
+    ParameterError,
+    PredefinedWavelengths,
+    SixS,
+    Spectra,
+    Wavelength,
+)
 
 test_dir = os.path.relpath(os.path.dirname(__file__))
 

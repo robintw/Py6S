@@ -19,7 +19,7 @@ import copy
 import sys
 
 import numpy as np
-from matplotlib.pyplot import *
+from matplotlib.pyplot import plot, show, xlabel, ylabel
 
 from Py6S.Params import PredefinedWavelengths, Wavelength
 

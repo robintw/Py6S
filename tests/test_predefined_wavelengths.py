@@ -19,7 +19,7 @@ import unittest
 
 import numpy as np
 
-from Py6S import *
+from Py6S import PredefinedWavelengths, SixS, Wavelength
 
 
 class PredefinedWavelengthTests(unittest.TestCase):

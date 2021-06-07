@@ -19,7 +19,16 @@ import unittest
 
 import numpy as np
 
-from Py6S import *
+from Py6S import (
+    AeroProfile,
+    AtmosCorr,
+    AtmosProfile,
+    Geometry,
+    GroundReflectance,
+    PredefinedWavelengths,
+    SixS,
+    Wavelength,
+)
 
 
 class Example6STests(unittest.TestCase):

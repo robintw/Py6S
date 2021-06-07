@@ -20,7 +20,9 @@ import itertools
 from multiprocessing.dummy import Pool
 
 import numpy as np
-from matplotlib.pyplot import *
+from matplotlib.pyplot import plot, show, subplots, xlabel, ylabel
+
+from Py6S import ParameterError
 
 
 class Angles:
@@ -66,7 +68,7 @@ class Angles:
                 a.geometry.solar_a = azimuth
                 a.geometry.solar_z = zenith
             else:
-                raise ParameterException(
+                raise ParameterError(
                     "all_angles",
                     "You must choose to vary either the solar or view angle.",
                 )

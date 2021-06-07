@@ -24,9 +24,17 @@ import tempfile
 import numpy as np
 from scipy.interpolate import interp1d
 
-from .outputs import *
-from .Params import *
-from .sixs_exceptions import *
+from .outputs import Outputs
+from .Params import (
+    AeroProfile,
+    Altitudes,
+    AtmosCorr,
+    AtmosProfile,
+    Geometry,
+    GroundReflectance,
+    Wavelength,
+)
+from .sixs_exceptions import ExecutionError, ParameterError
 
 SIXSVERSION = "1.1"
 
