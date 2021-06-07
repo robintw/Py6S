@@ -27,10 +27,9 @@ from .Params import *
 
 __all__ += Params.__all__
 
-from .sixs import SixS
-from .outputs import Outputs
-
 from . import SixSHelpers
+from .outputs import Outputs
+from .sixs import SixS
 
 __all__ += ["SixSHelpers"]
 

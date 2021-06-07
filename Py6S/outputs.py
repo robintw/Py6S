@@ -17,6 +17,7 @@
 
 import pprint
 import sys
+
 from .sixs_exceptions import *
 
 
@@ -107,9 +108,7 @@ class Outputs(object):
                 if name in self.rat:
                     return self.rat[name]
                 else:
-                    raise OutputParsingError(
-                        "The specifed output variable does not exist."
-                    )
+                    raise OutputParsingError("The specifed output variable does not exist.")
 
     def __dir__(self):
         # Returns list of the attributes that I want to tab-complete on that aren't actually attributes, for IPython

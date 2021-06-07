@@ -15,17 +15,18 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-import subprocess
+import math
 import os
+import subprocess
 import sys
+import tempfile
+
 import numpy as np
 from scipy.interpolate import interp1d
+
+from .outputs import *
 from .Params import *
 from .sixs_exceptions import *
-from .outputs import *
-import tempfile
-import math
-
 
 SIXSVERSION = "1.1"
 
@@ -236,9 +237,7 @@ class SixS(object):
         new_wavelengths = np.arange(self.min_wv, self.max_wv + 0.0025, 0.0025)
 
         # We then interpolate to get the right places
-        calc_refl = interp1d(
-            wavelengths, reflectances, bounds_error=False, fill_value=0.0
-        )
+        calc_refl = interp1d(wavelengths, reflectances, bounds_error=False, fill_value=0.0)
         new_reflectances = calc_refl(new_wavelengths)
 
         s = " ".join(map(str, new_reflectances))
@@ -284,9 +283,7 @@ class SixS(object):
 
         if isinstance(ground_reflectance_lines, basestring):
             str_ground_refl = str(
-                ground_reflectance_lines.replace(
-                    "WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv)
-                )
+                ground_reflectance_lines.replace("WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv))
             )
         else:
             str_ground_refl = str(
@@ -314,9 +311,7 @@ class SixS(object):
 
         if filename is None:
             # No filename given, so write to temporary file
-            tmp_file = tempfile.NamedTemporaryFile(
-                prefix="tmp_Py6S_input_", delete=False
-            )
+            tmp_file = tempfile.NamedTemporaryFile(prefix="tmp_Py6S_input_", delete=False)
 
             # For Python 3, convert to Byte
             if sys.version_info[0] >= 3:
@@ -387,9 +382,7 @@ class SixS(object):
         print("6S wrapper script by Robin Wilson")
         sixs_path = test._find_path(path)
         if sixs_path is None:
-            print(
-                "Error: cannot find the sixs executable in $PATH or current directory."
-            )
+            print("Error: cannot find the sixs executable in $PATH or current directory.")
         else:
             print("Using 6S located at %s" % sixs_path)
             print("Running 6S using a set of test parameters")

@@ -16,6 +16,7 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
+
 import numpy as np
 
 # Python 2/3 imports

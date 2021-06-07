@@ -15,11 +15,13 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-from Py6S import *
-import numpy as np
-from matplotlib.pyplot import *
 import copy
 import sys
+
+import numpy as np
+from matplotlib.pyplot import *
+
+from Py6S import *
 
 
 class Wavelengths:

@@ -15,10 +15,12 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
+import warnings
+
+import dateutil.parser
 import numpy as np
 from scipy.interpolate import interp1d
-import dateutil.parser
-import warnings
+
 from Py6S import *
 
 
@@ -99,9 +101,7 @@ class Aeronet:
         # Parse the dates/times properly and set them up as the index
         df["Date(dd-mm-yyyy)"] = df["Date(dd-mm-yyyy)"].apply(cls._to_iso_date)
         df["timestamp"] = df.apply(
-            lambda s: pandas.to_datetime(
-                s["Date(dd-mm-yyyy)"] + " " + s["Time(hh:mm:ss)"]
-            ),
+            lambda s: pandas.to_datetime(s["Date(dd-mm-yyyy)"] + " " + s["Time(hh:mm:ss)"]),
             axis=1,
         )
         df.index = pandas.DatetimeIndex(df.timestamp)
@@ -127,9 +127,7 @@ class Aeronet:
         model_df = model_df.dropna(axis=0, how="any")
 
         if model_df.shape[0] == 0:
-            raise ValueError(
-                "No non-NaN data for aerosol model available in AERONET file."
-            )
+            raise ValueError("No non-NaN data for aerosol model available in AERONET file.")
 
         # And get the closest to the given time
         rowind = model_df.timediffs.idxmin()

@@ -17,8 +17,8 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-from setuptools import setup
 
+from setuptools import setup
 
 PROJECT_ROOT = os.path.dirname(__file__)
 

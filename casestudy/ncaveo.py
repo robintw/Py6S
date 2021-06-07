@@ -1,11 +1,12 @@
 # Import Py6S
-from Py6S import *
+# Import the functions for copying objects
+import copy
 
 # Import the Matplotlib plotting environment
 from matplotlib.pyplot import *
 
-# Import the functions for copying objects
-import copy
+from Py6S import *
+
 
 # Define a function to easily calculate NDVI
 def ndvi(red, nir):
@@ -38,12 +39,8 @@ late.geometry.from_time_and_location(51.14510, -1.43861, "17/06/2006 11:30:00", 
 
 # Run each simulation for the VNIR wavelengths - using a wider spacing than default
 # to make the simulation faster
-wv, early_res = SixSHelpers.Wavelengths.run_vnir(
-    early, spacing=0.01, output_name="pixel_radiance"
-)
-wv, late_res = SixSHelpers.Wavelengths.run_vnir(
-    late, spacing=0.01, output_name="pixel_radiance"
-)
+wv, early_res = SixSHelpers.Wavelengths.run_vnir(early, spacing=0.01, output_name="pixel_radiance")
+wv, late_res = SixSHelpers.Wavelengths.run_vnir(late, spacing=0.01, output_name="pixel_radiance")
 
 # Plot the two radiance curves
 clf()
@@ -64,9 +61,7 @@ savefig("ncaveo_perc_diff.png")
 
 # Run simulations again for the SPOT HRV sensor
 # to then calculate the NDVI difference
-wv, early_spot = SixSHelpers.Wavelengths.run_spot_hrv(
-    early, output_name="pixel_radiance"
-)
+wv, early_spot = SixSHelpers.Wavelengths.run_spot_hrv(early, output_name="pixel_radiance")
 wv, late_spot = SixSHelpers.Wavelengths.run_spot_hrv(late, output_name="pixel_radiance")
 
 print(early_spot)

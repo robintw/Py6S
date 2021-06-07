@@ -15,11 +15,11 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
+import sys
 from collections import defaultdict
 
 # from sixs_exceptions import *
 from Py6S.sixs_exceptions import ParameterError
-import sys
 
 
 class AeroProfile:
@@ -78,9 +78,7 @@ class AeroProfile:
         soot = d["soot"]
 
         if ((dust + water + oceanic + soot) - 1) > 0.01:
-            raise ParameterError(
-                "Aerosol Profile", "User aerosol components don't sum to 1.0"
-            )
+            raise ParameterError("Aerosol Profile", "User aerosol components don't sum to 1.0")
 
         return "4 (User's Components)\n%f, %f, %f, %f" % (dust, water, oceanic, soot)
 

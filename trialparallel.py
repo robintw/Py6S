@@ -1,9 +1,10 @@
-import Py6S
-from random import random
-from IPython.parallel import Client
-from IPython.parallel import depend, require, dependent
-import numpy as np
 import time
+from random import random
+
+import numpy as np
+from IPython.parallel import Client, depend, dependent, require
+
+import Py6S
 
 
 @require("random", "Py6S")

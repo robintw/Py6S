@@ -15,9 +15,11 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-from .. import sixs_exceptions
 import collections
+
 import numpy as np
+
+from .. import sixs_exceptions
 
 
 def Wavelength(start_wavelength, end_wavelength=None, filter=None):
@@ -56,9 +58,7 @@ def Wavelength(start_wavelength, end_wavelength=None, filter=None):
         wv_id = start_wavelength[0]
         if wv_id > 0:
             # It's one of the new predefined wavelengths that I've added
-            return Wavelength(
-                start_wavelength[1], start_wavelength[2], start_wavelength[3]
-            )
+            return Wavelength(start_wavelength[1], start_wavelength[2], start_wavelength[3])
         else:
             wv_type = "%d (Chosen Band)\n" % (-1 * wv_id)
             data = None
@@ -107,9 +107,7 @@ def Wavelength(start_wavelength, end_wavelength=None, filter=None):
             else:
                 # Filter has been given, so we must use it.
                 # We check filter has been given at 2.5nm intervals
-                n_req_filter_values = (
-                    round((end_wavelength - start_wavelength) / 0.0025) + 1
-                )
+                n_req_filter_values = round((end_wavelength - start_wavelength) / 0.0025) + 1
                 if len(filter) != n_req_filter_values:
                     raise sixs_exceptions.ParameterError(
                         "wavelength",

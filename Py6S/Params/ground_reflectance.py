@@ -15,9 +15,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
+import collections
 # from sixs_exceptions import *
 import sys
-import collections
+
 import numpy as np
 
 try:
@@ -127,9 +128,7 @@ WV_REPLACE
         - A multidimensional ndarray giving wavelength (column 0) and reflectance (column 1) values
         """
         ro_target_type, ro_target_values = cls._GetTargetTypeAndValues(ro_target)
-        ro_env_type, ro_env_values = cls._GetTargetTypeAndValues(
-            ro_env, "REFL_REPLACE_2"
-        )
+        ro_env_type, ro_env_values = cls._GetTargetTypeAndValues(ro_env, "REFL_REPLACE_2")
 
         if ro_target_values == "" and ro_env_values == "":
             s = """1 (Non homogeneous surface)
@@ -254,9 +253,7 @@ WV_REPLACE
         )
 
     @classmethod
-    def HomogeneousOcean(
-        cls, wind_speed, wind_azimuth, salinity, pigment_concentration
-    ):
+    def HomogeneousOcean(cls, wind_speed, wind_azimuth, salinity, pigment_concentration):
         """Parameterisation for a surface BRDF based on the Ocean BRDF model.
 
         The parameters are:

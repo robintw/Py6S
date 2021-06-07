@@ -15,13 +15,15 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-from Py6S import *
-import sys
-import numpy as np
-import urllib
-import re
-from scipy.interpolate import interp1d
 import io
+import re
+import sys
+import urllib
+
+import numpy as np
+from scipy.interpolate import interp1d
+
+from Py6S import *
 
 if sys.version_info[0] >= 3:
     import urllib.request as urllib
@@ -959,9 +961,7 @@ class Radiosonde:
     )
 
     @classmethod
-    def _import_from_arrays(
-        cls, pressure, altitude, temperature, mixing_ratio, base_profile
-    ):
+    def _import_from_arrays(cls, pressure, altitude, temperature, mixing_ratio, base_profile):
         """Import radiosonde data from a set of arrays containing various radiosonde parameters.
 
         This routine deals with all of the interpolation and combining required for use in 6S.
@@ -980,9 +980,7 @@ class Radiosonde:
 
         interp_altitudes = cls.sixs_altitudes[cls.sixs_altitudes < max_alt]
 
-        f_interp_pressure = interp1d(
-            altitude, pressure, bounds_error=False, fill_value=pressure[0]
-        )
+        f_interp_pressure = interp1d(altitude, pressure, bounds_error=False, fill_value=pressure[0])
         f_interp_temp = interp1d(
             altitude, temperature, bounds_error=False, fill_value=temperature[0]
         )
@@ -1095,9 +1093,7 @@ class Radiosonde:
         temperature = array[:, 2]
         mixing_ratio = array[:, 3]
 
-        return cls._import_from_arrays(
-            pressure, altitude, temperature, mixing_ratio, base_profile
-        )
+        return cls._import_from_arrays(pressure, altitude, temperature, mixing_ratio, base_profile)
 
     @classmethod
     def import_bas_radiosonde_data(cls, filename, base_profile):
@@ -1115,9 +1111,7 @@ class Radiosonde:
 
         mixing_ratio = cls._calculate_mixing_ratio(dewpoint, pressure)
 
-        return cls._import_from_arrays(
-            pressure, altitude, temperature, mixing_ratio, base_profile
-        )
+        return cls._import_from_arrays(pressure, altitude, temperature, mixing_ratio, base_profile)
 
     @classmethod
     def _calculate_mixing_ratio(cls, dewpoint_temp, pressure):
