@@ -171,7 +171,7 @@ class GeometryTest(unittest.TestCase):
 
         g.from_time_and_location(50, -1, "2020-01-05 13:47", 0, 30)
 
-        self.assertEqual(str(g), "0 (User defined)\n40.760679 221.204842 0.000000 30.000000 5 1\n")
+        self.assertEqual(str(g), "0 (User defined)\n75.738903 203.219508 0.000000 30.000000 1 5\n")
 
 
 class AltitudesTest(unittest.TestCase):

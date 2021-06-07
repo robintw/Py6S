@@ -83,7 +83,8 @@ class Geometry:
             dt = dateutil.parser.isoparse(datetimestring)
             dt = dt.replace(tzinfo=timezone.utc)
 
-            self.solar_z = 90.0 - pysolar.solar.get_altitude(lat, lon, dt)
+            alt = pysolar.solar.get_altitude(lat, lon, dt)
+            self.solar_z = 90.0 - alt
 
             az = pysolar.solar.get_azimuth(lat, lon, dt)
 
