@@ -28,9 +28,7 @@ test_dir = os.path.relpath(os.path.dirname(__file__))
 class AllWavelengthsTests(unittest.TestCase):
     def test_run_for_landsat_etm(self):
         s = SixS()
-        results = SixSHelpers.Wavelengths.run_landsat_etm(
-            s, output_name="apparent_radiance"
-        )
+        results = SixSHelpers.Wavelengths.run_landsat_etm(s, output_name="apparent_radiance")
 
         a = np.array([138.392, 129.426, 111.635, 75.822, 16.684, 5.532])
 
@@ -122,9 +120,7 @@ class ParallelEquivalenceTests(unittest.TestCase):
     def test_angles_equiv(self):
         s = SixS()
 
-        serial_res = SixSHelpers.Angles.run360(
-            s, "view", output_name="apparent_radiance", n=1
-        )
+        serial_res = SixSHelpers.Angles.run360(s, "view", output_name="apparent_radiance", n=1)
 
         # Run for 2, 4 and 6 jobs (8 seems to fail on the Github Actions Windows runners)
         for i in range(2, 8, 2):

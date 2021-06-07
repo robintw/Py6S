@@ -37,9 +37,7 @@ class Example6STests(unittest.TestCase):
         s.geometry.day = 23
 
         s.atmos_profile = AtmosProfile.UserWaterAndOzone(3.0, 3.5)
-        s.aero_profile = AeroProfile.User(
-            dust=0.25, water=0.25, oceanic=0.25, soot=0.25
-        )
+        s.aero_profile = AeroProfile.User(dust=0.25, water=0.25, oceanic=0.25, soot=0.25)
 
         s.aot550 = 0.5
         s.altitudes.set_target_custom_altitude(0.2)

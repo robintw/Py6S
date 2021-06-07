@@ -72,9 +72,7 @@ class VisAOTTests(unittest.TestCase):
         s.visibility = 40
         s.run()
 
-        self.assertAlmostEqual(
-            s.outputs.phase_function_Q.aerosol, -0.04939, delta=0.002
-        )
+        self.assertAlmostEqual(s.outputs.phase_function_Q.aerosol, -0.04939, delta=0.002)
 
 
 class WavelengthTests(unittest.TestCase):
@@ -166,9 +164,7 @@ class GeometryTest(unittest.TestCase):
 
         g.from_time_and_location(50, -1, "2014-06-05", 0, 30)
 
-        self.assertEqual(
-            str(g), "0 (User defined)\n113.587146 359.826938 0.000000 30.000000 5 6\n"
-        )
+        self.assertEqual(str(g), "0 (User defined)\n113.587146 359.826938 0.000000 30.000000 5 6\n")
 
 
 class AltitudesTest(unittest.TestCase):
@@ -233,9 +229,7 @@ class GroundReflectanceTest(unittest.TestCase):
         ro_target = np.array([wavelengths, [1.0] * 4]).T
         ro_env = np.array([wavelengths, [0.5] * 4]).T
 
-        s.ground_reflectance = GroundReflectance.HeterogeneousLambertian(
-            0.3, ro_target, ro_env
-        )
+        s.ground_reflectance = GroundReflectance.HeterogeneousLambertian(0.3, ro_target, ro_env)
 
         s.run()
 
