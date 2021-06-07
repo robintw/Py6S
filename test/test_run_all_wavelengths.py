@@ -43,4 +43,3 @@ class RunAllWavelengthsTests(unittest.TestCase):
         )
 
         self.assertTrue(np.all(values == obj_values))
-

@@ -33,9 +33,12 @@ class AtmosCorr:
         * ``radiance`` -- Radiance of the surface, as measured at the sensor.
 
         """
-        return """0 Atm. correction Lambertian
+        return (
+            """0 Atm. correction Lambertian
 %f radiance
-""" % radiance
+"""
+            % radiance
+        )
 
     @classmethod
     def AtmosCorrLambertianFromReflectance(cls, reflectance):
@@ -47,7 +50,9 @@ class AtmosCorr:
         """
         return """0 Atm. correction Lambertian
 %f reflectance
-""" % (reflectance * -1)
+""" % (
+            reflectance * -1
+        )
 
     @classmethod
     def AtmosCorrBRDFFromRadiance(cls, radiance):
@@ -57,9 +62,12 @@ class AtmosCorr:
         * ``radiance`` -- Radiance of the surface, as measured at the sensor.
 
         """
-        return """1 BRDF
+        return (
+            """1 BRDF
 %f radiance
-""" % radiance
+"""
+            % radiance
+        )
 
     @classmethod
     def AtmosCorrBRDFFromReflectance(cls, reflectance):
@@ -71,4 +79,6 @@ class AtmosCorr:
         """
         return """1 BRDF
 %f reflectance
-""" % (reflectance * -1)
+""" % (
+            reflectance * -1
+        )

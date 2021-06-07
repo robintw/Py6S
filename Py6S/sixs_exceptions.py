@@ -19,6 +19,7 @@
 class Error(Exception):
 
     """Base class for exceptions raised in the process of running 6S."""
+
     pass
 
 

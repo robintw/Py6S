@@ -669,4 +669,3 @@ class AeroProfileTests(unittest.TestCase):
                 refr_real=real_intp,
                 refr_imag=imag_intp,
             )
-

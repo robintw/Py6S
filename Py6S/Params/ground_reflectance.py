@@ -15,10 +15,11 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-#from sixs_exceptions import *
+# from sixs_exceptions import *
 import sys
 import collections
 import numpy as np
+
 try:
     import StringIO
 except ImportError:
@@ -83,18 +84,26 @@ class GroundReflectance:
         if ro_value == "":
             res = """0 Homogeneous surface
 0 No directional effects
-%s\n""" % (ro_type)
+%s\n""" % (
+                ro_type
+            )
         elif ro_type == "-1":
             res = """0 Homogeneous surface
 0 No directional effects
 %s
 WV_REPLACE
-%s\n""" % (ro_type, ro_value)
+%s\n""" % (
+                ro_type,
+                ro_value,
+            )
         else:
             res = """0 Homogeneous surface
 0 No directional effects
 %s
-%s\n""" % (ro_type, ro_value)
+%s\n""" % (
+                ro_type,
+                ro_value,
+            )
 
         return [res, ro]
 
@@ -118,16 +127,28 @@ WV_REPLACE
         - A multidimensional ndarray giving wavelength (column 0) and reflectance (column 1) values
         """
         ro_target_type, ro_target_values = cls._GetTargetTypeAndValues(ro_target)
-        ro_env_type, ro_env_values = cls._GetTargetTypeAndValues(ro_env, "REFL_REPLACE_2")
+        ro_env_type, ro_env_values = cls._GetTargetTypeAndValues(
+            ro_env, "REFL_REPLACE_2"
+        )
 
         if ro_target_values == "" and ro_env_values == "":
-            s =  """1 (Non homogeneous surface)
-%s %s %f (ro1 ro2 radius)\n""" % (ro_target_type, ro_env_type, radius)
+            s = """1 (Non homogeneous surface)
+%s %s %f (ro1 ro2 radius)\n""" % (
+                ro_target_type,
+                ro_env_type,
+                radius,
+            )
         else:
-            s =  """1 (Non homogeneous surface)
+            s = """1 (Non homogeneous surface)
 %s %s %f (ro1 ro2 radius)
 %s
-%s\n""" % (ro_target_type, ro_env_type, radius, ro_target_values, ro_env_values)
+%s\n""" % (
+                ro_target_type,
+                ro_env_type,
+                radius,
+                ro_target_values,
+                ro_env_values,
+            )
 
         return [s, ro_target, ro_env]
 
@@ -146,7 +167,12 @@ WV_REPLACE
         return """0 Homogeneous surface
 1 (directional effects)
 4 (Walthall et al. model)
-%f %f %f %f\n""" % (param1, param2, param3, albedo)
+%f %f %f %f\n""" % (
+            param1,
+            param2,
+            param3,
+            albedo,
+        )
 
     @classmethod
     def HomogeneousHapke(cls, albedo, assymetry, amplitude, width):
@@ -159,11 +185,16 @@ WV_REPLACE
         - amplitude of hot spot
         - width of the hot spot
 
-         """
+        """
         return """0 Homogeneous surface
 1 (directional effects)
 1 (Hapke model)
-%f %f %f %f\n""" % (albedo, assymetry, amplitude, width)
+%f %f %f %f\n""" % (
+            albedo,
+            assymetry,
+            amplitude,
+            width,
+        )
 
     @classmethod
     def HomogeneousRoujean(cls, albedo, k1, k2):
@@ -175,11 +206,15 @@ WV_REPLACE
         - geometric parameter for hot spot effect
         - geometric parameter for hot spot effect
 
-         """
+        """
         return """0 Homogeneous surface
 1 (directional effects)
 3 (Roujean model)
-%f %f %f\n""" % (albedo, k1, k2)
+%f %f %f\n""" % (
+            albedo,
+            k1,
+            k2,
+        )
 
     @classmethod
     def HomogeneousMinnaert(cls, k, alb):
@@ -193,7 +228,10 @@ WV_REPLACE
         return """0 Homogeneous surface
 1 (directional effects)
 5 (Minnaert model)
-%f %f\n""" % (k, alb)
+%f %f\n""" % (
+            k,
+            alb,
+        )
 
     @classmethod
     def HomogeneousMODISBRDF(cls, par1, par2, par3):
@@ -209,10 +247,16 @@ WV_REPLACE
         return """0 Homogeneous surface
 1 (directional effects)
 10 (MODIS BRDF model)
-%f %f %f\n""" % (par1, par2, par3)
+%f %f %f\n""" % (
+            par1,
+            par2,
+            par3,
+        )
 
     @classmethod
-    def HomogeneousOcean(cls, wind_speed, wind_azimuth, salinity, pigment_concentration):
+    def HomogeneousOcean(
+        cls, wind_speed, wind_azimuth, salinity, pigment_concentration
+    ):
         """Parameterisation for a surface BRDF based on the Ocean BRDF model.
 
         The parameters are:
@@ -226,7 +270,12 @@ WV_REPLACE
         return """0 Homogeneous surface
 1 (directional effects)
 6 (Ocean BRDF)
-%f %f %f %f\n""" % (wind_speed, wind_azimuth, salinity, pigment_concentration)
+%f %f %f %f\n""" % (
+            wind_speed,
+            wind_azimuth,
+            salinity,
+            pigment_concentration,
+        )
 
     @classmethod
     def HomogeneousRahman(cls, intensity, asymmetry_factor, structural_parameter):
@@ -242,10 +291,23 @@ WV_REPLACE
         return """0 Homogeneous surface
 1 (directional effects)
 8 (Rahman model)
-%f %f %f\n""" % (intensity, asymmetry_factor, structural_parameter)
+%f %f %f\n""" % (
+            intensity,
+            asymmetry_factor,
+            structural_parameter,
+        )
 
     @classmethod
-    def HomogeneousIaquintaPinty(cls, leaf_dist, hot_spot, lai, hot_spot_param, leaf_reflec, leaf_trans, soil_albedo):
+    def HomogeneousIaquintaPinty(
+        cls,
+        leaf_dist,
+        hot_spot,
+        lai,
+        hot_spot_param,
+        leaf_reflec,
+        leaf_trans,
+        soil_albedo,
+    ):
         """Parameterisation for a surface BRDF based on the Iaquinta and Pinty model.
 
         The parameters are:
@@ -262,14 +324,24 @@ WV_REPLACE
 
         """
         if leaf_reflec + leaf_trans > 0.99:
-            raise ParameterException("leaf_reflec", "Leaf reflectance + Leaf transmittance must be < 0.99")
+            raise ParameterException(
+                "leaf_reflec", "Leaf reflectance + Leaf transmittance must be < 0.99"
+            )
 
         return """0 Homogeneous surface
 1 (directional effects)
 7 (Iaquinta and Pinty model)
 %d %d
 %d %d
-%d %d %d\n""" % (leaf_dist, hot_spot, lai, hot_spot_param, leaf_reflec, leaf_trans, soil_albedo)
+%d %d %d\n""" % (
+            leaf_dist,
+            hot_spot,
+            lai,
+            hot_spot_param,
+            leaf_reflec,
+            leaf_trans,
+            soil_albedo,
+        )
 
     LeafDistPlanophile = 1
     LeafDistErectophile = 2
@@ -281,7 +353,21 @@ WV_REPLACE
     HotSpot = 2
 
     @classmethod
-    def HomogeneousVerstaeteEtAl(cls, kappa_param, phase_funct, scattering_type, leaf_area_density, sun_flecks_radius, ssa, legendre_first, legendre_second, k1, k2, asym_factor, chil):
+    def HomogeneousVerstaeteEtAl(
+        cls,
+        kappa_param,
+        phase_funct,
+        scattering_type,
+        leaf_area_density,
+        sun_flecks_radius,
+        ssa,
+        legendre_first,
+        legendre_second,
+        k1,
+        k2,
+        asym_factor,
+        chil,
+    ):
         """Parameterisation for a surface BRDF based on the Verstraete, Pinty and Dickinson model.
 
         The parameters are:
@@ -306,7 +392,12 @@ WV_REPLACE
         params_line = "%d %d %d\n" % (kappa_param, phase_funct, scattering_type)
 
         if kappa_param == KappaGivenValues:
-            middle_line = "%f %f %f %f\n" % (leaf_area_density, sun_flecks_radius, k1, k2)
+            middle_line = "%f %f %f %f\n" % (
+                leaf_area_density,
+                sun_flecks_radius,
+                k1,
+                k2,
+            )
         else:
             middle_line = "%f %f %f\n" % (leaf_area_density, sun_flecks_radius, chil)
 
@@ -331,7 +422,18 @@ WV_REPLACE
     DickinsonMultipleScattering = 1
 
     @classmethod
-    def HomogeneousKuuskMultispectralCR(cls, lai, lad_eps, lad_thm, relative_leaf_size, chlorophyll_content, leaf_water_equiv_thickness, effective_num_layers, ratio_refractive_indices, weight_first_price_function):
+    def HomogeneousKuuskMultispectralCR(
+        cls,
+        lai,
+        lad_eps,
+        lad_thm,
+        relative_leaf_size,
+        chlorophyll_content,
+        leaf_water_equiv_thickness,
+        effective_num_layers,
+        ratio_refractive_indices,
+        weight_first_price_function,
+    ):
         """Parameterisation for a surface BRDF based on Kuusk's multispectral CR model.
 
         The Parameters are:
@@ -353,11 +455,20 @@ WV_REPLACE
 
         middle = "%f %f %f %f\n" % (lai, lad_eps, lad_thm, relative_leaf_size)
 
-        bottom = "%f %f %f %f %f\n" % (chlorophyll_content, leaf_water_equiv_thickness, effective_num_layers, ratio_refractive_indices, weight_first_price_function)
+        bottom = "%f %f %f %f %f\n" % (
+            chlorophyll_content,
+            leaf_water_equiv_thickness,
+            effective_num_layers,
+            ratio_refractive_indices,
+            weight_first_price_function,
+        )
 
         return header + middle + bottom
+
     @classmethod
-    def HomogeneousUserDefined(cls, observed_reflectance, albedo, ro_sun_at_thetas, ro_sun_at_thetav):
+    def HomogeneousUserDefined(
+        cls, observed_reflectance, albedo, ro_sun_at_thetas, ro_sun_at_thetav
+    ):
         """Parameterisation for a user-defined surface BRDF.
 
         The parameters are:
@@ -392,12 +503,12 @@ WV_REPLACE
 
         bottom = "%f\n %f\n" % (albedo, observed_reflectance)
 
-        return header + top_table + "\n"+ bottom_table + bottom
+        return header + top_table + "\n" + bottom_table + bottom
 
     @classmethod
     def _ArrayToString(cls, array):
         text = StringIO.StringIO()
-        np.savetxt(text, array, fmt="%.5f", delimiter=' ')
+        np.savetxt(text, array, fmt="%.5f", delimiter=" ")
         s = text.getvalue()
         text.close()
         return s

@@ -447,4 +447,3 @@ class Example6STests(unittest.TestCase):
         s.run()
 
         self.assertAlmostEqual(s.outputs.apparent_radiance, 170.771, delta=0.002)
-

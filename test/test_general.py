@@ -238,4 +238,3 @@ class GroundReflectanceTest(unittest.TestCase):
         s.run()
 
         self.assertAlmostEqual(s.outputs.apparent_radiance, 271.377, delta=0.002)
-

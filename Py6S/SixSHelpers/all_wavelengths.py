@@ -21,6 +21,7 @@ from matplotlib.pyplot import *
 import copy
 import sys
 
+
 class Wavelengths:
 
     """Helper functions for running the 6S model for a range of wavelengths, and plotting the result"""
@@ -64,7 +65,7 @@ class Wavelengths:
             a = copy.deepcopy(s)
             a.wavelength = Wavelength(wv)
             if verbose:
-               print(wv)
+                print(wv)
             a.run()
             if output_name is None:
                 return a.outputs
@@ -165,7 +166,7 @@ class Wavelengths:
 
         """
         calc_range = item[2] - item[1]
-        return (item[1] + calc_range / 2)
+        return item[1] + calc_range / 2
 
     @classmethod
     def run_landsat_tm(cls, s, **kwargs):
@@ -182,7 +183,14 @@ class Wavelengths:
         or a list of values of the selected output if ``output_name`` is set.
         """
 
-        wv = [PredefinedWavelengths.LANDSAT_TM_B1, PredefinedWavelengths.LANDSAT_TM_B2, PredefinedWavelengths.LANDSAT_TM_B3, PredefinedWavelengths.LANDSAT_TM_B4, PredefinedWavelengths.LANDSAT_TM_B5, PredefinedWavelengths.LANDSAT_TM_B7]
+        wv = [
+            PredefinedWavelengths.LANDSAT_TM_B1,
+            PredefinedWavelengths.LANDSAT_TM_B2,
+            PredefinedWavelengths.LANDSAT_TM_B3,
+            PredefinedWavelengths.LANDSAT_TM_B4,
+            PredefinedWavelengths.LANDSAT_TM_B5,
+            PredefinedWavelengths.LANDSAT_TM_B7,
+        ]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -208,15 +216,17 @@ class Wavelengths:
         or a list of values of the selected output if ``output_name`` is set.
         """
 
-        wv = [PredefinedWavelengths.LANDSAT_OLI_B1,
-              PredefinedWavelengths.LANDSAT_OLI_B2,
-              PredefinedWavelengths.LANDSAT_OLI_B3,
-              PredefinedWavelengths.LANDSAT_OLI_B4,
-              PredefinedWavelengths.LANDSAT_OLI_B5,
-              PredefinedWavelengths.LANDSAT_OLI_B6,
-              PredefinedWavelengths.LANDSAT_OLI_B7,
-              PredefinedWavelengths.LANDSAT_OLI_B8,
-              PredefinedWavelengths.LANDSAT_OLI_B9]
+        wv = [
+            PredefinedWavelengths.LANDSAT_OLI_B1,
+            PredefinedWavelengths.LANDSAT_OLI_B2,
+            PredefinedWavelengths.LANDSAT_OLI_B3,
+            PredefinedWavelengths.LANDSAT_OLI_B4,
+            PredefinedWavelengths.LANDSAT_OLI_B5,
+            PredefinedWavelengths.LANDSAT_OLI_B6,
+            PredefinedWavelengths.LANDSAT_OLI_B7,
+            PredefinedWavelengths.LANDSAT_OLI_B8,
+            PredefinedWavelengths.LANDSAT_OLI_B9,
+        ]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -241,7 +251,14 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.LANDSAT_ETM_B1, PredefinedWavelengths.LANDSAT_ETM_B2, PredefinedWavelengths.LANDSAT_ETM_B3, PredefinedWavelengths.LANDSAT_ETM_B4, PredefinedWavelengths.LANDSAT_ETM_B5, PredefinedWavelengths.LANDSAT_ETM_B7]
+        wv = [
+            PredefinedWavelengths.LANDSAT_ETM_B1,
+            PredefinedWavelengths.LANDSAT_ETM_B2,
+            PredefinedWavelengths.LANDSAT_ETM_B3,
+            PredefinedWavelengths.LANDSAT_ETM_B4,
+            PredefinedWavelengths.LANDSAT_ETM_B5,
+            PredefinedWavelengths.LANDSAT_ETM_B7,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -265,7 +282,12 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.LANDSAT_MSS_B1, PredefinedWavelengths.LANDSAT_MSS_B2, PredefinedWavelengths.LANDSAT_MSS_B3, PredefinedWavelengths.LANDSAT_MSS_B4]
+        wv = [
+            PredefinedWavelengths.LANDSAT_MSS_B1,
+            PredefinedWavelengths.LANDSAT_MSS_B2,
+            PredefinedWavelengths.LANDSAT_MSS_B3,
+            PredefinedWavelengths.LANDSAT_MSS_B4,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -289,19 +311,21 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.S2A_MSI_01,
-              PredefinedWavelengths.S2A_MSI_02,
-              PredefinedWavelengths.S2A_MSI_03,
-              PredefinedWavelengths.S2A_MSI_04,
-              PredefinedWavelengths.S2A_MSI_05,
-              PredefinedWavelengths.S2A_MSI_06,
-              PredefinedWavelengths.S2A_MSI_07,
-              PredefinedWavelengths.S2A_MSI_08,
-              PredefinedWavelengths.S2A_MSI_8A,
-              PredefinedWavelengths.S2A_MSI_09,
-              PredefinedWavelengths.S2A_MSI_10,
-              PredefinedWavelengths.S2A_MSI_11,
-              PredefinedWavelengths.S2A_MSI_12]
+        wv = [
+            PredefinedWavelengths.S2A_MSI_01,
+            PredefinedWavelengths.S2A_MSI_02,
+            PredefinedWavelengths.S2A_MSI_03,
+            PredefinedWavelengths.S2A_MSI_04,
+            PredefinedWavelengths.S2A_MSI_05,
+            PredefinedWavelengths.S2A_MSI_06,
+            PredefinedWavelengths.S2A_MSI_07,
+            PredefinedWavelengths.S2A_MSI_08,
+            PredefinedWavelengths.S2A_MSI_8A,
+            PredefinedWavelengths.S2A_MSI_09,
+            PredefinedWavelengths.S2A_MSI_10,
+            PredefinedWavelengths.S2A_MSI_11,
+            PredefinedWavelengths.S2A_MSI_12,
+        ]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -326,19 +350,21 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.S2B_MSI_01,
-              PredefinedWavelengths.S2B_MSI_02,
-              PredefinedWavelengths.S2B_MSI_03,
-              PredefinedWavelengths.S2B_MSI_04,
-              PredefinedWavelengths.S2B_MSI_05,
-              PredefinedWavelengths.S2B_MSI_06,
-              PredefinedWavelengths.S2B_MSI_07,
-              PredefinedWavelengths.S2B_MSI_08,
-              PredefinedWavelengths.S2B_MSI_8A,
-              PredefinedWavelengths.S2B_MSI_09,
-              PredefinedWavelengths.S2B_MSI_10,
-              PredefinedWavelengths.S2B_MSI_11,
-              PredefinedWavelengths.S2B_MSI_12]
+        wv = [
+            PredefinedWavelengths.S2B_MSI_01,
+            PredefinedWavelengths.S2B_MSI_02,
+            PredefinedWavelengths.S2B_MSI_03,
+            PredefinedWavelengths.S2B_MSI_04,
+            PredefinedWavelengths.S2B_MSI_05,
+            PredefinedWavelengths.S2B_MSI_06,
+            PredefinedWavelengths.S2B_MSI_07,
+            PredefinedWavelengths.S2B_MSI_08,
+            PredefinedWavelengths.S2B_MSI_8A,
+            PredefinedWavelengths.S2B_MSI_09,
+            PredefinedWavelengths.S2B_MSI_10,
+            PredefinedWavelengths.S2B_MSI_11,
+            PredefinedWavelengths.S2B_MSI_12,
+        ]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -348,7 +374,6 @@ class Wavelengths:
             centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
-
 
     @classmethod
     def run_s3a_olci(cls, s, **kwargs):
@@ -364,27 +389,29 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.S3A_OLCI_01,
-              PredefinedWavelengths.S3A_OLCI_02,
-              PredefinedWavelengths.S3A_OLCI_03,
-              PredefinedWavelengths.S3A_OLCI_04,
-              PredefinedWavelengths.S3A_OLCI_05,
-              PredefinedWavelengths.S3A_OLCI_06,
-              PredefinedWavelengths.S3A_OLCI_07,
-              PredefinedWavelengths.S3A_OLCI_08,
-              PredefinedWavelengths.S3A_OLCI_09,
-              PredefinedWavelengths.S3A_OLCI_10,
-              PredefinedWavelengths.S3A_OLCI_11,
-              PredefinedWavelengths.S3A_OLCI_12,
-              PredefinedWavelengths.S3A_OLCI_13,
-              PredefinedWavelengths.S3A_OLCI_14,
-              PredefinedWavelengths.S3A_OLCI_15,
-              PredefinedWavelengths.S3A_OLCI_16,
-              PredefinedWavelengths.S3A_OLCI_17,
-              PredefinedWavelengths.S3A_OLCI_18,
-              PredefinedWavelengths.S3A_OLCI_19,
-              PredefinedWavelengths.S3A_OLCI_20,
-              PredefinedWavelengths.S3A_OLCI_21]
+        wv = [
+            PredefinedWavelengths.S3A_OLCI_01,
+            PredefinedWavelengths.S3A_OLCI_02,
+            PredefinedWavelengths.S3A_OLCI_03,
+            PredefinedWavelengths.S3A_OLCI_04,
+            PredefinedWavelengths.S3A_OLCI_05,
+            PredefinedWavelengths.S3A_OLCI_06,
+            PredefinedWavelengths.S3A_OLCI_07,
+            PredefinedWavelengths.S3A_OLCI_08,
+            PredefinedWavelengths.S3A_OLCI_09,
+            PredefinedWavelengths.S3A_OLCI_10,
+            PredefinedWavelengths.S3A_OLCI_11,
+            PredefinedWavelengths.S3A_OLCI_12,
+            PredefinedWavelengths.S3A_OLCI_13,
+            PredefinedWavelengths.S3A_OLCI_14,
+            PredefinedWavelengths.S3A_OLCI_15,
+            PredefinedWavelengths.S3A_OLCI_16,
+            PredefinedWavelengths.S3A_OLCI_17,
+            PredefinedWavelengths.S3A_OLCI_18,
+            PredefinedWavelengths.S3A_OLCI_19,
+            PredefinedWavelengths.S3A_OLCI_20,
+            PredefinedWavelengths.S3A_OLCI_21,
+        ]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -394,7 +421,6 @@ class Wavelengths:
             centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
-
 
     @classmethod
     def run_s3a_slstr(cls, s, **kwargs):
@@ -410,12 +436,14 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.S3A_SLSTR_01,
-              PredefinedWavelengths.S3A_SLSTR_02,
-              PredefinedWavelengths.S3A_SLSTR_03,
-              PredefinedWavelengths.S3A_SLSTR_04,
-              PredefinedWavelengths.S3A_SLSTR_05,
-              PredefinedWavelengths.S3A_SLSTR_06]
+        wv = [
+            PredefinedWavelengths.S3A_SLSTR_01,
+            PredefinedWavelengths.S3A_SLSTR_02,
+            PredefinedWavelengths.S3A_SLSTR_03,
+            PredefinedWavelengths.S3A_SLSTR_04,
+            PredefinedWavelengths.S3A_SLSTR_05,
+            PredefinedWavelengths.S3A_SLSTR_06,
+        ]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -440,27 +468,29 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.S3B_OLCI_01,
-              PredefinedWavelengths.S3B_OLCI_02,
-              PredefinedWavelengths.S3B_OLCI_03,
-              PredefinedWavelengths.S3B_OLCI_04,
-              PredefinedWavelengths.S3B_OLCI_05,
-              PredefinedWavelengths.S3B_OLCI_06,
-              PredefinedWavelengths.S3B_OLCI_07,
-              PredefinedWavelengths.S3B_OLCI_08,
-              PredefinedWavelengths.S3B_OLCI_09,
-              PredefinedWavelengths.S3B_OLCI_10,
-              PredefinedWavelengths.S3B_OLCI_11,
-              PredefinedWavelengths.S3B_OLCI_12,
-              PredefinedWavelengths.S3B_OLCI_13,
-              PredefinedWavelengths.S3B_OLCI_14,
-              PredefinedWavelengths.S3B_OLCI_15,
-              PredefinedWavelengths.S3B_OLCI_16,
-              PredefinedWavelengths.S3B_OLCI_17,
-              PredefinedWavelengths.S3B_OLCI_18,
-              PredefinedWavelengths.S3B_OLCI_19,
-              PredefinedWavelengths.S3B_OLCI_20,
-              PredefinedWavelengths.S3B_OLCI_21]
+        wv = [
+            PredefinedWavelengths.S3B_OLCI_01,
+            PredefinedWavelengths.S3B_OLCI_02,
+            PredefinedWavelengths.S3B_OLCI_03,
+            PredefinedWavelengths.S3B_OLCI_04,
+            PredefinedWavelengths.S3B_OLCI_05,
+            PredefinedWavelengths.S3B_OLCI_06,
+            PredefinedWavelengths.S3B_OLCI_07,
+            PredefinedWavelengths.S3B_OLCI_08,
+            PredefinedWavelengths.S3B_OLCI_09,
+            PredefinedWavelengths.S3B_OLCI_10,
+            PredefinedWavelengths.S3B_OLCI_11,
+            PredefinedWavelengths.S3B_OLCI_12,
+            PredefinedWavelengths.S3B_OLCI_13,
+            PredefinedWavelengths.S3B_OLCI_14,
+            PredefinedWavelengths.S3B_OLCI_15,
+            PredefinedWavelengths.S3B_OLCI_16,
+            PredefinedWavelengths.S3B_OLCI_17,
+            PredefinedWavelengths.S3B_OLCI_18,
+            PredefinedWavelengths.S3B_OLCI_19,
+            PredefinedWavelengths.S3B_OLCI_20,
+            PredefinedWavelengths.S3B_OLCI_21,
+        ]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -470,7 +500,6 @@ class Wavelengths:
             centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
-
 
     @classmethod
     def run_s3b_slstr(cls, s, **kwargs):
@@ -486,12 +515,14 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.S3B_SLSTR_01,
-              PredefinedWavelengths.S3B_SLSTR_02,
-              PredefinedWavelengths.S3B_SLSTR_03,
-              PredefinedWavelengths.S3B_SLSTR_04,
-              PredefinedWavelengths.S3B_SLSTR_05,
-              PredefinedWavelengths.S3B_SLSTR_06]
+        wv = [
+            PredefinedWavelengths.S3B_SLSTR_01,
+            PredefinedWavelengths.S3B_SLSTR_02,
+            PredefinedWavelengths.S3B_SLSTR_03,
+            PredefinedWavelengths.S3B_SLSTR_04,
+            PredefinedWavelengths.S3B_SLSTR_05,
+            PredefinedWavelengths.S3B_SLSTR_06,
+        ]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -501,7 +532,6 @@ class Wavelengths:
             centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
-
 
     @classmethod
     def run_meris(cls, s, **kwargs):
@@ -517,7 +547,23 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.MERIS_B1, PredefinedWavelengths.MERIS_B2, PredefinedWavelengths.MERIS_B3, PredefinedWavelengths.MERIS_B4, PredefinedWavelengths.MERIS_B5, PredefinedWavelengths.MERIS_B6, PredefinedWavelengths.MERIS_B7, PredefinedWavelengths.MERIS_B9, PredefinedWavelengths.MERIS_B10, PredefinedWavelengths.MERIS_B11, PredefinedWavelengths.MERIS_B12, PredefinedWavelengths.MERIS_B8, PredefinedWavelengths.MERIS_B13, PredefinedWavelengths.MERIS_B14, PredefinedWavelengths.MERIS_B15]
+        wv = [
+            PredefinedWavelengths.MERIS_B1,
+            PredefinedWavelengths.MERIS_B2,
+            PredefinedWavelengths.MERIS_B3,
+            PredefinedWavelengths.MERIS_B4,
+            PredefinedWavelengths.MERIS_B5,
+            PredefinedWavelengths.MERIS_B6,
+            PredefinedWavelengths.MERIS_B7,
+            PredefinedWavelengths.MERIS_B9,
+            PredefinedWavelengths.MERIS_B10,
+            PredefinedWavelengths.MERIS_B11,
+            PredefinedWavelengths.MERIS_B12,
+            PredefinedWavelengths.MERIS_B8,
+            PredefinedWavelengths.MERIS_B13,
+            PredefinedWavelengths.MERIS_B14,
+            PredefinedWavelengths.MERIS_B15,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -541,7 +587,16 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.MODIS_B8, PredefinedWavelengths.MODIS_B3, PredefinedWavelengths.MODIS_B4, PredefinedWavelengths.MODIS_B1, PredefinedWavelengths.MODIS_B2, PredefinedWavelengths.MODIS_B5, PredefinedWavelengths.MODIS_B6, PredefinedWavelengths.MODIS_B7]
+        wv = [
+            PredefinedWavelengths.MODIS_B8,
+            PredefinedWavelengths.MODIS_B3,
+            PredefinedWavelengths.MODIS_B4,
+            PredefinedWavelengths.MODIS_B1,
+            PredefinedWavelengths.MODIS_B2,
+            PredefinedWavelengths.MODIS_B5,
+            PredefinedWavelengths.MODIS_B6,
+            PredefinedWavelengths.MODIS_B7,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -565,18 +620,20 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.ACCURATE_MODIS_AQUA_1,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_2,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_3,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_4,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_5,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_6,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_7,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_11,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_12,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_13,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_14,
-              PredefinedWavelengths.ACCURATE_MODIS_AQUA_15]
+        wv = [
+            PredefinedWavelengths.ACCURATE_MODIS_AQUA_1,
+            PredefinedWavelengths.ACCURATE_MODIS_AQUA_2,
+            PredefinedWavelengths.ACCURATE_MODIS_AQUA_3,
+            PredefinedWavelengths.ACCURATE_MODIS_AQUA_4,
+            PredefinedWavelengths.ACCURATE_MODIS_AQUA_5,
+            PredefinedWavelengths.ACCURATE_MODIS_AQUA_6,
+            PredefinedWavelengths.ACCURATE_MODIS_AQUA_7,
+            PredefinedWavelengths.ACCURATE_MODIS_AQUA_11,
+            PredefinedWavelengths.ACCURATE_MODIS_AQUA_12,
+            PredefinedWavelengths.ACCURATE_MODIS_AQUA_13,
+            PredefinedWavelengths.ACCURATE_MODIS_AQUA_14,
+            PredefinedWavelengths.ACCURATE_MODIS_AQUA_15,
+        ]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -586,7 +643,6 @@ class Wavelengths:
             centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
-
 
     @classmethod
     def run_terra(cls, s, **kwargs):
@@ -602,18 +658,20 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.ACCURATE_MODIS_TERRA_1,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_2,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_3,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_4,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_5,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_6,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_7,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_11,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_12,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_13,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_14,
-              PredefinedWavelengths.ACCURATE_MODIS_TERRA_15]
+        wv = [
+            PredefinedWavelengths.ACCURATE_MODIS_TERRA_1,
+            PredefinedWavelengths.ACCURATE_MODIS_TERRA_2,
+            PredefinedWavelengths.ACCURATE_MODIS_TERRA_3,
+            PredefinedWavelengths.ACCURATE_MODIS_TERRA_4,
+            PredefinedWavelengths.ACCURATE_MODIS_TERRA_5,
+            PredefinedWavelengths.ACCURATE_MODIS_TERRA_6,
+            PredefinedWavelengths.ACCURATE_MODIS_TERRA_7,
+            PredefinedWavelengths.ACCURATE_MODIS_TERRA_11,
+            PredefinedWavelengths.ACCURATE_MODIS_TERRA_12,
+            PredefinedWavelengths.ACCURATE_MODIS_TERRA_13,
+            PredefinedWavelengths.ACCURATE_MODIS_TERRA_14,
+            PredefinedWavelengths.ACCURATE_MODIS_TERRA_15,
+        ]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -623,7 +681,6 @@ class Wavelengths:
             centre_wvs = list(centre_wvs)
 
         return (centre_wvs, res)
-
 
     @classmethod
     def run_spot_hrv(cls, s, **kwargs):
@@ -639,7 +696,11 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.SPOT_HRV1_B1, PredefinedWavelengths.SPOT_HRV1_B2, PredefinedWavelengths.SPOT_HRV1_B3]
+        wv = [
+            PredefinedWavelengths.SPOT_HRV1_B1,
+            PredefinedWavelengths.SPOT_HRV1_B2,
+            PredefinedWavelengths.SPOT_HRV1_B3,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -663,7 +724,12 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.SPOT_VGT_B1, PredefinedWavelengths.SPOT_VGT_B2, PredefinedWavelengths.SPOT_VGT_B3, PredefinedWavelengths.SPOT_VGT_B4]
+        wv = [
+            PredefinedWavelengths.SPOT_VGT_B1,
+            PredefinedWavelengths.SPOT_VGT_B2,
+            PredefinedWavelengths.SPOT_VGT_B3,
+            PredefinedWavelengths.SPOT_VGT_B4,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -687,10 +753,12 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.PROBAV_1_01,
-              PredefinedWavelengths.PROBAV_1_02,
-              PredefinedWavelengths.PROBAV_1_03,
-              PredefinedWavelengths.PROBAV_1_04]
+        wv = [
+            PredefinedWavelengths.PROBAV_1_01,
+            PredefinedWavelengths.PROBAV_1_02,
+            PredefinedWavelengths.PROBAV_1_03,
+            PredefinedWavelengths.PROBAV_1_04,
+        ]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -715,10 +783,12 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.PROBAV_2_01,
-              PredefinedWavelengths.PROBAV_2_02,
-              PredefinedWavelengths.PROBAV_2_03,
-              PredefinedWavelengths.PROBAV_2_04]
+        wv = [
+            PredefinedWavelengths.PROBAV_2_01,
+            PredefinedWavelengths.PROBAV_2_02,
+            PredefinedWavelengths.PROBAV_2_03,
+            PredefinedWavelengths.PROBAV_2_04,
+        ]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -743,10 +813,12 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.PROBAV_3_01,
-              PredefinedWavelengths.PROBAV_3_02,
-              PredefinedWavelengths.PROBAV_3_03,
-              PredefinedWavelengths.PROBAV_3_04]
+        wv = [
+            PredefinedWavelengths.PROBAV_3_01,
+            PredefinedWavelengths.PROBAV_3_02,
+            PredefinedWavelengths.PROBAV_3_03,
+            PredefinedWavelengths.PROBAV_3_04,
+        ]
 
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
@@ -771,7 +843,16 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.POLDER_B1, PredefinedWavelengths.POLDER_B2, PredefinedWavelengths.POLDER_B3, PredefinedWavelengths.POLDER_B4, PredefinedWavelengths.POLDER_B5, PredefinedWavelengths.POLDER_B6, PredefinedWavelengths.POLDER_B7, PredefinedWavelengths.POLDER_B8]
+        wv = [
+            PredefinedWavelengths.POLDER_B1,
+            PredefinedWavelengths.POLDER_B2,
+            PredefinedWavelengths.POLDER_B3,
+            PredefinedWavelengths.POLDER_B4,
+            PredefinedWavelengths.POLDER_B5,
+            PredefinedWavelengths.POLDER_B6,
+            PredefinedWavelengths.POLDER_B7,
+            PredefinedWavelengths.POLDER_B8,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -795,7 +876,16 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.SEAWIFS_B1, PredefinedWavelengths.SEAWIFS_B2, PredefinedWavelengths.SEAWIFS_B3, PredefinedWavelengths.SEAWIFS_B4, PredefinedWavelengths.SEAWIFS_B5, PredefinedWavelengths.SEAWIFS_B6, PredefinedWavelengths.SEAWIFS_B7, PredefinedWavelengths.SEAWIFS_B8]
+        wv = [
+            PredefinedWavelengths.SEAWIFS_B1,
+            PredefinedWavelengths.SEAWIFS_B2,
+            PredefinedWavelengths.SEAWIFS_B3,
+            PredefinedWavelengths.SEAWIFS_B4,
+            PredefinedWavelengths.SEAWIFS_B5,
+            PredefinedWavelengths.SEAWIFS_B6,
+            PredefinedWavelengths.SEAWIFS_B7,
+            PredefinedWavelengths.SEAWIFS_B8,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -819,7 +909,12 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.AATSR_B1, PredefinedWavelengths.AATSR_B2, PredefinedWavelengths.AATSR_B3, PredefinedWavelengths.AATSR_B4]
+        wv = [
+            PredefinedWavelengths.AATSR_B1,
+            PredefinedWavelengths.AATSR_B2,
+            PredefinedWavelengths.AATSR_B3,
+            PredefinedWavelengths.AATSR_B4,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -843,7 +938,18 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.ASTER_B1, PredefinedWavelengths.ASTER_B2, PredefinedWavelengths.ASTER_B3N, PredefinedWavelengths.ASTER_B3B, PredefinedWavelengths.ASTER_B4, PredefinedWavelengths.ASTER_B5, PredefinedWavelengths.ASTER_B6, PredefinedWavelengths.ASTER_B7, PredefinedWavelengths.ASTER_B8, PredefinedWavelengths.ASTER_B9]
+        wv = [
+            PredefinedWavelengths.ASTER_B1,
+            PredefinedWavelengths.ASTER_B2,
+            PredefinedWavelengths.ASTER_B3N,
+            PredefinedWavelengths.ASTER_B3B,
+            PredefinedWavelengths.ASTER_B4,
+            PredefinedWavelengths.ASTER_B5,
+            PredefinedWavelengths.ASTER_B6,
+            PredefinedWavelengths.ASTER_B7,
+            PredefinedWavelengths.ASTER_B8,
+            PredefinedWavelengths.ASTER_B9,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -867,7 +973,22 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.VIIRS_BM1, PredefinedWavelengths.VIIRS_BM2, PredefinedWavelengths.VIIRS_BM3, PredefinedWavelengths.VIIRS_BM4, PredefinedWavelengths.VIIRS_BI1, PredefinedWavelengths.VIIRS_BM5, PredefinedWavelengths.VIIRS_BM6, PredefinedWavelengths.VIIRS_BM7, PredefinedWavelengths.VIIRS_BM8, PredefinedWavelengths.VIIRS_BM9, PredefinedWavelengths.VIIRS_BM10, PredefinedWavelengths.VIIRS_BM11, PredefinedWavelengths.VIIRS_BM12, PredefinedWavelengths.VIIRS_BI4]
+        wv = [
+            PredefinedWavelengths.VIIRS_BM1,
+            PredefinedWavelengths.VIIRS_BM2,
+            PredefinedWavelengths.VIIRS_BM3,
+            PredefinedWavelengths.VIIRS_BM4,
+            PredefinedWavelengths.VIIRS_BI1,
+            PredefinedWavelengths.VIIRS_BM5,
+            PredefinedWavelengths.VIIRS_BM6,
+            PredefinedWavelengths.VIIRS_BM7,
+            PredefinedWavelengths.VIIRS_BM8,
+            PredefinedWavelengths.VIIRS_BM9,
+            PredefinedWavelengths.VIIRS_BM10,
+            PredefinedWavelengths.VIIRS_BM11,
+            PredefinedWavelengths.VIIRS_BM12,
+            PredefinedWavelengths.VIIRS_BI4,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -891,7 +1012,15 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.ER2_MAS_B1, PredefinedWavelengths.ER2_MAS_B2, PredefinedWavelengths.ER2_MAS_B3, PredefinedWavelengths.ER2_MAS_B4, PredefinedWavelengths.ER2_MAS_B5, PredefinedWavelengths.ER2_MAS_B6, PredefinedWavelengths.ER2_MAS_B7]
+        wv = [
+            PredefinedWavelengths.ER2_MAS_B1,
+            PredefinedWavelengths.ER2_MAS_B2,
+            PredefinedWavelengths.ER2_MAS_B3,
+            PredefinedWavelengths.ER2_MAS_B4,
+            PredefinedWavelengths.ER2_MAS_B5,
+            PredefinedWavelengths.ER2_MAS_B6,
+            PredefinedWavelengths.ER2_MAS_B7,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -915,7 +1044,17 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.ALI_B1P, PredefinedWavelengths.ALI_B1, PredefinedWavelengths.ALI_B2, PredefinedWavelengths.ALI_B3, PredefinedWavelengths.ALI_B4, PredefinedWavelengths.ALI_B4P, PredefinedWavelengths.ALI_B5P, PredefinedWavelengths.ALI_B5, PredefinedWavelengths.ALI_B7]
+        wv = [
+            PredefinedWavelengths.ALI_B1P,
+            PredefinedWavelengths.ALI_B1,
+            PredefinedWavelengths.ALI_B2,
+            PredefinedWavelengths.ALI_B3,
+            PredefinedWavelengths.ALI_B4,
+            PredefinedWavelengths.ALI_B4P,
+            PredefinedWavelengths.ALI_B5P,
+            PredefinedWavelengths.ALI_B5,
+            PredefinedWavelengths.ALI_B7,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -939,7 +1078,36 @@ class Wavelengths:
         A tuple containing the centre wavlengths used for the run and the results of the simulations. The results will be a list of :class:`SixS.Outputs` instances if ``output_name`` is not set,
         or a list of values of the selected output if ``output_name`` is set.
         """
-        wv = [PredefinedWavelengths.GLI_B1, PredefinedWavelengths.GLI_B2, PredefinedWavelengths.GLI_B3, PredefinedWavelengths.GLI_B4, PredefinedWavelengths.GLI_B5, PredefinedWavelengths.GLI_B6, PredefinedWavelengths.GLI_B7, PredefinedWavelengths.GLI_B8, PredefinedWavelengths.GLI_B9, PredefinedWavelengths.GLI_B10, PredefinedWavelengths.GLI_B22, PredefinedWavelengths.GLI_B11, PredefinedWavelengths.GLI_B12, PredefinedWavelengths.GLI_B13, PredefinedWavelengths.GLI_B14, PredefinedWavelengths.GLI_B15, PredefinedWavelengths.GLI_B16, PredefinedWavelengths.GLI_B17, PredefinedWavelengths.GLI_B18, PredefinedWavelengths.GLI_B23, PredefinedWavelengths.GLI_B19, PredefinedWavelengths.GLI_B24, PredefinedWavelengths.GLI_B25, PredefinedWavelengths.GLI_B26, PredefinedWavelengths.GLI_B27, PredefinedWavelengths.GLI_B28, PredefinedWavelengths.GLI_B29, PredefinedWavelengths.GLI_B30]
+        wv = [
+            PredefinedWavelengths.GLI_B1,
+            PredefinedWavelengths.GLI_B2,
+            PredefinedWavelengths.GLI_B3,
+            PredefinedWavelengths.GLI_B4,
+            PredefinedWavelengths.GLI_B5,
+            PredefinedWavelengths.GLI_B6,
+            PredefinedWavelengths.GLI_B7,
+            PredefinedWavelengths.GLI_B8,
+            PredefinedWavelengths.GLI_B9,
+            PredefinedWavelengths.GLI_B10,
+            PredefinedWavelengths.GLI_B22,
+            PredefinedWavelengths.GLI_B11,
+            PredefinedWavelengths.GLI_B12,
+            PredefinedWavelengths.GLI_B13,
+            PredefinedWavelengths.GLI_B14,
+            PredefinedWavelengths.GLI_B15,
+            PredefinedWavelengths.GLI_B16,
+            PredefinedWavelengths.GLI_B17,
+            PredefinedWavelengths.GLI_B18,
+            PredefinedWavelengths.GLI_B23,
+            PredefinedWavelengths.GLI_B19,
+            PredefinedWavelengths.GLI_B24,
+            PredefinedWavelengths.GLI_B25,
+            PredefinedWavelengths.GLI_B26,
+            PredefinedWavelengths.GLI_B27,
+            PredefinedWavelengths.GLI_B28,
+            PredefinedWavelengths.GLI_B29,
+            PredefinedWavelengths.GLI_B30,
+        ]
         wv, res = cls.run_wavelengths(s, wv, **kwargs)
 
         centre_wvs = map(cls.to_centre_wavelengths, wv)
@@ -990,7 +1158,7 @@ class Wavelengths:
 
         """
 
-        plot(wavelengths, values, 'k')
+        plot(wavelengths, values, "k")
         xlabel("Wavelength ($\mu m$)")
         ylabel(y_axis_label)
         show()

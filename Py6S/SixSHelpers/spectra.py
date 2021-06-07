@@ -43,7 +43,7 @@ class Spectra:
     @classmethod
     def import_from_usgs(cls, loc):
         """NOT WORKING AT THE MOMENT - USGS have changed the format of their spectra.
-        
+
         Imports a spectral library from the USGS Spectral Library (available at http://speclab.cr.usgs.gov/spectral.lib06/).
 
         Arguments:

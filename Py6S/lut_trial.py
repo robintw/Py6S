@@ -29,9 +29,9 @@
 # def named_product(**items):
 #     names = items.keys()
 #     vals = items.values()
-    
+
 #     if sys.version_info[0] >= 3:
-#         names = list(names) 
+#         names = list(names)
 #         vals = list(vals)
 
 #     for res in itertools.product(*vals):

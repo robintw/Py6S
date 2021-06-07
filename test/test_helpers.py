@@ -536,4 +536,3 @@ class RadiosondeImportTest(unittest.TestCase):
         s.run()
 
         self.assertAlmostEqual(s.outputs.apparent_radiance, 164.482, delta=0.02)
-
