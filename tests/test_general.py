@@ -159,12 +159,19 @@ class UserDefinedSpectraTest(unittest.TestCase):
 
 
 class GeometryTest(unittest.TestCase):
-    def test_geom_from_time_and_loc(self):
+    def test_geom_from_time_and_loc_1(self):
         g = Geometry.User()
 
         g.from_time_and_location(50, -1, "2014-06-05", 0, 30)
 
         self.assertEqual(str(g), "0 (User defined)\n113.587146 359.826938 0.000000 30.000000 5 6\n")
+
+    def test_geom_from_time_and_loc_2(self):
+        g = Geometry.User()
+
+        g.from_time_and_location(50, -1, "2020-01-05 13:47", 0, 30)
+
+        self.assertEqual(str(g), "0 (User defined)\n40.760679 221.204842 0.000000 30.000000 5 1\n")
 
 
 class AltitudesTest(unittest.TestCase):
