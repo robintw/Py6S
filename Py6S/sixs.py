@@ -15,23 +15,25 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-import subprocess
+import math
 import os
+import subprocess
 import sys
+import tempfile
+
 import numpy as np
 from scipy.interpolate import interp1d
+
+from .outputs import *
 from .Params import *
 from .sixs_exceptions import *
-from .outputs import *
-import tempfile
-import math
 
-
-SIXSVERSION = '1.1'
+SIXSVERSION = "1.1"
 
 # Fix for Python 3 where basestring is not available
 if sys.version_info[0] >= 3:
     basestring = str
+
 
 class SixS(object):
 
@@ -85,9 +87,9 @@ class SixS(object):
                             s.atmos_corr = AtmosCorr.AtmosCorrLambertianFromReflectance(0.23)
 
     * ``aot550`` -- The Aerosol Optical Thickness value (measured at 550nm) to use for the simulation. For example ::
-                            
+
                             s.aot550 = 0.2
-                    
+
       Note: only one of ``visibility`` or ``aot550`` can be set.
       When setting one, ensure the other is set to ``None``. (By default, ``s.visibility`` is set to None,
       so just setting ``s.aot550`` will work.)
@@ -159,7 +161,12 @@ class SixS(object):
         if path is not None:
             return path
         else:
-            return self._which('sixs.exe') or self._which('sixs') or self._which('sixsV1.1') or self._which('sixsV1.1.exe')
+            return (
+                self._which("sixs.exe")
+                or self._which("sixs")
+                or self._which("sixsV1.1")
+                or self._which("sixsV1.1.exe")
+            )
 
     def _which(self, program):
         def is_exe(fpath):
@@ -183,7 +190,7 @@ class SixS(object):
 
     def _create_atmos_aero_lines(self):
         """Creates the atmosphere and aerosol lines for the input file"""
-        return str(self.atmos_profile) + '\n' + str(self.aero_profile) + '\n'
+        return str(self.atmos_profile) + "\n" + str(self.aero_profile) + "\n"
 
     def _create_aot_vis_lines(self):
         """Create the AOT or Visibility lines for the input file"""
@@ -194,7 +201,10 @@ class SixS(object):
             elif self.visibility is not None:
                 return "%f\n" % self.visibility
             else:
-                raise ParameterError("aot550", "You must set either the AOT at 550nm or the Visibility in km.")
+                raise ParameterError(
+                    "aot550",
+                    "You must set either the AOT at 550nm or the Visibility in km.",
+                )
         else:
             return ""
 
@@ -271,10 +281,16 @@ class SixS(object):
         #
         ground_reflectance_lines = self._create_ground_reflectance_lines()
 
-        if (isinstance(ground_reflectance_lines, basestring)):
-            str_ground_refl = str(ground_reflectance_lines.replace("WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv)))
+        if isinstance(ground_reflectance_lines, basestring):
+            str_ground_refl = str(
+                ground_reflectance_lines.replace("WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv))
+            )
         else:
-            str_ground_refl = str(ground_reflectance_lines[0].replace("WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv)))
+            str_ground_refl = str(
+                ground_reflectance_lines[0].replace(
+                    "WV_REPLACE", "%f %f" % (self.min_wv, self.max_wv)
+                )
+            )
 
         # Furthermore, to deal with spectra from spectral libraries
         # where the spectra are given as a 2D array of wavelength, reflectance
@@ -293,20 +309,19 @@ class SixS(object):
 
         input_file += self._create_atmos_corr_lines()
 
-
         if filename is None:
             # No filename given, so write to temporary file
             tmp_file = tempfile.NamedTemporaryFile(prefix="tmp_Py6S_input_", delete=False)
 
             # For Python 3, convert to Byte
             if sys.version_info[0] >= 3:
-                tmp_file.file.write(bytes(input_file,'utf-8'))
+                tmp_file.file.write(bytes(input_file, "utf-8"))
             else:
                 tmp_file.file.write(input_file)
             name = tmp_file.name
             tmp_file.close()
         else:
-            f = open(filename, 'w')
+            f = open(filename, "w")
             f.write(input_file)
             name = filename
             f.close()
@@ -325,7 +340,12 @@ class SixS(object):
         tmp_file_name = self.write_input_file()
 
         # Run the process and get the stdout from it
-        process = subprocess.Popen("%s < %s" % (self.sixs_path, tmp_file_name), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(
+            "%s < %s" % (self.sixs_path, tmp_file_name),
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
         outputs = process.communicate()
         self.outputs = Outputs(outputs[0], outputs[1])
 
@@ -343,7 +363,7 @@ class SixS(object):
         print("---------------------")
         print("Run on %s" % (str(datetime.datetime.now())))
         print("Platform: %s" % (platform.platform()))
-        print("Python version: %s" % (sys.version.split('\n')[0]))
+        print("Python version: %s" % (sys.version.split("\n")[0]))
         print("Py6S version: %s" % (self.__version__))
         print("---------------------")
         self.test()
@@ -368,7 +388,11 @@ class SixS(object):
             print("Running 6S using a set of test parameters")
             test.run()
             print("6sV version: %s" % (test.outputs.version))
-            assert test.outputs.version == SIXSVERSION, "Unsupported 6sV version: {0}. Need version {1}".format(test.outputs.version, SIXSVERSION)
+            assert (
+                test.outputs.version == SIXSVERSION
+            ), "Unsupported 6sV version: {0}. Need version {1}".format(
+                test.outputs.version, SIXSVERSION
+            )
             print("The results are:")
             print("Expected result: %f" % 619.158)
             print("Actual result: %f" % test.outputs.diffuse_solar_irradiance)

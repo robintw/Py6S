@@ -15,10 +15,12 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
-from Py6S import *
-import numpy as np
 import os.path
+import unittest
+
+import numpy as np
+
+from Py6S import *
 
 test_dir = os.path.relpath(os.path.dirname(__file__))
 
@@ -70,9 +72,7 @@ class VisAOTTests(unittest.TestCase):
         s.visibility = 40
         s.run()
 
-        self.assertAlmostEqual(
-            s.outputs.phase_function_Q.aerosol, -0.04939, delta=0.002
-        )
+        self.assertAlmostEqual(s.outputs.phase_function_Q.aerosol, -0.04939, delta=0.002)
 
 
 class WavelengthTests(unittest.TestCase):
@@ -159,14 +159,19 @@ class UserDefinedSpectraTest(unittest.TestCase):
 
 
 class GeometryTest(unittest.TestCase):
-    def test_geom_from_time_and_loc(self):
+    def test_geom_from_time_and_loc_1(self):
         g = Geometry.User()
 
         g.from_time_and_location(50, -1, "2014-06-05", 0, 30)
 
-        self.assertEqual(
-            str(g), "0 (User defined)\n113.587146 359.826938 0.000000 30.000000 5 6\n"
-        )
+        self.assertEqual(str(g), "0 (User defined)\n113.587146 359.826938 0.000000 30.000000 5 6\n")
+
+    def test_geom_from_time_and_loc_2(self):
+        g = Geometry.User()
+
+        g.from_time_and_location(50, -1, "2020-01-05 13:47", 0, 30)
+
+        self.assertEqual(str(g), "0 (User defined)\n40.760679 221.204842 0.000000 30.000000 5 1\n")
 
 
 class AltitudesTest(unittest.TestCase):
@@ -231,11 +236,8 @@ class GroundReflectanceTest(unittest.TestCase):
         ro_target = np.array([wavelengths, [1.0] * 4]).T
         ro_env = np.array([wavelengths, [0.5] * 4]).T
 
-        s.ground_reflectance = GroundReflectance.HeterogeneousLambertian(
-            0.3, ro_target, ro_env
-        )
+        s.ground_reflectance = GroundReflectance.HeterogeneousLambertian(0.3, ro_target, ro_env)
 
         s.run()
 
         self.assertAlmostEqual(s.outputs.apparent_radiance, 271.377, delta=0.002)
-

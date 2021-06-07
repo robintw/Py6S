@@ -16,16 +16,18 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from Py6S import *
+
 import numpy as np
 
-class PredefinedWavelengthTests(unittest.TestCase):
+from Py6S import *
 
+
+class PredefinedWavelengthTests(unittest.TestCase):
     def test_all_predefined_wavelengths(self):
         s = SixS()
         attribs = dir(PredefinedWavelengths)
         for wavelength in attribs:
-            wv = eval('PredefinedWavelengths.%s' % wavelength)
+            wv = eval("PredefinedWavelengths.%s" % wavelength)
             if type(wv) is tuple:
                 print(wavelength)
                 s.wavelength = Wavelength(wv)

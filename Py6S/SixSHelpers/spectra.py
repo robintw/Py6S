@@ -16,6 +16,7 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
+
 import numpy as np
 
 # Python 2/3 imports
@@ -43,7 +44,7 @@ class Spectra:
     @classmethod
     def import_from_usgs(cls, loc):
         """NOT WORKING AT THE MOMENT - USGS have changed the format of their spectra.
-        
+
         Imports a spectral library from the USGS Spectral Library (available at http://speclab.cr.usgs.gov/spectral.lib06/).
 
         Arguments:

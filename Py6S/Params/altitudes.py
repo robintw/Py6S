@@ -88,7 +88,7 @@ class Altitudes:
 
         """
         if altitude < 0 or altitude >= 100:
-            raise ValueError('Sensor altitude must be > 0km and < 100km')
+            raise ValueError("Sensor altitude must be > 0km and < 100km")
         self.sensor_altitude = -1 * altitude
         self.aot = aot
         self.water = water
@@ -98,4 +98,10 @@ class Altitudes:
         if self.sensor_altitude is None:
             return "%f\n%f\n" % (self.target_alt_pres, self.sensor_alt_pres)
         else:
-            return "%f\n%f\n%f %f\n%f\n" % (self.target_alt_pres, self.sensor_altitude, self.water, self.ozone, self.aot)
+            return "%f\n%f\n%f %f\n%f\n" % (
+                self.target_alt_pres,
+                self.sensor_altitude,
+                self.water,
+                self.ozone,
+                self.aot,
+            )

@@ -15,11 +15,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
+import warnings
+
+import dateutil.parser
 import numpy as np
 from scipy.interpolate import interp1d
-import dateutil.parser
-import warnings
-from Py6S import *
+
+from Py6S import ParameterError
+from Py6S.Params import AeroProfile
 
 
 class Aeronet:
@@ -83,22 +86,30 @@ class Aeronet:
         try:
             import pandas
         except ImportError:
-            raise ImportError("Importing AERONET data requires the pandas module. Please see http://pandas.pydata.org/ for installation instructions.")
+            raise ImportError(
+                "Importing AERONET data requires the pandas module. Please see http://pandas.pydata.org/ for installation instructions."
+            )
 
         # Load in the data from the file
         try:
             df = pandas.read_csv(filename, skiprows=3, na_values=["N/A"])
         except:
-            raise ParameterError("AERONET file", "Error reading AERONET file - does it exist and contain data?")
+            raise ParameterError(
+                "AERONET file",
+                "Error reading AERONET file - does it exist and contain data?",
+            )
 
         # Parse the dates/times properly and set them up as the index
-        df['Date(dd-mm-yyyy)'] = df['Date(dd-mm-yyyy)'].apply(cls._to_iso_date)
-        df['timestamp'] = df.apply(lambda s: pandas.to_datetime(s['Date(dd-mm-yyyy)'] + " " + s['Time(hh:mm:ss)']), axis=1)
+        df["Date(dd-mm-yyyy)"] = df["Date(dd-mm-yyyy)"].apply(cls._to_iso_date)
+        df["timestamp"] = df.apply(
+            lambda s: pandas.to_datetime(s["Date(dd-mm-yyyy)"] + " " + s["Time(hh:mm:ss)"]),
+            axis=1,
+        )
         df.index = pandas.DatetimeIndex(df.timestamp)
 
         given_time = dateutil.parser.parse(time, dayfirst=True)
 
-        df['timediffs'] = np.abs(df.timestamp - given_time).astype('timedelta64[ns]')
+        df["timediffs"] = np.abs(df.timestamp - given_time).astype("timedelta64[ns]")
 
         # Get the AOT data at the closest time that has AOT
         # (may be closer to the given_time than the closest
@@ -114,7 +125,7 @@ class Aeronet:
         # and put them into a smaller df for just the aerosol-model-related components
         model_df = df.iloc[:, inds]
         # Get rid of rows which don't have a full set of data
-        model_df = model_df.dropna(axis=0, how='any')
+        model_df = model_df.dropna(axis=0, how="any")
 
         if model_df.shape[0] == 0:
             raise ValueError("No non-NaN data for aerosol model available in AERONET file.")
@@ -131,27 +142,49 @@ class Aeronet:
 
         # Interpolate both the real and imag parts of the refractive index
         # at the 6S wavelengths from the wavelengths given in the AERONET file
-        sixs_wavelengths = [0.350, 0.400, 0.412, 0.443, 0.470, 0.488, 0.515, 0.550, 0.590, 0.633, 0.670, 0.694, 0.760,
-                            0.860, 1.240, 1.536, 1.650, 1.950, 2.250, 3.750]
+        sixs_wavelengths = [
+            0.350,
+            0.400,
+            0.412,
+            0.443,
+            0.470,
+            0.488,
+            0.515,
+            0.550,
+            0.590,
+            0.633,
+            0.670,
+            0.694,
+            0.760,
+            0.860,
+            1.240,
+            1.536,
+            1.650,
+            1.950,
+            2.250,
+            3.750,
+        ]
 
         refr_values = ser[refr_ind]
         f_interp_real = interp1d(wvs, refr_values, bounds_error=False)
         final_refr = f_interp_real(sixs_wavelengths)
         final_refr = pandas.Series(final_refr)
-        final_refr = final_refr.fillna(method='pad')
-        final_refr = final_refr.fillna(method='bfill')
+        final_refr = final_refr.fillna(method="pad")
+        final_refr = final_refr.fillna(method="bfill")
 
         refi_values = ser[refi_ind]
         f_interp_imag = interp1d(wvs, refi_values, bounds_error=False)
         final_refi = f_interp_imag(sixs_wavelengths)
         final_refi = pandas.Series(final_refi)
-        final_refi = final_refi.fillna(method='pad')
-        final_refi = final_refi.fillna(method='bfill')
+        final_refi = final_refi.fillna(method="pad")
+        final_refi = final_refi.fillna(method="bfill")
 
         dvdlogr = ser[radii_ind]
 
         s.aot550 = aot
-        s.aero_profile = AeroProfile.SunPhotometerDistribution(radii, dvdlogr, final_refr, final_refi)
+        s.aero_profile = AeroProfile.SunPhotometerDistribution(
+            radii, dvdlogr, final_refr, final_refi
+        )
 
         return s
 
@@ -206,8 +239,8 @@ class Aeronet:
 
         # Remove the columns for AOT wavelengths with no data
         aot_df = df.iloc[:, inds]
-        aot_df = aot_df.dropna(axis=1, how='all')
-        aot_df = aot_df.dropna(axis=0, how='any')
+        aot_df = aot_df.dropna(axis=1, how="all")
+        aot_df = aot_df.dropna(axis=0, how="any")
 
         wvs = []
         inds = []
@@ -223,8 +256,10 @@ class Aeronet:
 
         aot_col_index = wv_diffs.argmin()
 
-        if (wv_diffs[aot_col_index] > 70):
-            warnings.warn("Using AOT measured more than 70nm away from 550nm as nothing closer available - could cause inaccurate results.")
+        if wv_diffs[aot_col_index] > 70:
+            warnings.warn(
+                "Using AOT measured more than 70nm away from 550nm as nothing closer available - could cause inaccurate results."
+            )
 
         rowind = aot_df.timediffs.idxmin()
 

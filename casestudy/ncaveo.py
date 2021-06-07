@@ -1,13 +1,17 @@
 # Import Py6S
-from Py6S import *
-# Import the Matplotlib plotting environment
-from matplotlib.pyplot import *
 # Import the functions for copying objects
 import copy
 
+# Import the Matplotlib plotting environment
+from matplotlib.pyplot import *
+
+from Py6S import *
+
+
 # Define a function to easily calculate NDVI
 def ndvi(red, nir):
-  return ((nir - red) / (nir + red))
+    return (nir - red) / (nir + red)
+
 
 # Create a SixS object for the 'early' time (~08:00)
 early = SixS()
@@ -15,7 +19,9 @@ early = SixS()
 early.altitudes.set_target_sea_level()
 early.altitudes.set_sensor_satellite_level()
 # Set the ground reflectance to be a typical green veg spectrum
-early.ground_reflectance = GroundReflectance.HomogeneousLambertian(GroundReflectance.GreenVegetation)
+early.ground_reflectance = GroundReflectance.HomogeneousLambertian(
+    GroundReflectance.GreenVegetation
+)
 early.geometry = Geometry.User()
 
 # Make a copy of the SixS object to use for the 'late' time (~11:30)
@@ -33,13 +39,13 @@ late.geometry.from_time_and_location(51.14510, -1.43861, "17/06/2006 11:30:00", 
 
 # Run each simulation for the VNIR wavelengths - using a wider spacing than default
 # to make the simulation faster
-wv, early_res = SixSHelpers.Wavelengths.run_vnir(early, spacing=0.01, output_name='pixel_radiance')
-wv, late_res = SixSHelpers.Wavelengths.run_vnir(late, spacing=0.01, output_name='pixel_radiance')
+wv, early_res = SixSHelpers.Wavelengths.run_vnir(early, spacing=0.01, output_name="pixel_radiance")
+wv, late_res = SixSHelpers.Wavelengths.run_vnir(late, spacing=0.01, output_name="pixel_radiance")
 
 # Plot the two radiance curves
 clf()
-plot(wv, early_res, 'b-', label="08:00")
-plot(wv, late_res, 'r-', label="11:30")
+plot(wv, early_res, "b-", label="08:00")
+plot(wv, late_res, "r-", label="11:30")
 xlabel("Wavelength ($\mu m$)")
 ylabel("Radiance ($W/m^2$)")
 legend()
@@ -55,8 +61,8 @@ savefig("ncaveo_perc_diff.png")
 
 # Run simulations again for the SPOT HRV sensor
 # to then calculate the NDVI difference
-wv, early_spot = SixSHelpers.Wavelengths.run_spot_hrv(early, output_name='pixel_radiance')
-wv, late_spot = SixSHelpers.Wavelengths.run_spot_hrv(late, output_name='pixel_radiance')
+wv, early_spot = SixSHelpers.Wavelengths.run_spot_hrv(early, output_name="pixel_radiance")
+wv, late_spot = SixSHelpers.Wavelengths.run_spot_hrv(late, output_name="pixel_radiance")
 
 print(early_spot)
 print(late_spot)

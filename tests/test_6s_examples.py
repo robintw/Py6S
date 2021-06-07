@@ -16,8 +16,10 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from Py6S import *
+
 import numpy as np
+
+from Py6S import *
 
 
 class Example6STests(unittest.TestCase):
@@ -35,9 +37,7 @@ class Example6STests(unittest.TestCase):
         s.geometry.day = 23
 
         s.atmos_profile = AtmosProfile.UserWaterAndOzone(3.0, 3.5)
-        s.aero_profile = AeroProfile.User(
-            dust=0.25, water=0.25, oceanic=0.25, soot=0.25
-        )
+        s.aero_profile = AeroProfile.User(dust=0.25, water=0.25, oceanic=0.25, soot=0.25)
 
         s.aot550 = 0.5
         s.altitudes.set_target_custom_altitude(0.2)
@@ -447,4 +447,3 @@ class Example6STests(unittest.TestCase):
         s.run()
 
         self.assertAlmostEqual(s.outputs.apparent_radiance, 170.771, delta=0.002)
-

@@ -16,8 +16,10 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from Py6S import *
+
 import numpy as np
+
+from Py6S import *
 
 
 class RunAllWavelengthsTests(unittest.TestCase):
@@ -33,14 +35,9 @@ class RunAllWavelengthsTests(unittest.TestCase):
 
     def test_extract_output(self):
         s = SixS()
-        wvs, values = SixSHelpers.Wavelengths.run_landsat_etm(
-            s, output_name="apparent_reflectance"
-        )
+        wvs, values = SixSHelpers.Wavelengths.run_landsat_etm(s, output_name="apparent_reflectance")
         wvs, objs = SixSHelpers.Wavelengths.run_landsat_etm(s)
 
-        obj_values = SixSHelpers.Wavelengths.extract_output(
-            objs, "apparent_reflectance"
-        )
+        obj_values = SixSHelpers.Wavelengths.extract_output(objs, "apparent_reflectance")
 
         self.assertTrue(np.all(values == obj_values))
-

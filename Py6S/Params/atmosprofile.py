@@ -23,6 +23,7 @@ from Py6S.sixs_exceptions import ParameterError
 class AtmosProfile:
 
     """Stores a enumeration for the pre-specified atmospheric model types"""
+
     NoGaseousAbsorption = 0
     Tropical = 1
     MidlatitudeSummer = 2
@@ -49,114 +50,119 @@ class AtmosProfile:
         MLW = cls.PredefinedType(cls.MidlatitudeWinter)
         T = cls.PredefinedType(cls.Tropical)
 
-        ap_JFMA = {80: SAW,
-                   70: SAW,
-                   60: MLW,
-                   50: MLW,
-                   40: SAS,
-                   30: MLS,
-                   20: T,
-                   10: T,
-                   0: T,
-                   -10: T,
-                   -20: T,
-                   -30: MLS,
-                   -40: SAS,
-                   -50: SAS,
-                   -60: MLW,
-                   -70: MLW,
-                   -80: MLW
+        ap_JFMA = {
+            80: SAW,
+            70: SAW,
+            60: MLW,
+            50: MLW,
+            40: SAS,
+            30: MLS,
+            20: T,
+            10: T,
+            0: T,
+            -10: T,
+            -20: T,
+            -30: MLS,
+            -40: SAS,
+            -50: SAS,
+            -60: MLW,
+            -70: MLW,
+            -80: MLW,
         }
 
-        ap_MJ = {80:SAW,
-                 70: MLW,
-                 60: MLW,
-                 50: SAS,
-                 40: SAS,
-                 30: MLS,
-                 20: T,
-                 10: T,
-                 0: T,
-                 -10: T,
-                 -20: T,
-                 -30: MLS,
-                 -40: SAS,
-                 -50: SAS,
-                 -60: MLW,
-                 -70: MLW,
-                 -80: MLW
+        ap_MJ = {
+            80: SAW,
+            70: MLW,
+            60: MLW,
+            50: SAS,
+            40: SAS,
+            30: MLS,
+            20: T,
+            10: T,
+            0: T,
+            -10: T,
+            -20: T,
+            -30: MLS,
+            -40: SAS,
+            -50: SAS,
+            -60: MLW,
+            -70: MLW,
+            -80: MLW,
         }
 
-        ap_JA = {80:MLW,
-                 70: MLW,
-                 60: SAS,
-                 50: SAS,
-                 40: MLS,
-                 30: T,
-                 20: T,
-                 10: T,
-                 0: T,
-                 -10: T,
-                 -20: MLS,
-                 -30: MLS,
-                 -40: SAS,
-                 -50: MLW,
-                 -60: MLW,
-                 -70: MLW,
-                 -80: SAW
+        ap_JA = {
+            80: MLW,
+            70: MLW,
+            60: SAS,
+            50: SAS,
+            40: MLS,
+            30: T,
+            20: T,
+            10: T,
+            0: T,
+            -10: T,
+            -20: MLS,
+            -30: MLS,
+            -40: SAS,
+            -50: MLW,
+            -60: MLW,
+            -70: MLW,
+            -80: SAW,
         }
 
-        ap_SO = {80:  MLW,
-                 70:  MLW,
-                 60:  SAS,
-                 50:  SAS,
-                 40:  MLS,
-                 30:  T,
-                 20:  T,
-                 10:  T,
-                 0:   T,
-                 -10: T,
-                 -20: MLS,
-                 -30: MLS,
-                 -40: SAS,
-                 -50: MLW,
-                 -60: MLW,
-                 -70: MLW,
-                 -80: MLW
+        ap_SO = {
+            80: MLW,
+            70: MLW,
+            60: SAS,
+            50: SAS,
+            40: MLS,
+            30: T,
+            20: T,
+            10: T,
+            0: T,
+            -10: T,
+            -20: MLS,
+            -30: MLS,
+            -40: SAS,
+            -50: MLW,
+            -60: MLW,
+            -70: MLW,
+            -80: MLW,
         }
 
-        ap_ND = {80: SAW,
-                 70: SAW,
-                 60: MLW,
-                 50: SAS,
-                 40: SAS,
-                 30: MLS,
-                 20: T,
-                 10: T,
-                 0: T,
-                 -10: T,
-                 -20: T,
-                 -30: MLS,
-                 -40: SAS,
-                 -50: SAS,
-                 -60: MLW,
-                 -70: MLW,
-                 -80: MLW
+        ap_ND = {
+            80: SAW,
+            70: SAW,
+            60: MLW,
+            50: SAS,
+            40: SAS,
+            30: MLS,
+            20: T,
+            10: T,
+            0: T,
+            -10: T,
+            -20: T,
+            -30: MLS,
+            -40: SAS,
+            -50: SAS,
+            -60: MLW,
+            -70: MLW,
+            -80: MLW,
         }
 
-
-        ap_dict = {1: ap_JFMA,
-                   2: ap_JFMA,
-                   3: ap_JFMA,
-                   4: ap_JFMA,
-                   5: ap_MJ,
-                   6: ap_MJ,
-                   7: ap_JA,
-                   8: ap_JA,
-                   9: ap_SO,
-                   10: ap_SO,
-                   11: ap_ND,
-                   12: ap_ND
+        ap_dict = {
+            1: ap_JFMA,
+            2: ap_JFMA,
+            3: ap_JFMA,
+            4: ap_JFMA,
+            5: ap_MJ,
+            6: ap_MJ,
+            7: ap_JA,
+            8: ap_JA,
+            9: ap_SO,
+            10: ap_SO,
+            11: ap_ND,
+            12: ap_ND,
         }
 
         return ap_dict[dt.month][rounded_lat]
@@ -210,13 +216,28 @@ class AtmosProfile:
         """
 
         # Check to make sure all iterables have 34 items
-        all_lists = [data['altitude'], data['pressure'], data['temperature'], data['water'], data['ozone']]
+        all_lists = [
+            data["altitude"],
+            data["pressure"],
+            data["temperature"],
+            data["water"],
+            data["ozone"],
+        ]
         if not all(len(x) == 34 for x in all_lists):
-            raise ParameterError("radiosonde levels", "There must be 34 values in the lists for each radiosonde attribute (altitude, pressure, temperature, water, ozone)")
+            raise ParameterError(
+                "radiosonde levels",
+                "There must be 34 values in the lists for each radiosonde attribute (altitude, pressure, temperature, water, ozone)",
+            )
 
         result = ""
 
         for i in range(34):
-            result = result + "%f %f %f %f %f\n" % (data['altitude'][i], data['pressure'][i], data['temperature'][i], data['water'][i], data['ozone'][i])
+            result = result + "%f %f %f %f %f\n" % (
+                data["altitude"][i],
+                data["pressure"][i],
+                data["temperature"][i],
+                data["water"][i],
+                data["ozone"][i],
+            )
 
         return "7 User's data base profile\n" + result

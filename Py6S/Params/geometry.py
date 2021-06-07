@@ -15,15 +15,16 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-import dateutil.parser
 import sys
+
+import dateutil.parser
 
 # Fix for Python 3 where long is not available
 if sys.version_info[0] >= 3:
     long = int
 
-class Geometry:
 
+class Geometry:
     class User:
 
         """Stores parameters for a user-defined geometry for 6S.
@@ -47,7 +48,14 @@ class Geometry:
         month = 1
 
         def __str__(self):
-            return '0 (User defined)\n%f %f %f %f %d %d\n' % (self.solar_z, self.solar_a, self.view_z, self.view_a, self.month, self.day)
+            return "0 (User defined)\n%f %f %f %f %d %d\n" % (
+                self.solar_z,
+                self.solar_a,
+                self.view_z,
+                self.view_a,
+                self.month,
+                self.day,
+            )
 
         def from_time_and_location(self, lat, lon, datetimestring, view_z, view_a):
             """Sets the user-defined geometry to a given view zenith and azimuth, and a solar zenith and azimuth calculated from the lat, lon and date given.
@@ -67,7 +75,9 @@ class Geometry:
             try:
                 import Pysolar
             except:
-                raise ImportError("To set the geometry from a time and location you must have the PySolar module installed.\nPy6S requires Pysolar v0.6.\nTo install this, run 'pip install pysolar==0.6' at the command line.")
+                raise ImportError(
+                    "To set the geometry from a time and location you must have the PySolar module installed.\nPy6S requires Pysolar v0.6.\nTo install this, run 'pip install pysolar==0.6' at the command line."
+                )
 
             dt = dateutil.parser.parse(datetimestring, dayfirst=True)
             self.solar_z = 90.0 - Pysolar.GetAltitude(lat, lon, dt)
@@ -108,7 +118,13 @@ class Geometry:
         line = 0
 
         def __str__(self):
-            return '1 (Meteosat)\n%d %d %f %d %d (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.line)
+            return "1 (Meteosat)\n%d %d %f %d %d (Geometrical Conditions)\n" % (
+                self.month,
+                self.day,
+                self.gmt_decimal_hour,
+                self.column,
+                self.line,
+            )
 
     class GoesEast:
 
@@ -123,6 +139,7 @@ class Geometry:
          * ``line`` -- The GOES East line of the image
 
         """
+
         month = 1
         day = 1
         gmt_decimal_hour = 0
@@ -130,7 +147,13 @@ class Geometry:
         line = 0
 
         def __str__(self):
-            return '2 (Goes East)\n%d %d %f %d %d (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.line)
+            return "2 (Goes East)\n%d %d %f %d %d (Geometrical Conditions)\n" % (
+                self.month,
+                self.day,
+                self.gmt_decimal_hour,
+                self.column,
+                self.line,
+            )
 
     class GoesWest:
 
@@ -145,6 +168,7 @@ class Geometry:
          * ``line`` -- The GOES West line of the image
 
         """
+
         month = 1
         day = 1
         gmt_decimal_hour = 0
@@ -152,7 +176,13 @@ class Geometry:
         line = 0
 
         def __str__(self):
-            return '3 (Goes West)\n%d %d %f %d %d (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.line)
+            return "3 (Goes West)\n%d %d %f %d %d (Geometrical Conditions)\n" % (
+                self.month,
+                self.day,
+                self.gmt_decimal_hour,
+                self.column,
+                self.line,
+            )
 
     class AVHRR_PM:
 
@@ -167,6 +197,7 @@ class Geometry:
          * ``ascendant_node_hour`` -- The hour of the ascendant node of the image
 
         """
+
         month = 1
         day = 1
         gmt_decimal_hour = 0
@@ -175,7 +206,14 @@ class Geometry:
         ascendant_node_hour = 0
 
         def __str__(self):
-            return '4 (AVHRR PM NOAA)\n%d %d %d %f %f (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.ascendant_node_longitude, self.ascendant_node_hour)
+            return "4 (AVHRR PM NOAA)\n%d %d %d %f %f (Geometrical Conditions)\n" % (
+                self.month,
+                self.day,
+                self.gmt_decimal_hour,
+                self.column,
+                self.ascendant_node_longitude,
+                self.ascendant_node_hour,
+            )
 
     class AVHRR_AM:
 
@@ -190,6 +228,7 @@ class Geometry:
          * ``ascendant_node_hour`` -- The hour of the ascendant node of the image
 
         """
+
         month = 1
         day = 1
         gmt_decimal_hour = 0
@@ -198,7 +237,14 @@ class Geometry:
         ascendant_node_hour = 0
 
         def __str__(self):
-            return '5 (AVHRR AM NOAA)\n%d %d %d %f %f (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.column, self.ascendant_node_longitude, self.ascendant_node_hour)
+            return "5 (AVHRR AM NOAA)\n%d %d %d %f %f (Geometrical Conditions)\n" % (
+                self.month,
+                self.day,
+                self.gmt_decimal_hour,
+                self.column,
+                self.ascendant_node_longitude,
+                self.ascendant_node_hour,
+            )
 
     class SPOT_HRV:
 
@@ -213,6 +259,7 @@ class Geometry:
          * ``longitude`` -- The longitude of the centre of the image
 
         """
+
         month = 1
         day = 1
         gmt_decimal_hour = 0
@@ -220,7 +267,13 @@ class Geometry:
         latitude = 0
 
         def __str__(self):
-            return '6 (SPOT)\n%d %d %f %f %f (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.longitude, self.latitude)
+            return "6 (SPOT)\n%d %d %f %f %f (Geometrical Conditions)\n" % (
+                self.month,
+                self.day,
+                self.gmt_decimal_hour,
+                self.longitude,
+                self.latitude,
+            )
 
     class Landsat_TM:
 
@@ -235,6 +288,7 @@ class Geometry:
          * ``longitude`` -- The longitude of the centre of the image
 
         """
+
         month = 1
         day = 1
         gmt_decimal_hour = 0
@@ -242,4 +296,10 @@ class Geometry:
         latitude = 0
 
         def __str__(self):
-            return '7 (TM)\n%d %d %f %f %f (Geometrical Conditions)\n' % (self.month, self.day, self.gmt_decimal_hour, self.longitude, self.latitude)
+            return "7 (TM)\n%d %d %f %f %f (Geometrical Conditions)\n" % (
+                self.month,
+                self.day,
+                self.gmt_decimal_hour,
+                self.longitude,
+                self.latitude,
+            )

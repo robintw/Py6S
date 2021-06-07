@@ -15,15 +15,15 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-import numpy as np
-from matplotlib.pyplot import *
+import copy
 import itertools
 from multiprocessing.dummy import Pool
-import copy
+
+import numpy as np
+from matplotlib.pyplot import *
 
 
 class Angles:
-
     @classmethod
     def run360(cls, s, solar_or_view, na=36, nz=10, output_name=None, n=None):
         """Runs Py6S for lots of angles to produce a polar contour plot.
@@ -59,14 +59,17 @@ class Angles:
             s.outputs = None
             a = copy.deepcopy(s)
 
-            if solar_or_view == 'view':
+            if solar_or_view == "view":
                 a.geometry.view_a = azimuth
                 a.geometry.view_z = zenith
-            elif solar_or_view == 'solar':
+            elif solar_or_view == "solar":
                 a.geometry.solar_a = azimuth
                 a.geometry.solar_z = zenith
             else:
-                raise ParameterException("all_angles", "You must choose to vary either the solar or view angle.")
+                raise ParameterException(
+                    "all_angles",
+                    "You must choose to vary either the solar or view angle.",
+                )
 
             a.run()
 
@@ -91,8 +94,7 @@ class Angles:
         return (results, azimuths, zeniths, s.geometry.solar_a, s.geometry.solar_z)
 
     @classmethod
-    def plot360(cls, data, output_name=None, show_sun=True,
-                **kwargs):
+    def plot360(cls, data, output_name=None, show_sun=True, **kwargs):
         """Plot the data returned from :meth:`run360` as a polar contour plot, selecting an output if required.
 
         Arguments:
@@ -108,7 +110,10 @@ class Angles:
         if not isinstance(results[0], float):
             # The results are not floats, so a float must be extracted from the output
             if output_name is None:
-                raise ParameterException("output_name", "You must specify an output name when plotting data which is given as Outputs instances")
+                raise ParameterException(
+                    "output_name",
+                    "You must specify an output name when plotting data which is given as Outputs instances",
+                )
 
             results = cls.extract_output(results, output_name)
 
@@ -116,13 +121,29 @@ class Angles:
 
         if show_sun:
             ax.autoscale(False)
-            ax.plot(np.radians(sa), sz, '*', markersize=20, markerfacecolor='yellow', markeredgecolor='red')
+            ax.plot(
+                np.radians(sa),
+                sz,
+                "*",
+                markersize=20,
+                markerfacecolor="yellow",
+                markeredgecolor="red",
+            )
             show()
 
         return fig, ax
 
     @classmethod
-    def run_and_plot_360(cls, s, solar_or_view, output_name, show_sun=True, na=36, nz=10, colorbarlabel=None):
+    def run_and_plot_360(
+        cls,
+        s,
+        solar_or_view,
+        output_name,
+        show_sun=True,
+        na=36,
+        nz=10,
+        colorbarlabel=None,
+    ):
         """Runs Py6S for lots of angles to produce a polar contour plot.
 
         Arguments:
@@ -144,7 +165,7 @@ class Angles:
           SixSHelpers.Angles.run_and_plot_360(s, 'view', 'pixel_reflectance')
 
         """
-        if solar_or_view == 'solar':
+        if solar_or_view == "solar":
             show_sun = False
 
         res = cls.run360(s, solar_or_view, na, nz)
@@ -169,8 +190,9 @@ class Angles:
         return results_output
 
     @classmethod
-    def plot_polar_contour(cls, values, azimuths, zeniths, filled=True,
-                           colorbarlabel="", figsize=None):
+    def plot_polar_contour(
+        cls, values, azimuths, zeniths, filled=True, colorbarlabel="", figsize=None
+    ):
         """Plot a polar contour plot, with 0 degrees at the North.
 
         Arguments:
@@ -204,7 +226,7 @@ class Angles:
         values = values.reshape(len(azimuths), len(zeniths))
 
         r, theta = np.meshgrid(zeniths, np.radians(azimuths))
-        fig, ax = subplots(subplot_kw=dict(projection='polar'), figsize=figsize)
+        fig, ax = subplots(subplot_kw=dict(projection="polar"), figsize=figsize)
         ax.set_theta_zero_location("N")
         ax.set_theta_direction(-1)
         if filled:
@@ -303,7 +325,7 @@ class Angles:
         results = pool.map(f, zip(all_zeniths, all_azimuths))
         pool.close()
         pool.join()
-        
+
         results = np.array(results)
 
         results = np.array(results)

@@ -17,6 +17,7 @@
 
 import pprint
 import sys
+
 from .sixs_exceptions import *
 
 
@@ -37,6 +38,7 @@ class Outputs(object):
      * :meth:`.write_output_file` -- Write the full textual output of the 6S model to a file.
 
     """
+
     # Stores the full textual output from 6S
     fulltext = ""
 
@@ -61,14 +63,23 @@ class Outputs(object):
         if len(stderr) > 0:
             # Something on standard error - so there's been an error
             if sys.version_info[0] >= 3:
-                stderr = stderr.decode('utf-8')
+                stderr = stderr.decode("utf-8")
             import platform
-            if platform.system() != 'Darwin':
+
+            if platform.system() != "Darwin":
                 print(stderr)
-                raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
-            elif (platform.system() == 'Darwin') and (not ('IEEE_INVALID_FLAG' in stderr)) and (not ('IEEE_DENORMAL' in stderr)): # Ignoring error on MacOS IEEE_INVALID_FLAG
+                raise OutputParsingError(
+                    "6S returned an error (shown above) - check for invalid parameter inputs"
+                )
+            elif (
+                (platform.system() == "Darwin")
+                and (not ("IEEE_INVALID_FLAG" in stderr))
+                and (not ("IEEE_DENORMAL" in stderr))
+            ):  # Ignoring error on MacOS IEEE_INVALID_FLAG
                 print(stderr)
-                raise OutputParsingError("6S returned an error (shown above) - check for invalid parameter inputs")
+                raise OutputParsingError(
+                    "6S returned an error (shown above) - check for invalid parameter inputs"
+                )
 
         self.fulltext = stdout
 
@@ -121,13 +132,15 @@ class Outputs(object):
         # less than 10 then it suggests something has gone seriously wrong
         if len(lines) < 10:
             print(fulltext)
-            raise OutputParsingError("6S didn't return a full output. See raw 6S output above for "
-                                     "more information and check for invalid parameter inputs")
-
+            raise OutputParsingError(
+                "6S didn't return a full output. See raw 6S output above for "
+                "more information and check for invalid parameter inputs"
+            )
 
         CURRENT = 0
         WHOLE_LINE = (0, 30)
 
+        # fmt: off
         # The dictionary below specifies how to extract each variable from the text output
         # of 6S.
         # The dictionary key is the text to search for. When this is found, the line corresponding
@@ -189,11 +202,12 @@ class Outputs(object):
                       "Water:": (CURRENT, 3, "water_component_water", float),
                       "Glint:": (CURRENT, 5, "water_component_glint", float),
                       }
+        # fmt: on
         # Process most variables in the output
         for index in range(len(lines)):
             current_line = lines[index]
             for label, details in extractors.items():
-                    # If the label we're searching for is in the current line
+                # If the label we're searching for is in the current line
                 if label.lower() in current_line.lower():
                     # See if the data is in the current line (as specified above)
                     if details[0] == CURRENT:
@@ -220,20 +234,22 @@ class Outputs(object):
                     try:
                         self.values[details[2]] = funct(data_for_func)
                     except:
-                        self.values[details[2]] = float('nan')
+                        self.values[details[2]] = float("nan")
 
         # Process big grid in the middle of the output for transmittances
-        grid_extractors = {'global gas. trans. :': "global_gas",
-                           'water   "     "    :': "water",
-                           'ozone   "     "    :': "ozone",
-                           'co2     "     "    :': "co2",
-                           'oxyg    "     "    :': "oxygen",
-                           'no2     "     "    :': "no2",
-                           'ch4     "     "    :': "ch4",
-                           'co      "     "    :': "co",
-                           'rayl.  sca. trans. :': "rayleigh_scattering",
-                           'aeros. sca.   "    :': "aerosol_scattering",
-                           'total  sca.   "    :': "total_scattering"}
+        grid_extractors = {
+            "global gas. trans. :": "global_gas",
+            'water   "     "    :': "water",
+            'ozone   "     "    :': "ozone",
+            'co2     "     "    :': "co2",
+            'oxyg    "     "    :': "oxygen",
+            'no2     "     "    :': "no2",
+            'ch4     "     "    :': "ch4",
+            'co      "     "    :': "co",
+            "rayl.  sca. trans. :": "rayleigh_scattering",
+            'aeros. sca.   "    :': "aerosol_scattering",
+            'total  sca.   "    :': "total_scattering",
+        }
 
         for index in range(len(lines)):
             current_line = lines[index]
@@ -246,36 +262,37 @@ class Outputs(object):
                     try:
                         values.downward = float(items[4])
                     except:
-                        values.downward = float('nan')
+                        values.downward = float("nan")
 
                     try:
                         values.upward = float(items[5])
                     except:
-                        values.upward = float('nan')
+                        values.upward = float("nan")
 
                     try:
                         values.total = float(items[6])
                     except:
-                        values.total = float('nan')
+                        values.total = float("nan")
 
                     self.trans[name] = values
 
         # Process big grid in the middle of the output for transmittances
-        bottom_grid_extractors = {'spherical albedo   :': "spherical_albedo",
-                                  'optical depth total:': "optical_depth_total",
-                                  'optical depth plane:': "optical_depth_plane",
-                                  'reflectance I      :': "reflectance_I",
-                                  'reflectance Q      :': "reflectance_Q",
-                                  'reflectance U      :': "reflectance_U",
-                                  'polarized reflect. :': "polarized_reflectance",
-                                  #'degree of polar.   :' : "degree_of_polarization",
-                                  'dir. plane polar.  :': "direction_of_plane_polarization",
-                                  'phase function I   :': "phase_function_I",
-                                  'phase function Q   :': "phase_function_Q",
-                                  'phase function U   :': "phase_function_U",
-                                  'primary deg. of pol:': "primary_degree_of_polarization",
-                                  'sing. scat. albedo :': "single_scattering_albedo"
-                                  }
+        bottom_grid_extractors = {
+            "spherical albedo   :": "spherical_albedo",
+            "optical depth total:": "optical_depth_total",
+            "optical depth plane:": "optical_depth_plane",
+            "reflectance I      :": "reflectance_I",
+            "reflectance Q      :": "reflectance_Q",
+            "reflectance U      :": "reflectance_U",
+            "polarized reflect. :": "polarized_reflectance",
+            #'degree of polar.   :' : "degree_of_polarization",
+            "dir. plane polar.  :": "direction_of_plane_polarization",
+            "phase function I   :": "phase_function_I",
+            "phase function Q   :": "phase_function_Q",
+            "phase function U   :": "phase_function_U",
+            "primary deg. of pol:": "primary_degree_of_polarization",
+            "sing. scat. albedo :": "single_scattering_albedo",
+        }
 
         for index in range(len(lines)):
             current_line = lines[index]
@@ -289,17 +306,17 @@ class Outputs(object):
                     try:
                         values.total = float(items[3])
                     except:
-                        values.total = float('nan')
+                        values.total = float("nan")
 
                     try:
                         values.aerosol = float(items[2])
                     except:
-                        values.aerosol = float('nan')
+                        values.aerosol = float("nan")
 
                     try:
                         values.rayleigh = float(items[1])
                     except:
-                        values.rayleigh = float('nan')
+                        values.rayleigh = float("nan")
 
                     self.rat[name] = values
 
@@ -342,7 +359,7 @@ class Outputs(object):
          * ``filename`` -- The filename to write the output to
 
         """
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             f.write(self.fulltext)
 
 
@@ -356,19 +373,28 @@ class Transmittance(object):
     * ``total`` -- Total transmittance
 
     """
-    downward = float('nan')
-    upward = float('nan')
-    total = float('nan')
+
+    downward = float("nan")
+    upward = float("nan")
+    total = float("nan")
 
     def __str__(self):
-        return "Downward: %f, Upward: %f, Total: %f" % (self.downward, self.upward, self.total)
+        return "Downward: %f, Upward: %f, Total: %f" % (
+            self.downward,
+            self.upward,
+            self.total,
+        )
 
 
 class RayleighAerosolTotal(object):
 
-    rayleigh = float('nan')
-    aerosol = float('nan')
-    total = float('nan')
+    rayleigh = float("nan")
+    aerosol = float("nan")
+    total = float("nan")
 
     def __str__(self):
-        return "Rayleigh: %f, Aerosol: %f, Total: %f" % (self.rayleigh, self.aerosol, self.total)
+        return "Rayleigh: %f, Aerosol: %f, Total: %f" % (
+            self.rayleigh,
+            self.aerosol,
+            self.total,
+        )

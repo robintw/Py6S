@@ -16,8 +16,10 @@
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from Py6S import *
+
 import numpy as np
+
+from Py6S import *
 
 
 class AtmosProfileTests(unittest.TestCase):
@@ -669,4 +671,3 @@ class AeroProfileTests(unittest.TestCase):
                 refr_real=real_intp,
                 refr_imag=imag_intp,
             )
-

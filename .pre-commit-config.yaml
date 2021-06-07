@@ -1,0 +1,18 @@
+repos:
+  - repo: https://github.com/python/black
+    rev: 20.8b1
+    hooks:
+      - id: black
+        language_version: python3.7
+  - repo: https://github.com/asottile/seed-isort-config
+    rev: v2.2.0
+    hooks:
+    -   id: seed-isort-config
+  - repo: https://github.com/timothycrosley/isort
+    rev: 5.5.2  # pick the isort version you'd like to use from https://github.com/timothycrosley/isort/releases
+    hooks:
+    -   id: isort
+  # - repo: https://gitlab.com/pycqa/flake8
+  #   rev: 3.8.3
+  #   hooks:
+  #     - id: flake8
