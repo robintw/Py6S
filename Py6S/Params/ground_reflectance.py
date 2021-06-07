@@ -30,7 +30,7 @@ except ImportError:
     else:
         raise
 
-from Py6S import ParameterError
+from ..sixs_exceptions import ParameterError
 
 
 class GroundReflectance:

@@ -21,8 +21,8 @@ import dateutil.parser
 import numpy as np
 from scipy.interpolate import interp1d
 
-from Py6S import ParameterError
-from Py6S.Params import AeroProfile
+from ..Params import AeroProfile
+from ..sixs_exceptions import ParameterError
 
 
 class Aeronet:
