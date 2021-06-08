@@ -20,7 +20,7 @@ from datetime import timezone
 
 import dateutil.parser
 
-from Py6S import ParameterError
+from ..sixs_exceptions import ParameterError
 
 # Fix for Python 3 where long is not available
 if sys.version_info[0] >= 3:
