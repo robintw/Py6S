@@ -3,6 +3,21 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.9.0 (8th June 2021)
+^^^^^^^^^^^^^^^^^^^^^
+* **Breaking change:** Py6S's optional dependencies have changed. The Geometry.from_time_and_location function requires the pysolar library.
+  Previously, Py6S required version 0.6 of the library. We now require version 0.9 of pysolar.
+* **Breaking change:** The Geometry.from_time_and_location function now requires that date-time values are given in ISO 8601 format - ie.
+  YYYY-MM-DD HH:MM:SS - and must be in the UTC time zone.
+* The matplotlib dependency is now optional, and will not be installed by default when running ``pip install Py6S``
+* Py6S now gives an error if you attempt to use it with version 2.1 of 6S. Currently Py6S only supports 6SV 1.1, but work on supporting
+  version 2.1 will hopefully commence soon.
+* There have been significant improvements to the code style and quality across Py6S, to make future alterations easier
+
+1.8.2 (7th June 2021)
+^^^^^^^^^^^^^^^^^^^^^
+* Add extraction of water reflectance components (foam, water, glint) when configured with the ocean ground reflectance model
+
 1.8.1 (9th February 2021)
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 * Fixed bug when running Py6S with numpy 1.20.0
