@@ -72,9 +72,9 @@ Python modules
 * ``nose``
 * ``numpy``
 * ``scipy``
-* ``matplotlib``
 * ``python-dateutil``
-* ``pysolar`` v0.6 (optional: only required for setting the geometry from a location and time)
+* ``matplotlib`` (optional: only used for plotting spectra)
+* ``pysolar`` >=0.9 (optional: only required for setting the geometry from a location and time)
 * ``pandas`` (optional: only required for importing AERONET data)
 * ``ipython`` (recommended)
 

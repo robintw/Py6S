@@ -19,7 +19,6 @@ import copy
 import sys
 
 import numpy as np
-from matplotlib.pyplot import plot, show, xlabel, ylabel
 
 from Py6S.Params import PredefinedWavelengths, Wavelength
 
@@ -1159,6 +1158,10 @@ class Wavelengths:
           SixSHelpers.PredefinedWavelengths.plot_wavelengths(wavelengths, values, 'Pixel Radiance ($W/m^2$)')
 
         """
+        try:
+            from matplotlib.pyplot import plot, show, xlabel, ylabel
+        except ImportError:
+            raise ImportError("You must install matplotlib to use the plotting functionality")
 
         plot(wavelengths, values, "k")
         xlabel("Wavelength ($\\mu m$)")

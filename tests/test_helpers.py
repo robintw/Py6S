@@ -17,8 +17,10 @@
 
 import os.path
 import unittest
+import urllib
 
 import numpy as np
+import pytest
 
 from Py6S import AtmosProfile, OutputParsingError, ParameterError, SixS, SixSHelpers
 
@@ -525,10 +527,14 @@ class RadiosondeImportTest(unittest.TestCase):
         s = SixS()
         s.altitudes.set_sensor_satellite_level()
         s.altitudes.set_target_sea_level()
-        s.atmos_profile = SixSHelpers.Radiosonde.import_uow_radiosonde_data(
-            "http://weather.uwyo.edu/cgi-bin/sounding?region=europe&TYPE=TEXT%3ALIST&YEAR=2012&MONTH=02&FROM=2712&TO=2712&STNM=03808",
-            AtmosProfile.MidlatitudeWinter,
-        )
-        s.run()
+        try:
+            s.atmos_profile = SixSHelpers.Radiosonde.import_uow_radiosonde_data(
+                "http://weather.uwyo.edu/cgi-bin/sounding?region=europe&TYPE=TEXT%3ALIST&YEAR=2012&MONTH=02&FROM=2712&TO=2712&STNM=03808",
+                AtmosProfile.MidlatitudeWinter,
+            )
+            s.run()
+        except urllib.error.HTTPError:
+            print("HTTP error in test, skipping")
+            pytest.skip()
 
         self.assertAlmostEqual(s.outputs.apparent_radiance, 164.482, delta=0.02)
