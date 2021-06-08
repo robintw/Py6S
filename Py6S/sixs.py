@@ -359,6 +359,9 @@ class SixS(object):
         # Remove the temporary file
         os.remove(tmp_file_name)
 
+        if self.outputs.version != SIXSVERSION:
+            raise ExecutionError("Running unsupported 6SV version. Py6S requires 6SV1.1")
+
     def produce_debug_report(self):
         """Prints out information about the configuration of Py6S generally, and the current
         SixS object specifically, which will be useful when debugging problems."""
