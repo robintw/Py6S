@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
-import pprint
 import sys
 
 from .sixs_exceptions import OutputParsingError
@@ -222,7 +221,7 @@ class Outputs(object):
                     try:
                         a = details[1][0]
                         b = details[1][1]
-                    except:
+                    except Exception:
                         a = details[1]
                         b = details[1] + 1
 
@@ -233,7 +232,7 @@ class Outputs(object):
 
                     try:
                         self.values[details[2]] = funct(data_for_func)
-                    except:
+                    except Exception:
                         self.values[details[2]] = float("nan")
 
         # Process big grid in the middle of the output for transmittances
@@ -261,17 +260,17 @@ class Outputs(object):
 
                     try:
                         values.downward = float(items[4])
-                    except:
+                    except ValueError:
                         values.downward = float("nan")
 
                     try:
                         values.upward = float(items[5])
-                    except:
+                    except ValueError:
                         values.upward = float("nan")
 
                     try:
                         values.total = float(items[6])
-                    except:
+                    except ValueError:
                         values.total = float("nan")
 
                     self.trans[name] = values
@@ -285,7 +284,7 @@ class Outputs(object):
             "reflectance Q      :": "reflectance_Q",
             "reflectance U      :": "reflectance_U",
             "polarized reflect. :": "polarized_reflectance",
-            #'degree of polar.   :' : "degree_of_polarization",
+            # 'degree of polar.   :' : "degree_of_polarization",
             "dir. plane polar.  :": "direction_of_plane_polarization",
             "phase function I   :": "phase_function_I",
             "phase function Q   :": "phase_function_Q",
@@ -305,17 +304,17 @@ class Outputs(object):
 
                     try:
                         values.total = float(items[3])
-                    except:
+                    except ValueError:
                         values.total = float("nan")
 
                     try:
                         values.aerosol = float(items[2])
-                    except:
+                    except ValueError:
                         values.aerosol = float("nan")
 
                     try:
                         values.rayleigh = float(items[1])
-                    except:
+                    except ValueError:
                         values.rayleigh = float("nan")
 
                     self.rat[name] = values
@@ -340,7 +339,7 @@ class Outputs(object):
 
         try:
             value = float(spl2[0])
-        except:
+        except ValueError:
             value = float("Inf")
 
         return value

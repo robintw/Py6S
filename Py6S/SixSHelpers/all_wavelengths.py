@@ -99,7 +99,7 @@ class Wavelengths:
                 return np.array(cleaned_wavelengths), np.array(results)
             else:
                 return np.array(wavelengths), np.array(results)
-        except:
+        except Exception:
             return np.array(wavelengths), np.array(results)
 
     @classmethod
@@ -1161,6 +1161,6 @@ class Wavelengths:
         """
 
         plot(wavelengths, values, "k")
-        xlabel("Wavelength ($\mu m$)")
+        xlabel("Wavelength ($\\mu m$)")
         ylabel(y_axis_label)
         show()

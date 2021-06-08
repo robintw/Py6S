@@ -20,6 +20,8 @@ from datetime import timezone
 
 import dateutil.parser
 
+from Py6S import ParameterError
+
 # Fix for Python 3 where long is not available
 if sys.version_info[0] >= 3:
     long = int
@@ -59,7 +61,7 @@ class Geometry:
             )
 
         def from_time_and_location(self, lat, lon, datetimestring, view_z, view_a):
-            """Sets the user-defined geometry to a given view zenith and azimuth, and a solar zenith and azimuth calculated from the lat, lon and date given.
+            """Sets the user-defined geometry to a given view zenith and azimuth, and a solar zenith and azimuth calculated from the lat, lon and datetime given.
 
             Uses the pysolar module for the calculations.
 
@@ -75,12 +77,19 @@ class Geometry:
             # Try and import the pysolar module, if it fails give an error message
             try:
                 import pysolar
-            except:
+            except ImportError:
                 raise ImportError(
                     "To set the geometry from a time and location you must have the pysolar module installed.\nPy6S requires Pysolar v0.9 or later.\nTo install this, run 'pip install pysolar==0.6' at the command line."
                 )
 
-            dt = dateutil.parser.isoparse(datetimestring)
+            try:
+                dt = dateutil.parser.isoparse(datetimestring)
+            except ValueError:
+                raise ParameterError(
+                    "datetime",
+                    "You must pass a date-time in ISO 8601 format - ie. YYYY-MM-DD HH:MM:SS",
+                )
+
             dt = dt.replace(tzinfo=timezone.utc)
 
             alt = pysolar.solar.get_altitude(lat, lon, dt)

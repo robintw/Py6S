@@ -111,9 +111,7 @@ class ParallelEquivalenceTests(unittest.TestCase):
         s.run()
 
         try:
-            results = SixSHelpers.Wavelengths.run_vnir(
-                s, spacing=0.05, output_name="apparent_radiance", n=1
-            )
+            SixSHelpers.Wavelengths.run_vnir(s, spacing=0.05, output_name="apparent_radiance", n=1)
         except OutputParsingError:
             self.fail("OutputParsingError raised by run_vnir after previous SixS.run")
 
