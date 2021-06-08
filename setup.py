@@ -37,7 +37,7 @@ def read_file(filepath, root=PROJECT_ROOT):
 
 LONG_DESCRIPTION = read_file("README.rst")
 SHORT_DESCRIPTION = "A wrapper for the 6S Radiative Transfer Model to make it easy to run simulations with a variety of input parameters, and to produce outputs in an easily processable form."
-REQS = ["pysolar>=0.9", "matplotlib", "scipy"]
+REQS = ["pysolar>=0.9", "scipy"]
 
 
 setup(
