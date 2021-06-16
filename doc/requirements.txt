@@ -1,0 +1,3 @@
+numpy
+scipy
+pysolar>=0.9
