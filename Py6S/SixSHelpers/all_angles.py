@@ -18,7 +18,7 @@
 import copy
 import itertools
 from multiprocessing.dummy import Pool
-
+from matplotlib.pyplot import subplots
 import numpy as np
 
 from ..sixs_exceptions import ParameterError
