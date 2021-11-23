@@ -44,6 +44,11 @@ If you don't already have ``conda`` installed then:
     You'll need to agree to the package installation plan that conda provides, and then it will
     download and install Py6S and its dependencies (including the underlying 6S model).
 
+    If you want to use IPython or Jupyter (or any other python library) within this environment,
+    then add them to the end of the installation command - for example::
+
+        $ conda create -n py6s-env -c conda-forge py6s ipython Jupyter
+
 #. Activate the environment by running the command shown at the end of the installation
     On Linux/OS X this is ``source activate py6s-env``.
 
