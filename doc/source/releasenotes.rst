@@ -3,6 +3,10 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.9.1 (11th December 2021)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+* Add extraction of polarization outputs - such as apparent polarized radiance/reflectance
+
 1.9.0 (8th June 2021)
 ^^^^^^^^^^^^^^^^^^^^^
 * **Breaking change:** Py6S's optional dependencies have changed. The Geometry.from_time_and_location function requires the pysolar library.
