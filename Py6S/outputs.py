@@ -200,6 +200,11 @@ class Outputs(object):
                       "Foam:": (CURRENT, 1, "water_component_foam", float),
                       "Water:": (CURRENT, 3, "water_component_water", float),
                       "Glint:": (CURRENT, 5, "water_component_glint", float),
+
+                      "app. polarized refl.": (CURRENT, 3, "apparent_polarized_reflectance", float),
+                      "app. pol. rad.": (CURRENT, 8, "apparent_polarized_radiance", float),
+                      "direction of the plane of polarization": (CURRENT, -1, "direction_of_plane_of_polarization", lambda x: float(x.replace("polarization", ""))),
+                      "total polarization ratio": (CURRENT, 3, "total_polarization_ratio", float)
                       }
         # fmt: on
         # Process most variables in the output
@@ -225,7 +230,10 @@ class Outputs(object):
                         a = details[1]
                         b = details[1] + 1
 
-                    data_for_func = items[a:b]
+                    if a == -1:
+                        data_for_func = items[a]
+                    else:
+                        data_for_func = items[a:b]
 
                     if len(data_for_func) == 1:
                         data_for_func = data_for_func[0]
