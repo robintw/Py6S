@@ -50,6 +50,24 @@ class AeroProfile:
         return "%d" % type
 
     @classmethod
+    def FromMieFile(cls, mie_file):
+        """Set 6S to use pre-computed outputs of the MIE subroutine written to a text file. 
+           This corresponds to using option iaer=12 in sixs. 
+
+        Arguments:
+
+        * ``mie_file`` -- the name of the text file containing the outputs of the MIE subroutine. 
+
+        Example usage::
+
+          s.aero_profile = AeroProfile.FromMieFile(mie_file = 'FILE.mie')
+
+        """
+        if not mie_file.endswith('.mie'):
+            mie_file = mie_file + '.mie'
+        return "12 from pre-computed mie file\n%s" % mie_file
+
+    @classmethod
     def User(cls, **kwargs):
         """Set 6S to use a user-defined aerosol profile based on proportions of standard aerosol components.
 
