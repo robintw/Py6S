@@ -213,7 +213,7 @@ class AeroProfile:
         comp += " ".join(real) + "\n"
         comp += " ".join(imag) + "\n"
 
-        return header + num + ds + comp + "0 no results saved"
+        return header + num + ds + comp #+ "0 no results saved" 
 
     class AerosolDistribution:
 
@@ -300,7 +300,7 @@ class AeroProfile:
                 len(self.values),
             )
             components = "".join(self.values)
-            return result + components + "0 no results saved"
+            return result + components #+ "0 no results saved"
 
     class UserProfile:
 

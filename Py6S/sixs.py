@@ -108,6 +108,10 @@ class SixS(object):
       Note: only one of ``visibility`` or ``aot550`` can be set.
       When setting one, ensure the other is set to ``None``. (By default, ``s.visibility`` is set to None,
       so to set a visibility value you must also do ``s.aot550 = None``)
+
+    * ``mie`` -- Optional name for a text file to save the results of the MIE subroutine. This only applies if 
+    ``s.aero_profile`` is not a ``AeroProfile.User`` or ``AeroProfile.PredefinedType``. (By default, ``s.mie`` 
+      is set to None) 
     """
 
     # Stores the outputs from 6S as an instance of the Outputs class
@@ -154,6 +158,8 @@ class SixS(object):
         self.visibility = None
 
         self.atmos_corr = AtmosCorr.NoAtmosCorr()
+
+        self.mie = None
 
     def _find_path(self, path=None):
         """Finds the path of the 6S executable.
@@ -202,9 +208,30 @@ class SixS(object):
     def _create_aot_vis_lines(self):
         """Create the AOT or Visibility lines for the input file"""
         if not isinstance(self.aero_profile, AeroProfile.UserProfile):
+            # Option to save the output of the MIE subroutine:
+            # only applicable for:
+            # (1) AeroProfile.AerosolDistribution, i.e. it is an instance
+            # of AeroProfile.AerosolDistribution
+            # (2) SunPhotometerDistribution, i.e. it is a string
+            # with more than 2 lines
+            # Not applicable for: 
+            # - PredefinedType (string with only one line)
+            # - User (string with exactly two lines)
+            results_str = "0" 
+            if not isinstance(self.aero_profile, AeroProfile.AerosolDistribution):
+                nlines = self.aero_profile.count('\n') 
+            else:
+                nlines = 2
+
+            if(nlines>1):
+                if self.mie is not None:
+                    results_str = "1 results saved in %s.mie\n%s\n0" % (self.mie, self.mie)
+                else:
+                    results_str = "0 no results saved\n0"
+
             # We don't need to set AOT or visibility for a UserProfile, but we do for all others
             if self.aot550 is not None:
-                return "0\n%f value\n" % self.aot550
+                return "%s\n%f value\n" % (results_str, self.aot550)
             elif self.visibility is not None:
                 return "%f\n" % self.visibility
             else:
