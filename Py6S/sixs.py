@@ -219,7 +219,10 @@ class SixS(object):
             # - User (string with exactly two lines)
             results_str = "0" 
             if not isinstance(self.aero_profile, AeroProfile.AerosolDistribution):
-                nlines = self.aero_profile.count('\n') 
+                if isinstance(self.aero_profile, int):
+                    nlines=1
+                else:
+                    nlines = self.aero_profile.count('\n') 
             else:
                 nlines = 2
 
