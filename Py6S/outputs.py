@@ -92,7 +92,7 @@ class Outputs(object):
         """Executed when an attribute is referenced and not found. This method is overridden
         to allow the user to access the outputs as ``outputs.variable`` rather than using the dictionary
         explicity"""
-        if name == "__array_struct__":
+        if name == "__array_struct__" or name == "__array_interface__" or name == "__array__":
             raise AttributeError()
 
         # If there is a key with this name in the standard variables field then use it
