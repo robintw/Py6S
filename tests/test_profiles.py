@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Py6S.  If not, see <http://www.gnu.org/licenses/>.
 
+import os.path
 import unittest
 
 from Py6S import AeroProfile, AtmosProfile, ParameterError, SixS
@@ -73,6 +74,127 @@ class AeroProfileTests(unittest.TestCase):
                 % (str(aps[i]), s.outputs.apparent_radiance, results[i]),
                 delta=0.002,
             )
+
+    def test_aero_profile_save_mie(self):
+        s = SixS()
+        s.aero_profile = AeroProfile.SunPhotometerDistribution(
+            [
+                0.050000001,
+                0.065604001,
+                0.086076997,
+                0.112939,
+                0.148184001,
+                0.194428995,
+                0.255104989,
+                0.334715992,
+                0.439173013,
+                0.576227009,
+                0.756052017,
+                0.99199599,
+                1.30157101,
+                1.707757,
+                2.24070191,
+                2.93996596,
+                3.85745192,
+                5.06126022,
+                6.64074516,
+                8.71314526,
+                11.4322901,
+                15,
+            ],
+            [
+                0.001338098,
+                0.007492487,
+                0.026454749,
+                0.058904506,
+                0.082712278,
+                0.073251031,
+                0.040950641,
+                0.014576218,
+                0.003672085,
+                0.001576356,
+                0.002422644,
+                0.004472982,
+                0.007452302,
+                0.011037065,
+                0.014523974,
+                0.016981738,
+                0.017641816,
+                0.016284294,
+                0.01335547,
+                0.009732267,
+                0.006301342,
+                0.003625077,
+            ],
+            [1.47] * 20,
+            [0.0093] * 20,
+        )
+        s.mie='test_mie_file'
+        s.run()
+        self.assertEqual(os.path.exists("test_mie_file.mie"), True)
+
+
+    def test_aero_profile_run_mie(self):
+        s = SixS()
+        s.aero_profile = AeroProfile.SunPhotometerDistribution(
+            [
+                0.050000001,
+                0.065604001,
+                0.086076997,
+                0.112939,
+                0.148184001,
+                0.194428995,
+                0.255104989,
+                0.334715992,
+                0.439173013,
+                0.576227009,
+                0.756052017,
+                0.99199599,
+                1.30157101,
+                1.707757,
+                2.24070191,
+                2.93996596,
+                3.85745192,
+                5.06126022,
+                6.64074516,
+                8.71314526,
+                11.4322901,
+                15,
+            ],
+            [
+                0.001338098,
+                0.007492487,
+                0.026454749,
+                0.058904506,
+                0.082712278,
+                0.073251031,
+                0.040950641,
+                0.014576218,
+                0.003672085,
+                0.001576356,
+                0.002422644,
+                0.004472982,
+                0.007452302,
+                0.011037065,
+                0.014523974,
+                0.016981738,
+                0.017641816,
+                0.016284294,
+                0.01335547,
+                0.009732267,
+                0.006301342,
+                0.003625077,
+            ],
+            [1.47] * 20,
+            [0.0093] * 20,
+        )
+        s.mie='test_mie_file'
+        s.run()
+        app_rad = s.outputs.apparent_radiance
+        
+        s.aero_profile = AeroProfile.FromMieFile('test_mie_file')
+        s.run()
+        self.assertAlmostEqual(s.outputs.apparent_radiance, app_rad, delta=0.005)
 
     def test_aero_profile_errors(self):
         with self.assertRaises(ParameterError):
