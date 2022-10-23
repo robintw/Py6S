@@ -74,6 +74,7 @@ class Outputs(object):
                 (platform.system() == "Darwin")
                 and (not ("IEEE_INVALID_FLAG" in stderr))
                 and (not ("IEEE_DENORMAL" in stderr))
+                and (not ("IEEE_UNDERFLOW_FLAG" in stderr))
             ):  # Ignoring error on MacOS IEEE_INVALID_FLAG
                 print(stderr)
                 raise OutputParsingError(
