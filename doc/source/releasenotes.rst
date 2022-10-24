@@ -3,6 +3,10 @@ Release Notes
 
 Details on the changes in recent versions of Py6S can be found below. More detailed information is available by examining the `commit history <https://github.com/robintw/Py6S/commits/master/>`_ via Github.
 
+1.9.2 (30th June 2022)
+^^^^^^^^^^^^^^^^^^^^^^
+* Fix exception raised on numpy 1.23 due to deprecation (see `here <https://github.com/robintw/Py6S/pull/97#issuecomment-1171535419>`)
+
 1.9.1 (11th December 2021)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 * Add extraction of polarization outputs - such as apparent polarized radiance/reflectance
