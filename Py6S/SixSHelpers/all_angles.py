@@ -224,6 +224,11 @@ class Angles:
         After that code the azimuths, zeniths and values lists will be ready to be passed into this function.
 
         """
+        try:
+            from matplotlib.pyplot import subplots
+        except ImportError:
+            raise ImportError("You must install matplotlib to use the plotting functionality")
+
         theta = np.radians(azimuths)
         zeniths = np.array(zeniths)
 
