@@ -17,6 +17,7 @@
 
 import copy
 import sys
+import warnings
 
 import numpy as np
 
@@ -86,7 +87,7 @@ class Wavelengths:
             print(wavelengths)
             print(type(wavelengths))
 
-        print("Running for many wavelengths - this may take a long time")
+        warnings.warn("Running for many wavelengths - this may take a long time")
         results = pool.map(f, wavelengths)
 
         pool.close()
