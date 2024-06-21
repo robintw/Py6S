@@ -17,7 +17,7 @@ the environment, which you should now do. You can now skip to `Testing Py6S`_.
 
 If you don't already have ``conda`` installed then:
 
-#. Install either `Miniconda <https://conda.io/miniconda.html>`_ or `Anaconda <https://www.continuum.io/downloads>`_.
+#. Install either `Miniconda <https://conda.io/miniconda.html>`_ or `Anaconda <https://www.anaconda.com/download>`_.
     These are two different distributions of Python, both of which include
     the ``conda`` package manager. Miniconda comes with the 'bare minimum' of Python, conda and
     a few essential libraries, whereas Anaconda comes with many libraries required for data science
@@ -83,8 +83,8 @@ Python modules
 * ``pandas`` (optional: only required for importing AERONET data)
 * ``ipython`` (recommended)
 
-An easy way to sort all of this out is to use  
-`Anaconda <https://www.continuum.io/downloads>`_ or the `Enthought Python
+An easy way to sort all of this out is to use
+`Anaconda <https://www.anaconda.com/download>`_ or the `Enthought Python
 Distribution <http://enthought.com/products/epd.php>`_, either of which will install
 Python plus many modules which are often used for scientific computing.
 
