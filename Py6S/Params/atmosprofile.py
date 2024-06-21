@@ -37,13 +37,13 @@ class AtmosProfile:
         """Automatically pick the atmospheric profile based on the latitude
         and date.
 
-        Based on the table provided at http://www.exelisvis.com/docs/FLAASH.html
+        Based on the table provided at https://www.nv5geospatialsoftware.com/docs/FLAASH.html
         """
         dt = dateutil.parser.parse(date, dayfirst=True)
 
         rounded_lat = round(latitude, -1)
 
-        # Data from Table 2-2 in http://www.exelisvis.com/docs/FLAASH.html
+        # Data from Table 2-2 in https://www.nv5geospatialsoftware.com/docs/FLAASH.html
         SAW = cls.PredefinedType(cls.SubarcticWinter)
         SAS = cls.PredefinedType(cls.SubarcticSummer)
         MLS = cls.PredefinedType(cls.MidlatitudeSummer)
