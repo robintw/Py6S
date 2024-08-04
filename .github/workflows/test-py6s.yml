@@ -22,6 +22,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           channels: conda-forge
           activate-environment: py6s-test
+          miniconda-version: "latest"
       - name: Install conda dependencies
         shell: bash -l {0}
         run: |
