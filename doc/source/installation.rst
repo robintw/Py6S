@@ -133,6 +133,10 @@ sections below.
                 string to the end of its contents::
                   C:\Program Files\GNUWin32\bin;C:\G77\bin
 
+                Note: make sure you check the correct path for `GNUWin32\bin`, 
+                as in some cases it is installed in `Program Files (x86)` 
+                instead of `Program Files`.
+
    :OS X: Install ``gfortran`` with Homebrew_.
 
           ::
@@ -221,6 +225,10 @@ sections below.
 
       Note: on Windows, make sure you run this in the standard Command Prompt
       (cmd.exe), not Powershell (PowerCmd.exe).
+
+      Note2: on Windows sometimes the executable might be saved only as `sixsV1.1` 
+      (without the `.exe` extension). If that's the case, then run the same command
+      as the :Linux/OS X: one above.
 
    #. If this is working correctly you should see a number of screen's
       worth of output, finishing with something that looks like::
