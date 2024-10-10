@@ -121,17 +121,17 @@ class Outputs(object):
     def extract_results(self):
         """Extract the results from the text output of the model and place them in the ``values`` dictionary."""
 
-        # Remove all of the *'s from the text as they just make it look pretty
+        # Remove all of the *'s forming tables in the text as they just make it look pretty
         # and get in the way of analysing the output
-        fulltext = self.fulltext.replace("*", "")
+        lines = []
+        for orig_line in self.fulltext.splitlines():
+            lines.append(orig_line.strip("*"))
 
-        # Split into lines
-        lines = fulltext.splitlines()
 
         # There should be hundreds of lines for a full 6S run - so if there are
         # less than 10 then it suggests something has gone seriously wrong
         if len(lines) < 10:
-            print(fulltext)
+            print(self.fulltext)
             raise OutputParsingError(
                 "6S didn't return a full output. See raw 6S output above for "
                 "more information and check for invalid parameter inputs"
